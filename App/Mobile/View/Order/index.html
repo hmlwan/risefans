@@ -1,0 +1,108 @@
+<include file="Public:header"/>
+
+<body>
+    <header>
+        <div class="header_bt">
+            <div class="header_f"><a href="{:U('Member/index')}" class="header_fh"></a></div>
+            <div class="header_c">我的订单</div>
+        </div>
+        <div style="height: .74rem;clear: both;"></div>
+    </header>
+    <div class="wddd">
+        <div class="wddd_t">
+            <ul class="wddd_h">
+                <li class="active">商品卡</li>
+                <li>淘宝返利</li>
+                <li>开箱记录</li>
+                <li>市场转让</li>
+            </ul>
+            <volist name="list" id="v">
+                <div class="wddd_c_1">
+                    <p class="spk_h">
+                        <span>商品卡兑换</span>
+                        <span class="status">
+                        <switch name="v['status']">
+                            <case value="0">等待发货中</case>
+                            <case value="2">已发货</case>
+                            <case value="3">已退货</case>
+                        </switch>
+                    </span>
+                    </p>
+                    <div class="spk_m">
+                        <div class="spk_c">
+                            <div class="spk_l">
+                                <img src="{$v.logo}" alt="">
+                                <p class="title">{$v.good_name}</p>
+                                <if condition="$v['spec']">
+                                    <p>{$v.spec}</p>
+                                </if>
+                                <p>下单：{$v.add_time|date="Y/m/d H:i",###}</p>
+                            </div>
+                            <div class="lpk_r">
+                                <i></i><span>{$v.price}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="spk_f">
+                        <span>快递单号：
+                        <em class="danhao_{$v.id}">
+                            <switch name="v['status']">
+                                <case value="0">下单后3个工作日内发货</case>
+                                <case value="2">{$v.delivery_no}</case>
+                                <case value="3">{$v.remark}</case>
+                                </switch>
+                            </em>
+                        </span>
+                        <span class="copy" data-status="{$v['status']}" data-clipboard-action="copy" data-clipboard-target=".danhao_{$v.id}"> <i>复制单号</i></span>
+                    </p>
+                    <div class="wd_line"></div>
+                </div>
+            </volist>
+        </div>
+    </div>
+<div style="height: .9rem;"></div>
+<div class="footer_main">
+    <ul>
+        <a href="index.html">
+            <li class="footer_fl">省券</li>
+        </a>
+        <a href="{:U('Welfare/outindex')}">
+            <li class="footer_f2 footer_active_f2">福利</li>
+        </a>
+        <a href="{:U('Exchange/buyview')}">
+            <li class="footer_f3">
+                兑换
+            </li>
+        </a>
+
+        <a href="b2c_fenlei_01.html">
+            <li class="footer_f4">
+                开箱
+            </li>
+        </a>
+        <a href="{:U('Member/index')}">
+            <li class="footer_f5">
+                我的
+            </li>
+        </a>
+    </ul>
+</div>
+    <script>
+        $(".wddd").find(".copy").click(function () {
+            var status = $(this).data('status');
+            if(status == 0){
+                layer.msg("等待发货中,尚无快递单号");
+                return false;
+            }
+            var clipboard = new Clipboard(".copy");
+            clipboard.on('success', function(e) {
+                console.log(e);
+                layer.msg('复制成功',{icon:1});
+            });
+        });
+
+    </script>
+
+
+<include file="Public:footer"/>
+

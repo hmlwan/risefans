@@ -1,0 +1,98 @@
+<include file="App/Admin/View/Public/left.html"/>
+<style>
+    .glyphicon-minus:before {
+        content: "\2212";
+    }
+    .glyphicon {
+        position: relative;
+        top: 1px;
+        display: inline-block;
+        -webkit-font-smoothing: antialiased;
+        font-style: normal;
+        font-weight: normal;
+        line-height: 1;
+    }
+</style>
+<!--/sidebar-->
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:U('Index/index')}">首页</a>
+            <span class="crumb-step">&gt;</span>
+            <span class="crumb-name">系统配置</span>
+        </div>
+    </div>
+    <div class="result-wrap">
+        <form action="{:U('Config/updateCofig')}" method="post" id="myform" name="myform" enctype="multipart/form-data">
+            <input type="hidden" name="sub_flag" value="{$sub_flag}" >
+            <div class="config-items">
+                <div class="config-title">
+                    <h1><i class="icon-font">&#xe00a;</i>配置添加</h1>
+                </div>
+                <div class="result-content">
+                    <table width="100%" class="insert-tab">
+                        <tbody>
+                        <tr>
+                            <th><i class="require-red">*</i>标题：</th>
+                            <td><input id="title" name="title" type="text"    value="{$info.name}"  class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>英文字段名：</th>
+                            <td><input id="en_name" name="en_name" type="text" <if condition="$info['key']">readonly</if>   value="{$info.key}"  class="common-text">(编辑不可修改)</td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>类型：</th>
+                            <td>
+                                <select name="type" id="type"  class="common-text">
+                                    <option value="1" <if condition="$info['type'] eq 1">selected</if> >1-文本</option>
+                                    <option value="2" <if condition="$info['type'] eq 2">selected</if> >2-图片</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr class="sub_value" >
+                            <th><i class="require-red">*</i>文本：</th>
+                            <td><input id="sub_value" name="sub_value" type="text" value="{$info.value}"   class="common-text"></td>
+                        </tr>
+                        <tr class="sub_value_img" style="display: none">
+                            <th><i class="require-red">*</i>图片：</th>
+                            <td><input id="sub_value_img" name="sub_value_img" type="file" value="{$info.value}"  class="common-text">
+                                <if condition="$info['value']">
+                                    <img src="{$info['value']}" style="width: 80px;height: 80px" alt="">
+                                </if>
+                            </td>
+
+
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <td>
+                                <input type="button" onclick="subform()" value="提交" class="btn btn-primary btn6 mr10">
+                                <a href="{:U('Config/index')}"><input type="button" value="返回"  class="btn btn6"></a>
+                            </td>
+                        </tr>
+                        </tbody></table>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+    <script>
+        function subform(){
+            $('#myform').submit();
+        }
+        $("#type").change(function () {
+            if($(this).val() == 1){
+                $(".sub_value").show();
+                $(".sub_value_img").hide();
+            }else{
+                $(".sub_value").hide();
+                $(".sub_value_img").show();
+            }
+        });
+        var type = $("#type").val();
+        $("#type").change();
+
+
+    </script>
+</div>
+</body>
+</html>

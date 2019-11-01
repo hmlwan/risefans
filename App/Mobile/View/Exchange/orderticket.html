@@ -1,0 +1,106 @@
+<include file="Public:header"/>
+<body>
+
+<div class="dhsc">
+    <header>
+        <div class="header_bt">
+            <div class="header_f"><a href="javascript:history.back()" class="dh_l_flag"></a></div>
+            <div class="header_c">兑换市场</div><i class="dh_r_flag"></i>
+        </div>
+        <div style="height: .74rem;clear: both;"></div>
+    </header>
+
+    <div class="dhsc_top">
+        <ul>
+            <li><a href="{:U('Exchange/buyview')}"><span>我要买</span></a></li>
+            <li><a href="{:U('Exchange/saleview')}"><span>我要卖</span></a></li>
+            <li><a href="javascript:;"><span class="active">委托单</span></a></li>
+            <li><a href="{:U('Exchange/orderview')}"><span>订单</span></a></li>
+        </ul>
+    </div>
+    <div class="wd_line"></div>
+    <div class="wtd">
+        <if condition="$list">
+            <ul>
+                <volist name="list" id="vo">
+                    <li>
+                        <div class="wtd_item">
+                            <p class="wtd_h">
+                                <span><if condition="$vo['type'] eq 1"> <i class="green">买入</i><else /> <i class="red">卖出</i></if>&nbsp;{$vo.add_time|date="H:i Y/m/d",###}</span>
+                                <span class="cexiao" onclick="cexiao({$vo.id},{$vo.type})">撤销</span>
+                            </p>
+                            <div class="wtd_m">
+                                <p>
+                                    <span>单价(人民币)</span>
+                                    <span>数量(云链)</span>
+                                    <span>订单排队(单量)</span>
+                                </p>
+                                <p>
+                                    <span>{$vo.price}元</span>
+                                    <span>{$vo.num}</span>
+                                    <span>78</span>
+                                </p>
+                            </div>
+                        </div>
+                    </li>
+                </volist>
+            </ul>
+        <else />
+            <div class="no_ex_pub_data">
+                <img src="__IMG__/no_ex_data.png" alt="">
+                <p class="text">暂时没有订单</p>
+            </div>
+        </if>
+    </div>
+</div>
+
+
+
+<div style="height: .9rem;"></div>
+<div class="footer_main">
+    <ul>
+        <a href="index.html">
+            <li class="footer_fl">省券</li>
+        </a>
+        <a href="{:U('Welfare/outindex')}">
+            <li class="footer_f2">福利</li>
+        </a>
+        <a href="{:U('Exchange/buyview')}">
+            <li class="footer_f3 footer_active_f3">
+                兑换
+            </li>
+        </a>
+
+        <a href="b2c_fenlei_01.html">
+            <li class="footer_f4">
+                开箱
+            </li>
+        </a>
+        <a href="{:U('Member/index')}">
+            <li class="footer_f5">
+                我的
+            </li>
+        </a>
+    </ul>
+</div>
+
+<script>
+    function cexiao(id,type) {
+
+        $.post("{:U('Exchange/pub_cancel')}",{
+            id:id,num:num,type:type
+        },function(data){
+            if(data.status==1){
+                layer.msg(data.info,{icon:1});
+                window.setTimeout(function(){
+                    window.location="{:U('Exchange/pay_order')}";
+                },1000);
+            }else{
+                layer.msg(data.info);
+                return false;
+            }
+        })
+    }
+
+</script>
+<include file="Public:footer"/>

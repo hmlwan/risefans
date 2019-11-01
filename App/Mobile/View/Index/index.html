@@ -1,0 +1,90 @@
+<include file="Public:header"/>
+<body>
+    <div class="box">
+        <div class="header_item">
+            <div  class="header_l">
+                <img src="__IMG__/logo1.png" alt="">
+            </div>
+            <ul>
+                <li>
+                    <span style="font-weight: bold;">星力正版</span>
+                    <img src="__IMG__/star.png" alt="">
+                    <img src="__IMG__/star.png" alt="">
+                    <img src="__IMG__/star.png" alt="">
+                    <img src="__IMG__/star.png" alt="">
+                </li>
+                <li class="header_s">
+                    <span>官方版</span>
+                    <span>信誉好</span>
+                    <span>爆率高</span>
+                </li>
+                <li  style="font-weight: bold;">信誉捕鱼平台</li>
+            </ul>
+            <div class="shangfen">
+                <a href="{:U('Member/index')}"><img src="__IMG__/download111.png" alt=""></a>
+            </div>
+        </div>
+        <div class="con_item">
+            <img src="__IMG__/1280-720logo左上(1).jpg" alt="">
+        </div>
+        <!--游戏类目-->
+        <div class="game_cate category">
+           <h1>游戏类目</h1>
+            <ul>
+                <volist name="list" id="vo">
+                    <li>
+                        <img style="height: 1rem;" src="{$vo.pic}" alt="">
+                        <div>
+                            <h2>{$vo.title}</h2>
+                            <p>
+                                <span>{全部真实玩家，全网最火爆}</span>
+                                <span> | </span>
+                                <img src="__IMG__/star.png" alt="">
+                                <img src="__IMG__/star.png" alt="">
+                                <img src="__IMG__/star.png" alt="">
+                            </p>
+                            <!--<h3>请添加渔乐王国客服QQ：1441348990(诚信在线)</h3>-->
+                        </div>
+                        <a href="{$vo.jump_url}" target="_blank">
+                            <button>下载游戏</button>
+                        </a>
+                    </li>
+                </volist>
+            </ul>
+        </div>
+        <!--人气捕鱼-->
+        <div class="rq_detail category">
+            <h1>游戏详情</h1>
+            <div class="detail">
+                <img class="game-title" src="__IMG__/details11.jpg" alt="">
+                <img class="game-con" src="__IMG__/banner-3-yqs_02.jpg" alt="">
+                <img class="game-title" src="__IMG__/details333.jpg" alt="">
+                <img class="game-con" src="__IMG__/lALPBbCc1rNZIrnNAtDNBQA.jpg" alt="">
+            </div>
+        </div>
+        <!--<div class="copyright">-->
+            <!--一条金龟值10000-->
+        <!--</div>-->
+        <!--底部导航-->
+        <div class="footer_main">
+            <ul>
+                <a href="{:U('Index/index')}">
+                    <li class="footer_sy">首页<i class="footer_active"></i></li>
+                </a>
+                <a href="{:U('Member/index')}">
+                    <li class="footer_fl">上分/下分</li>
+                </a>
+                <a href="{$config.online_kefu}">
+                    <li class="footer_tg"> 在线客服</li>
+                </a>
+                <a href="{:U('Member/index')}">
+                    <li class="footer_hyzx">个人中心</li>
+                </a>
+            </ul>
+        </div>
+    </div>
+
+</body>
+
+<include file="Public:footer"/>
+

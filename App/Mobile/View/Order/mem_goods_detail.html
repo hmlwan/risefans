@@ -1,0 +1,235 @@
+<include file="Public:header"/>
+<body>
+<div>
+    <header>
+        <div class="header_bt">
+            <div class="header_f"><a href="javascript:history.back()" class="header_fh"></a></div>
+            <div class="header_c">兑换确认</div>
+        </div>
+        <div style="height: .74rem;clear: both;"></div>
+    </header>
+    <div class="dhqr">
+        <if condition="$mem_address">
+            <div class="tjdz_c">
+                <a href="{:U('Member/update_address',array('type'=>1,'id'=>$info['id']))}">
+                    <span class="address"><i class="default">默认</i>{$mem_address.receipt_address}</span>
+                    <p><span>姓名:{$mem_address.receipt_name}</span>&nbsp;&nbsp; <span>手机号:{$mem_address.receipt_phone}</span>  </p>
+                    <i class="bj_address"></i>
+                </a>
+            </div>
+        <else />
+            <div class="tjdz_c">
+                <a href="{:U('Member/update_address',array('type'=>1,'id'=>$info['id']))}">
+                    <span class="address"><i class="shizhi"></i>添加新地址</span>
+                    <i class="bj_address"></i>
+                </a>
+            </div>
+        </if>
+        <i class="address_line"></i>
+        <div class="dhfs">
+            <div>
+                <p>支付方式</p>
+                <p><span>商品卡兑换</span><i></i></p>
+            </div>
+        </div>
+        <div class="sp">
+            <img src="{$info.logo}" alt="">
+            <p class="sp_title">{$info.good_name}</p>
+            <p class="sp_c">
+                <span class="sp_cnum">持有{$info.valid_num}张</span>
+                <span class="sp_num"><i class="minu">－</i>&nbsp; <input type="text" autocomplete="off" name="num" value="1"> &nbsp;<i class="plus">＋</i></span>
+            </p>
+        </div>
+        <div class="spec">
+            <if condition="$spec_arr">
+                <h2>{$spec_arr.spec_name}</h2>
+                <p>
+                    <volist name="spec_arr['spec_val']" id="v">
+                        <span <if condition="$key eq 0"> class="active" </if> >{$v}</span>
+                    </volist>
+                </p>
+            </if>
+        </div>
+        <div class="psong">
+            <p class="psong_title">配送</p>
+            <div class="psong_c">
+                <p style="font-size: .25rem;">快递运输</p>
+                <p>预计<span>{$info.delivery_time}</span>前送达</p>
+            </div>
+        </div>
+        <div class="tj_c">
+            <span class="tj_ka">消耗<em>1</em>张商品卡</span>
+            <span class="tj_btn" onclick="sub()">提交订单</span>
+        </div>
+        <input type="hidden" name="valid_num" value="{$info.valid_num}">
+        <input type="hidden" name="spec_name" value="{$spec_arr.spec_name}">
+        <input type="hidden" name="spec_val" value="{$spec_arr.spec_val.0}">
+        <input type="hidden" name="address_id" value="{$mem_address.id}}">
+        <input type="hidden" name="id" value="{$info.id}}">
+
+    </div>
+
+<div style="height: .9rem;"></div>
+    <div class="footer_main">
+        <ul>
+            <a href="index.html">
+                <li class="footer_fl">省券</li>
+            </a>
+            <a href="{:U('Welfare/outindex')}">
+                <li class="footer_f2 footer_active_f2">福利</li>
+            </a>
+            <a href="{:U('Exchange/buyview')}">
+                <li class="footer_f3">
+                    兑换
+                </li>
+            </a>
+
+            <a href="b2c_fenlei_01.html">
+                <li class="footer_f4">
+                    开箱
+                </li>
+            </a>
+            <a href="{:U('Member/index')}">
+                <li class="footer_f5">
+                    我的
+                </li>
+            </a>
+        </ul>
+    </div>
+</div>
+<script>
+    function sub(){
+        var valid_num = $("input[name='valid_num']").val();
+        var num = $("input[name='num']").val();
+        var address_id = $("input[name='address_id']").val();
+        var id = $("input[name='id']").val();
+        var spec_name = $("input[name='spec_name']").val();
+        var spec_val = $("input[name='spec_val']").val();
+        var spec = "";
+        if(spec_val && spec_name){
+            spec = spec_name+":"+spec_val;
+        }
+
+        if(parseInt(num)<1){
+            layer.msg('数量不能小于1');
+            return false;
+        }
+        if(parseInt(num)>parseInt(valid_num)){
+            layer.msg('数量不能超过'+valid_num);
+            return false;
+        }
+        if(!address_id){
+            layer.msg("请填写收货地址");
+            return false;
+        }
+
+        $.post("{:U('Order/order_good')}",{
+            valid_num:valid_num,
+            num:num,
+            address_id:address_id,
+            id:id,
+            spec:spec
+        },function(data){
+            if(data.status==1){
+                layer.msg(data.info,{icon:1});
+                window.setTimeout(function(){
+                    window.location="{:U('Order/index')}";
+                },1000);
+            }else{
+                layer.msg(data.info);
+                return false;
+            }
+        })
+    }
+
+    $(".spec").find('p span').click(function () {
+        $(this).attr('class','active');
+        $(this).siblings('span').attr('class','')
+        var spec_val = $(this).text();
+        $("input[name='spec_val']").val(spec_val);
+    });
+    $("input[name='num']").on('blur',function () {
+        var num = $(this).val();
+        var price = $("input[name='price']").val();
+        var valid_num = parseInt($("input[name='valid_num']").val());
+        if(num == ''){
+            $(this).val(1);
+            sumprice(price,1);
+            return  false;
+        }
+        if(parseInt(num) < 1){
+            layer.msg("数量不能小于1");
+            $(this).val(1);
+            sumprice(price,1);
+            return  false;
+        }
+        if(parseInt(num) > parseInt(valid_num)){
+            layer.msg("数量不能超过"+valid_num);
+            $(this).val(valid_num);
+            sumprice(price,valid_num);
+            return  false;
+        }
+        sumprice(price,parseInt(num));
+        $(this).val(parseInt(num));
+    });
+    function sumprice(price,num) {
+        var sumprice = price* parseInt(num);
+        $(".sumprice").text(sumprice.toFixed(2));
+        $(".tj_ka").find('em').text(num);
+    }
+    $("input[name='num']").on('input propertychange',function () {
+        var num = $(this).val();
+        var price = $("input[name='price']").val();
+        var valid_num = parseInt($("input[name='valid_num']").val());
+
+        if(parseInt(num) < 1){
+            layer.msg("数量不能小于1");
+            $(this).val(1);
+            sumprice(price,1);
+            return  false;
+        }
+        if(parseInt(num) > parseInt(valid_num)){
+            layer.msg("数量不能超过"+valid_num);
+            $(this).val(valid_num);
+            sumprice(price,valid_num);
+            return  false;
+        }
+        if(num != ''){
+            $(this).val(parseInt(num));
+            sumprice(price,parseInt(num));
+        }
+    });
+    $(".minu").click(function () {
+        var num = $("input[name='num']").val();
+        var price = $("input[name='price']").val();
+
+        num = parseInt(num) - 1;
+        if(num<1){
+            num = 1;
+            layer.msg("数量不能小于1");
+            $(this).val(num);
+            sumprice(price,1);
+            return  false;
+        }
+        $("input[name='num']").val(num);
+        sumprice(price,num);
+    });
+    $(".plus").click(function () {
+        var num = $("input[name='num']").val();
+        var price = $("input[name='price']").val();
+        var valid_num = parseInt($("input[name='valid_num']").val());
+
+        num = parseInt(num) + 1;
+        if(num>valid_num){
+            num = valid_num;
+            layer.msg("数量不能超过"+num);
+            $(this).val(num);
+            sumprice(price,num);
+            return  false;
+        }
+        $("input[name='num']").val(num)
+        sumprice(price,num);
+    });
+
+</script>
+<include file="Public:footer"/>

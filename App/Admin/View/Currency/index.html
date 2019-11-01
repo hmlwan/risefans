@@ -1,0 +1,80 @@
+<include file="App/Admin/View/Public/left.html"/>
+    <!--/sidebar-->
+    <div class="main-wrap">
+
+        <div class="crumb-wrap">
+            <div class="crumb-list"><i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span class="crumb-name">币种管理</span></div>
+        </div>
+        <div class="search-wrap">
+            <div class="search-content">
+            </div>
+        </div>
+        <div class="result-wrap">
+          
+                <div class="result-title">
+                    <div class="result-list">
+                        <a href="{:U('Currency/edit#2#0')}"><i class="icon-font"></i>新增币种</a>
+                    </div>
+                </div>
+                <div class="result-content">
+                    <table class="result-tab" width="100%">
+                        <tr>
+                        	<th>排序</th>
+                            <th>货币LOGO</th>
+                            <th>上线状态</th>
+                            <th>货币名称</th>
+                            <th>英文标识</th>
+                            <th>修改时间</th>
+                            <th>操作</th>
+                        </tr>
+                        <volist name="list" id="vo" empty="$empty">
+                        <tr> 
+                        	<td>{$vo.sort}</td>
+                            <td><notempty name="vo.currency_logo"><img  style="height:80px;"src='{$vo.currency_logo}' /><else/>暂无图片数据</notempty></td>
+                            <td><eq name='vo.is_lock' value='0'>已开启<else/>未开启</eq></td>
+                            <td>{$vo.currency_name}</td>
+                            <td>{$vo.currency_en}</td>
+                            <td>{$vo.create_time|date="Y-m-d",###}</td>
+                            <td>
+                                <a class="link-update" href="{:U('Currency/edit',array('currency_id'=>$vo['currency_id']))}">修改</a>|
+                                <a class="link-del" href="javascript:void(0)" onclick="cexiao('{$vo.currency_id}')">删除</a><br>
+                            </td>
+                        </tr>
+                        </volist>
+                    </table>
+                </div>
+        </div>
+    </div>
+    <!--/main-->
+</div>
+</body>
+</html>
+<script>
+    function cexiao(id){
+        layer.confirm('确定删除吗？', {
+            btn: ['确定','取消'], //按钮
+            title: '撤销删除'
+        }, function(){
+            $.post("{:U('Currency/del')}",{id:id,model:"currency"},function(data){
+                if(data['status'] == 1){
+                    layer.msg(data['info'],{icon:1});
+                    setTimeout(function(){location.reload();},1000);
+                }else{
+                    layer.msg(data['info']);
+                }
+            })
+        }, function(){
+            layer.msg('已取消');
+        });
+    }
+function setlimit(id){
+	$.post("{:U('Currency/savePrice')}",{id:id,price_up:$("#price_up").val(),price_down:$("#price_down").val()},function(data){
+		 if(data<0){
+			layer.msg(data.info);
+		 }else{
+			layer.msg(data.info);
+			setTimeout("location.reload()",2000);
+		 }
+	});
+}
+</script>

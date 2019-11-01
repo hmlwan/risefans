@@ -1,0 +1,59 @@
+<include file="App/Admin/View/Public/left.html"/>
+<!--/sidebar-->
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span class="crumb-name">会员管理</span></div>
+    </div>
+    <div class="result-wrap">
+        <form action="{:U('Member/add_member_priority')}" method="post" id="myform" name="myform" enctype="multipart/form-data">
+            <div class="config-items">
+                <div class="config-title">
+                    <h1><i class="icon-font">&#xe00a;</i>系统匹配收款者</h1>
+                </div>
+                <div class="result-content">
+                    <table width="100%" class="insert-tab">
+                        <input type="hidden" name="sk_id" value="{$info.member_id}">
+                        <input type="hidden" name="fk_id" value="{$info.fk_id}">
+                        <tbody>
+                        <tr>
+                            <th width="15%"><i class="require-red">*</i>匹配者：</th>
+                            <td><input name="username" readonly value="{$info.username}" id="username" type="text"></td>
+                        </tr>
+                        <tr>
+                            <th width="15%"><i class="require-red">*</i>手机号码：</th>
+                            <td><input name="phone"  readonly  value="{$info.phone}" id="phone" type="text"></td>
+                        </tr>
+                        <tr>
+                            <th width="15%"><i class="require-red">*</i>金额：</th>
+                            <td><input name="pay_money"  readonly value="{$config.dk_money}" id="pay_money" type="text"></td>
+                        </tr>
+                        <tr>
+                            <th>上传付款凭证：</th>
+                            <td><input type="file" name="img"  style="width:200px;" />
+                                <img src="{$info.img}" style="width: 80px;height: 80px" alt="">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <td>
+                                <input type="button" onclick="subform()" value="提交" class="btn btn-primary btn6 mr10">
+                                <a href="{:U('Member/auth_list')}"><input type="button" value="返回"  class="btn btn6"></a>
+                            </td>
+                        </tr>
+                        </tbody></table>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+
+function subform(){
+    $('#myform').submit();
+}
+</script>
+
+<!--/main-->
+</div>
+</body>
+</html>

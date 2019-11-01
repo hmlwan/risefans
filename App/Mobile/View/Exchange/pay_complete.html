@@ -1,0 +1,111 @@
+<include file="Public:header"/>
+<body>
+
+<div class="dhsc">
+    <header>
+        <div class="header_bt">
+            <div class="header_f"><a href="{:U('Exchange/orderview')}" class="header_fh"></a></div>
+            <div class="header_c">交易完成(<if condition="$info['type'] eq 1">买<else />卖</if>)</div><i class="dh_r_help pop_up">投诉</i>
+        </div>
+        <div style="height: .74rem;clear: both;"></div>
+    </header>
+   <div class="fkdd">
+       <div class="fkdd_c">
+            <div class="fkdd_l">
+                <p class="money">￥ {$info.sum_price}</p>
+                <p>单价&nbsp;<span>{$info.price}元</span></p>
+                <p>数量&nbsp;<span>{$info.num}{$info.currency_name}</span></p>
+            </div>
+           <div class="fkdd_r">
+                <i></i>
+           </div>
+       </div>
+       <div class="uinfo">
+           <ul>
+               <li class="uinfo_h">该订单已经交易完成，余额查询请在云链钱包查看</li>
+               <li>
+                   <span>对方姓名</span>
+                   <span><em><if condition="$info['type'] eq 1">{$info.sale_mem_name}<else />{$info.buy_mem_name}</if></em></span>
+               </li>
+               <li>
+                   <span>对方手机号</span>
+                   <span><em><if condition="$info['type'] eq 1">{$info.sale_mem_phone}<else />{$info.buy_mem_phone}</if></em><i></i></span>
+               </li>
+               <li>
+                   <span>订单号</span>
+                   <span><em>{$info.order_no}</em><i></i></span>
+               </li>
+               <li>
+                   <span>下单时间</span>
+                   <span><em>{$info.add_time|date="Y-m-d H:i:s",###}</em><i></i></span>
+               </li>
+           </ul>
+       </div>
+       <if condition="$info['status'] eq 3">
+           <div class="dd_btn">
+               <!--<span class="djs"><i class="h">00</i>时<i class="m">59</i>分钟<i class="s">59</i>秒</span>-->
+               <span class="djs">交易完成</span>
+               <span class="text" onclick="confirm({$info.id},{$info.type})">
+                <if condition="$info['type'] eq 1">
+                    领取{$info.currency_name}
+                <else />
+                    等待对方领取
+                </if>
+            </span>
+           </div>
+       </if>
+   </div>
+</div>
+<div style="height: .9rem;"></div>
+<div class="footer_main">
+    <ul>
+        <a href="index.html">
+            <li class="footer_fl">省券</li>
+        </a>
+        <a href="{:U('Welfare/outindex')}">
+            <li class="footer_f2">福利</li>
+        </a>
+        <a href="{:U('Exchange/buyview')}">
+            <li class="footer_f3 footer_active_f3">
+                兑换
+            </li>
+        </a>
+
+        <a href="b2c_fenlei_01.html">
+            <li class="footer_f4">
+                开箱
+            </li>
+        </a>
+        <a href="{:U('Member/index')}">
+            <li class="footer_f5">
+                我的
+            </li>
+        </a>
+    </ul>
+</div>
+<script>
+    function confirm(id,type) {
+        if(type == 2){
+            layer.msg("等待对方领取");
+            return false;
+        }
+        $.post("{:U('Exchange/receive_currency')}",{
+            id:id,type:type
+        },function(data){
+
+            if(data.status == 1){
+
+                layer.msg(data.info,{icon:1});
+                window.setTimeout(function(){
+                    window.location=data.url;;
+                },1000);
+            }else{
+                layer.msg(data.info);
+                return false;
+            }
+        })
+    }
+
+
+</script>
+<include file="Public:footer"/>

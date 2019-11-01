@@ -1,0 +1,49 @@
+    <include file="App/Admin/View/Public/left.html"/>
+     <script type="text/javascript" charset="utf-8" src="__PUBLIC__/kindeditor/kindeditor.js"></script>
+	<script type="text/javascript" charset="utf-8" src="__PUBLIC__/kindeditor/lang/zh_CN.js"></script>
+    <script type="text/javascript" charset="utf-8" src="__PUBLIC__/kindeditor/plugins/prettify.js"></script>
+    <!--/sidebar-->
+    <div class="main-wrap">
+        <div class="crumb-wrap">
+            <div class="crumb-list"><i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span class="crumb-name">抽奖规则管理</span></div>
+        </div>
+        <div class="result-wrap">
+            <form action="{:U('Luckdraw/detailedit#10#0')}" method="post" id="myform" name="myform" enctype="multipart/form-data">
+                <input type="hidden" value="{$info.id}" name="id">
+                <input type="hidden" value="{$luckdraw_id}" name="luckdraw_id">
+                <div class="config-items">
+                    <div class="config-title">
+                        <h1><i class="icon-font">&#xe00a;</i>奖励数值编辑</h1>
+                    </div>
+                    <div class="result-content">
+                        <table width="100%" class="insert-tab">
+                            <tbody>
+                                <tr>
+                                    <th><i class="require-red">*</i>奖励数值：</th>
+                                    <td><input type="text" id="num" value="{$info.num}" size="85" name="num" class="common-text"></td>
+                                </tr>
+                               <tr>
+                                <tr>
+                                    <th></th>
+                                    <td>
+                                        <input type="submit" value="提交" class="btn btn-primary btn6 mr10">
+                                        <a href="{:U('Luckdraw/index#10#0')}"><input type="button" value="返回"  class="btn btn6"></a>
+                                    </td>
+                                </tr>
+                            </tbody></table>
+                    </div>
+                </div>
+                
+            </form>
+        </div>
+    </div>
+    <!--/main-->
+</div>
+</body>
+</html>
+
+<script>									
+	KindEditor.ready(function(K) {
+		window.editor1 = K.create('#content3');	
+	});
+</script>

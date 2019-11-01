@@ -1,0 +1,158 @@
+<include file="Public:header"/>
+<body>
+<div>
+    <header>
+        <div class="header_bt">
+            <div class="header_f"><a href="{:U('Member/index')}" class="header_fh"></a></div>
+            <div class="header_c">邀请好友</div>
+        </div>
+        <div style="height: .74rem;clear: both;"></div>
+    </header>
+    <div class="yqhy">
+        <div class="yqhy_h">
+            <p>邀请好友玩云链</p>
+            <p>赚人脉奖励</p>
+        </div>
+        <div class="yqhy_num">
+            <div class="haoyou">
+                <p>{$invite_num|default='0'}</p>
+                <p>我邀请的好友</p>
+            </div>
+            <i></i>
+            <div class="haoyou">
+                <p>{$get_gift_num|default='0'}</p>
+                <p>累积收益</p>
+            </div>
+        </div>
+        <div class="yqhy_js">
+            <p><i></i><span>好友注册完成实名后, 你都得能获得一个邀请大礼包（内含1-100云链）</span></p>
+            <p><i></i><span>邀请奖励算3级, 如你推荐A, A又推荐了10人，B10人又推荐了10人并且都实名了, 你将获得1+10+100次抽奖机会</span></p>
+        </div>
+        <div class="yqhy_b">
+            <table>
+                <tr>
+                    <th>下线好友手机号(关系)</th>
+                    <th>邀请时间</th>
+                    <th>实名奖励</th>
+                </tr>
+                <volist name="childs_list" id="vo">
+                    <tr>
+                        <td>{$vo.phone}({$vo.relation})</td>
+                        <td>{$vo.invite_time}</td>
+                        <if condition="$vo['luck_status'] eq 1">
+                            <td class="yellow" data-mem_id="{$vo.member_id}" data-luck_status="{$vo.luck_status}" data-level="{$vo.level}">可领取</td>
+                        <elseif condition="$vo['luck_status'] eq 2" />
+                            <td class="red">未实名</td>
+                         <else />
+                            <td>{$vo.get_gift}</td>
+                        </if>
+                    </tr>
+                </volist>
+
+                <!--<tr>-->
+                    <!--<td>18056478453(徒弟)</td>-->
+                    <!--<td>1分钟前</td>-->
+                    <!--<td class="red">未实名</td>-->
+                <!--</tr>-->
+                <!--<tr>-->
+                    <!--<td>18056478453(徒弟)</td>-->
+                    <!--<td>2019-9-30 12:27</td>-->
+                    <!--<td>+125.99云链</td>-->
+                <!--</tr>-->
+                <!--<tr>-->
+                    <!--<td>18056478453(徒弟)</td>-->
+                    <!--<td>2019-9-30 12:27</td>-->
+                    <!--<td class="yellow">可领取</td>-->
+                <!--</tr>-->
+                <!--<tr>-->
+                    <!--<td>18056478453(徒弟)</td>-->
+                    <!--<td>2019-9-30 12:27</td>-->
+                    <!--<td class="yellow" onclick="linqu(this)">可领取</td>-->
+                <!--</tr>-->
+            </table>
+        </div>
+    </div>
+</div>
+<a href="{:U('Invite/detail')}">
+    <div class="yqhy_btn">
+        邀请好友
+    </div>
+</a>
+
+<div class="zhezhao_c"></div>
+<div class="mrrw" style="display: none">
+    <p class="close"></p>
+    <div>
+        <i></i>
+        <p class="rw_title"></p>
+        <p class="rw_jl">恭喜你翻到<span>0.5云链</span></p>
+        <p class="rw_btn">立即返回</p>
+    </div>
+</div>
+
+
+<div style="height: .9rem;"></div>
+<div class="footer_main">
+    <ul>
+        <a href="index.html">
+            <li class="footer_fl">省券</li>
+        </a>
+        <a href="{:U('Welfare/outindex')}">
+            <li class="footer_f2">福利</li>
+        </a>
+        <a href="{:U('Exchange/buyview')}">
+            <li class="footer_f3">
+                兑换
+            </li>
+        </a>
+
+        <a href="b2c_fenlei_01.html">
+            <li class="footer_f4">
+                开箱
+            </li>
+        </a>
+        <a href="{:U('Member/index')}">
+            <li class="footer_f5 footer_active_f5">
+                我的
+            </li>
+        </a>
+    </ul>
+</div>
+
+<script>
+    $(".yqhy_b").find("tr .yellow").click(function () {
+        var luck_status = $(this).data('luck_status');
+        var mem_id = $(this).data('mem_id');
+        var level = $(this).data('level');
+        if(luck_status == 1){
+            var self = $(this);
+            $.post("{:U('Invite/get_reward')}",{
+                mem_id:mem_id,level:level
+            },function(data){
+                $(".mrrw").show();
+                $(".zhezhao_c").attr("class","zhezhao_c zhezhao");
+                $(".mrrw").find(".rw_jl").html(data.info);
+                self.attr('class','');
+                if(data.status == 1){
+                    self.text(data.goods_name);
+                }else{
+                    self.text("未抽中奖励");
+                }
+
+            })
+        }
+    });
+    function linqu(obj) {
+        $(".mrrw").show();
+        $(".zhezhao_c").attr('class','zhezhao_c zhezhao')
+    }
+    $(".mrrw,.close").click(function () {
+        $(".mrrw").hide();
+        $(".zhezhao_c").attr('class','zhezhao_c')
+    });
+
+
+
+
+</script>
+<include file="Public:footer"/>

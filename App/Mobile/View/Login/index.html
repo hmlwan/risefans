@@ -1,0 +1,93 @@
+<include file="Public:header"/>
+<body>
+<div class="dl">
+    <div class="dl_h">
+        <i></i>
+        <span>云链口袋</span>
+    </div>
+    <div class="errmsg">
+        <!--<i class="tipmsg"></i>-->
+    </div>
+    <div class="dl_c">
+        <ul>
+            <li>
+                <i class="phone"></i>
+                <input type="text" name="phone" id="phone"   placeholder="请输入手机号码" >
+            </li>
+            <li>
+                <i class="lock"></i>
+                <input type="password" style="width:78%;"  name="password" id="password" placeholder="请输入登录密码" >
+                <em class="eye"></em>
+            </li>
+        </ul>
+        <div class="dl_tips">
+            <a class="sjdl" href="{:U('Login/setphone')}">忘记密码?</a>
+        </div>
+        <div class="btn">
+            <a class="dl_btn" href="javascript:void(0);" onclick="login()">登录</a>
+            <a class="zc_btn"  href="{:U('Reg/index')}">立即注册</a>
+        </div>
+        <p class="bzzh">
+            <i></i>
+            <span>重泰保险保你账号安全</span>
+        </p>
+    </div>
+</div>
+<script>
+    $(".eye").click(function () {
+        if($(this).attr('active') == 1){
+            $(this).prev('input').attr('type','password');
+            $(this).attr('active',2)
+        }else{
+            $(this).prev('input').attr('type','text');
+            $(this).attr('active',1)
+        }
+    });
+    $(".dl_c").on('input propertychange',function () {
+        var is_write = 1;
+        $(".dl_c").find('input').each(function () {
+            if($(this).val() == ''){
+                is_write = 0;
+            }
+        })
+        if(is_write == 1){
+            $(".btn .dl_btn").attr('class','dl_btn active')
+        }else{
+            $(".btn .dl_btn").attr('class','dl_btn')
+        }
+    });
+
+    function login(){
+        var phone = $("#phone").val();
+        var password = $("#password").val();
+        console.log(phone);
+        console.log(Utils.isTel(phone));
+        if(phone==""||phone==null){
+            layer.msg('请输入手机号码');
+            return false;
+        }
+
+        if(!Utils.isTel(phone)){
+            layer.msg('手机号格式错误');
+            return false;
+        }
+        if(password == ""||password == null){
+            layer.msg('请输入登录密码');
+            return false;
+        }
+        $.post("{:U('Login/checkLog')}",{phone:phone,pwd:password},function(data){
+            if(data.status == 1){
+                layer.msg(data.info,{icon:1});
+                window.setTimeout(function(){
+                    window.location="{:U('Member/index')}";
+                },1000);
+            }else{
+                layer.msg(data.info);
+                return false;
+            }
+        },"json");
+    }
+
+</script>
+<include file="Public:footer"/>
+

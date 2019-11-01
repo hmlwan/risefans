@@ -1,0 +1,197 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" >
+	<meta name="renderer" content="webkit">
+    <title>网站后台管理</title>
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/Admin/css/common.css"/>
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/Admin/css/main.css"/>
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/Admin/iconfont/demo.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/Admin/iconfont/iconfont.css"/>
+    <script type="text/javascript" src="__PUBLIC__/Admin/js/libs/modernizr.min.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/Admin/js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="/Public/plugin/Js/layer/layer.min.js"></script>
+    <!--<script type="text/javascript" src="/Public/plugin/Js/laydate/laydate.js"></script>-->
+<style>
+.iconfont{ padding-right:5px;}
+.fsize{ font-size:15px;}
+</style>
+</head>
+<body>
+<div class="topbar-wrap white">
+    <div class="topbar-inner clearfix">
+        <div class="topbar-logo-wrap clearfix">
+            <h1 class="topbar-logo none"><a href="index.html" class="navbar-brand">后台管理</a></h1>
+            <ul class="navbar-list clearfix">
+                <li><a class="on" href="{:U('Index/index')}">首页</a></li>
+                <!--<li><a href="{:U('Mobile/Index/index')}" target="_blank">网站首页</a></li>-->
+                <!--<li><a href="{:U('Index/infoStatistics')}" target="_blank">全站统计信息</a></li>-->
+            </ul>
+        </div>
+        <div class="top-info-wrap">
+            <ul class="top-info-list clearfix">
+                <li><a href="{:U('Manage/index')}">管理员</a></li>
+                <li><a href="{:U('Manage/pwdUpdate')}">修改密码</a></li>
+                <li><a href="{:U('Login/loginout')}">退出</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="container clearfix">
+<div class="sidebar-wrap">
+        <div class="sidebar-title">
+            <h1>菜单</h1>
+        </div>
+        <div class="sidebar-content">
+            <ul class="sidebar-list">
+                 <notempty name='sys_nav'>
+                 <li>
+                    <a href="#"><i class="iconfont">&#xe614;</i><span class="fsize">系统管理</span></a>
+                    <ul class="sub-menu">
+                        <volist name='sys_nav' id='vo'>
+                            <li><a href="{$vo.nav_url}#0#{$key}"><i class="iconfont">{$vo.nav_e}</i>&nbsp;{$vo.nav_name}</a></li>
+                        <!--<li><a href="system.html"><i class="icon-font">&#xe037;</i>清理缓存</a></li>
+                        <li><a href="system.html"><i class="icon-font">&#xe046;</i>数据备份</a></li>
+                        <li><a href="system.html"><i class="icon-font">&#xe045;</i>数据还原</a></li>-->
+                        </volist>
+                    </ul>
+                </li>
+               </notempty>
+			   
+                <notempty name='user_nav'>
+                    <li>
+
+                        <a href="#"><i class="iconfont">&#xe64d;</i><span class="fsize">会员管理</span></a>
+                        <ul class="sub-menu">
+                            <volist name='user_nav' id='vo'>
+                                <li><a href="{$vo.nav_url}#1#{$key}"><i class="iconfont">{$vo.nav_e}</i>&nbsp;{$vo.nav_name}</a></li>
+                            </volist>
+                        </ul>
+                    </li>
+                </notempty>
+                <notempty name='currency_nav'>
+                    <li>
+                        <a href="#"><i class="iconfont">&#xe756;</i><span class="fsize">币种管理</span></a>
+                        <ul class="sub-menu">
+                            <volist name='currency_nav' id='vo'>
+                                <li><a href="{$vo.nav_url}#2#{$key}"><i class="iconfont">{$vo.nav_e}</i>&nbsp;{$vo.nav_name}</a></li>
+                            </volist>
+                        </ul>
+                    </li>
+                </notempty>
+                <notempty name='bank_nav'>
+                    <li>
+                        <a href="#"><i class="iconfont">&#xe635;</i><span class="fsize">银行管理</span></a>
+                         <ul class="sub-menu">
+                            <volist name='bank_nav' id='vo'>
+                                <li><a href="{$vo.nav_url}#3#{$key}"><i class="iconfont">{$vo.nav_e}</i>&nbsp;{$vo.nav_name}</a></li>
+                            </volist>
+                        </ul>
+                    </li>
+                </notempty>
+                <notempty name='good_nav'>
+                    <li>
+                        <a href="#"><i class="iconfont">&#xe631;</i><span class="fsize">商品管理</span></a>
+                        <ul class="sub-menu">
+                            <volist name='good_nav' id='vo'>
+                                <li><a href="{$vo.nav_url}#4#{$key}"><i class="iconfont">{$vo.nav_e}</i>&nbsp;{$vo.nav_name}</a></li>
+                            </volist>
+                        </ul>
+                    </li>
+                </notempty>
+                <notempty name='order_nav'>
+                    <li>
+                        <a href="#"><i class="iconfont">&#xe631;</i><span class="fsize">订单管理</span></a>
+                        <ul class="sub-menu">
+                            <volist name='order_nav' id='vo'>
+                                <li><a href="{$vo.nav_url}#5#{$key}"><i class="iconfont">{$vo.nav_e}</i>&nbsp;{$vo.nav_name}</a></li>
+                            </volist>
+                        </ul>
+                    </li>
+                </notempty>
+                <notempty name='sign_nav'>
+                    <li>
+                        <a href="#"><i class="iconfont">&#xe631;</i><span class="fsize">签到管理</span></a>
+                        <ul class="sub-menu">
+                            <volist name='sign_nav' id='vo'>
+                                <li><a href="{$vo.nav_url}#6#{$key}"><i class="iconfont">{$vo.nav_e}</i>&nbsp;{$vo.nav_name}</a></li>
+                            </volist>
+                        </ul>
+                    </li>
+                </notempty>
+                <notempty name='article_nav'>
+                    <li>
+                        <a href="#"><i class="iconfont">&#xe659;</i><span class="fsize">文章管理</span></a>
+                        <ul class="sub-menu">
+                            <volist name='article_nav' id='vo'>
+                                <li><a href="{$vo.nav_url}#7#{$key}"><i class="iconfont">{$vo.nav_e}</i>&nbsp;{$vo.nav_name}</a></li>
+                            </volist>
+                        </ul>
+                    </li>
+                </notempty>
+                <notempty name='message_nav'>
+                    <li>
+                        <a href="#"><i class="iconfont">&#xe627;</i><span class="fsize">消息管理</span></a>
+                        <ul class="sub-menu">
+                            <volist name='message_nav' id='vo'>
+                                <li><a href="{$vo.nav_url}#8#{$key}"><i class="iconfont">{$vo.nav_e}</i>&nbsp;{$vo.nav_name}</a></li>
+                            </volist>
+                        </ul>
+                    </li>
+                </notempty>
+                <notempty name='finance_nav'>
+                    <li>
+                        <a href="#"><i class="iconfont">&#xe6c8;</i><span class="fsize">财务管理</span></a>
+                        <ul class="sub-menu">
+                            <volist name='finance_nav' id='vo'>
+                                <li><a href="{$vo.nav_url}#9#{$key}"><i class="iconfont">{$vo.nav_e}</i>&nbsp;{$vo.nav_name}</a></li>
+                            </volist>
+                        </ul>
+                    </li>
+                </notempty>
+                <notempty name='luckdraw_nav'>
+                    <li>
+                        <a href="#"><i class="iconfont">&#xe650;</i><span class="fsize">抽奖规则管理</span></a>
+                        <ul class="sub-menu">
+                            <volist name='luckdraw_nav' id='vo'>
+                                <li><a href="{$vo.nav_url}#10#{$key}"><i class="iconfont">{$vo.nav_e}</i>&nbsp;{$vo.nav_name}</a></li>
+                            </volist>
+                        </ul>
+                    </li>
+                </notempty>
+                <notempty name='exchange_nav'>
+                    <li>
+                        <a href="#"><i class="iconfont">&#xe650;</i><span class="fsize">兑换</span></a>
+                        <ul class="sub-menu">
+                            <volist name='exchange_nav' id='vo'>
+                                <li><a href="{$vo.nav_url}#11#{$key}"><i class="iconfont">{$vo.nav_e}</i>&nbsp;{$vo.nav_name}</a></li>
+                            </volist>
+                        </ul>
+                    </li>
+                </notempty>
+                <notempty name='admin_nav'>
+                    <li>
+                        <a href="#"><i class="iconfont">&#xe64d;</i><span class="fsize">管理员管理</span></a>
+                        <ul class="sub-menu">
+                            <volist name='admin_nav' id='vo'>
+                                <li><a href="{$vo.nav_url}#12#{$key}"><i class="iconfont">{$vo.nav_e}</i>&nbsp;{$vo.nav_name}</a></li>
+                            </volist>
+                        </ul>
+                    </li>
+                </notempty>
+            </ul>
+        </div>
+    </div>
+<script>
+
+$(".sidebar-list li").children("a").on("click",function(){
+	$(this).next(".sub-menu").toggle();
+});
+var num = window.location.hash;
+var num =  num.split('#');
+
+$(".sub-menu").eq(num[1]).show();
+$(".sub-menu").eq(num[1]).children("li").eq(num[2]).addClass("on");
+
+</script>

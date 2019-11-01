@@ -1,0 +1,118 @@
+<include file="Public:header"/>
+<body>
+<div>
+    <header>
+        <div class="gwc_bt">
+            <div class="gwcbt_fh"><a href="javascript:history.back()" class="gwcdd_fh"></a></div>
+            <div class="gwcbt_mc">忘记密码</div>
+        </div>
+        <div style="height: .74rem;clear: both;"></div>
+    </header>
+    <div class="xgmm">
+        <div>
+            <label for="">手机号</label>
+            <input type="phone" name="phone"  placeholder="请输入手机号"/>
+        </div>
+        <div>
+            <label for="">密码</label>
+            <input type="password" name="password"  placeholder="请输入密码"/>
+        </div>
+        <div>
+            <label for="">确认密码</label>
+            <input type="password" name="repassword" placeholder="再次输入密码" />
+        </div>
+        <div class="yzmtext">
+            <label for="">验证码</label>
+            <input type="text" name="yzm"  placeholder="请输入验证码">
+            <a href="javascript:void(0);" id="msgt" onclick="get_code()">获取验证码</a>
+        </div>
+        <div class="confirm_btn btn_update" onclick="sub()">确&nbsp;认</div>
+    </div>
+</div>
+<script>
+    function get_code(){
+        var phone = $("input[name='phone']");
+        if(phone == ""||phone == null){
+            layer.msg('请输入手机号码');
+            return false;
+        }
+        if(!isPoneAvailable(phone)) {
+            layer.msg('手机号格式错误');
+            return false;
+        }
+        $("#msgt").attr("data-key","off");
+        var i= 60;
+        var timer =setInterval(function(){
+            if($("#msgt").attr("data-key")=='off'){
+                $("#msgt").attr("disabled",true).css("pointer-events","none");
+                $("#msgt").css('background-color','#dadada');
+                i--;
+                $("#msgt").text(i+"s后可重新发送");
+                if(i<=0){
+                    $("#msgt").removeAttr("disabled").text("重新发送验证码");
+                    $("#msgt").attr("data-key","on");
+                    $("#msgt").css("pointer-events","auto");
+                    $("#msgt").css('background-color','#1da9e8');
+                    clearInterval(timer);
+                }
+            }
+        },1000);
+        $.post("{:U('Common/ajaxSandPhone')}",
+            {'phone':phone,type:2},function(d){
+                if(d.status == 1){
+                    layer.msg(d.info,{icon:1});
+                }else{
+                    layer.msg(d.info);
+                }
+            });
+    }
+
+    function sub(){
+
+        var phone = $("input[name='phone']").val();
+        var password = $("input[name='password']").val();
+        var repwd = $("input[name='repassword']").val();
+        var yzm = $("input[name='yzm']").val();
+        if(phone == ""||phone == null){
+            layer.msg('请输入手机号码');
+            return false;
+        }
+        if(!isPoneAvailable(phone)) {
+            layer.msg('手机号格式错误');
+            return false;
+        }
+        if(password == ""||password == null){
+            layer.msg('请输入密码');
+            return false;
+        }
+        if(repwd == ""||repwd == null){
+            layer.msg('请输入确认密码');
+            return false;
+        }
+        var pLen = password.length;
+        if(pLen < 6 || pLen > 20) {
+            layer.msg('密码长度在6-20个字符之间');
+            return false;
+        }
+        if(repwd != password) {
+            layer.msg('2次输入密码不一致，请重新输入');
+            return false;
+        }
+        $.post("{:U('Login/forgetpwd_op')}",{
+            phone:phone,
+            pwd:password,
+            repwd:repwd,
+            yzm:yzm
+        },function(data){
+            if(data.status==1){
+                layer.msg(data.info,{icon:1});
+                window.location="{:U('Login/index')}";
+            }else{
+                layer.msg(data.info);
+                return false;
+            }
+        })
+    };
+
+</script>
+<include file="Public:footer"/>

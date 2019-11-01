@@ -1,0 +1,143 @@
+<include file="Public:header"/>
+
+<body  style="background-color: #f5f7f6">
+
+<div>
+    <header>
+        <div class="header_bt">
+            <div class="header_f"><a href="{:U('Member/mem_info')}" class="header_fh"></a></div>
+            <div class="header_c">修改登录密码</div>
+        </div>
+        <div style="height: .74rem;clear: both;"></div>
+    </header>
+    <div class="xgzfb">
+        <div class="xgzfb_top">
+            <p>
+                <i></i>
+                <span>为保障账户安全，修改登录需验证使用本人的注册手机号，若手机号丢失将不能修改</span>
+            </p>
+        </div>
+        <div class="xg_c">
+            <div class="xg_info">
+                <span>手机号</span>
+                <span><input type="text" readonly name="phone" value="{$member_info.phone}"></span>
+            </div>
+            <div class="xg_info write">
+                <span>新密码</span>
+                <span><input type="password" class="require" name="passwd"  placeholder="填写新密码" value="" ></span>
+            </div>
+            <div class="xg_info write">
+                <span>确认密码</span>
+                <span><input type="password" class="require" name="repasswd" placeholder="再次输入新密码" value=""></span>
+            </div>
+            <div class="xg_info write">
+                <span><i  class="hqyzm" onclick="get_code()" id="msgt" >获取验证码</i></span>
+                <!--<span><i  class="hqyzm">重新获取验证码（120S）</i></span>-->
+                <span><input type="text" name="yzm" class="require"  value="" placeholder="输入验证码"></span>
+            </div>
+
+        </div>
+        <p class="bottom_c">我们承诺严密保障你的个人信息安全，请放心认证</p>
+    </div>
+</div>
+<div class="xgqr_btn" onclick="sub()">
+    确认修改
+</div>
+<div style="height: .9rem;"></div>
+<div class="footer_main">
+    <ul>
+        <a href="index.html">
+            <li class="footer_fl">省券</li>
+        </a>
+        <a href="{:U('Welfare/outindex')}">
+            <li class="footer_f2">福利</li>
+        </a>
+        <a href="{:U('Exchange/buyview')}">
+            <li class="footer_f3">
+                兑换
+            </li>
+        </a>
+
+        <a href="b2c_fenlei_01.html">
+            <li class="footer_f4">
+                开箱
+            </li>
+        </a>
+        <a href="{:U('Member/index')}">
+            <li class="footer_f5 footer_active_f5">
+                我的
+            </li>
+        </a>
+    </ul>
+</div>
+<script>
+    function get_code(){
+        var phone = $("input[name='phone']").val();
+        if(phone == ""||phone == null){
+            layer.msg('请输入手机号码');
+            return false;
+        }
+        if(!Utils.isTel(phone)){
+            layer.msg('手机号格式错误');
+            return false;
+        }
+        $("#msgt").attr("data-key","off");
+        var i= 60;
+        var timer =setInterval(function(){
+            if($("#msgt").attr("data-key")=='off'){
+                $("#msgt").attr("disabled",true).css("pointer-events","none");
+                $("#msgt").attr('class','hqyzm active');
+                i--;
+                $("#msgt").text("重新获取 "+i);
+                if(i<=0){
+                    $("#msgt").removeAttr("disabled").text("获取验证码");
+                    $("#msgt").attr("data-key","on");
+                    $("#msgt").css("pointer-events","auto");
+                    $("#msgt").attr('class','hqyzm');
+                    clearInterval(timer);
+                }
+            }
+        },1000);
+        $.post("{:U('Common/ajaxSandPhone')}",
+            {'phone':phone,type:2},function(d){
+                if(d.status == 1){
+                    layer.msg(d.info,{icon:1});
+                }else{
+                    layer.msg(d.info);
+                }
+            });
+    }
+    function sub(){
+        var passwd = $("input[name='passwd']").val();
+        var repasswd = $("input[name='repasswd']").val();
+        var yzm = $("input[name='yzm']").val();
+
+        var check_msg = Utils.check_require($('.xgzfb'));
+        if(check_msg.is_require == 0){
+            layer.msg(check_msg.msg);
+            return false;
+        }
+        if(passwd != repasswd){
+            layer.msg("两次密码不一致");
+            return false;
+        }
+
+        $.post("{:U('Member/update_passwd')}",{
+            passwd:passwd,
+            repasswd:repasswd,
+            yzm:yzm
+        },function(data){
+            if(data.status==1){
+                layer.msg(data.info,{icon:1});
+                window.setTimeout(function(){
+                    window.location="{:U('Member/mem_info')}";
+                },1000);
+            }else{
+                layer.msg(data.info);
+                return false;
+            }
+        })
+    };
+</script>
+<include file="Public:footer"/>
+

@@ -1,0 +1,115 @@
+    <include file="App/Admin/View/Public/left.html"/>
+    <!--/sidebar-->
+    <div class="main-wrap">
+
+        <div class="crumb-wrap">
+            <div class="crumb-list"><i class="icon-font"></i><a href="/jscss/admin">首页</a><span class="crumb-step">&gt;</span><span class="crumb-name">消息管理</span></div>
+        </div>
+        <div class="search-wrap">
+            <div class="search-content">
+                <form action="{:U('Message/index')}" method="post">
+                    <table class="search-tab">
+                        <tr>
+                            <th width="70">消息标题:</th>
+                            <td><input class="common-text" placeholder="关键字" name="title" type="text"></td>
+                            <td><input class="btn btn-primary btn2"  value="查询" type="submit"></td>
+                        </tr>
+                    </table>
+                </form>
+				
+            </div>
+        </div>
+        <div class="result-wrap">
+
+            <div class="result-title">
+                <div class="result-list">
+                    <!--<a href="{:U('Message/add#8#0')}"><i class="icon-font"></i>新增消息</a>-->
+                </div>
+            </div>
+            <div class="result-content">
+                <table class="result-tab" width="100%">
+                    <tr>
+                        <th>ID</th>
+						<th>消息类型</th>
+                        <th>消息标题</th>
+						<th>消息内容</th>
+                        <th>添加时间</th>
+                        <th>发送人员</th>
+                        <th>是否已读</th>
+                        <!--<th>操作</th>-->
+                    </tr>
+                    <volist name='list' id='vo'>
+                        <tr>
+                            <td>{$vo['message_id']}</td>
+                            <td>
+                                <switch name="vo['type']">
+                                    <case value="1">【系统消息】</case>
+                                    <case value="2">【签到消息】</case>
+                                    <case value="3">【推广消息】</case>
+                                    <case value="4">【兑换商品消息】</case>
+                                </switch>
+                            </td>
+							<td>{$vo['title']||mb_substr=0,9,"utf-8"}</td>
+                            <td>{$vo['content']|html_entity_decode }</td>
+                            <td>{$vo['add_time']|date="Y-m-d H:i:s",###}</td>
+                            <td>{$vo.phone}({$vo.member_id})</td>
+                            <td><if condition="$vo['is_read'] eq 1">
+                                <span class="blue">已读</span>
+                            <else/>
+                                <span class="red">未读</span>
+                            </if>
+                            </td>
+                            <!--<td>-->
+                                <!--<a class="link-update" href="{:U('Message/add#8#0',array('id'=>$vo['id']))}">编辑</a>|-->
+                                <!--<a class="link-del" href="javascript:;" onclick="cexiao('{$vo.id}')" >删除</a>|-->
+                                <!--<a class="link-del" href="javascript:;" onclick="pub('{$vo.id}')" >发送</a>-->
+                            <!--</td>-->
+                        </tr>
+                    </volist>
+
+                </table>
+                <div class="list-page"> <ul>{$page}</ul></div>
+            </div>
+
+        </div>
+    </div>
+    <!--/main-->
+</div>
+</body>
+</html>
+<script>
+    function cexiao(id){
+        layer.confirm('确定删除吗？', {
+            btn: ['确定','取消'], //按钮
+            title: '撤销删除'
+        }, function(){
+            $.post("{:U('Message/del')}",{id:id},function(data){
+                if(data['status'] == 1){
+                    layer.msg(data['info'],{icon:1});
+                    setTimeout(function(){location.reload();},1000);
+                }else{
+                    layer.msg(data['info']);
+                }
+            })
+        }, function(){
+            layer.msg('已取消');
+        });
+    }
+    function pub(id){
+        layer.confirm('确定发布吗？', {
+            btn: ['确定','取消'], //按钮
+            title: '撤销发布'
+        }, function(){
+            $.post("{:U('Message/pub')}",{id:id},function(data){
+                if(data['status'] == 1){
+                    layer.msg(data['info'],{icon:1});
+                    setTimeout(function(){location.reload();},1000);
+                }else{
+                    layer.msg(data['info']);
+                }
+            })
+        }, function(){
+            layer.msg('已取消');
+        });
+    }
+</script>

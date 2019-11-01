@@ -1,0 +1,68 @@
+    <include file="App/Admin/View/Public/left.html"/>
+     <script type="text/javascript" charset="utf-8" src="__PUBLIC__/kindeditor/kindeditor.js"></script>
+	<script type="text/javascript" charset="utf-8" src="__PUBLIC__/kindeditor/lang/zh_CN.js"></script>
+    <script type="text/javascript" charset="utf-8" src="__PUBLIC__/kindeditor/plugins/prettify.js"></script>
+    <!--/sidebar-->
+    <style>
+        .glyphicon-minus:before {
+            content: "\2212";
+        }
+        .glyphicon {
+            position: relative;
+            top: 1px;
+            display: inline-block;
+            -webkit-font-smoothing: antialiased;
+            font-style: normal;
+            font-weight: normal;
+            line-height: 1;
+        }
+    </style>
+    <div class="main-wrap">
+        <div class="crumb-wrap">
+            <div class="crumb-list"><i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span class="crumb-name">冻结账号</span></div>
+        </div>
+        <div class="result-wrap">
+            <form action="{:U('Exchange/freeze_edit')}" method="post" id="myform" name="myform" enctype="multipart/form-data">
+                <input type="hidden" value="{$info.id}" name="id">
+                <div class="config-items">
+                    <div class="config-title">
+                        <h1><i class="icon-font">&#xe00a;</i>兑换设置</h1>
+                    </div>
+                    <div class="result-content">
+                        <table width="100%" class="insert-tab">
+                            <tbody>
+                                <tr>
+                                    <th>冻结者手机号</th>
+                                    <td><input type="text" name="phone" class="common-text" value="{$info.phone}"></td>
+                                </tr>
+                                <tr>
+                                    <th>冻结原因</th>
+                                    <td>
+                                        <select name="freeze_reson" id="freeze_reson" class="common-text">
+                                            <option value="1">官方封禁</option>
+                                            <option value="2">交易纠纷</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>备注</th>
+                                    <td><input type="text" name="desc" class="common-text" value="{$info.desc}"></td>
+                                </tr>
+                                <tr>
+                                    <th></th>
+                                    <td>
+                                        <input type="submit" value="提交" class="btn btn-primary btn6 mr10">
+                                        <a href="{:U('Exchange/freeze_account#11#3')}"><input type="button" value="返回"  class="btn btn6"></a>
+                                    </td>
+                                </tr>
+                            </tbody></table>
+                    </div>
+                </div>
+                
+            </form>
+        </div>
+    </div>
+    <!--/main-->
+</div>
+</body>
+</html>

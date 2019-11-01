@@ -1,0 +1,83 @@
+<include file="App/Admin/View/Public/left.html"/>
+<style>
+    .glyphicon-minus:before {
+        content: "\2212";
+    }
+    .glyphicon {
+        position: relative;
+        top: 1px;
+        display: inline-block;
+        -webkit-font-smoothing: antialiased;
+        font-style: normal;
+        font-weight: normal;
+        line-height: 1;
+    }
+
+</style>
+<!--/sidebar-->
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font">
+        </i><a href="{:U('Index/index')}">首页</a>
+            <span class="crumb-step">&gt;</span><span class="crumb-name">游戏类目</span></div>
+    </div>
+    <div class="result-wrap">
+        <form action="{:U('Web/game_add')}" method="post" id="myform" name="myform" enctype="multipart/form-data">
+            <input type="hidden" name="id" value="{$info.id}">
+            <div class="config-items">
+                <div class="config-title">
+                    <h1><i class="icon-font">&#xe00a;</i>阿姨添加</h1>
+                </div>
+                <div class="result-content">
+                    <table width="100%" class="insert-tab">
+                        <tbody>
+                            <tr>
+                                <th><i class="require-red">*</i>名称：</th>
+                                <td><input id="title" name="title" value="{$info.title}" type="text"  class="common-text w70"></td>
+                            </tr>
+
+                            <!--<tr>-->
+                                <!--<th><i class="require-red">*</i>中备注：</th>-->
+                                <!--<td><input id="desc1" name="desc1" value="{$info.desc1}" type="text"  class="common-text"></td>-->
+                            <!--</tr>-->
+                            <!--<tr>-->
+                                <!--<th><i class="require-red">*</i>下备注：</th>-->
+                                <!--<td><input id="desc2" name="desc2" value="{$info.desc2}" type="text"  class="common-text"></td>-->
+                            <!--</tr>-->
+                            <!--<tr>-->
+                                <!--<th><i class="require-red">*</i>星星数：</th>-->
+                                <!--<td><input id="star" name="star" value="{$info.star}" type="text"  class="common-text"></td>-->
+                            <!--</tr>-->
+                        <tr>
+                            <th><i class="require-red">*</i>logo图片：</th>
+                            <td><input id="pic"  name="pic" value="{$info.pic}" type="file"  class="common-text  btn10">
+                                <img src="{$info.pic}" style="width: 80px;height: 80px" alt="">
+                                <input type="hidden" value="{$info.pic}" name="pic1">
+                            </td>
+                        </tr>
+
+                            <tr>
+                                <th><i class="require-red">*</i>跳转链接：</th>
+                                <td><input id="jump_url" name="jump_url" value="{$info.jump_url}" type="text"  class="common-text"></td>
+                            </tr>
+                            <tr>
+                                <th></th>
+                                <td>
+                                    <input type="button" onclick="subform()" value="提交" class="btn btn-primary btn6 mr10">
+                                    <a href="{:U('Web/game')}"><input type="button" value="返回"  class="btn btn6"></a>
+                                </td>
+                            </tr>
+                        </tbody></table>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    function subform(){
+        $('#myform').submit();
+    }
+</script>
+</div>
+</body>
+</html>

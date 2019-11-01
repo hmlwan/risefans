@@ -1,0 +1,108 @@
+<include file="Public:header"/>
+<body  style="background-color: #f5f7f6">
+
+<div>
+    <header>
+        <div class="header_bt">
+            <div class="header_f"><a href="{:U('Member/mem_info')}" class="header_fh"></a></div>
+            <div class="header_c">修改支付宝</div>
+        </div>
+        <div style="height: .74rem;clear: both;"></div>
+    </header>
+    <div class="xgzfb">
+        <div class="xgzfb_top">
+            <p>
+                <i></i>
+                <span>为保障账户安全，实名需使用本人的注册手机号，每个账号只有{$config.cert_num}次实名认证机会</span>
+            </p>
+        </div>
+        <div class="xg_c">
+            <div class="xg_info">
+                <span>姓名</span>
+                <span><input type="text" readonly value="{$member_info.true_name}"></span>
+            </div>
+            <div class="xg_info">
+                <span>身份证号</span>
+                <span><input type="text" readonly value="{$member_info.id_card}"></span>
+            </div>
+            <div class="xg_info">
+                <span>我的手机</span>
+                <span><input type="text" readonly value="{$member_info.phone}"></span>
+            </div>
+            <div class="xg_line"></div>
+            <div class="xg_info">
+                <span>所属银行</span>
+                <span><input type="text" readonly value="{$member_info.bank_name}"></span>
+            </div>
+            <div class="xg_info write">
+                <span>银行卡号</span>
+                <span><input type="text" class="require" name="bank_no" placeholder="请输入银行卡号" value="{$member_info.bank_no}"></span>
+            </div>
+            <div class="xg_info write">
+                <span>支付宝账号</span>
+                <span><input type="text" class="require" name="zfb_no" value="{$member_info.zfb_no}" placeholder="请输入本人支付宝号"></span>
+            </div>
+        </div>
+        <p class="bottom_c">我们承诺严密保障你的个人信息安全，请放心认证</p>
+    </div>
+</div>
+<div class="xgqr_btn" onclick="sub()">
+    修改支付宝号
+</div>
+<div style="height: .9rem;"></div>
+<div class="footer_main">
+    <ul>
+        <a href="index.html">
+            <li class="footer_fl">省券</li>
+        </a>
+        <a href="{:U('Welfare/outindex')}">
+            <li class="footer_f2">福利</li>
+        </a>
+        <a href="{:U('Exchange/buyview')}">
+            <li class="footer_f3">
+                兑换
+            </li>
+        </a>
+
+        <a href="b2c_fenlei_01.html">
+            <li class="footer_f4">
+                开箱
+            </li>
+        </a>
+        <a href="{:U('Member/index')}">
+            <li class="footer_f5 footer_active_f5">
+                我的
+            </li>
+        </a>
+    </ul>
+</div>
+<script>
+    function sub(){
+        var bank_no = $("input[name='bank_no']").val();
+        var zfb_no = $("input[name='zfb_no']").val();
+
+        var check_msg = Utils.check_require($('.xgzfb'));
+        if(check_msg.is_require == 0){
+            layer.msg(check_msg.msg);
+            return false;
+        }
+        $.post("{:U('Member/update_zfb')}",{
+            bank_no:bank_no,
+            zfb_no:zfb_no,
+        },function(data){
+            if(data.status==1){
+                layer.msg(data.info,{icon:1});
+                window.setTimeout(function(){
+                    window.location="{:U('Member/mem_info')}";
+                },1000);
+            }else{
+                layer.msg(data.info);
+                return false;
+            }
+        })
+    };
+
+</script>
+
+<include file="Public:footer"/>
+

@@ -1,0 +1,75 @@
+<include file="App/Admin/View/Public/left.html"/>
+<style>
+    .glyphicon-minus:before {
+        content: "\2212";
+    }
+    .glyphicon {
+        position: relative;
+        top: 1px;
+        display: inline-block;
+        -webkit-font-smoothing: antialiased;
+        font-style: normal;
+        font-weight: normal;
+        line-height: 1;
+    }
+</style>
+<!--/sidebar-->
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:U('Index/index')}">首页</a>
+            <span class="crumb-step">&gt;</span>
+            <span class="crumb-name">菜单配置</span>
+        </div>
+    </div>
+    <div class="result-wrap">
+        <form action="{:U('Menu/edit')}" method="post" id="myform" name="myform" enctype="multipart/form-data">
+            <input type="hidden" name="nav_id" value="{$info.nav_id}" >
+            <div class="config-items">
+                <div class="config-title">
+                    <h1><i class="icon-font">&#xe00a;</i>菜单添加</h1>
+                </div>
+                <div class="result-content">
+                    <table width="100%" class="insert-tab">
+                        <tbody>
+                        <tr>
+                            <th><i class="require-red">*</i>菜单名称：</th>
+                            <td><input id="nav_name" name="nav_name" type="text" value="{$info.nav_name}"  class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>图标icon：</th>
+                            <td><input id="nav_e" name="nav_e" type="text" value="{$info.nav_e|htmlspecialchars}" placeholder="图标"  class="common-text"></td>
+                        </tr>
+
+                        <tr class="sub_value" >
+                            <th><i class="require-red">*</i>菜单url：</th>
+                            <td><input id="nav_url" name="nav_url" type="text" value="{$info.nav_url}"   class="common-text"></td>
+                        </tr>
+                        <tr class="sub_value" >
+                            <th><i class="require-red">*</i>排序：</th>
+                            <td><input id="nav_sort" name="nav_sort" type="text" value="{$info.nav_sort}"   class="common-text"></td>
+                        </tr>
+                        <tr class="sub_value" >
+                            <th><i class="require-red">*</i>类别：</th>
+                            <td><input id="cat_id" name="cat_id" type="text" value="{$info.cat_id}"   class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <td>
+                                <input type="button" onclick="subform()" value="提交" class="btn btn-primary btn6 mr10">
+                                <a href="{:U('Menu/index')}"><input type="button" value="返回"  class="btn btn6"></a>
+                            </td>
+                        </tr>
+                        </tbody></table>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+    <script>
+        function subform(){
+            $('#myform').submit();
+        }
+    </script>
+</div>
+</body>
+</html>

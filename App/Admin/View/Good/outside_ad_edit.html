@@ -1,0 +1,158 @@
+<include file="App/Admin/View/Public/left.html"/>
+    <style>
+        .glyphicon-minus:before {
+            content: "\2212";
+        }
+        .glyphicon {
+            position: relative;
+            top: 1px;
+            display: inline-block;
+            -webkit-font-smoothing: antialiased;
+            font-style: normal;
+            font-weight: normal;
+            line-height: 1;
+        }
+    </style>
+     <script type="text/javascript" charset="utf-8" src="__PUBLIC__/kindeditor/kindeditor.js"></script>
+	<script type="text/javascript" charset="utf-8" src="__PUBLIC__/kindeditor/lang/zh_CN.js"></script>
+    <script type="text/javascript" charset="utf-8" src="__PUBLIC__/kindeditor/prettify.js"></script>
+    <!--/sidebar-->
+    <div class="main-wrap">
+        <div class="crumb-wrap">
+            <div class="crumb-list"><i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span class="crumb-name">商品管理</span></div>
+        </div>
+        <div class="result-wrap">
+            <form action="{:U('Good/outside_ad_edit')}" method="post" id="myform" name="myform" enctype="multipart/form-data">
+                <input type="hidden" value="{$info.id}" name="id">
+                <div class="config-items">
+                    <div class="config-title">
+                        <h1><i class="icon-font">&#xe00a;</i>站外广告编辑</h1>
+                    </div>
+                    <div class="result-content">
+                        <table width="100%" class="insert-tab">
+                            <tbody>
+                                 <tr>
+                                    <th><i class="require-red">*</i>商品名称</th>
+                                    <td><input type="text" id="" value="{$info.title}" size="85" name="title" class="common-text"></td>
+                                </tr>
+                                <tr>
+                                    <th><i class="require-red">*</i>简介</th>
+                                    <td><input type="text" id="" value="{$info.subtitle}" size="85" name="subtitle" class="common-text"></td>
+                                </tr>
+                                 <tr>
+                                     <th><i class="require-red">*</i>封面</th>
+                                     <td><input id="cover_img" name="cover_img" type="file" value="{$info.cover_img}"  class="common-text">
+                                         <input  name="oldcover_img" type="hidden" value="{$info.cover_img}"  class="common-text">
+                                         <if condition="$info['cover_img']">
+                                             <img src="{$info['cover_img']}" style="width: 80px;height: 80px" alt="">
+                                         </if>
+                                     </td>
+                                 </tr>
+                                <tr>
+                                    <th><i class="require-red">*</i>是否推荐</th>
+                                    <td>
+                                        <select name="is_recommend" style="width: 150px;" id="is_recommend" class="common-text" >
+                                            <option value="1" <if condition="$info['is_recommend'] eq 1">selected</if>>是</option>
+                                            <option value="0" <if condition="$info['is_recommend'] eq 0">selected</if>>否</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                 <tr>
+                                     <th><i class="require-red">*</i>广告横幅图</th>
+                                     <td><input id="ad_img" name="ad_img" type="file" value="{$info.ad_img}"  class="common-text">
+                                         <input  name="oldad_img" type="hidden" value="{$info.ad_img}"  class="common-text">
+                                         <if condition="$info['ad_img']">
+                                             <img src="{$info['ad_img']}" style="width: 80px;height: 80px" alt="">
+                                         </if>
+                                     </td>
+                                 </tr>
+                                 <tr>
+                                     <th><i class="require-red">*</i>广告地址</th>
+                                     <td><input type="text" id="" value="{$info.ad_url}" size="85" name="ad_url" class="common-text"></td>
+                                 </tr>
+                                 <tr>
+                                     <th><i class="require-red">*</i>阅读量</th>
+                                     <td><input type="text" id="" value="{$info.read_num|default='0'}" size="85" name="read_num" class="common-text"></td>
+                                 </tr>
+                                <tr>
+                                    <th><i class="require-red">*</i>点击跳转量</th>
+                                    <td><input type="text" id="" value="{$info.click_num|default='0'}" size="85" name="click_num" class="common-text"></td>
+                                </tr>
+
+
+                                <tr class="spec_cfg">
+                                    <th><i class="require-red">*</i>标签</th>
+                                    <td>
+                                        <a href="javascript:void(0);" id="addstag" type="button" class="btn btn-primary  mr10">添加标签</a>
+                                    </td>
+                                </tr>
+                                <if condition="$info['tag_json_arr']">
+                                    <volist name="info['tag_json_arr']" id="v">
+                                        <tr class="spec_cfg">
+                                            <th></th>
+                                            <td>
+                                                <input id="microtime_val" name="tag_val[]" type="text" value="{$v}"  class="common-text">
+                                                <button class="col-md-2 btn btn-sm btn-danger btnDelTag" type="button" style="border-radius:50% !important;width:30px;height:30px;padding:0;">
+                                                    <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </volist>
+                                </if>
+                                <tr>
+                                    <th><i class="require-red">*</i>排序</th>
+                                    <td><input type="text" id="sort" value="{$info.sort}" size="85" name="sort" class="common-text">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>广告详情：</th>
+                                    <td><textarea id="detail" name="detail" cols="30" style="width:800px;height:300px;" rows="10">{$info.detail}</textarea>
+                                        <script>
+                                            KindEditor.ready(function(K) {
+                                                window.editor = K.create('#detail');
+                                            });
+                                        </script>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th></th>
+                                    <td>
+                                        <input type="submit" value="提交" class="btn btn-primary btn6 mr10">
+                                        <a href="{:U('Bank/index')}"><input type="button" value="返回"  class="btn btn6"></a>
+                                    </td>
+                                </tr>
+                            </tbody></table>
+                    </div>
+                </div>
+                
+            </form>
+        </div>
+    </div>
+    <!--/main-->
+</div>
+</body>
+</html>
+
+<script>
+	KindEditor.ready(function(K) {
+		window.editor1 = K.create('#content3');
+	});
+    $(".result-content").on('click','#addstag',function () {
+        var _self = $(this);
+        $('.spec_cfg:last').after('<tr class="spec_cfg">'
+            +'<th></th>'
+            +'<td>'
+            +'<input id="" name="tag_val[]" type="text"  class="common-text">'
+            +'<button class="col-md-2 btn btn-sm btn-danger btnDelTag" type="button" style="border-radius:50% !important;width:30px;height:30px;padding:0;">'
+            +'<span class="glyphicon glyphicon-minus" aria-hidden="true"></span>'
+            +'</button>'
+            +'</td>'
+            +'</tr>'
+        );
+    });
+
+    $(document).on('click',".btnDelTag",function() {
+        $(this).closest('.spec_cfg').remove();
+    });
+
+</script>

@@ -1,0 +1,85 @@
+<include file="App/Admin/View/Public/left.html"/>
+
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i>
+            <a href="{:U('Index/index')}">系统管理</a>
+            <span class="crumb-step">&gt;</span>
+            <span class="crumb-name">菜单配置</span>
+        </div>
+    </div>
+    <div class="search-wrap">
+
+    </div>
+    <div class="result-wrap">
+
+        <div class="result-title">
+            <div class="result-list">
+                <a href="{:U('Menu/edit')}#1#0"><i class="icon-font"></i>新增菜单</a>
+            </div>
+            <form action="{:U('Menu/index')}" method="get">
+                <table class="search-tab">
+                    <tr>
+                        <td width="100">菜单名称/类别:</td>
+                        <td><input class="common-text" placeholder="菜单名称/类别" name="string" type="text" value="{$_GET['string']}"></td>
+                        <td><input class="btn btn-primary btn2"  value="查询" type="submit"></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+        <div class="result-content">
+            <table class="result-tab" width="100%">
+                <tr>
+                    <th>菜单ID</th>
+                    <th>菜单名称</th>
+                    <th>图标icon</th>
+                    <th>nav_url</th>
+                    <th>排序</th>
+                    <th>类别</th>
+                    <th>操作</th>
+                </tr>
+                <volist name='list' id='vo'>
+                    <tr>
+                        <td>{$vo['nav_id']}</td>
+                        <td>{$vo['nav_name']}</td>
+                        <td><i class="iconfont">{$vo['nav_e']}</i></td>
+                        <td>{$vo['nav_url']}</td>
+                        <td>{$vo['nav_sort']}</td>
+                        <td>{$vo['cat_id']}</td>
+                        <td>
+                            <a class="link-update" href="{:U('Menu/edit#1#0',array('nav_id'=>$vo['nav_id']))}#0#0">修改|</a>
+                            <a href="javascript:void(0)" class="link-del" onclick="cexiao('{$vo.nav_id}')">删除</a>
+                        </td>
+                    </tr>
+                </volist>
+
+            </table>
+            <div class="list-page"> <ul>{$page}</ul></div>
+        </div>
+
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>
+<script>
+    function cexiao(nav_id){
+        layer.confirm('确定删除吗？', {
+            btn: ['确定','取消'], //按钮
+            title: '撤销删除'
+        }, function(){
+            $.post("{:U('Menu/del')}",{nav_id:nav_id},function(data){
+                if(data['status'] == 1){
+                    layer.msg(data['info'],{icon:1});
+                    setTimeout(function(){location.reload();},1000);
+                }else{
+                    layer.msg(data['info']);
+                }
+            })
+        }, function(){
+            layer.msg('已取消');
+        });
+    }
+</script>

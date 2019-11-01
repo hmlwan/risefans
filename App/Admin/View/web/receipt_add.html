@@ -1,0 +1,92 @@
+<include file="App/Admin/View/Public/left.html"/>
+<style>
+    .glyphicon-minus:before {
+        content: "\2212";
+    }
+    .glyphicon {
+        position: relative;
+        top: 1px;
+        display: inline-block;
+        -webkit-font-smoothing: antialiased;
+        font-style: normal;
+        font-weight: normal;
+        line-height: 1;
+    }
+
+</style>
+<!--/sidebar-->
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font">
+        </i><a href="{:U('Index/index')}">首页</a>
+            <span class="crumb-step">&gt;</span><span class="crumb-name">收款方式</span></div>
+    </div>
+    <div class="result-wrap">
+        <form action="{:U('Web/receipt_add')}" method="post" id="myform" name="myform" enctype="multipart/form-data">
+            <input type="hidden" name="id" value="{$info.id}">
+            <div class="config-items">
+                <div class="config-title">
+                    <h1><i class="icon-font">&#xe00a;</i>阿姨添加</h1>
+                </div>
+                <div class="result-content">
+                    <table width="100%" class="insert-tab">
+                        <tbody>
+                        <tr>
+                            <th><i class="require-red">*</i>银行名称：</th>
+                            <td><input id="bank_name" name="bank_name" value="{$info.bank_name}" type="text"  class="common-text w70"></td>
+                        </tr>
+                            <tr>
+                                <th><i class="require-red">*</i>收款类型：</th>
+                                <td>
+                                    <select name="type" id="type" style="width: 150px;"  class="common-text">
+                                        <option value="1">支付宝</option>
+                                        <option value="2">微信</option>
+                                        <option value="3">银行卡</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th><i class="require-red">*</i>收款姓名：</th>
+                                <td><input id="receipt_name" name="receipt_name" value="{$info.receipt_name}" type="text"  class="common-text"></td>
+                            </tr>
+                            <tr>
+                                <th><i class="require-red">*</i>银行账户：</th>
+                                <td><input id="receipt_account" name="receipt_account" value="{$info.receipt_account}" type="text"  class="common-text"></td>
+                            </tr>
+                            <tr>
+                                <th><i class="require-red">*</i>开户网点：</th>
+                                <td><input id="account_addr" name="account_addr" value="{$info.account_addr}" type="text"  class="common-text"></td>
+                            </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>logo图片：</th>
+                            <td><input id="logo_img"  name="logo_img" value="{$info.logo_img}" type="file"  class="common-text  btn10">
+                                <img src="{$info.logo_img}" style="width: 80px;height: 80px" alt="">
+                                <input type="hidden" value="{$info.logo_img}" name="logo_img1">
+                            </td>
+                        </tr>
+
+                            <tr>
+                                <th><i class="require-red">*</i>跳转链接：</th>
+                                <td><input id="url" name="url" value="{$info.url}" type="text"  class="common-text"></td>
+                            </tr>
+                            <tr>
+                                <th></th>
+                                <td>
+                                    <input type="button" onclick="subform()" value="提交" class="btn btn-primary btn6 mr10">
+                                    <a href="{:U('Web/receipt')}"><input type="button" value="返回"  class="btn btn6"></a>
+                                </td>
+                            </tr>
+                        </tbody></table>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    function subform(){
+        $('#myform').submit();
+    }
+</script>
+</div>
+</body>
+</html>

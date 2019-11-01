@@ -1,0 +1,97 @@
+<include file="Public:header"/>
+<body>
+
+<div>
+    <header>
+        <div class="header_bt">
+            <div class="header_f"><a href="javascript:history.back()" class="header_fh"></a></div>
+            <div class="header_c">我的消息</div>
+        </div>
+        <div style="height: .74rem;clear: both;"></div>
+    </header>
+    <div class="wdxx">
+        <if condition="$list">
+            <ul>
+                <volist name="list" id="vo">
+                    <li>
+                        <div  <if condition="$vo['is_read'] neq 1">class="xx_c  factive" <else />class="xx_c"</if>>
+                            <p class="xx_l">
+                                <i></i>
+                                <span>{$vo.title} <em><if condition="$vo['is_read'] neq 1">(未读)</if></em></span>
+                            </p>
+                            <p class="xx_r">
+                                <span>{$vo.add_time|date="Y-m-d"}</span>
+                                <i data-m_id="{$vo.message_id}" data-is_read="{$vo.is_read}" ></i>
+                            </p>
+                        </div>
+                        <div class="xx_b"  style="display: none"><?php echo htmlspecialchars_decode($vo['content']); ?></div>
+                    </li>
+
+                </volist>
+
+            </ul>
+        <else />
+            <p style=" font-size: .28rem; text-align: center;margin-top: .2rem;">暂无消息</p>
+        </if>
+
+    </div>
+</div>
+
+
+<div style="height: .9rem;"></div>
+<div class="footer_main">
+    <ul>
+        <a href="index.html">
+            <li class="footer_fl">省券</li>
+        </a>
+        <a href="{:U('Welfare/outindex')}">
+            <li class="footer_f2">福利</li>
+        </a>
+        <a href="{:U('Exchange/buyview')}">
+            <li class="footer_f3">
+                兑换
+            </li>
+        </a>
+
+        <a href="b2c_fenlei_01.html">
+            <li class="footer_f4">
+                开箱
+            </li>
+        </a>
+        <a href="{:U('Member/index')}">
+            <li class="footer_f5 footer_active_f5">
+                我的
+            </li>
+        </a>
+    </ul>
+</div>
+<script>
+    $(".wdxx").find(".xx_r i").click(function () {
+         var classname = $(this).attr('class');
+         if(classname == 'active'){
+             $(this).closest(".xx_c").next(".xx_b").hide();
+             $(this).attr("class",'');
+         }else{
+             $(this).closest(".xx_c").next(".xx_b").show();
+             $(this).attr("class",'active');
+             var message_id = $(this).data('m_id');
+             var is_read = $(this).data('is_read');
+             var self = $(this);
+             if(is_read == 0){
+                 $.post("{:U('Sys/message')}",{
+                     message_id:message_id,is_read:1
+                 },function(data){
+                     if(data.status==1){
+                         self.data("is_read",1);
+                         var f_div = self.closest('div');
+                         f_div.attr('class','xx_c');
+                         f_div.find(".xx_l span").find('em').empty();
+                     }
+                 })
+             }
+         }
+    });
+
+
+</script>
+<include file="Public:footer"/>

@@ -1,0 +1,96 @@
+<include file="App/Admin/View/Public/left.html"/>
+<!--/sidebar-->
+
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list">
+            <i class="icon-font"></i>
+            <a href="{:U('Index/index')}">首页</a>
+            <span class="crumb-step">&gt;</span>
+            <span class="crumb-name">游戏类目</span>
+        </div>
+    </div>
+    <div class="search-wrap">
+
+    </div>
+    <div class="result-wrap">
+
+        <div class="result-title">
+            <div class="result-list">
+                <a href="{:U('Web/game_add')}#2#1"><i class="icon-font"></i>新增游戏类目</a>
+            </div>
+            <form action="{:U('Web/game')}" method="get">
+                <table class="search-tab">
+                    <tr>
+                        <td width="50">名称:</td>
+                        <td><input class="common-text" placeholder="名称" name="string" type="text" value="{$_GET['string']}"></td>
+                        <td><input class="btn btn-primary btn2"  value="查询" type="submit"></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+        <div class="result-content">
+            <table class="result-tab" width="100%">
+                <tr>
+
+                    <th>ID</th>
+                    <th>标题</th>
+                    <!--<th>中备注</th>-->
+                    <!--<th>下备注</th>-->
+                    <!--<th>星星数量</th>-->
+                    <th>logo</th>
+                    <th>跳转链接</th>
+                    <th>操作</th>
+                </tr>
+                <volist name='info' id='vo'>
+                    <tr>
+                        <td>{$vo['id']}</td>
+                        <td>{$vo['title']}</td>
+                        <!--<td>{$vo['desc1']}</td>-->
+                        <!--<td>{$vo['desc2']}</td>-->
+                        <!--<td>{$vo['star']}</td>-->
+                        <td>
+                            <a href="{$vo['pic']}" target="_blank">
+                                <img src="{$vo['pic']}" style="width: 80px;height: 80px" alt="">
+                            </a>
+
+                        </td>
+                        <td>{$vo['jump_url']}</td>
+                        <td>
+                            <a class="link-update" href="{:U('Web/game_add#2#1',array('id'=>$vo['id']))}#13#0">修改|</a>
+                            <a href="javascript:void(0)" class="link-del" onclick="cexiao({$vo.id})">删除</a>
+                        </td>
+                    </tr>
+                </volist>
+
+            </table>
+            <div class="list-page"> <ul>{$page}</ul></div>
+        </div>
+
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>
+<script>
+    function cexiao(id){
+        layer.confirm('确定删除吗？', {
+            btn: ['确定','取消'], //按钮
+            title: '撤销删除'
+        }, function(){
+            $.post("{:U('Web/del')}",{id:id,model:'game_list'},function(data){
+                if(data['status'] == 1){
+                    layer.msg(data['info'],{icon:1});
+                    setTimeout(function(){location.reload();},1000);
+                }else{
+                    layer.msg(data['info']);
+                }
+            })
+        }, function(){
+            layer.msg('已取消');
+        });
+
+    }
+</script>

@@ -1,0 +1,81 @@
+<include file="App/Admin/View/Public/left.html"/>
+<style>
+    .glyphicon-minus:before {
+        content: "\2212";
+    }
+    .glyphicon {
+        position: relative;
+        top: 1px;
+        display: inline-block;
+        -webkit-font-smoothing: antialiased;
+        font-style: normal;
+        font-weight: normal;
+        line-height: 1;
+    }
+</style>
+<!--/sidebar-->
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:U('Index/index')}">首页</a>
+            <span class="crumb-step">&gt;</span>
+            <span class="crumb-name">轮播图配置</span>
+        </div>
+    </div>
+    <div class="result-wrap">
+        <form action="{:U('Config/editcarousel#0#2')}" method="post" id="myform" name="myform" enctype="multipart/form-data">
+            <input type="hidden" name="id" value="{$info.id}" >
+            <div class="config-items">
+                <div class="config-title">
+                    <h1><i class="icon-font">&#xe00a;</i>配置添加</h1>
+                </div>
+                <div class="result-content">
+                    <table width="100%" class="insert-tab">
+                        <tbody>
+                        <tr>
+                            <th><i class="require-red">*</i>轮播图：</th>
+                            <td><input id="img" name="img" type="file" value="{$info.img}"  class="common-text">
+                                <input type="hidden" name="oldimg" value="{$info.img}">
+                                <if condition="$info['img']">
+                                    <img src="{$info['img']}" style="width: 80px;height: 80px" alt="">
+                                </if>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>类型：</th>
+                            <td>
+                                <select name="type" id="type"  class="common-text">
+                                    <option value="1" <if condition="$info['type'] eq 1">selected</if> >商品顶部</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>状态：</th>
+                            <td>
+                                <select name="status" id="status"  class="common-text">
+                                    <option value="1" <if condition="$info['status'] eq '1'">selected</if> >开启</option>
+                                    <option value="0" <if condition="$info['status'] eq '0'">selected</if> >关闭</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <td>
+                                <input type="button" onclick="subform()" value="提交" class="btn btn-primary btn6 mr10">
+                                <a href="{:U('Config/carousel')}"><input type="button" value="返回"  class="btn btn6"></a>
+                            </td>
+                        </tr>
+                        </tbody></table>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+    <script>
+        function subform(){
+            $('#myform').submit();
+        }
+
+    </script>
+</div>
+</body>
+</html>

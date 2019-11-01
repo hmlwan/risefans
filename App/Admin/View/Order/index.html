@@ -1,0 +1,134 @@
+<include file="App/Admin/View/Public/left.html"/>
+<!--/sidebar-->
+
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list">
+            <i class="icon-font"></i>
+            <a href="{:U('Index/index')}">首页</a>
+            <span class="crumb-step">&gt;</span>
+            <span class="crumb-name">订单管理</span>
+        </div>
+    </div>
+    <div class="search-wrap">
+
+    </div>
+    <div class="result-wrap">
+
+        <div class="result-title">
+
+            <form action="{:U('Order/index#5#0')}" method="get">
+                <table class="search-tab">
+                    <tr>
+                        <td width="80">商品名称:</td>
+                        <td><input class="common-text" placeholder="商品名称" name="good_name" type="text" value="{$_GET['good_name']}"></td>
+                        <td width="50">手机号:</td>
+                        <td><input class="common-text" placeholder="手机号" name="phone" type="text" value="{$_GET['phone']}"></td>
+                        <td><input class="btn btn-primary btn2"  value="查询" type="submit"></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+        <div class="result-content">
+            <table class="result-tab" width="100%">
+                <tr>
+
+                    <th>ID</th>
+                    <th>用户手机号</th>
+                    <th>商品名称</th>
+                    <th>币种名称</th>
+                    <th>商品图片</th>
+                    <th>规格</th>
+                    <th>商品单价</th>
+                    <th>购买数量</th>
+                    <th>快递单号</th>
+                    <th>收货姓名</th>
+                    <th>收货地址</th>
+                    <th>收货电话</th>
+                    <th>退货备注</th>
+                    <th>状态</th>
+                    <th>创建时间</th>
+                    <th>操作</th>
+                </tr>
+                <volist name='info' id='vo'>
+                    <tr>
+                        <td>{$vo['id']}</td>
+                        <td>{$vo['phone']}</td>
+                        <td>{$vo['good_name']}</td>
+                        <td>{$vo['currency_name']}</td>
+                        <td><img src="{$vo['logo']}" style="width: 80px;width: 80px" alt=""></td>
+                        <td> {$vo['spec']}</td>
+                        <td> {$vo['price']}</td>
+                        <td> {$vo['num']}</td>
+                        <td> {$vo['delivery_no']}</td>
+                        <td> {$vo['receipt_name']}</td>
+                        <td> {$vo['receipt_address']}</td>
+                        <td> {$vo['receipt_phone']}</td>
+                        <td>{$vo['remark']}</td>
+                        <td>
+                            <switch name="vo['status']">
+                                <case value="0"><span class="blue">等待发货中</span></case>
+                                <case value="2"><span>已发货</span></case>
+                                <case value="3"><span  class="red">已退货</span></case>
+                            </switch>
+                        </td>
+                        <td>{$vo['add_time']|date="Y-m-d H:i:s",###}</td>
+                        <td>
+                            <if condition="$vo['status'] eq 0">
+                                <a class="link-update" href="{:U('Order/delivery_order',array('id'=>$vo['id']))}">填写快递单号|</a>
+                            </if>
+                            <if condition="$vo['status'] neq 3">
+                                <a class="link-update" href="{:U('Order/return_order',array('id'=>$vo['id']))}">退货|</a>
+                            </if>
+                            <a href="javascript:void(0)" class="link-del" onclick="cexiao({$vo.id})">删除</a>
+                        </td>
+                    </tr>
+                </volist>
+            </table>
+            <div class="list-page"> <ul>{$page}</ul></div>
+        </div>
+
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>
+<script>
+    function cexiao(id){
+        layer.confirm('确定删除吗？', {
+            btn: ['确定','取消'], //按钮
+            title: '撤销删除'
+        }, function(){
+            $.post("{:U('Order/del')}",{id:id,model:'order'},function(data){
+                if(data['status'] == 1){
+                    layer.msg(data['info'],{icon:1});
+                    setTimeout(function(){location.reload();},1000);
+                }else{
+                    layer.msg(data['info']);
+                }
+            })
+        }, function(){
+            layer.msg('已取消');
+        });
+    }
+    function audit(id,status){
+        layer.confirm('确定操作吗？', {
+            btn: ['确定','取消'], //按钮
+            title: '撤销删除'
+        }, function(){
+            $.post("{:U('Record/audit')}",{id:id,type:1,status:status},function(data){
+                if(data['status'] == 1){
+                    layer.msg(data['info'],{icon:1});
+                    setTimeout(function(){location.reload();},1000);
+                }else{
+                    layer.msg(data['info']);
+                }
+            })
+        }, function(){
+            layer.msg('已取消');
+        });
+    }
+
+</script>

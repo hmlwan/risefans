@@ -1,0 +1,75 @@
+<include file="App/Admin/View/Public/left.html"/>
+<style>
+    .glyphicon-minus:before {
+        content: "\2212";
+    }
+    .glyphicon {
+        position: relative;
+        top: 1px;
+        display: inline-block;
+        -webkit-font-smoothing: antialiased;
+        font-style: normal;
+        font-weight: normal;
+        line-height: 1;
+    }
+
+</style>
+<!--/sidebar-->
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font">
+        </i><a href="{:U('Index/index')}">首页</a>
+            <span class="crumb-step">&gt;</span><span class="crumb-name">网站管理</span></div>
+    </div>
+    <div class="result-wrap">
+        <form action="{:U('Web/bank_edit')}" method="post" id="myform" name="myform" enctype="multipart/form-data">
+            <input type="hidden" name="id" value="{$info.id}">
+            <div class="config-items">
+                <div class="config-title">
+                    <h1><i class="icon-font">&#xe00a;</i>银行卡编辑</h1>
+                </div>
+                <div class="result-content">
+                    <table width="100%" class="insert-tab">
+                        <tbody>
+                            <tr>
+                                <th><i class="require-red">*</i>提款银行：</th>
+                                <td><input id="bank_name" name="bank_name" value="{$info.bank_name}" type="text"  class="common-text w70"></td>
+                            </tr>
+                            <tr>
+                                <th><i class="require-red">*</i>银行卡号：</th>
+                                <td><input id="bank_no" name="bank_no" value="{$info.bank_no}" type="text"  class="common-text w70"></td>
+                            </tr>
+
+                            <tr>
+                                <th><i class="require-red">*</i>持卡人：</th>
+                                <td><input id="be_username" name="be_username" value="{$info.be_username}" type="text"  class="common-text"></td>
+                            </tr>
+                            <tr>
+                                <th><i class="require-red">*</i>开户网点：</th>
+                                <td><input id="account_addr" name="account_addr" value="{$info.account_addr}" type="text"  class="common-text"></td>
+                            </tr>
+                            <tr>
+                                <th><i class="require-red">*</i>提款密码：</th>
+                                <td><input id="tk_pwd" name="tk_pwd" value="" type="password"  class="common-text"><span id="showBug" style=" margin-left:10px;color:#FF0000">为空则不修改</span></td>
+                            </tr>
+                            <tr>
+                                <th></th>
+                                <td>
+                                    <input type="button" onclick="subform()" value="提交" class="btn btn-primary btn6 mr10">
+                                    <a href="{:U('Web/bank')}"><input type="button" value="返回"  class="btn btn6"></a>
+                                </td>
+                            </tr>
+                        </tbody></table>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    function subform(){
+        $('#myform').submit();
+    }
+</script>
+</div>
+</body>
+</html>

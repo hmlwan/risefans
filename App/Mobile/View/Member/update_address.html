@@ -1,0 +1,111 @@
+<include file="Public:header"/>
+<body  style="background-color: #f5f7f6">
+
+<div>
+    <header>
+        <div class="header_bt">
+            <div class="header_f">
+                <if condition="$Think.get.type eq 1">
+                    <a href="{:U('Order/mem_goods_detail',array('id'=>$_GET['id']))}" class="header_fh"></a>
+                <else />
+                    <a href="{:U('Member/mem_info')}" class="header_fh"></a>
+                </if>
+            </div>
+            <div class="header_c">修改我的地址</div>
+        </div>
+        <div style="height: .74rem;clear: both;"></div>
+    </header>
+    <div class="xgzfb">
+        <div class="xgzfb_top">
+            <p>
+                <i></i>
+                <span>请详细并正确填写以下信息，以防兑换的奖品不能送达到你的手中</span>
+            </p>
+        </div>
+        <div class="xg_c">
+            <div class="xg_info">
+                <span>收件人</span>
+                <span><input type="text" name="receipt_name" class="require" placeholder="请输入收件人"  value="{$mem_address.receipt_name}"></span>
+            </div>
+            <div class="xg_info">
+                <span>手机号</span>
+                <span><input type="text" name="receipt_phone" class="require"  placeholder="请输入手机号"  value="{$mem_address.receipt_phone}"></span>
+            </div>
+            <div class="xg_info long_line">
+                <span>具体地址</span>
+                <span>
+                    <textarea name="receipt_address" id="receipt_address"  placeholder="请输入具体地址" class="require" >{$mem_address.receipt_address}</textarea>
+                </span>
+            </div>
+        </div>
+        <p class="bottom_c">我们承诺严密保障你的个人信息安全，请放心填写</p>
+    </div>
+</div>
+<div class="xgqr_btn" onclick="sub()">
+    确认修改
+</div>
+<div style="height: .9rem;"></div>
+<div class="footer_main">
+    <ul>
+        <a href="index.html">
+            <li class="footer_fl">省券</li>
+        </a>
+        <a href="{:U('Welfare/outindex')}">
+            <li class="footer_f2">福利</li>
+        </a>
+        <a href="{:U('Exchange/buyview')}">
+            <li class="footer_f3">
+                兑换
+            </li>
+        </a>
+
+        <a href="b2c_fenlei_01.html">
+            <li class="footer_f4">
+                开箱
+            </li>
+        </a>
+        <a href="{:U('Member/index')}">
+            <li class="footer_f5 footer_active_f5">
+                我的
+            </li>
+        </a>
+    </ul>
+</div>
+
+<script>
+    function sub(){
+        var receipt_name = $("input[name='receipt_name']").val();
+        var receipt_phone = $("input[name='receipt_phone']").val();
+        var receipt_address = $("textarea[name='receipt_address']").val();
+
+        var check_msg = Utils.check_require($('.xgzfb'));
+        if(check_msg.is_require == 0){
+            layer.msg(check_msg.msg);
+            return false;
+        }
+        if(!Utils.isTel(receipt_phone)){
+            layer.msg("手机号码格式错误");
+            return false;
+        }
+
+        $.post("{:U('Member/update_address')}",{
+            receipt_name:receipt_name,
+            receipt_phone:receipt_phone,
+            receipt_address:receipt_address,
+        },function(data){
+            if(data.status==1){
+                layer.msg(data.info,{icon:1});
+//                window.setTimeout(function(){
+//                    window.location="{:U('Member/mem_info')}";
+//                },1000);
+            }else{
+                layer.msg(data.info);
+                return false;
+            }
+        })
+    };
+
+</script>
+<include file="Public:footer"/>
+
+

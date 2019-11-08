@@ -1,0 +1,155 @@
+    <include file="App/Admin/View/Public/left.html"/>
+     <script type="text/javascript" charset="utf-8" src="__PUBLIC__/kindeditor/kindeditor.js"></script>
+	<script type="text/javascript" charset="utf-8" src="__PUBLIC__/kindeditor/lang/zh_CN.js"></script>
+    <script type="text/javascript" charset="utf-8" src="__PUBLIC__/kindeditor/plugins/prettify.js"></script>
+    <!--/sidebar-->
+    <style>
+        .glyphicon-minus:before {
+            content: "\2212";
+        }
+        .glyphicon {
+            position: relative;
+            top: 1px;
+            display: inline-block;
+            -webkit-font-smoothing: antialiased;
+            font-style: normal;
+            font-weight: normal;
+            line-height: 1;
+        }
+    </style>
+    <div class="main-wrap">
+        <div class="crumb-wrap">
+            <div class="crumb-list"><i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span class="crumb-name">每日签到设置</span></div>
+        </div>
+        <div class="result-wrap">
+            <form action="{:U('Task/signconfig#5#0')}" method="post" id="myform" name="myform" enctype="multipart/form-data">
+                <input type="hidden" value="{$info.id}" name="id">
+                <div class="config-items">
+                    <div class="config-title">
+                        <h1><i class="icon-font">&#xe00a;</i>每日签到配置</h1>
+                    </div>
+                    <div class="result-content">
+                        <table width="100%" class="insert-tab">
+                            <tbody>
+                                <tr>
+                                    <th width="15%">1天</th>
+                                    <td>
+                                        <select name="cur_id_1"   class="common-text w200">
+                                            <volist name="cur_list" id="vo">
+                                                <option value="{$vo.currency_id}" <if condition="$info['cur_id_1'] eq $vo['currency_id'] ">selected</if>>{$vo.currency_name}</option>
+                                            </volist>
+                                        </select>
+                                        <input type="text" name="num_1" class="common-text" value="{$info.num_1|default=1}">
+                                        <i class="require-red">（默认：1）</i>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th width="15%">2天</th>
+                                    <td>
+                                        <select name="cur_id_2"   class="common-text w200">
+                                            <volist name="cur_list" id="vo">
+                                                <option value="{$vo.currency_id}" <if condition="$info['cur_id_2'] eq $vo['currency_id'] ">selected</if>>{$vo.currency_name}</option>
+                                            </volist>
+                                        </select>
+                                        <input type="text" name="num_2" class="common-text" value="{$info.num_2|default=1}">
+                                        <i class="require-red">（默认：1）</i>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th width="15%">3天</th>
+                                    <td>
+                                        <select name="cur_id_3"   class="common-text w200">
+                                            <volist name="cur_list" id="vo">
+                                                <option value="{$vo.currency_id}" <if condition="$info['cur_id_3'] eq $vo['currency_id'] ">selected</if>>{$vo.currency_name}</option>
+                                            </volist>
+                                        </select>
+                                        <input type="text" name="num_3" class="common-text" value="{$info.num_3|default=1}">
+                                        <i class="require-red">（默认：1）</i>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th width="15%">4天</th>
+                                    <td>
+                                        <select name="cur_id_4"   class="common-text w200">
+                                            <volist name="cur_list" id="vo">
+                                                <option value="{$vo.currency_id}" <if condition="$info['cur_id_4'] eq $vo['currency_id'] ">selected</if>>{$vo.currency_name}</option>
+                                            </volist>
+                                        </select>
+                                        <input type="text" name="num_4" class="common-text" value="{$info.num_4|default=1}">
+                                        <i class="require-red">（默认：1）</i>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th width="15%">5天</th>
+                                    <td>
+                                        <select name="cur_id_5"   class="common-text w200">
+                                            <volist name="cur_list" id="vo">
+                                                <option value="{$vo.currency_id}" <if condition="$info['cur_id_5'] eq $vo['currency_id'] ">selected</if>>{$vo.currency_name}</option>
+                                            </volist>
+                                        </select>
+                                        <input type="text" name="num_5" class="common-text" value="{$info.num_5|default=1}">
+                                        <i class="require-red">（默认：1）</i>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th width="15%">6天</th>
+                                    <td>
+                                        <select name="cur_id_6"   class="common-text w200">
+                                            <volist name="cur_list" id="vo">
+                                                <option value="{$vo.currency_id}" <if condition="$info['cur_id_6'] eq $vo['currency_id'] ">selected</if>>{$vo.currency_name}</option>
+                                            </volist>
+                                        </select>
+                                        <input type="text" name="num_6" class="common-text" value="{$info.num_6|default=1}">
+                                        <i class="require-red">（默认：1）</i>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th width="15%">7天</th>
+                                    <td>
+                                        <select name="cur_id_7"   class="common-text w200">
+                                            <volist name="cur_list" id="vo">
+                                                <option value="{$vo.currency_id}" <if condition="$info['cur_id_7'] eq $vo['currency_id'] ">selected</if>>{$vo.currency_name}</option>
+                                            </volist>
+                                        </select>
+                                        <input type="text" name="num_7" class="common-text" value="{$info.num_7|default=1}">
+                                        <i class="require-red">（默认：1）</i>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th></th>
+                                    <td>
+                                        <input type="submit" value="提交" class="btn btn-primary btn6 mr10">
+                                        <a href="{:U('Task/signconfig#5#0')}"><input type="button" value="返回"  class="btn btn6"></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+            </form>
+        </div>
+    </div>
+    <!--/main-->
+</div>
+</body>
+</html>
+
+<script>									
+	KindEditor.ready(function(K) {
+		window.editor1 = K.create('#content3');	
+	});
+    $(".result-content").on('click','#addnums',function () {
+        var _self = $(this);
+        $('.nums_item td').append('<span class="num_item"><input id="num_val" name="num_val[]" type="text"  class="common-text btn4 ml10">'
+            +'<button class="col-md-2 btn btn-sm btn-danger btnDel" type="button" style="border-radius:50% !important;width:30px;height:30px;padding:0;">'
+            +'<span class="glyphicon glyphicon-minus" aria-hidden="true"></span>'
+            +'</button></span>'
+        );
+    });
+
+    $(document).on('click',".btnDel",function() {
+        $(this).closest('.num_item').remove();
+    });
+
+</script>

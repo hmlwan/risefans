@@ -1,0 +1,172 @@
+body{
+	font-size: .26rem;
+}
+.my_head{
+	padding:.2rem .16rem .3rem;
+	box-sizing: border-box;
+}
+
+.my_head strong{
+	font-size: .3rem;
+}
+.my_head img{
+	width: .8rem;
+	vertical-align: middle;
+	margin-right: .3rem;
+}
+.my_gold{
+	margin: 0 auto;
+	width:90%;
+	padding: 0 .3rem;
+	box-sizing: border-box;
+	border: 2px solid #ececec;
+	border-radius: 3px;
+	text-align: center;
+}
+.my_gold li{
+	width: 50%;
+	padding: .4rem 0 .2rem;
+}
+.my_gold div strong{
+	position: relative;
+	left: .5rem;
+}
+.my_gold div img{
+	width: .8rem;
+	position: relative;
+	top: -.4rem;
+	left: .5rem;
+}
+.my_gold li:last-child{
+}
+
+.my_gold strong{
+	font-size: .4rem;
+}
+.my_gold p {
+	color: #9a9a9a;
+	line-height: 2;
+	
+}
+.my_list{
+	padding: .2rem 0  0 .2rem;
+	border-bottom: 1px solid #f5f5f7;
+	box-sizing: border-box;
+}
+
+.my_list li{
+	border-bottom: 1px solid #f3f3f3;
+	padding: .2rem .3rem .2rem 0;
+	color: #252525;
+}
+
+.my_list li:last-child{
+	border-bottom: 0;
+}
+.my_list img{
+	width: .5rem;
+	height: .5rem;
+}
+
+.my_list p img{
+	width: .56rem;
+	height: .56rem;
+	vertical-align: middle;
+	margin-right: .3rem;
+}
+
+.my_list li:first-child p img{
+	width: .68rem;
+	margin-right: .2rem;
+}
+.advance{
+	padding: .25rem;
+	box-sizing: border-box;
+}
+
+.advance img{
+	width: 100%;
+	height: 4rem;
+	margin-top: .25rem;
+	background-color:#efeff1 ;
+}
+.current_gold_head{
+	color: #fff;
+	background-image: url(../../images/rise/bj.png);
+	position: relative;
+	height: 3rem;
+	margin-bottom: 1.4rem;
+	    box-sizing: border-box;
+}
+
+.current_gold_head img{
+	width: .36rem;
+}
+
+.current_gold_head a{
+	color: #fff;
+}
+.current_box{
+	width: 93%;
+	position: absolute;
+	margin: .4rem auto 0;
+	padding: .2rem .5rem;
+	box-sizing: border-box;
+	background: #fff url(../../images/rise/gold.png) no-repeat right bottom;
+	background-size:29%;
+	border-radius: .15rem;
+	color: #999;
+	font-size: .23rem;
+	line-height: 1.4;
+	box-shadow: 0 .2rem .2rem -.1rem   #f5f0ed;
+}
+.current_box div strong{
+	display: block;
+	font-size: .5rem;
+	color: #222;
+	line-height: 1.6;
+	margin-bottom: .2rem;
+}
+.current_box button{
+    display: block;
+    width: 1.2rem;
+    height: .56rem;
+    line-height: .56rem;
+    font-size: .25rem;
+    background-color: #fe9923;
+    color: #fff;
+    border-radius: .3rem;
+    margin-top: .1rem;
+}
+.current_box ul li{
+	width: 39%;
+	padding-bottom:.18rem;
+	border-bottom: 1px solid #f9f9f9;
+	margin-bottom: .18rem;
+}
+
+.current_box ul p{
+	color: #222;
+}
+.current_box ul strong{
+	font-size:.26rem;
+	color: #222;
+}
+.textcenter{
+	text-align: center;
+	padding: .2rem 0;
+	color: #252525;
+}
+
+.textcenter span{
+	display: inline-block;
+	width:.4rem ;
+	border-bottom: 2px solid #eee;
+	vertical-align: middle;
+	
+}
+
+.textcenter text{
+	margin: 0 .2rem;
+}
+

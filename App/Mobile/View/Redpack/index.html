@@ -1,0 +1,156 @@
+<include file="Public:header"/>
+<link type="text/css" rel="stylesheet" href="__CSS__/project/hongbao.css" />
+<body class="padbody">
+		<header class="header">
+			<img src="__IMG__/rise/q.png"/><span>如何赚钱</span>
+		</header>
+		<div class="clock flexbox">
+			<div class="imgclock ">
+				<img src="__IMG__/rise/b.png"/>
+				<img src="__IMG__/rise/b.png" class="selfalign"/>
+			</div>
+			<div class="midclock">
+				<div class="wrap"  id="clock"></div>
+				
+				<div class="inner">
+					<div class="top_num">
+						<p>3000</p>
+						<img src="__IMG__/rise/bg.png"/>
+					</div>
+					<div class="sec_num flexbox spacebetween">
+						<p>1500</p>
+						<p>4500</p>
+					</div>
+					<div class="mid_num">
+						<strong><b>5700</b>剩</strong>
+						<p>VIP1可领10个红包</p>
+					</div>
+					<div class="bottom_num flexbox spacebetween">
+						<p>0</p>
+						<p>6000</p></div>
+				</div>
+				<a href="{:U('Redpack/watch_ad')}"><button>领取红包</button></a>
+			</div>
+			<div class="imgclock ">
+				<img src="__IMG__/rise/b.png"/>
+				<img src="__IMG__/rise/b.png"/>
+			</div>
+		</div>
+		<div class="history">
+			<div class="flexbox spacebetween">
+				<strong class="flexbox spacebetween"><img src="__IMG__/rise/data.png"/><b>领取记录</b></strong>
+				<a class="flexbox spacebetween">查看更多 <img src="__IMG__/rise/right.png"/></a>
+			</div>
+			<div class="historyul flexbox spacebetween">
+				<div>
+					<strong><b>163</b>次</strong>
+					<p>累计领取</p>
+				</div>
+				<div>
+					<strong><b>16443</b>次</strong>
+					<p>累计领取</p>
+				</div>
+				<div>
+					<strong><b>1653</b>次</strong>
+					<p>今日领取</p>
+				</div>
+			</div>
+			
+		</div>
+		<div class="hot">
+			<div class="flexbox"><img src="__IMG__/rise/hot.png"/><b>热门活动</b></div>
+			<a href="">
+				<img src="__IMG__/rise/1.png"/>
+			</a>
+		</div>
+		<div style="height: .9rem;"></div>
+		<div class="footer_main">
+			<ul>
+				<a href="{:U('Redpack/index')}">
+					<li class="footer_fl footer_active_f1">红包</li>
+				</a>
+				<a href="{:U('Welfare/outindex')}">
+					<li class="footer_f2">分红</li>
+				</a>
+				<a href="{:U('Exchange/buyview')}">
+					<li class="footer_f3">
+						邀请
+					</li>
+				</a>
+
+				<a href="b2c_fenlei_01.html">
+					<li class="footer_f4">
+						任务
+					</li>
+				</a>
+				<a href="{:U('Member/index')}">
+					<li class="footer_f5">
+						我的
+					</li>
+				</a>
+			</ul>
+		</div>
+		<script type="text/javascript">
+			var url = "http://hmlwan521.com/Home/Index/reg";
+
+			$.post(url,{
+
+			},function(data){
+				console.log(data);return
+				if(data.status==1){
+					layer.msg(data.info,{icon:1});
+
+					window.setTimeout(function(){
+						window.location="{:U('Member/index')}";
+					},1000);
+				}else{
+					layer.msg(data.info);
+					return false;
+				}
+			})
+
+
+
+				creatClock();
+			//生成指针
+			function creatClock(){
+
+				let tempclock='';
+				for(let i=0;i<61;i++){
+					tempclock+='<div style="transform: rotate('+i*4+'deg)" class="time1"></div>';					
+				}
+//				console.log(tempclock,111)
+				$("#clock").prepend(tempclock);
+				$("#clock div").each(function(i,item){
+//					console.log(i,item)
+					//修改长针
+					if(i%15==0 || i==0) {
+						$(item).addClass('time').removeClass('time1');
+						
+						if( i==0){
+							$(item).addClass('time0')
+						} else
+						if(i==15 ){
+							$(item).addClass('time2')
+						} else
+						if(i==30 ){
+							$(item).addClass('time3')
+						}else
+						if(i==45){
+							$(item).addClass('time4')
+						}
+						else
+						if(i==60){
+							$(item).addClass('time5')
+						}
+					}
+					//修改背景色
+					if(i<4){
+						$(item).addClass('borderC')
+					}
+					
+				})
+			}
+		</script>
+
+		<include file="Public:footer"/>

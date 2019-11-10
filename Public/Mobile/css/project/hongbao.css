@@ -1,0 +1,327 @@
+body{	
+	font-size: .26rem;
+}
+.padbody{
+	padding: .5rem .2rem;
+}
+.header{
+	display: flex;
+	align-items: center;
+    width: 100%;
+    padding-left: .2rem;
+    line-height: .4rem;
+    margin-bottom: .4rem;
+}
+.header img{
+	width: .4rem;
+    height: .4rem;
+    margin-right: .1rem;
+}
+.header span{
+	font-size: .3rem;
+    color: #e67b33;
+    line-height: .56rem;
+}
+.clock {
+	margin-bottom: .4rem;
+}
+.imgclock{    
+	    width: 2rem;
+    height: 4.2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.imgclock img{
+	width: 1rem;
+    height: 1rem;
+}
+.imgclock .selfalign{
+	align-self: flex-end;
+}
+.midclock{
+	width: 3.2rem;
+    padding: 0 .3rem;
+    position: relative;
+    left: -1%;
+}
+
+.wrap {
+	    width: 4rem;
+    height: 5rem;
+    position: relative;
+    top: -.5rem;
+    left: 0%;
+    transform: rotate(-120deg);
+}
+.inner{
+	    position: absolute;
+    top: .1rem;
+    left: 12%;
+    width: 82%;
+    height: 100%;
+    font-size: .22rem;
+    color: #dedccf;
+}
+.top_num{
+	text-align: center;
+	line-height: 1.6;
+	padding-top: .2rem;
+}
+.top_num img{
+	    width: .5rem;
+    height: .5rem;
+}
+
+.mid_num{
+	text-align: center;
+	    font-size: .24rem;
+    padding-bottom: .3rem;
+}
+
+.mid_num strong{
+	font-size: .35rem;
+	color: #353535;
+}
+.mid_num b{
+	    font-size: .56rem;
+}
+.bottom_num {
+	padding: 0 .1rem;
+}
+.time,
+.time1 {
+	    width: 0;
+    height: 20px;
+    border-left: 4px solid #f4dcc2;
+    border-radius: 2px;
+    transform-origin: 0 140px;
+    position: absolute;
+    top: 0;
+    left: 50%;
+	
+}
+.time {
+	    width: 2px;
+    height: 24px;
+}
+.time2{
+	transform-origin: 4px 142px;
+}
+
+.time0{
+	    top: -4px;
+}
+
+.time3{
+    transform-origin: 1px 142px;
+}
+.time4{
+	transform-origin: 0px 142px;
+}
+.time5{
+	    transform-origin: -1px 142px;
+}
+.borderC{
+	border-color: #f6810f;
+}
+.midclock button{
+	position: absolute;
+    bottom: 18.4%;
+    left: 50%;
+    margin-left: -1.8rem;
+    width: 3.6rem;
+    height: .8rem;
+    border-radius: .8rem;
+    background: linear-gradient(to bottom,#ffc90a, #ff9908);
+    color: #fff;
+    font-size: .3rem;
+    border: 0;
+    box-shadow: 0 4px 0 0 #ffe8ce;
+}
+
+.history .flexbox{
+	margin-bottom: .2rem;
+	align-items: center;
+	
+}
+.history .flexbox strong b,
+.hot  .flexbox b {
+	font-size: .3rem;
+	
+}
+.history .flexbox a{
+	font-size: .28rem;
+	color: #bdbdbf;
+}
+
+.history .flexbox strong img{
+	    width: .6rem;
+    height: .6rem;
+    margin-right: .1rem;
+}
+
+.history .flexbox a img{
+	width: .4rem;
+	height: .4rem;
+}
+
+.history .flexbox strong{
+	font-size: .28rem;
+	color: #353535;
+	
+}
+.history .flexbox div{
+	text-align: center;
+}
+
+.historyul {
+	padding:0 .4rem;
+}
+
+.history .flexbox p{
+	margin: .1rem 0 .4rem;
+	color: #bdbdbf;
+	font-size: .24rem;
+}
+.hot .flexbox img{
+	width: .4rem;
+	margin: 0 .1rem .28rem 0;
+}
+
+.hot a img{
+	    width: 100%;
+    height: 3rem;
+    margin: .2rem 0;
+}
+
+/*观看广告*/
+.black{
+	background-color: #000;
+	color: #fff;
+	padding: 0 .2rem;
+}
+
+.ad{
+	margin-top: 2.2rem;
+    font-size: .3rem;
+    text-align: center;
+    line-height: 1.6;
+}
+.ad_top{
+	width: 80%;
+	padding: .8rem 0 .4rem;
+	margin: .2rem auto;
+	border-radius: .2rem;
+	background-color: #323347;
+	position: relative;
+}
+
+.ad_top>img{
+	    position: absolute;
+    top: -26%;
+    left: 30%;
+    width: 2rem;
+}
+
+.ad_top button{
+	width: 60%;
+	height: .7rem;
+	font-size: .3rem;
+	font-weight: bold;
+	background: #fdd100;
+	color: #904619;
+	border: 0;
+	border-radius: .35rem;
+	margin: .3rem 0 .4rem;
+}
+.ad_gold{
+	font-size: .25rem;
+}
+.ad_gold img{
+	width: .26rem;
+	
+}
+.ad_text {
+	padding: .2rem 0;
+}
+.ad_text span{
+	display: inline-block;
+    font-size: .3rem;
+    width: 5.8rem;
+    height: .6rem;
+    line-height: .6rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.ad_text a{
+	display: inline-block;
+	width: 3rem;
+	font-size: .3rem;
+	border: 1px solid #f7eb33;
+	color: #f7eb33;
+	border-radius: .5rem;
+}
+
+.more_score {
+	padding: .2rem;
+	align-items: center;
+	box-sizing: border-box;
+}
+.more_score img{
+	width: .48rem;
+	height: .48rem;
+	vertical-align: middle;
+}
+.more_score strong{
+	display: inline-block;
+	width: 80%;
+	text-align: center;
+	font-size:.3rem;
+}
+.more_ul{
+	padding:0 .3rem;
+	line-height: 2;
+	font-size: .25rem;
+}
+
+.more_ul dt {
+	font-weight: bold;
+	font-size: .26rem;
+	padding-left:.32rem;
+	background: url(../../images/rise/leftdot1.png) no-repeat 0 24%;
+    background-size: 2%;
+}
+.more_ul1 dt{
+	background-image: url(../../images/rise/leftdot.png);
+}
+.more_ul dd{
+	padding-left:.32rem;
+	font-size: 0.25rem;
+	background: url(../../images/rise/leftline.png) repeat-y 2px;
+    background-size: 0.8% 100%;
+	
+}
+.more_ul div{
+	color: #999;
+}
+
+.more_ul div time{
+	margin-right: 1rem;
+}
+
+
+
+.more_ul p{
+	color: #222;
+}
+
+.more_ul p span{
+	color: #e65f42;
+	margin-right: .2rem;
+}
+.more_ul .reduce span{
+	color: #999;
+}

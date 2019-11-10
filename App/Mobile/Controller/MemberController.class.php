@@ -23,11 +23,9 @@ class MemberController extends HomeController {
             'type' => 1,
             'add_time' => array('between',array(strtotime(date("Y-m-d 00:00:00",time())),strtotime(date("Y-m-d 23:59:59",time()))))
         );
-       $sign_record = M("luckdraw_record")->where($sign_where)->find();
+//       $sign_record = M("luckdraw_record")->where($sign_where)->find();
        $is_sign = 0;
-        if($sign_record){
-            $is_sign = 1;
-        }
+
 
         $this->assign('member_info',$member_info);
         $this->assign('is_sign',$is_sign);
@@ -235,8 +233,15 @@ class MemberController extends HomeController {
         }
     }
 
+    /*我的金币*/
+    public function my_coin(){
+        $this->display();
+    }
 
-
+    /*当前金币*/
+    public function cur_coin(){
+        $this->display();
+    }
 
 
 

@@ -1,90 +1,79 @@
 <include file="Public:header"/>
-<body>
-    <div class="box">
-        <div class="header_item">
-            <div  class="header_l">
-                <img src="__IMG__/logo1.png" alt="">
-            </div>
-            <ul>
-                <li>
-                    <span style="font-weight: bold;">星力正版</span>
-                    <img src="__IMG__/star.png" alt="">
-                    <img src="__IMG__/star.png" alt="">
-                    <img src="__IMG__/star.png" alt="">
-                    <img src="__IMG__/star.png" alt="">
-                </li>
-                <li class="header_s">
-                    <span>官方版</span>
-                    <span>信誉好</span>
-                    <span>爆率高</span>
-                </li>
-                <li  style="font-weight: bold;">信誉捕鱼平台</li>
-            </ul>
-            <div class="shangfen">
-                <a href="{:U('Member/index')}"><img src="__IMG__/download111.png" alt=""></a>
-            </div>
-        </div>
-        <div class="con_item">
-            <img src="__IMG__/1280-720logo左上(1).jpg" alt="">
-        </div>
-        <!--游戏类目-->
-        <div class="game_cate category">
-           <h1>游戏类目</h1>
-            <ul>
-                <volist name="list" id="vo">
-                    <li>
-                        <img style="height: 1rem;" src="{$vo.pic}" alt="">
-                        <div>
-                            <h2>{$vo.title}</h2>
-                            <p>
-                                <span>{全部真实玩家，全网最火爆}</span>
-                                <span> | </span>
-                                <img src="__IMG__/star.png" alt="">
-                                <img src="__IMG__/star.png" alt="">
-                                <img src="__IMG__/star.png" alt="">
-                            </p>
-                            <!--<h3>请添加渔乐王国客服QQ：1441348990(诚信在线)</h3>-->
-                        </div>
-                        <a href="{$vo.jump_url}" target="_blank">
-                            <button>下载游戏</button>
-                        </a>
-                    </li>
-                </volist>
-            </ul>
-        </div>
-        <!--人气捕鱼-->
-        <div class="rq_detail category">
-            <h1>游戏详情</h1>
-            <div class="detail">
-                <img class="game-title" src="__IMG__/details11.jpg" alt="">
-                <img class="game-con" src="__IMG__/banner-3-yqs_02.jpg" alt="">
-                <img class="game-title" src="__IMG__/details333.jpg" alt="">
-                <img class="game-con" src="__IMG__/lALPBbCc1rNZIrnNAtDNBQA.jpg" alt="">
-            </div>
-        </div>
-        <!--<div class="copyright">-->
-            <!--一条金龟值10000-->
-        <!--</div>-->
-        <!--底部导航-->
-        <div class="footer_main">
-            <ul>
-                <a href="{:U('Index/index')}">
-                    <li class="footer_sy">首页<i class="footer_active"></i></li>
-                </a>
-                <a href="{:U('Member/index')}">
-                    <li class="footer_fl">上分/下分</li>
-                </a>
-                <a href="{$config.online_kefu}">
-                    <li class="footer_tg"> 在线客服</li>
-                </a>
-                <a href="{:U('Member/index')}">
-                    <li class="footer_hyzx">个人中心</li>
-                </a>
-            </ul>
-        </div>
-    </div>
+<link type="text/css" rel="stylesheet" href="__CSS__/project/my.css" />
 
-</body>
+<body >
+<header class="my_head">
+    <img src="../任务/img/AD.png"/><strong>176****1222</strong>
+</header>
+<ul class="my_gold flexbox spacebetween">
+    <li>
+        <div><strong>5210</strong><img src="img/tx.png"/></div>
+        <p>当前金币</p>
+    </li>
+    <li>
+        <div><strong>52</strong><img src="img/cz.png"/></div>
+        <p>金额(币)</p>
+    </li>
+</ul>
+<ul class="my_list">
+    <li>
+        <a href="" class="flexbox spacebetween">
+            <p><img src="img/vip1.png"/><span>VIP会员</span></p><img src="../红包/img/right.png"/>
+        </a>
+    </li>
+    <li>
+        <a href="" class="flexbox spacebetween">
+            <p><img src="img/hd.png"/><span>福利活动</span></p><img src="../红包/img/right.png"/>
+        </a>
+    </li>
+    <li>
+        <a href="" class="flexbox spacebetween">
+            <p><img src="img/hz.png"/><span>商业合作</span></p><img src="../红包/img/right.png"/>
+        </a>
+    </li>
+    <li>
+        <a href="" class="flexbox spacebetween">
+            <p><img src="img/gg.png"/><span>官方公告</span></p><img src="../红包/img/right.png"/>
+        </a>
+    </li>
+    <li>
+        <a href="" class="flexbox spacebetween">
+            <p><img src="img/sz.png"/><span>个人设置</span></p><img src="../红包/img/right.png"/>
+        </a>
+    </li>
+</ul>
+<div class="advance">
+    <div>猜成语赚零花钱，登录领红包，现在知道还不晚！</div>
+    <img src=""/>
+</div>
+
+<div style="height: .9rem;"></div>
+<div class="footer_main">
+    <ul>
+        <a href="index.html">
+            <li class="footer_fl">省券</li>
+        </a>
+        <a href="{:U('Welfare/outindex')}">
+            <li class="footer_f2">福利</li>
+        </a>
+        <a href="{:U('Exchange/buyview')}">
+            <li class="footer_f3">
+                兑换
+            </li>
+        </a>
+
+        <a href="b2c_fenlei_01.html">
+            <li class="footer_f4">
+                开箱
+            </li>
+        </a>
+        <a href="{:U('Member/index')}">
+            <li class="footer_f5 footer_active_f5">
+                我的
+            </li>
+        </a>
+    </ul>
+</div>
 
 <include file="Public:footer"/>
 

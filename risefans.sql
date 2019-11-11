@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50553
 File Encoding         : 65001
 
-Date: 2019-11-08 21:40:48
+Date: 2019-11-11 21:48:24
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -3899,7 +3899,7 @@ CREATE TABLE `blue_hongbao_ad_record` (
 DROP TABLE IF EXISTS `blue_hongbao_conf`;
 CREATE TABLE `blue_hongbao_conf` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `watch_num` tinyint(5) DEFAULT '1' COMMENT '每个vip观看次数',
+  `watch_num1` tinyint(5) DEFAULT '1' COMMENT '每个vip观看次数',
   `bottom_img` varchar(200) DEFAULT NULL COMMENT '底部横幅广告',
   `bottom_img_url` varchar(200) DEFAULT NULL COMMENT '底部图片链接',
   `luckdraw_conf_id` int(11) DEFAULT NULL COMMENT '抽奖规则id',
@@ -3914,7 +3914,7 @@ CREATE TABLE `blue_hongbao_conf` (
 -- ----------------------------
 -- Records of blue_hongbao_conf
 -- ----------------------------
-INSERT INTO `blue_hongbao_conf` VALUES ('1', '1', '/Uploads/Public/Uploads/2019-11-08/5dc4ed35925cf.jpg', 'http://www.risefans.com/admin/Hongbao/config#4#0', '1', '1', '10', '10', '1', '1573199695');
+INSERT INTO `blue_hongbao_conf` VALUES ('1', '1', '/Uploads/Public/Uploads/2019-11-08/5dc4ed35925cf.jpg', 'http://www.risefans.com/admin/Hongbao/config#4#0', '2', '1', '10', '10', '1', '1573468649');
 
 -- ----------------------------
 -- Table structure for `blue_invite_conf`
@@ -3972,15 +3972,17 @@ DROP TABLE IF EXISTS `blue_luckdraw_conf`;
 CREATE TABLE `blue_luckdraw_conf` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(200) DEFAULT NULL COMMENT '名称',
+  `currency_id` int(11) DEFAULT NULL,
   `status` tinyint(4) DEFAULT '1' COMMENT '状态 1：开启 0：关闭',
   `add_time` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of blue_luckdraw_conf
 -- ----------------------------
-INSERT INTO `blue_luckdraw_conf` VALUES ('1', '每日签到', '1', '1570283482');
+INSERT INTO `blue_luckdraw_conf` VALUES ('1', '每日签到', '3', '1', '1573468380');
+INSERT INTO `blue_luckdraw_conf` VALUES ('2', '红包抽奖', '3', '1', '1573468519');
 
 -- ----------------------------
 -- Table structure for `blue_luckdraw_conf_detail`
@@ -3991,7 +3993,7 @@ CREATE TABLE `blue_luckdraw_conf_detail` (
   `num` varchar(50) DEFAULT NULL,
   `luckdraw_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of blue_luckdraw_conf_detail
@@ -3999,6 +4001,9 @@ CREATE TABLE `blue_luckdraw_conf_detail` (
 INSERT INTO `blue_luckdraw_conf_detail` VALUES ('1', '2', '0');
 INSERT INTO `blue_luckdraw_conf_detail` VALUES ('2', '1', '1');
 INSERT INTO `blue_luckdraw_conf_detail` VALUES ('3', '2', '1');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('4', '1', '2');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('5', '2', '2');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('6', '5', '2');
 
 -- ----------------------------
 -- Table structure for `blue_member`
@@ -4028,7 +4033,7 @@ CREATE TABLE `blue_member` (
 -- ----------------------------
 -- Records of blue_member
 -- ----------------------------
-INSERT INTO `blue_member` VALUES ('9', '123456', 'e10adc3949ba59abbe56e057f20f883e', '1000000', '测试', null, '15179811531', '127.0.0.1', '1563933002', '127.0.0.1', '1572439506', '50.00', '0.00', '0', '1', '1000001');
+INSERT INTO `blue_member` VALUES ('9', '123456', 'e10adc3949ba59abbe56e057f20f883e', '1000000', '测试', null, '15179811531', '127.0.0.1', '1563933002', '127.0.0.1', '1573440694', '50.00', '0.00', '0', '1', '1000001');
 INSERT INTO `blue_member` VALUES ('10', 'hmlwan', 'e10adc3949ba59abbe56e057f20f883e', '1000001', 'hmlwan', null, '15179811532', null, '1563933002', '127.0.0.1', '1572439511', '0.00', '0.00', '0', '1', '1000003');
 
 -- ----------------------------
@@ -4129,14 +4134,15 @@ CREATE TABLE `blue_member_info` (
   `create_time` int(11) DEFAULT NULL COMMENT '提交时间',
   `cert_num` tinyint(5) DEFAULT NULL COMMENT '剩余认证次数',
   `is_cert` tinyint(4) DEFAULT '0' COMMENT '是否认证 1：是 0：否',
+  `vip_level` tinyint(4) DEFAULT '0' COMMENT 'vip等级',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of blue_member_info
 -- ----------------------------
-INSERT INTO `blue_member_info` VALUES ('3', '9', '252255225522', '雪中行者', '15179822523', '刘德华', '3625225225522555', '2', '/Public/Mobile/images/tx3.png', '1570358334', '5', '1');
-INSERT INTO `blue_member_info` VALUES ('4', '10', '36258223564232', '郭富城123', '15179811532', '郭富城', '3624011995396038251', '2', null, '1572269108', '5', '1');
+INSERT INTO `blue_member_info` VALUES ('3', '9', '252255225522', '雪中行者', '15179822523', '刘德华', '3625225225522555', '2', '/Public/Mobile/images/tx3.png', '1570358334', '5', '1', '0');
+INSERT INTO `blue_member_info` VALUES ('4', '10', '36258223564232', '郭富城123', '15179811532', '郭富城', '3624011995396038251', '2', null, '1572269108', '5', '1', '0');
 
 -- ----------------------------
 -- Table structure for `blue_member_luckdraw_num`
@@ -4364,9 +4370,7 @@ CREATE TABLE `blue_sign_conf` (
 -- ----------------------------
 -- Records of blue_sign_conf
 -- ----------------------------
-INSERT INTO `blue_sign_conf` VALUES ('1', '3', '1', '3', '2', '3', '3', '3', '4', '3', '5', '3', '6', '3', '7', '1573198782');
-INSERT INTO `blue_sign_conf` VALUES ('2', '3', '1', '3', '2', '3', '3', '3', '4', '3', '5', '3', '1', '3', '7', '1573198599');
-INSERT INTO `blue_sign_conf` VALUES ('3', '3', '1', '3', '2', '3', '3', '3', '4', '3', '5', '3', '1', '3', '7', '1573198642');
+INSERT INTO `blue_sign_conf` VALUES ('1', '3', '1', '3', '2', '3', '3', '3', '4', '3', '5', '3', '6', '3', '7', '1573478848');
 
 -- ----------------------------
 -- Table structure for `blue_task_luckdraw_record`

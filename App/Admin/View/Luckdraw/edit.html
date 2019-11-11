@@ -22,6 +22,16 @@
                                     <td><input type="text" id="title" value="{$info.title}" size="85" name="title" class="common-text"></td>
                                 </tr>
                                <tr>
+                                <tr>
+                                    <th>奖励币种</th>
+                                    <td>
+                                        <select name="currency_id" class="common-text" id="currency_id">
+                                            <volist name="cur_list" id="vo">
+                                                <option value="{$vo['currency_id']}" <if condition="$info['currency_id'] eq $vo['currency_id']"></if>>{$vo['currency_name']} </option>
+                                            </volist>
+                                        </select>
+                                    </td>
+                                </tr>
                              	<tr>
                                     <th><i class="require-red">*</i>上线开关</th>
                                     <td>

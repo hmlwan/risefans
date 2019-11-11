@@ -34,7 +34,9 @@ class LuckdrawController extends AdminController
             ->order ("id asc" )
             ->limit ( $Page->firstRow . ',' . $Page->listRows )
             ->select ();
-
+        foreach ($info as &$value){
+            $value['currency_name'] = M('currency')->where(array('currency_id'=>$value['currency_id']))->getField('currency_name');
+        }
         $this->assign ('list', $info ); // 赋值数据集
         $this->assign ('page', $show ); // 赋值分页输出
         $this->display ();
@@ -87,6 +89,8 @@ class LuckdrawController extends AdminController
         }else{
             $id = I('get.id');
             $res = $db->where(array('id'=>$id))->find();
+            $currency_list = M('currency')->where(array('status'=>1))->select();
+            $this->assign ('cur_list', $currency_list );
             $this->assign('info',$res);
             $this->display();
         }

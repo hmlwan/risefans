@@ -5,55 +5,83 @@
 		<div class="ad">
 			<div class="ad_top">
 				<img src="__IMG__/rise//jl.png"/>
-				<p>恭喜获得15金币</p>
-				<button id="button">等待10秒</button>
-				<p class="ad_gold">我的金币:<img src="__IMG__/rise//gold.png"/>5479=0.54元</p>
+				<p class="title">恭喜获得{$cur_num['num']|default=0}{$luckdraw_conf_cur_name|default=金币}</p>
+				<button id="button" data-hongbao_ad_id="{$ad_list[0]['id']}" onclick="receive($(this))"  data-seconds="{$ad_list[0]['seconds']|default=1}" data-currency_num="{$cur_num['num']|default=0}" data-currency_id="{$luckdraw_conf_cur}">等待{$ad_list[0]['seconds']|default=1}秒</button>
+				<p class="ad_gold">我的金币: <i></i>{$mem_cur_num|default=0}={$rmb_num|default=0}元</p>
 			</div>
 			<div class='ad_text'>
-				<span>还在辛苦挣三四千？现名师指导，给自己给自己</span> <a>查看</a>
+				<span>{$ad_list[0]['ad_title']}</span> <a target="_blank" href="{$ad_list[0]['ad_url']}">查看</a>
 			</div>			
 			<div class="hot">
-				<a href="">
-					<img src="__IMG__/rise/1.png"/>
+				<a href="{$ad_list[0]['ad_url']}" target="_blank">
+					<if condition="$ad_list[0]['ad_img']">
+						<img src="{$ad_list[0]['ad_img']}"/>
+						<else />
+						<img src="__IMG__/rise/1.png"/>
+					</if>
+
 				</a>
 			</div>
 		</div>
 		<script type="text/javascript">
-			let num=10;
+			let num = $("#button").data('seconds');
 			let timer=setInterval(function(){
 				num--;
 				if(num==0){
 					$("#button").text('立即领取');
-					clearInterval(timer)
-				}else{
+					clearInterval(timer);
+                    $("#button").attr('disabled',false)
+
+                }else{
 					let text='等待'+num+'秒';
-					$("#button").text(text)
+					$("#button").text(text);
+                    $("#button").attr('disabled',true)
 				}
-			},1000)
+			},1000);
+			function receive(obj) {
+				var currency_num = obj.data('currency_num');
+				var currency_id = obj.data('currency_id');
+				var hongbao_ad_id = obj.data('hongbao_ad_id');
+
+                $.post("op_receive",{
+                    currency_num:currency_num,currency_id:currency_id,hongbao_ad_id:hongbao_ad_id
+                },function(data){
+                    if(data.status==1){
+                        layer.msg(data.info,{icon:1});
+
+                        window.setTimeout(function(){
+                            window.location="{:U('index')}";
+                        },1000);
+                    }else{
+                        layer.msg(data.info);
+                        return false;
+                    }
+                });
+            }
 		</script>
 
 		<div style="height: .9rem;"></div>
 		<div class="footer_main">
 			<ul>
-				<a href="index.html">
-					<li class="footer_fl">红包</li>
+				<a href="{:U('Redpack/index')}">
+					<li class="footer_fl footer_active_f1">红包</li>
 				</a>
-				<a href="{:U('Welfare/outindex')}">
+				<a href="">
 					<li class="footer_f2">分红</li>
 				</a>
-				<a href="{:U('Exchange/buyview')}">
+				<a href="{:U('Invite/index')}">
 					<li class="footer_f3">
 						邀请
 					</li>
 				</a>
 
-				<a href="b2c_fenlei_01.html">
+				<a href="{:U('Task/index')}">
 					<li class="footer_f4">
 						任务
 					</li>
 				</a>
 				<a href="{:U('Member/index')}">
-					<li class="footer_f5 footer_active_f5">
+					<li class="footer_f5">
 						我的
 					</li>
 				</a>

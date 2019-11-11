@@ -151,9 +151,7 @@ class RedpackController extends HomeController
 
             }
         }
-
         $this->assign("data",$data);
-
         $this->display();
     }
 

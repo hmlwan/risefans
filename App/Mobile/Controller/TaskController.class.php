@@ -46,6 +46,8 @@ class TaskController extends HomeController
         $daily_luckdraw_db = M('daily_luckdraw');
         $daily_record =  $daily_luckdraw_db->where(array('member_id'=>$member_id))->select();
 
+        \Think\Log::write('ss'.json_encode(I('')));
+
         $this->display();
     }
 

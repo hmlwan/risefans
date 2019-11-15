@@ -17,18 +17,15 @@ class MemberController extends HomeController {
         $member_id = session('USER_KEY_ID');
         $member_info = $db->get_info_by_id($member_id);
 
-        /*是否签到*/
-        $sign_where = array(
-            'member_id' => $member_id,
-            'type' => 1,
-            'add_time' => array('between',array(strtotime(date("Y-m-d 00:00:00",time())),strtotime(date("Y-m-d 23:59:59",time()))))
-        );
-//       $sign_record = M("luckdraw_record")->where($sign_where)->find();
-       $is_sign = 0;
-
-
+        /*用户金币数量*/
+        $mem_cur_num = M('currency_user')->where(array('member_id'=>$member_id,'currency_id'=>3))->getField('num');
+        $rmb_num = 0;
+        if($mem_cur_num > 0){
+            $rmb_num = number_format($mem_cur_num/100,2,'.','');
+        }
+        $this->assign('rmb_num',$rmb_num);
+        $this->assign('mem_cur_num',$mem_cur_num);
         $this->assign('member_info',$member_info);
-        $this->assign('is_sign',$is_sign);
 	    $this->display();
     }
     /*实名认证*/
@@ -47,6 +44,138 @@ class MemberController extends HomeController {
 
                 $res = $db->add($data);
                 if($res){
+                    $invite_record_db = M('invite_record');
+                    /*实名奖励*/
+                    $invite_conf = M('invite_conf')->where("1=1")->find();
+                    $mem_info = D('member')->get_info_by_id($member_id);
+                    /*父级*/
+                    $fa_info1 = D('member')->where(array('unique_code'=>$mem_info['pid']))->find();
+                    if($fa_info1){
+                        $invite_record_data1 = array(
+                            'member_id' => $fa_info1['member_id'],
+                            'currency_id' => $invite_conf['f_currency_id_1'],
+                            'num' => $invite_conf['f_currency_num_1'],
+                            'sub_member_id' => $member_id,
+                            'content' => "一级(".$member_id.")实名认证奖励".$invite_conf['f_currency_num_1'].'币',
+                            'add_time' => time(),
+                            'level' => 1,
+                            'type' => 1,
+                            'is_cert' => 2,
+                        );
+                        $r1 = $invite_record_db
+                            ->where(array(
+                                'member_id' => $fa_info1['member_id'],
+                                'sub_member_id' => $member_id,
+                                'type' => 1,
+                                'is_cert'=>1
+                                )
+                            )
+                            ->save($invite_record_data1);
+                        if($r1){
+                            /*加币种数量*/
+                            M('currency_user')
+                                ->where(array(
+                                    'member_id'=>$fa_info1['member_id'],
+                                    'currency_id'=>$invite_conf['f_currency_id_1'])
+                                )
+                                ->setInc('num',$invite_conf['f_currency_num_1']);
+                            /*增加抽奖数*/
+                            M("task_luckdraw_record")->add(array(
+                                'member_id' => $fa_info1['member_id'],
+                                'type' => 2,
+                                'add_time' => time(),
+                                'stype' => 1,
+                                'use_luckdraw_num' => $invite_conf['reward_luckdraw_num'],
+                            ));
+                            if(M("member_luckdraw_num")->where(array('member_id'=>$fa_info1['member_id']))->find()){
+                                M("member_luckdraw_num")
+                                    ->where(array('member_id'=>$fa_info1['member_id']))
+                                    ->setInc('invite_ld_num',$invite_conf['reward_luckdraw_num']);
+                            }else{
+                                M("member_luckdraw_num")
+                                    ->add(array(
+                                        'member_id'=>$fa_info1['member_id'],
+                                        'invite_ld_num'=>$invite_conf['reward_luckdraw_num']
+                                    )
+                                );
+                            }
+                            /*统计*/
+                            M('trade')->add(array(
+                                'member_id' =>  $fa_info1['member_id'],
+                                'currency_id' => $invite_conf['f_currency_id_1'],
+                                'num' => $invite_conf['f_currency_num_1'],
+                                'add_time' => time(),
+                                'content' => '下线返利'.$invite_conf['f_currency_num_1'].'币',
+                                'type' => 1,
+                                'trade_type' => 3,
+                            ));
+                        }
+
+
+                    }
+                    $fa_info2 = D('member')->where(array('unique_code'=>$fa_info1['pid']))->find();
+                    if($fa_info2){
+                        $invite_record_data2 = array(
+                            'member_id' => $fa_info2['member_id'],
+                            'currency_id' => $invite_conf['f_currency_id_2'],
+                            'num' => $invite_conf['f_currency_num_2'],
+                            'sub_member_id' => $member_id,
+                            'content' => "二级(".$member_id.")实名认证奖励".$invite_conf['f_currency_num_2'].'币',
+                            'add_time' => time(),
+                            'level' => 2,
+                            'type' => 1,
+                            'is_cert' => 2,
+                        );
+                        $r2 = $invite_record_db
+                            ->where(array(
+                                    'member_id' => $fa_info2['member_id'],
+                                    'sub_member_id' => $member_id,
+                                    'type' => 1,
+                                    'is_cert'=>1
+                                )
+                            )
+                            ->save($invite_record_data2);
+                        if($r2){
+                            /*加币种数量*/
+                            M('currency_user')
+                                ->where(array(
+                                        'member_id'=>$fa_info2['member_id'],
+                                        'currency_id'=>$invite_conf['f_currency_id_2'])
+                                )
+                                ->setInc('num',$invite_conf['f_currency_num_2']);
+                            /*增加抽奖数*/
+                            M("task_luckdraw_record")->add(array(
+                                'member_id' => $fa_info2['member_id'],
+                                'type' => 2,
+                                'add_time' => time(),
+                                'stype' => 1,
+                                'use_luckdraw_num' => $invite_conf['reward_luckdraw_num'],
+                            ));
+
+                            if(M("member_luckdraw_num")->where(array('member_id'=>$fa_info2['member_id']))->find()){
+                                M("member_luckdraw_num")
+                                    ->where(array('member_id'=>$fa_info2['member_id']))
+                                    ->setInc('invite_ld_num',$invite_conf['reward_luckdraw_num']);
+                            }else{
+                                M("member_luckdraw_num")
+                                    ->add(array(
+                                            'member_id'=>$fa_info2['member_id'],
+                                            'invite_ld_num'=>$invite_conf['reward_luckdraw_num']
+                                        )
+                                    );
+                            }
+                            /*统计*/
+                            M('trade')->add(array(
+                                'member_id' =>  $fa_info2['member_id'],
+                                'currency_id' => $invite_conf['f_currency_id_2'],
+                                'num' => $invite_conf['f_currency_num_2'],
+                                'add_time' => time(),
+                                'content' => '下线返利'.$invite_conf['f_currency_num_2'].'币',
+                                'type' => 1,
+                                'trade_type' => 3,
+                            ));
+                        }
+                    }
                     $data['status']= 1;
                     $data['info']="提交成功";
                     $this->ajaxReturn($data);
@@ -235,6 +364,48 @@ class MemberController extends HomeController {
 
     /*我的金币*/
     public function my_coin(){
+        $member_id = session('USER_KEY_ID');
+        $mem_cur_num = M('currency_user')->where(array('member_id'=>$member_id,'currency_id'=>3))->getField('num');
+        /*今日金币*/
+        $today_sum_num = M('task_luckdraw_record')
+            ->where(array('member_id'=>$member_id,
+                'currency_id'=>3,
+                'stype' =>2,
+                'add_time'=>array('between',array(strtotime(date('Y-m-d 0:0:0',time())),strtotime(date('Y-m-d 23:59:59',time()))))
+                )
+            )
+            ->sum('num');
+        /*累计收益*/
+        $sum_num = M('task_luckdraw_record')
+            ->where(array('member_id'=>$member_id,
+                    'currency_id'=>3,
+                    'stype' =>2,
+                )
+            )
+            ->sum('num');
+        $this->assign('today_sum_num',$today_sum_num);
+        $this->assign('sum_num',$sum_num);
+        $this->assign('mem_cur_num',$mem_cur_num);
+        /*金币明细*/
+        $list = M('trade')
+            ->where(array('member_id'=>$member_id,'currency_id'=>3,'type' =>1))
+            ->order("add_time desc")->select();
+        $re_data = array();
+        if($list){
+            foreach ($list as $key => $value){
+                $value['currency_name'] = M('currency')->where(
+                    array('currency_id'=>$value['currency_id'])
+                )->getField('currency_name');
+
+                $date = date("Y-m-d",$value['add_time']);
+                if($date == date("Y-m-d",time())){
+                    $re_data['今日'][] = $value;
+                }else{
+                    $re_data[$date][] = $value;
+                }
+            }
+        }
+        $this->assign('re_data',$re_data);
         $this->display();
     }
 

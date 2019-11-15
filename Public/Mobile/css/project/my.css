@@ -10,32 +10,36 @@ body{
 	font-size: .3rem;
 }
 .my_head img{
-	width: .8rem;
+	width: 1rem;
 	vertical-align: middle;
 	margin-right: .3rem;
+	margin-left: .1rem;
+}
+.my_head .head_item{
+	margin-top: .35rem;
 }
 .my_gold{
 	margin: 0 auto;
 	width:90%;
 	padding: 0 .3rem;
 	box-sizing: border-box;
-	border: 2px solid #ececec;
+	border: 3px solid #f6f6f6;
 	border-radius: 3px;
 	text-align: center;
 }
 .my_gold li{
 	width: 50%;
-	padding: .4rem 0 .2rem;
+	padding: .3rem 0 .1rem;
 }
 .my_gold div strong{
 	position: relative;
-	left: .5rem;
+	left: .3rem;
 }
 .my_gold div img{
-	width: .8rem;
+	width: .6rem;
 	position: relative;
 	top: -.4rem;
-	left: .5rem;
+	left: .3rem;
 }
 .my_gold li:last-child{
 }
@@ -46,6 +50,7 @@ body{
 .my_gold p {
 	color: #9a9a9a;
 	line-height: 2;
+	font-size: .23rem;
 	
 }
 .my_list{
@@ -69,24 +74,26 @@ body{
 }
 
 .my_list p img{
-	width: .56rem;
-	height: .56rem;
+	width: .4rem;
+	height: .4rem;
 	vertical-align: middle;
 	margin-right: .3rem;
 }
 
 .my_list li:first-child p img{
-	width: .68rem;
+	width: .5rem;
+	height: .5rem;
 	margin-right: .2rem;
 }
 .advance{
 	padding: .25rem;
 	box-sizing: border-box;
+	font-size: .24rem;
 }
 
 .advance img{
 	width: 100%;
-	height: 4rem;
+	height: 3rem;
 	margin-top: .25rem;
 	background-color:#efeff1 ;
 }
@@ -127,16 +134,17 @@ body{
 	line-height: 1.6;
 	margin-bottom: .2rem;
 }
-.current_box button{
+.current_box a{
     display: block;
     width: 1.2rem;
-    height: .56rem;
-    line-height: .56rem;
+    height: .45rem;
+    line-height: .45rem;
     font-size: .25rem;
     background-color: #fe9923;
     color: #fff;
     border-radius: .3rem;
     margin-top: .1rem;
+	text-align: center;
 }
 .current_box ul li{
 	width: 39%;

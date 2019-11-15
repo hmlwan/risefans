@@ -21,7 +21,6 @@ class HomeController extends CommonController {
 
   		}
 
-
   		 // 添加用户真实姓名等
   		$this->auth = M('Member')->where('member_id ='.$_SESSION['USER_KEY_ID'])->find();
   		if (empty($this->auth)){

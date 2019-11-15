@@ -3,19 +3,21 @@
 
 <body >
 <header class="my_head">
-    <img src="__IMG__/rise/AD.png"/><strong>176****1222</strong>
+    <div class="head_item">
+        <img src="__IMG__/rise/AD.png"/><strong>176****1222</strong>
+    </div>
 </header>
 <ul class="my_gold flexbox spacebetween">
-
+    <input type="hidden" name="is_cert" id="is_cert" value="{$member_info.is_cert}">
         <li>
             <a href="{:U('Member/my_coin')}">
-                <div><strong>5210</strong><img src="__IMG__/rise/tx.png"/></div>
+                <div><strong>{$mem_cur_num|default=0.00}</strong><img src="__IMG__/rise/tx.png"/></div>
                 <p>当前金币</p>
             </a>
         </li>
     <li>
         <a href="{:U('Member/cur_coin')}">
-            <div><strong>52</strong><img src="__IMG__/rise/cz.png"/></div>
+            <div><strong>{$rmb_num|default=0.00}</strong><img src="__IMG__/rise/cz.png"/></div>
             <p>金额(币)</p>
         </a>
     </li>
@@ -49,9 +51,13 @@
 </ul>
 <div class="advance">
     <div>猜成语赚零花钱，登录领红包，现在知道还不晚！</div>
-    <img src=""/>
+    <img src="__IMG__/rise/ad2.png"/>
 </div>
 
+<div class="zhezhao_c"></div>
+<div class="smjl" style="display: none">
+    <a href="{:U('Member/cert')}"><img src="__IMG__/tx.png" alt=""></a>
+</div>
 <div style="height: .9rem;"></div>
 <div class="footer_main">
     <ul>
@@ -79,6 +85,13 @@
         </a>
     </ul>
 </div>
+<script>
+    var is_cert = $("#is_cert").val();
+    if(is_cert != 1){
+        $(".smjl").show();
+        $(".zhezhao_c").attr("class","zhezhao_c zhezhao");
+    }
 
+</script>
 <include file="Public:footer"/>
 

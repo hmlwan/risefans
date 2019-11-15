@@ -8,6 +8,8 @@
 
 namespace Admin\Controller;
 
+use Think\Log;
+
 class InviteController extends AdminController
 {
     /*配置*/
@@ -16,6 +18,7 @@ class InviteController extends AdminController
         if(IS_POST){
             $id = I('post.id');
 
+            Log::write('session:'.json_encode($_SESSION));
             if($data = $model->create()){
                 $data['op_time'] = time();
                 if($id){

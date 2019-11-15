@@ -17,108 +17,59 @@
 		<section class="VIP_ul">
 			<ul class="flexbox spacebetween">
 				<li>
-					<strong>7</strong>
+					<strong>{$one_level_num|default=0}</strong>
 					<a href="{:U('Invite/one_level_detail')}">一级下线(人)<img src="__IMG__/rise/right.png"/></a>
 				</li>
 				<li>
-					<strong>28</strong>
+					<strong>{$two_level_num|default=0}</strong>
 					<a href="{:U('Invite/two_level_detail')}">二级下线(人)<img src="__IMG__/rise/right.png"/></a>
 				</li>				
 			</ul>
 			<ul class="flexbox spacebetween">
+				<!--<li>-->
+					<!--<strong>7</strong>-->
+					<!--<a href="">三级下线(人)<img src="__IMG__/rise/right.png"/></a>-->
+				<!--</li>-->
 				<li>
-					<strong>7</strong>
-					<a href="">三级下线(人)<img src="__IMG__/rise/right.png"/></a>
-				</li>
-				<li>
-					<strong>28</strong>
+					<strong>{$sum_cur_num|default=0}</strong>
 					<a href="{:U('Invite/income_record')}">已赚(金币)<img src="__IMG__/rise/right.png"/></a>
 				</li>				
 			</ul>
 		</section>
-		<div class="total_prev">昨日共赚<span>3270</span>币</div>
+		<div class="total_prev">昨日共赚<span>{$yester_sum_cur_num|default=0}</span>金币</div>
 		<div class="whitebox yq_score">
+
 			<div class="flexbox spacebetween">
 				<span>收益记录(最近10条)</span>
-				<a href="">查看全部 <img src="__IMG__/rise/right.png"/></a>
-			</div> 
+				<a href="{:U('Invite/income_record')}">查看全部<img src="__IMG__/rise/right.png"/></a>
+			</div>
 			<ul>
-				<li  class="flexbox spacebetween"><img src="__IMG__/rise/smrz.png"/>
-					<div>
-						<p>18100000000(一级下线)</p>
-						<span>今天09:50:06</span>						
-					</div>
-					<span class="lh2">+75</span>
-				</li>
-				<li  class="flexbox spacebetween"><img src="__IMG__/rise/vip.png"/>
-					<div>
-						<p>18100000000(一级下线)</p>
-						<span>今天09:50:06</span>						
-					</div>
-					<span class="lh2">+75</span>
-				</li>
-				<li  class="flexbox spacebetween"><img src="__IMG__/rise/smrz.png"/>
-					<div>
-						<p>18100000000(一级下线)</p>
-						<span>今天09:50:06</span>						
-					</div>
-					<span class="lh2">+75</span>
-				</li>
-				<li  class="flexbox spacebetween"><img src="__IMG__/rise/smrz.png"/>
-					<div>
-						<p>18100000000(一级下线)</p>
-						<span>今天09:50:06</span>						
-					</div>
-					<span class="lh2">+75</span>
-				</li>
-				<li  class="flexbox spacebetween"><img src="__IMG__/rise/smrz.png"/>
-					<div>
-						<p>18100000000(一级下线)</p>
-						<span>今天09:50:06</span>						
-					</div>
-					<span class="lh2">+75</span>
-				</li>
-				<li  class="flexbox spacebetween"><img src="__IMG__/rise/smrz.png"/>
-					<div>
-						<p>18100000000(一级下线)</p>
-						<span>今天09:50:06</span>						
-					</div>
-					<span class="lh2">+75</span>
-				</li>
-				<li  class="flexbox spacebetween"><img src="__IMG__/rise/smrz.png"/>
-					<div>
-						<p>18100000000(一级下线)</p>
-						<span>今天09:50:06</span>						
-					</div>
-					<span class="lh2">+75</span>
-				</li>
-				<li  class="flexbox spacebetween"><img src="__IMG__/rise/smrz.png"/>
-					<div>
-						<p>18100000000(一级下线)</p>
-						<span>今天09:50:06</span>						
-					</div>
-					<span class="lh2">+75</span>
-				</li>
-				<li  class="flexbox spacebetween"><img src="__IMG__/rise/smrz.png"/>
-					<div>
-						<p>18100000000(一级下线)</p>
-						<span>今天09:50:06</span>						
-					</div>
-					<span class="lh2">+75</span>
-				</li>
-				<li  class="flexbox spacebetween"><img src="__IMG__/rise/smrz.png"/>
-					<div>
-						<p>18100000000(一级下线)</p>
-						<span>今天09:50:06</span>						
-					</div>
-					<span class="lh2">+75</span>
-				</li>
-			</ul> 
+				<volist name="lastly_10" id="vo">
+					<li  class="flexbox spacebetween">
+						<if condition="$vo['type'] eq 1">
+							<img src="__IMG__/rise/smrz.png"/>
+						<else />
+							<img src="__IMG__/rise/vvip.png"/>
+						</if>
+						<div>
+							<p>{$vo.sub_phone}
+								<if condition="$vo['level'] eq 1">
+									(一级下线)
+									<else />
+									(二级下线)
+								</if>
+							</p>
+							<span>{$vo.add_time|date="Y/m/d H:i:s",###}</span> <span><if condition="$vo['type'] eq 1">实名认证<else />vip晋级</if></span>
+						</div>
+						<span class="lh2">+{$vo.num}</span>
+					</li>
+				</volist>
+			</ul>
 		</div>
 		<div class="fixed">
 			<div class="flexbox spacebetween">
-				<span>邀请码:18754562525</span>
-				<p>复制 <img src="__IMG__/rise/copy.png"/></p>
+				<span>邀请码:	<i class="target">{$mem_phone}</i></span>
+				<p data-clipboard-action="copy" class="copy" data-clipboard-target=".target">复制 <img src="__IMG__/rise/copy.png"/></p>
 			</div>
 			<div class="flexbox">
 				<a class="leftinvite"  href="">链接邀请</a></li>
@@ -131,7 +82,7 @@
 				<a href="{:U('Redpack/index')}">
 					<li class="footer_fl">红包</li>
 				</a>
-				<a href="{:U('Welfare/outindex')}">
+				<a href="">
 					<li class="footer_f2">分红</li>
 				</a>
 				<a href="{:U('Invite/index')}">
@@ -139,7 +90,6 @@
 						邀请
 					</li>
 				</a>
-
 				<a href="{:U('Task/index')}">
 					<li class="footer_f4">
 						任务
@@ -152,4 +102,13 @@
 				</a>
 			</ul>
 		</div>
+		<script>
+            $(".fixed").find(".copy").click(function () {
+				var clipboard = new Clipboard(".copy");
+				clipboard.on('success', function(e) {
+					console.log(e);
+					layer.msg('复制成功',{icon:1});
+				});
+            });
+		</script>
 		<include file="Public:footer"/>

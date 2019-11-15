@@ -45,13 +45,21 @@ class RegController extends CommonController {
                 $data['info'] = '验证码错误';
                 $this->ajaxReturn($data);
             }
-
+            $pid =   $_POST['pid'];
             $M_member = D('Member');
             $info = M('Member')->where(array('phone'=>$_POST['phone']))->find();
             if($info){
                 $data['status'] = 2;
                 $data['info'] = "手机号码已经存在";
                 $this->ajaxReturn($data);
+            }
+            if($pid){
+               $p_info =  M('Member')->where(array('phone'=>$pid))->find();
+               if(!$p_info){
+                   $data['status'] = 2;
+                   $data['info'] = "邀请码不存在";
+                   $this->ajaxReturn($data);
+               }
             }
             if (!$M_member->create()){
                 // 如果创建失败 表示验证没有通过 输出错误提示信息
@@ -81,6 +89,30 @@ class RegController extends CommonController {
                     foreach ($cur_list as $c_value){
                         $user_cur_data['currency_id'] = $c_value['currency_id'];
                         M('currency_user')->add($user_cur_data);
+                    }
+                    /*添加邀请信息*/
+                    if($pid){
+                        M('invite_record')->add(array(
+                                'member_id' => $p_info['member_id'],
+                                'sub_member_id' => $r,
+                                'add_time' => time(),
+                                'level' => 1,
+                                'type' => 1,
+                                'is_cert' => 1,
+                            )
+                        );
+                        $pp_info =  M('Member')->where(array('phone'=>$p_info['pid']))->find();
+                        if($pp_info){
+                            M('invite_record')->add(array(
+                                    'member_id' => $pp_info['member_id'],
+                                    'sub_member_id' => $r,
+                                    'add_time' => time(),
+                                    'level' => 2,
+                                    'type' => 1,
+                                    'is_cert' => 1,
+                                )
+                            );
+                        }
                     }
                     $data['status'] = 1;
                     $data['info'] = '注册成功，请去登录';
@@ -127,6 +159,8 @@ class RegController extends CommonController {
             $save_res = M('Member')->where(array('phone'=> $phone))->save(array('status'=>1));
             if(false !== $save_res){
                 $data['status'] = 1;
+
+
                 $data['info'] = '注册成功';
                 $this->ajaxReturn($data);
             }else{

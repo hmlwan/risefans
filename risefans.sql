@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50553
 File Encoding         : 65001
 
-Date: 2019-11-11 21:48:24
+Date: 2019-11-15 12:49:28
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -3593,11 +3593,9 @@ INSERT INTO `blue_config` VALUES ('company_address', '上海市徐汇区', '1', 
 INSERT INTO `blue_config` VALUES ('qq', '824398038', '1', 'QQ');
 INSERT INTO `blue_config` VALUES ('technical_support', 'hmlwan(824398038)', '1', '技术支持');
 INSERT INTO `blue_config` VALUES ('cert_num', '5', '1', '认证次数');
-INSERT INTO `blue_config` VALUES ('set_user_currency', '2', '1', '设置用户币种');
-INSERT INTO `blue_config` VALUES ('sign_luckdraw_title', '每日签到', '1', '签到抽奖规则');
+INSERT INTO `blue_config` VALUES ('set_cert_currency', '3', '1', '设置认证奖励币种');
+INSERT INTO `blue_config` VALUES ('cert_reward_num', '100', '1', '认证记录币种数量');
 INSERT INTO `blue_config` VALUES ('init_recomment_code', '1000000', '1', '初始推荐码');
-INSERT INTO `blue_config` VALUES ('first_promotion', '一级推广', '1', '一级推广');
-INSERT INTO `blue_config` VALUES ('second_promotion', '二级推广', '1', '二级推广');
 
 -- ----------------------------
 -- Table structure for `blue_contribution_conf`
@@ -3612,11 +3610,12 @@ CREATE TABLE `blue_contribution_conf` (
   `add_contribution_num` int(11) DEFAULT '1' COMMENT '抽奖一次增加多少贡献值',
   `op_time` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of blue_contribution_conf
 -- ----------------------------
+INSERT INTO `blue_contribution_conf` VALUES ('1', '1', '10', '10', '1', '1', '1573532244');
 
 -- ----------------------------
 -- Table structure for `blue_currency`
@@ -3649,15 +3648,16 @@ CREATE TABLE `blue_currency_user` (
   `currency_id` int(32) NOT NULL COMMENT '货币id',
   `num` decimal(20,2) NOT NULL DEFAULT '0.00' COMMENT '数量',
   `forzen_num` decimal(20,2) NOT NULL COMMENT '冻结数量',
-  `status` tinyint(4) NOT NULL,
+  `status` tinyint(4) NOT NULL DEFAULT '1',
   PRIMARY KEY (`cu_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of blue_currency_user
 -- ----------------------------
 INSERT INTO `blue_currency_user` VALUES ('2', '9', '2', '4201.00', '0.00', '1');
 INSERT INTO `blue_currency_user` VALUES ('3', '10', '2', '5300.00', '0.00', '1');
+INSERT INTO `blue_currency_user` VALUES ('4', '9', '3', '2.00', '0.00', '1');
 
 -- ----------------------------
 -- Table structure for `blue_daily_luckdraw`
@@ -3669,12 +3669,14 @@ CREATE TABLE `blue_daily_luckdraw` (
   `currency_id` int(11) DEFAULT NULL,
   `num` decimal(20,0) DEFAULT NULL COMMENT '数量',
   `add_time` int(11) DEFAULT NULL,
+  `daily_num` tinyint(4) DEFAULT '1' COMMENT '第几天',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='每日签到奖励';
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='每日签到奖励';
 
 -- ----------------------------
 -- Records of blue_daily_luckdraw
 -- ----------------------------
+INSERT INTO `blue_daily_luckdraw` VALUES ('1', '9', '3', '1', '1573565901', '1');
 
 -- ----------------------------
 -- Table structure for `blue_exchange_freeze`
@@ -3942,7 +3944,7 @@ CREATE TABLE `blue_invite_conf` (
 -- ----------------------------
 -- Records of blue_invite_conf
 -- ----------------------------
-INSERT INTO `blue_invite_conf` VALUES ('1', null, '3', '2', '1', '2', '3', '2', '1', '3', '1', '1', '1', '10', '3');
+INSERT INTO `blue_invite_conf` VALUES ('1', null, '3', '2', '1', '2', '3', '2', '1', '3', '1', '1', '1', '3', '3');
 
 -- ----------------------------
 -- Table structure for `blue_invite_record`
@@ -3952,12 +3954,13 @@ CREATE TABLE `blue_invite_record` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `member_id` int(11) DEFAULT NULL,
   `currency_id` int(11) DEFAULT NULL COMMENT '币种id',
-  `num` decimal(20,0) DEFAULT NULL,
+  `num` decimal(20,0) DEFAULT '0',
   `sub_member_id` int(11) DEFAULT NULL,
   `content` varchar(200) DEFAULT NULL COMMENT '内容',
   `add_time` int(11) DEFAULT NULL COMMENT '添加时间',
   `level` tinyint(4) DEFAULT NULL COMMENT '下级 1：一级 2：二级',
   `type` tinyint(4) DEFAULT NULL COMMENT '奖励类型 1：实名奖励2：vip晋级',
+  `is_cert` tinyint(2) DEFAULT '1' COMMENT '是否实名 1：否 2：是',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
@@ -4151,7 +4154,9 @@ DROP TABLE IF EXISTS `blue_member_luckdraw_num`;
 CREATE TABLE `blue_member_luckdraw_num` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `member_id` int(11) DEFAULT NULL,
-  `luckdraw_num` int(11) DEFAULT '0' COMMENT '邀请抽奖数',
+  `redpack_ld_num` int(11) DEFAULT '0' COMMENT '领取红包抽奖数',
+  `invite_ld_num` int(10) DEFAULT '0' COMMENT '邀请抽奖数',
+  `buy_ld_num` int(11) DEFAULT '0' COMMENT '购买贡献值抽奖数',
   `contribute_num` int(11) DEFAULT '0' COMMENT '贡献值数',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='用户邀请抽奖数';
@@ -4381,10 +4386,11 @@ CREATE TABLE `blue_task_luckdraw_record` (
   `member_id` int(11) DEFAULT NULL COMMENT '用户id',
   `type` tinyint(4) DEFAULT NULL COMMENT '1:红包抽奖2：邀请好友抽奖3：购买贡献值抽奖',
   `currency_id` int(11) DEFAULT NULL COMMENT '币种id',
-  `num` decimal(20,0) DEFAULT NULL COMMENT '数量',
+  `num` decimal(20,0) DEFAULT NULL COMMENT '金币数量',
   `add_time` int(11) DEFAULT NULL,
   `use_luckdraw_num` int(11) DEFAULT '0' COMMENT '使用/获得抽奖数',
   `stype` tinyint(4) DEFAULT NULL COMMENT '类型 1：加抽奖数 2：减抽奖数',
+  `contribution_num` decimal(20,0) DEFAULT '0' COMMENT '贡献值数量',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='任务抽奖记录';
 
@@ -4403,13 +4409,12 @@ CREATE TABLE `blue_trade` (
   `num` decimal(20,2) DEFAULT NULL COMMENT '数量',
   `content` varchar(200) DEFAULT NULL COMMENT '内容',
   `type` tinyint(4) DEFAULT NULL COMMENT '类型 1：加2：减',
-  `trade_type` tinyint(4) DEFAULT NULL COMMENT '1:福利2：签到3：兑换 4:邀请',
+  `trade_type` tinyint(4) DEFAULT NULL COMMENT '1:每日签到2：任务抽奖3：下线返利4.领取红包',
   `add_time` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of blue_trade
 -- ----------------------------
-INSERT INTO `blue_trade` VALUES ('1', '9', '2', null, null, '1', '3', '1572526562');
-INSERT INTO `blue_trade` VALUES ('2', '10', '2', null, null, '2', '3', '1572526562');
+INSERT INTO `blue_trade` VALUES ('4', '9', '3', '1.00', '每日签到', '1', '1', '1573565901');

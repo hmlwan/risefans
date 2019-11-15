@@ -39,6 +39,7 @@
                         	<th>编号</th>
                             <th>用户手机号</th>
                             <th>下级手机号</th>
+                            <th>是否认证</th>
                             <th>级别</th>
                             <th>币种名称</th>
                             <th>获得币种数量</th>
@@ -52,6 +53,13 @@
                         	<td>{$vo.id}</td>
                         	<td>{$vo.phone}</td>
                         	<td>{$vo.subphone}</td>
+                            <td>
+                                <if condition="$vo['is_cert'] eq 1">
+                                    已认证
+                                    <else />
+                                    未认证
+                                </if>
+                            </td>
                             <td>
                                 <if condition="$vo['level'] eq 1">
                                     一级

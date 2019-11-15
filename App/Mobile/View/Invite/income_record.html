@@ -2,80 +2,32 @@
 <link type="text/css" rel="stylesheet" href="__CSS__/project/invite.css" />
 
 <body>
-		<header class="nexttop flexbox incometop"><a href=""><img src="__IMG__/rise/grayback.png"/></a><strong>邀请收益记录</strong></header>
+		<header class="nexttop flexbox incometop"><a href="javascript:history.back()"><img src="__IMG__/rise/grayback.png"/></a><strong>邀请收益记录</strong></header>
 		<div class="whitebox yq_score incomebox">
 			<ul>
-				<li  class="flexbox spacebetween"><img src="__IMG__/rise/smrz.png"/>
-					<div>
-						<p>18100000000(一级下线)</p>
-						<span>今天09:50:06</span>						
-					</div>
-					<span class="lh2">+75</span>
-				</li>
-				<li  class="flexbox spacebetween"><img src="__IMG__/rise/vip.png"/>
-					<div>
-						<p>18100000000(一级下线)</p>
-						<span>今天09:50:06</span>						
-					</div>
-					<span class="lh2">+75</span>
-				</li>
-				<li  class="flexbox spacebetween"><img src="__IMG__/rise/smrz.png"/>
-					<div>
-						<p>18100000000(一级下线)</p>
-						<span>今天09:50:06</span>						
-					</div>
-					<span class="lh2">+75</span>
-				</li>
-				<li  class="flexbox spacebetween"><img src="__IMG__/rise/smrz.png"/>
-					<div>
-						<p>18100000000(一级下线)</p>
-						<span>今天09:50:06</span>						
-					</div>
-					<span class="lh2">+75</span>
-				</li>
-				<li  class="flexbox spacebetween"><img src="__IMG__/rise/smrz.png"/>
-					<div>
-						<p>18100000000(一级下线)</p>
-						<span>今天09:50:06</span>						
-					</div>
-					<span class="lh2">+75</span>
-				</li>
-				<li  class="flexbox spacebetween"><img src="__IMG__/rise/smrz.png"/>
-					<div>
-						<p>18100000000(一级下线)</p>
-						<span>今天09:50:06</span>						
-					</div>
-					<span class="lh2">+75</span>
-				</li>
-				<li  class="flexbox spacebetween"><img src="__IMG__/rise/smrz.png"/>
-					<div>
-						<p>18100000000(一级下线)</p>
-						<span>今天09:50:06</span>						
-					</div>
-					<span class="lh2">+75</span>
-				</li>
-				<li  class="flexbox spacebetween"><img src="__IMG__/rise/smrz.png"/>
-					<div>
-						<p>18100000000(一级下线)</p>
-						<span>今天09:50:06</span>						
-					</div>
-					<span class="lh2">+75</span>
-				</li>
-				<li  class="flexbox spacebetween"><img src="__IMG__/rise/smrz.png"/>
-					<div>
-						<p>18100000000(一级下线)</p>
-						<span>今天09:50:06</span>						
-					</div>
-					<span class="lh2">+75</span>
-				</li>
-				<li  class="flexbox spacebetween"><img src="__IMG__/rise/smrz.png"/>
-					<div>
-						<p>18100000000(一级下线)</p>
-						<span>今天09:50:06</span>						
-					</div>
-					<span class="lh2">+75</span>
-				</li>
-			</ul> 
+				<if condition="$list">
+					<volist name="list" id="vo">
+						<li  class="flexbox spacebetween">
+							<if condition="$vo['type'] eq 1">
+								<img src="__IMG__/rise/smrz.png"/>
+								<else />
+								<img src="__IMG__/rise/vvip.png"/>
+							</if>
+							<div>
+								<p>{$vo.sub_phone}
+									<if condition="$vo['level'] eq 1">
+										(一级下线)
+										<else />
+										(二级下线)
+									</if>
+								</p>
+								<span>{$vo.add_time|date="Y/m/d H:i:s",###}</span> <span><if condition="$vo['type'] eq 1">实名认证<else />vip晋级</if></span>
+							</div>
+							<span class="lh2">+{$vo.num}</span>
+						</li>
+					</volist>
+				</if>
+			</ul>
 		</div>
 
 		<div style="height: .9rem;"></div>
@@ -84,7 +36,7 @@
 				<a href="{:U('Redpack/index')}">
 					<li class="footer_fl">红包</li>
 				</a>
-				<a href="{:U('Welfare/outindex')}">
+				<a href="">
 					<li class="footer_f2">分红</li>
 				</a>
 				<a href="{:U('Invite/index')}">
@@ -93,7 +45,7 @@
 					</li>
 				</a>
 
-				<a href="b2c_fenlei_01.html">
+				<a href="{:U('Task/index')}">
 					<li class="footer_f4">
 						任务
 					</li>

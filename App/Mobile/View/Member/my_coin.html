@@ -4,23 +4,23 @@
 
 <body >
 <header class="my_head current_gold_head">
-    <div class=" flexbox spacebetween "><a href="{:U('Member/index')}"><img src="__IMG__/rise/back.png"/></a><strong>我的金币</strong><a href="">兑换记录</a></div>
+    <div class=" flexbox spacebetween"><a href="{:U('Member/index')}"><img src="__IMG__/rise/back.png"/></a><strong>我的金币</strong><a href="{:U('Exchange/exrecord')}">兑换记录</a></div>
     <div class="current_box">
         <div class="flexbox spacebetween">
             <p>
                 <span>金币余额</span>
-                <strong>89467</strong>
+                <strong>{$mem_cur_num|default=0}</strong>
             </p>
-            <button>兑换</button>
+            <a href="{:U('Exchange/buyview')}">兑换</a>
         </div>
         <ul class="flexbox">
             <li>
                 今日金币
-                <p><strong>780</strong>金币</p>
+                <p><strong>{$today_sum_num|default=0} </strong>金币</p>
             </li>
             <li>
                 累计收益
-                <p><strong>198458</strong>金币</p>
+                <p><strong>{$sum_num|default=0} </strong>金币</p>
             </li>
         </ul>
         <p>10000金币=1莱特币</p>
@@ -28,53 +28,66 @@
 </header>
 <section>
     <div class="textcenter"><span></span><text>金币明细</text><span></span></div>
-    <dl class="more_ul more_ul1">
-        <dt>今日</dt>
-        <dd class="flexbox spacebetween">
-            <div><time>16:16:59</time><span>观看广告</span></div>
-            <p><span>+150</span>金币</p>
-        </dd>
-    </dl>
-    <dl class="more_ul">
-        <dt>今日</dt>
-        <dd class="flexbox spacebetween">
-            <div><time>16:16:59</time><span>观看广告</span></div>
-            <p><span>+150</span>金币</p>
-        </dd>
-    </dl>
-    <dl class="more_ul">
-        <dt>今日</dt>
-        <dd class="flexbox spacebetween">
-            <div><time>16:16:59</time><span>观看广告</span></div>
-            <p><span>+150</span>金币</p>
-        </dd>
-    </dl>
-    <dl class="more_ul">
-        <dt>2019-10-23</dt>
-        <dd class="flexbox spacebetween">
-            <div><time>16:16:59</time><span>观看广告</span></div>
-            <p><span>+150</span>金币</p>
-        </dd>
-        <dd class="flexbox spacebetween">
-            <div><time>16:16:59</time><span>观看广告</span></div>
-            <p><span>+150</span>金币</p>
-        </dd>
-        <dd class="flexbox spacebetween">
-            <div><time>16:16:59</time><span>观看广告</span></div>
-            <p><span>+150</span>金币</p>
-        </dd>
-        <dd class="flexbox spacebetween">
-            <div><time>16:16:59</time><span>观看广告</span></div>
-            <p><span>+150</span>金币</p>
-        </dd>
-        <dd class="flexbox spacebetween">
-            <div><time>16:16:59</time><span>观看广告</span></div>
-            <p><span>+150</span>金币</p>
-        </dd>
-        <dd class="flexbox spacebetween">
-            <div><time>16:16:59</time><span>观看广告</span></div>
-            <p><span>+150</span>金币</p>
-        </dd>
+    <volist name="re_data" id="vo">
+        <dl class="more_ul more_ul1">
+            <dt>{$key}</dt>
+            <volist name="vo" id="v">
+                <dd class="flexbox spacebetween">
+                    <div><time>{$v.add_time|date="H:i:s",###}</time><span>
+                        <switch name="v['type']">
+                            <case value="1">每日签到</case>
+                            <case value="2">任务抽奖</case>
+                            <case value="3">下线返利</case>
+                            <case value="4">领取红包</case>
+                        </switch>
+                    </span>
+                    </div>
+                    <p><span>+{$v.num}</span>{$v.currency_name}</p>
+                </dd>
+            </volist>
+        </dl>
+    </volist>
+
+    <!--<dl class="more_ul">-->
+        <!--<dt>今日</dt>-->
+        <!--<dd class="flexbox spacebetween">-->
+            <!--<div><time>16:16:59</time><span>观看广告</span></div>-->
+            <!--<p><span>+150</span>金币</p>-->
+        <!--</dd>-->
+    <!--</dl>-->
+    <!--<dl class="more_ul">-->
+        <!--<dt>今日</dt>-->
+        <!--<dd class="flexbox spacebetween">-->
+            <!--<div><time>16:16:59</time><span>观看广告</span></div>-->
+            <!--<p><span>+150</span>金币</p>-->
+        <!--</dd>-->
+    <!--</dl>-->
+    <!--<dl class="more_ul">-->
+        <!--<dt>2019-10-23</dt>-->
+        <!--<dd class="flexbox spacebetween">-->
+            <!--<div><time>16:16:59</time><span>观看广告</span></div>-->
+            <!--<p><span>+150</span>金币</p>-->
+        <!--</dd>-->
+        <!--<dd class="flexbox spacebetween">-->
+            <!--<div><time>16:16:59</time><span>观看广告</span></div>-->
+            <!--<p><span>+150</span>金币</p>-->
+        <!--</dd>-->
+        <!--<dd class="flexbox spacebetween">-->
+            <!--<div><time>16:16:59</time><span>观看广告</span></div>-->
+            <!--<p><span>+150</span>金币</p>-->
+        <!--</dd>-->
+        <!--<dd class="flexbox spacebetween">-->
+            <!--<div><time>16:16:59</time><span>观看广告</span></div>-->
+            <!--<p><span>+150</span>金币</p>-->
+        <!--</dd>-->
+        <!--<dd class="flexbox spacebetween">-->
+            <!--<div><time>16:16:59</time><span>观看广告</span></div>-->
+            <!--<p><span>+150</span>金币</p>-->
+        <!--</dd>-->
+        <!--<dd class="flexbox spacebetween">-->
+            <!--<div><time>16:16:59</time><span>观看广告</span></div>-->
+            <!--<p><span>+150</span>金币</p>-->
+        <!--</dd>-->
     </dl>
 </section>
 

@@ -61,8 +61,7 @@ class RedpackController extends HomeController
         $luckdraw_conf_cur_name = M('currency')->where(array('currency_id'=>$luckdraw_conf_cur))->getField('currency_name');
         //抽奖项
         $luckdraw_count = M("luckdraw_conf_detail")->where(array('luckdraw_id'=>$hb_config['luckdraw_conf_id']))->count();
-        $luckdraw_detail = M("luckdraw_conf_detail")->where(array('luckdraw_id'=>$hb_config['luckdraw_conf_id']))->select();
-
+        $luckdraw_detail = M("luckdraw_conf_detail")->where(array('luckdraw_id'=>$hb_config['luckdraw_conf_id']))->order('id desc')->select();
 
         /*用户金币数量*/
         $mem_cur_num = M('currency_user')->where(array('member_id'=>$member_id,'currency_id'=>$luckdraw_conf_cur))->getField('num');
@@ -79,8 +78,8 @@ class RedpackController extends HomeController
             $get_num_k = ($receive_num_count%$luckdraw_count) + 1;
         }
 
-        $cur_num = $luckdraw_detail[$get_num_k];
-
+        $cur_num_info = $luckdraw_detail[$get_num_k];
+        $cur_num = $cur_num_info['num'];
         /*随机广告*/
         $ad_m  = M("hongbao_ad");
         $ad_list = $ad_m->where(array('status'=>1))->order("rand()")->limit(1)->select();
@@ -118,6 +117,17 @@ class RedpackController extends HomeController
         );
         $r  = $db->add($data);
         if($r){
+            /*统计*/
+            M('trade')->add(array(
+                'member_id' => $member_id,
+                'currency_id' => $currency_id,
+                'num' => $currency_num,
+                'add_time' => time(),
+                'content' => '领取红包'.$currency_num.'币',
+                'type' => 1,
+                'trade_type' => 4,
+            ));
+
             $info['status'] = 1;
             $info['info'] ='领取成功';
             $this->ajaxReturn($info);

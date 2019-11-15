@@ -5,81 +5,38 @@
 			<div class="nexttop flexbox"><a href="javascript:history.back();"><img src="__IMG__/rise/back.png"/></a><strong>一级下线</strong></div>
 			<div class="topbox">
 				<div>一级累计奖励(金币)</div>
-				<p>5874</p>
+				<p>{$level_num|default=0}</p>
 				<div class="flexbox spacebetween">
-					<span>一级人数：7人</span>
-					<span>实名人数：5人</span>
+					<span>一级人数：{$level_num|default=0}人</span>
+					<span>实名人数：{$level_count|default=0}人</span>
 				</div>
 			</div>
 		</header>
 		
 		<ul class="nextul">
-			<li  class="flexbox spacebetween whitebox">
-				<img class="headimg" src="__IMG__/rise/headimg.png"/>
-				<div>
-					<div>18724596524 <img src="__IMG__/rise/v6.png"/></div>
-					<p>累计上贡587金币</p>
-				</div>
-				<div  class="flex1">
-					<p>已实名</p>
-					<p>2019-10-21</p>
-				</div>
-			</li>
-			<li  class="flexbox spacebetween whitebox">
-				<img class="headimg" src="__IMG__/rise/headimg.png"/>
-				<div>
-					<div>18724596524 <img src="__IMG__/rise/v6.png"/></div>
-					<p>累计上贡587金币</p>
-				</div>
-				<div  class="flex1">
-					<p>已实名</p>
-					<p>2019-10-21</p>
-				</div>
-			</li>
-			<li  class="flexbox spacebetween whitebox">
-				<img class="headimg" src="__IMG__/rise/headimg.png"/>
-				<div>
-					<div>18724596524 <img src="__IMG__/rise/v6.png"/></div>
-					<p>累计上贡587金币</p>
-				</div>
-				<div  class="flex1">
-					<p>已实名</p>
-					<p>2019-10-21</p>
-				</div>
-			</li>
-			<li  class="flexbox spacebetween whitebox">
-				<img class="headimg" src="__IMG__/rise/headimg.png"/>
-				<div>
-					<div>18724596524 <img src="__IMG__/rise/v6.png"/></div>
-					<p>累计上贡587金币</p>
-				</div>
-				<div  class="flex1">
-					<p>已实名</p>
-					<p>2019-10-21</p>
-				</div>
-			</li>
-			<li  class="flexbox spacebetween whitebox">
-				<img class="headimg" src="__IMG__/rise/headimg.png"/>
-				<div>
-					<div>18724596524 <img src="__IMG__/rise/v6.png"/></div>
-					<p>累计上贡587金币</p>
-				</div>
-				<div  class="flex1">
-					<p>已实名</p>
-					<p>2019-10-21</p>
-				</div>
-			</li>
-			<li  class="flexbox spacebetween whitebox">
-				<img class="headimg" src="__IMG__/rise/headimg.png"/>
-				<div>
-					<div>18724596524 <img src="__IMG__/rise/v6.png"/></div>
-					<p>累计上贡587金币</p>
-				</div>
-				<div  class="flex1">
-					<p>已实名</p>
-					<p>2019-10-21</p>
-				</div>
-			</li>
+			<volist name="$level_list" id="vo">
+				<li  class="flexbox spacebetween whitebox">
+					<if condition="$vo['head_url']">
+						<img class="headimg" src="{$vo['head_url']}"/>
+						<else />
+						<img class="headimg" src="__IMG__/rise/headimg.png"/>
+					</if>
+					<div>
+						<div>{$vo['sub_phone']} <img src="__IMG__/rise/v6.png"/></div>
+						<p>累计上贡{$vo['num']}金币</p>
+					</div>
+					<div  class="flex1">
+						<p>
+							<if condition="$vo['is_cert'] eq 1">
+								未实名
+								<else />
+								已实名
+							</if>
+						</p>
+						<p>{$vo['add_time']|date="Y-m-d",###}</p>
+					</div>
+				</li>
+			</volist>
 		</ul>
 
 		<div style="height: .9rem;"></div>

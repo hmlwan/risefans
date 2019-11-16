@@ -10,72 +10,71 @@ body{
 	align-items: center;
     width: 100%;
     line-height: .4rem;
-    margin-bottom: .4rem;
-	margin-top: .3rem;
+    margin-bottom: .3rem;
+	margin-top: .28rem;
 }
 
 .header img{
-	width: .35rem;
-    height: .35rem;
+	width: .32rem;
+    height: .32rem;
     margin-right: .1rem;
 	margin-left: .2rem;
 }
 .header span{
-	font-size: .28rem;
-    color: #e67b33;
-    line-height: .56rem;
+	font-size: .26rem;
+	color: #e67b33;
+	line-height: .5rem;
 
 }
 .clock {
 	margin-bottom: .4rem;
 }
 .imgclock{    
-	width: 20%;
-    height: 4.2rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+	flex: 1;
+	height: 3.6rem;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+.rightclock{
+	align-items: flex-end;
 }
 .imgclock img{
 	width: 1rem;
     height: 1rem;
 }
-.imgclock .selfalign{
-	align-self: flex-end;
-}
+
 .midclock{
-	width: 3.5rem;
-    padding: 0 .3rem;
-    position: relative;
-    /*left: -1%;*/
+	flex: 2;
+	padding: 0 .3rem;
+	position: relative;
+	height: 4rem;
 }
 
 .wrap {
-	width: 2rem;
-	/*width: 100%;*/
-    height: 5rem;
-    position: relative;
-    top: -.5rem;
-    left: 20%;
-    transform: rotate(-120deg);
+	height: 4rem;
+	position: relative;
+	top: .2rem;
+	left: -2px;
+	transform: rotate(-120deg);
 }
 .inner{
-	    position: absolute;
-    top: .1rem;
-    left: 12%;
-    width: 82%;
-    height: 100%;
-    font-size: .22rem;
-    color: #a2a2a2;
+	position: absolute;
+	top: .3rem;
+	left: 8%;
+	width: 85%;
+	height: 100%;
+	font-size: .2rem;
+	color: #dedccf;
 }
 .top_num{
 	text-align: center;
-	line-height: 1.6;
-	padding-top: .2rem;
+	line-height: 1.4;
+	padding-top: .24rem;
 }
 .top_num img{
-	    width: .5rem;
-    height: .5rem;
+	    width: .44rem;
+    height: .44rem;
 }
 
 .mid_num{
@@ -85,72 +84,69 @@ body{
 }
 
 .mid_num strong{
-	font-size: .35rem;
+	font-size: .3rem;
 	color: #353535;
 }
 .mid_num b{
-	font-size: .6rem;
+	font-size: .48rem;
 }
-.mid_num i{
-	font-size: .28rem;
-}
+
 .bottom_num {
 	padding: 0 .1rem;
 }
 .time,
 .time1 {
-	    width: 0;
-    height: 20px;
-    border-left: 4px solid #f4dcc2;
-    border-radius: 2px;
-    transform-origin: 0 140px;
-    position: absolute;
-    top: 0;
-    left: 50%;
-	
+	width: 0;
+	height: 20px;
+	border-left: 4px solid #f4dcc2;
+	border-radius: 2px;
+	transform-origin: 0 120px;
+	position: absolute;
+	top: 0;
+	left: 50%;
+
 }
 .time {
-	    width: 2px;
-    height: 24px;
+	width: 2px;
+	height: 24px;
 }
 .time2{
-	transform-origin: 4px 142px;
+	transform-origin: 4px 122px;
 }
 
 .time0{
-	    top: -4px;
+	top: -4px;
 }
 
 .time3{
-    transform-origin: 1px 142px;
+	transform-origin: 1px 122px;
 }
 .time4{
-	transform-origin: 0px 142px;
+	transform-origin: 0px 122px;
 }
 .time5{
-	    transform-origin: -1px 142px;
+	transform-origin: -1px 122px;
 }
 .borderC{
 	border-color: #f6810f;
 }
 .midclock button{
 	position: absolute;
-    bottom: 18.4%;
-	left: 10%;
-    /*margin-left: -1.8rem;*/
-    width: 3rem;
-    height: .6rem;
-    border-radius: .8rem;
-    background: linear-gradient(to bottom,#ffc90a, #ff9908);
-    color: #fff;
-	font-size: .24rem;
-	font-weight: bold;
-    border: 0;
-    box-shadow: 0 4px 0 0 #ffe8ce;
+	bottom: 1%;
+	left: 48.9%;
+	margin-left: -1.6rem;
+	width: 3.2rem;
+	height: .6rem;
+	border-radius: .8rem;
+	background: linear-gradient(to bottom,#ffc90a, #ff9908);
+	color: #fff;
+	font-size: .28rem;
+	border: 0;
+	box-shadow: 0 3.8px 0 0 #ffe8ce;
 }
 
 .history .flexbox{
-	margin-bottom: .2rem;
+	margin-bottom: .15rem;
 	align-items: center;
 	
 }
@@ -189,7 +185,7 @@ body{
 }
 
 .history .flexbox p{
-	margin: .1rem 0 .4rem;
+	margin: .1rem 0 .2rem;
 	color: #bdbdbf;
 	font-size: .24rem;
 }
@@ -198,12 +194,12 @@ body{
 	height: 100%;;
 	margin: 0 .1rem .1rem 0;
 }
-
 .hot a img{
-	    width: 100%;
-    height: 3rem;
-    margin: .1rem 0;
+	width: 100%;
+	height: 2.5rem;
+	margin: .1rem 0 0;
 }
+
 
 /*观看广告*/
 .black{

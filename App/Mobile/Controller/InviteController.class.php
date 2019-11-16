@@ -23,9 +23,13 @@ class InviteController extends HomeController
         header("HTTP/1.0 404 Not Found");
         $this->display('Public:404');
     }
+    public function index(){
+        $this->display();
+
+    }
 
     /*分享赚钱*/
-    public function index()
+    public function index1()
     {
         $member_id = session('USER_KEY_ID');
         $invite_record_db = D('invite_record');

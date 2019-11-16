@@ -105,14 +105,16 @@ body{
 .yq_score li div{
 	flex: 2;
 	line-height: 1.4;
+	font-size: .26rem
 }
 .yq_score li  .lh2{
 	color: #e65f5c;
 	font-weight: bold;
+	font-size: .26rem;
 }
 .yq_score li div span{
 	color: #a4a4a4;
-	font-size: .18rem;
+	font-size: .21rem;
 }
 .fixed{
 	position: fixed;

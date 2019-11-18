@@ -2,7 +2,7 @@ body{
 	font-size: .26rem;
 }
 .my_head{
-	padding:.2rem .16rem .3rem;
+	padding: .2rem .22rem .3rem;
 	box-sizing: border-box;
 	/*background: url('../../images/rise/my_bgk.png') no-repeat center;*/
 	/*width: 100%;*/
@@ -147,7 +147,7 @@ body{
     background-color: #fe9923;
     color: #fff;
     border-radius: .3rem;
-    margin-top: .1rem;
+    margin-top: .2rem;
 	text-align: center;
 }
 .current_box ul li{
@@ -181,4 +181,32 @@ body{
 .textcenter text{
 	margin: 0 .2rem;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

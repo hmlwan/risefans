@@ -191,12 +191,22 @@
                         </ul>
                     </li>
                 </notempty>
-                <notempty name='contribution_nav'>
+                <notempty name='bonus_nav'>
                     <li>
-                        <a href="#"><i class="iconfont">&#xe650;</i><span class="fsize">购买贡献值管理</span></a>
+                        <a href="#"><i class="iconfont">&#xe635;</i><span class="fsize">分红管理</span></a>
                         <ul class="sub-menu">
-                            <volist name='contribution_nav' id='vo'>
+                            <volist name='bonus_nav' id='vo'>
                                 <li><a href="{$vo.nav_url}#12#{$key}"><i class="iconfont">{$vo.nav_e}</i>&nbsp;{$vo.nav_name}</a></li>
+                            </volist>
+                        </ul>
+                    </li>
+                </notempty>
+                <notempty name='vip_nav'>
+                    <li>
+                        <a href="#"><i class="iconfont">&#xe635;</i><span class="fsize">VIP管理</span></a>
+                        <ul class="sub-menu">
+                            <volist name='vip_nav' id='vo'>
+                                <li><a href="{$vo.nav_url}#13#{$key}"><i class="iconfont">{$vo.nav_e}</i>&nbsp;{$vo.nav_name}</a></li>
                             </volist>
                         </ul>
                     </li>

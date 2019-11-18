@@ -1,0 +1,104 @@
+    <include file="App/Admin/View/Public/left.html"/>
+     <script type="text/javascript" charset="utf-8" src="__PUBLIC__/kindeditor/kindeditor.js"></script>
+	<script type="text/javascript" charset="utf-8" src="__PUBLIC__/kindeditor/lang/zh_CN.js"></script>
+    <script type="text/javascript" charset="utf-8" src="__PUBLIC__/kindeditor/plugins/prettify.js"></script>
+    <!--/sidebar-->
+    <style>
+        .glyphicon-minus:before {
+            content: "\2212";
+        }
+        .glyphicon {
+            position: relative;
+            top: 1px;
+            display: inline-block;
+            -webkit-font-smoothing: antialiased;
+            font-style: normal;
+            font-weight: normal;
+            line-height: 1;
+        }
+    </style>
+    <div class="main-wrap">
+        <div class="crumb-wrap">
+            <div class="crumb-list"><i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span class="crumb-name">分红配置</span></div>
+        </div>
+        <div class="result-wrap">
+            <form action="{:U('Bonus/config#12#0')}" method="post" id="myform" name="myform" enctype="multipart/form-data">
+                <input type="hidden" value="{$info.id}" name="id">
+                <div class="config-items">
+                    <div class="config-title">
+                        <h1><i class="icon-font">&#xe00a;</i>分红配置</h1>
+                    </div>
+                    <div class="result-content">
+                        <table width="100%" class="insert-tab">
+                            <tbody>
+                                <tr>
+                                    <th width="15%">分红币种</th>
+                                    <td>
+                                    <select name="currency_id"   class="common-text w200">
+                                        <volist name="cur_list" id="vo">
+                                            <option value="{$vo.currency_id}" <if condition="$info['currency_id'] eq $vo['currency_id'] ">selected</if>>{$vo.currency_name}</option>
+                                        </volist>
+                                    </select>&nbsp;&nbsp;
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>抽奖规则id</th>
+                                    <td>
+                                        <select name="luckdraw_conf_id" class="common-text" id="luckdraw_conf_id">
+                                            <volist name="luckdraw_conf_list" id="vo">
+                                                <option value="{$vo['id']}" <if condition="$info['luckdraw_conf_id'] eq $vo['id']"></if>>{$vo['title']} </option>
+                                            </volist>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>底部横幅广告</th>
+                                    <td><input type="file" name="bottom_img" class="common-text" value="{$info.bottom_img}">
+                                        <input type="hidden" name="oldbottom_img" class="common-text" value="{$info.bottom_img}">
+                                        <if condition="$info['bottom_img']">
+                                            <img src="{$info.bottom_img}" style="width: 80px;height: 80px" alt="">
+                                        </if>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>底部图片链接</th>
+                                    <td><input type="text" name="bottom_img_url" class="common-text btn50" value="{$info.bottom_img_url}"></td>
+                                </tr>
+                                <tr>
+                                    <th></th>
+                                    <td>
+                                        <input type="submit" value="提交" class="btn btn-primary btn6 mr10">
+                                        <a href="{:U('Exchange/config')}"><input type="button" value="返回"  class="btn btn6"></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+            </form>
+        </div>
+    </div>
+    <!--/main-->
+</div>
+</body>
+</html>
+
+<script>									
+	KindEditor.ready(function(K) {
+		window.editor1 = K.create('#content3');	
+	});
+    $(".result-content").on('click','#addnums',function () {
+        var _self = $(this);
+        $('.nums_item td').append('<span class="num_item"><input id="num_val" name="num_val[]" type="text"  class="common-text btn4 ml10">'
+            +'<button class="col-md-2 btn btn-sm btn-danger btnDel" type="button" style="border-radius:50% !important;width:30px;height:30px;padding:0;">'
+            +'<span class="glyphicon glyphicon-minus" aria-hidden="true"></span>'
+            +'</button></span>'
+        );
+    });
+
+    $(document).on('click',".btnDel",function() {
+        $(this).closest('.num_item').remove();
+    });
+
+</script>

@@ -62,11 +62,6 @@ class CommonController extends Controller {
         $this->config=$conf_list;
         $this->assign('config',$conf_list);
 
-        /*兑换配置*/
-        $ex_config = M("exhange_config")->find();
-        $this->ex_config = $ex_config;
-        $this->assign('ex_config',$this->ex_config);
-
         $this->login_limit_time();
 
     }

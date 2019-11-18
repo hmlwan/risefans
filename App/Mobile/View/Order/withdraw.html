@@ -1,0 +1,111 @@
+<include file="Public:header"/>
+<body>
+<div class="rechage">
+	<header>
+		<div class="header_bt">
+			<div class="header_f"><a href="javascript:history.back()" class="header_fh"></a></div>
+			<div class="header_c">提现莱特币</div>
+			<div class="header_r"><a href="{:U('Order/withdraw_record')}" class="">提现记录</a></div>
+		</div>
+		<div style="height: .74rem;clear: both;"></div>
+	</header>
+	<div class="txltb">
+		<ul class="flexbox column">
+			<li>
+				<p class="title">提币地址</p>
+				<p class="flexbox spacebetween tbdz">
+					<span><input type="text" placeholder="输入或长按粘贴地址"></span>
+				</p>
+			</li>
+			<li>
+				<p class="title">数量</p>
+				<p class="flexbox spacebetween">
+					<span><input type="text" placeholder="最小提币数量0.1"></span><span>LTC&nbsp;&nbsp;|<em class="qb">全部</em></span>
+				</p>
+				<p>可用 0.00002558 LTC</p>
+			</li>
+			<li>
+				<p class="title">手续费</p>
+				<p  class="flexbox spacebetween">
+					<span><input type="text" class="sxf" value="0.00100100"></span><span class="ltc">LTC</span>
+				</p>
+				<p>范围 0.00002558 LTC</p>
+			</li>
+		</ul>
+		<div class="tbsm">
+			<div>
+				<p>最小提币数量为: 0.1LTC。</p>
+				<p>为保障资金安全，当您账户安全策略变更、密码修改、我们会对提币进行人工审核，请耐心等待工作人员电话或邮件联系。</p>
+				<p>请务必确认电脑及浏览器安全，防止信息被篡改或泄露。</p>
+			</div>
+		</div>
+		<div class="dzsl flexbox spacebetween">
+			<span>到账数量</span>
+			<span>0.00002558 LTC</span>
+		</div>
+		<div class="tb_btn">
+			提币
+		</div>
+	</div>
+</div>
+<div class="zhezhao zhezhao_h"></div>
+<div class="yztb">
+	<ul class="flexbox column">
+		<li class="cur_no">SHnsdkSKDSlsds87Pkwelzds</li>
+		<li>
+			<p class="flexbox spacebetween">
+				<span>提币币种</span>
+				<span>LTC</span>
+			</p>
+		</li>
+		<li>
+			<p class="flexbox spacebetween">
+				<span>提币数量</span>
+				<span>2.58586958 LTC</span>
+			</p>
+		</li>
+		<li>
+			<p class="flexbox spacebetween">
+				<span>网络手续费</span>
+				<span>0.001 LTC</span>
+			</p>
+		</li>
+	</ul>
+	<p class="flexbox spacebetween yzm">
+		<span>短信验证</span>
+		<span><input type="text" placeholder="短信验证码"></span>
+		<span class="fsyzm">发送验证码</span>
+	</p>
+	<div class="tb_btn default">
+		提币
+	</div>
+</div>
+<div style="height: .9rem;"></div>
+<div class="footer_main">
+	<ul>
+		<a href="{:U('Redpack/index')}">
+			<li class="footer_fl">红包</li>
+		</a>
+		<a href="{:U('Bonus/index')}">
+			<li class="footer_f2">分红</li>
+		</a>
+		<a href="{:U('Exchange/buyview')}">
+			<li class="footer_f3">
+				邀请
+			</li>
+		</a>
+
+		<a href="{:U('Task/index')}">
+			<li class="footer_f4">
+				任务
+			</li>
+		</a>
+		<a href="{:U('Member/index')}">
+			<li class="footer_f5 footer_active_f5">
+				我的
+			</li>
+		</a>
+	</ul>
+</div>
+
+<include file="Public:footer"/>

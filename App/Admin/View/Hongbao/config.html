@@ -35,7 +35,6 @@
                                     <th width="15%">vip1观看次数</th>
                                     <td><input type="text" name="watch_num1" class="common-text" value="{$info.watch_num1|default=1}"><i class="require-red">（默认：1）</i></td>
                                 </tr>
-
                                 <tr>
                                     <th>抽奖规则id</th>
                                     <td>
@@ -44,27 +43,6 @@
                                                 <option value="{$vo['id']}" <if condition="$info['luckdraw_conf_id'] eq $vo['id']"></if>>{$vo['title']} </option>
                                             </volist>
                                         </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>领取一次红包增加抽奖数</th>
-                                    <td>
-                                        <input type="text" value="{$info.get_luckdraw_num|default=1}" name="get_luckdraw_num" class="common-text"><i class="require-red">（默认：1）</i>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <th>抽奖消耗抽奖数</th>
-                                    <td><input type="text" name="use_luckdraw_num" class="common-text" value="{$info.use_luckdraw_num|default=10}"><i class="require-red">（默认：10）</i></td>
-                                </tr>
-                                <tr>
-                                    <th>满足抽奖数量</th>
-                                    <td><input type="text" name="achieve_num" class="common-text" value="{$info.achieve_num|default=10}"><i class="require-red">（默认：10）</i></td>
-                                </tr>
-                                <tr>
-                                    <th>抽奖一次增加贡献值</th>
-                                    <td>
-                                        <input type="text" value="{$info.add_contribution_num|default=1}" name="add_contribution_num" class="common-text"><i class="require-red">（默认：1）</i>
                                     </td>
                                 </tr>
                                 <tr>
@@ -80,18 +58,6 @@
                                     <th>底部图片链接</th>
                                     <td><input type="text" name="bottom_img_url" class="common-text btn50" value="{$info.bottom_img_url}"></td>
                                 </tr>
-                                <!--<tr class="nums_item">-->
-                                    <!--<th></th>-->
-                                    <!--<td>-->
-                                        <!--<volist name="info['num_json']" id="v">-->
-                                            <!--<span class="num_item"><input id="num_val" name="num_val[]" type="text" value="{$v}"  class="common-text btn4 ml10">-->
-                                                <!--<button class="col-md-2 btn btn-sm btn-danger btnDel" type="button" style="border-radius:50% !important;width:30px;height:30px;padding:0;">-->
-                                                <!--<span class="glyphicon glyphicon-minus" aria-hidden="true"></span>-->
-                                                <!--</button>-->
-                                            <!--</span>-->
-                                        <!--</volist>-->
-                                    <!--</td>-->
-                                <!--</tr>-->
                                 <tr>
                                     <th></th>
                                     <td>

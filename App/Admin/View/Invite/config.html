@@ -41,27 +41,6 @@
                                     </select>
                                 </td>
                             </tr>
-                            <tr>
-                                <th>实名奖励抽奖数</th>
-                                <td>
-                                    <input type="text" value="{$info.reward_luckdraw_num|default=1}" name="reward_luckdraw_num" class="common-text"><i class="require-red">（默认：1）</i>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <th>抽奖一次增加贡献值</th>
-                                <td>
-                                    <input type="text" value="{$info.add_contribution_num|default=1}" name="add_contribution_num" class="common-text"><i class="require-red">（默认：1）</i>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>满足抽奖数量</th>
-                                <td><input type="text" name="achieve_num" class="common-text" value="{$info.achieve_num|default=10}"><i class="require-red">（默认：10）</i></td>
-                            </tr>
-                            <tr>
-                                <th>抽奖消耗抽奖数</th>
-                                <td><input type="text" name="use_luckdraw_num" class="common-text" value="{$info.use_luckdraw_num|default=3}"><i class="require-red">（默认：3）</i></td>
-                            </tr>
                                 <tr>
                                     <th><h2>实名奖励</h2></th>
                                     <td></td>
@@ -93,41 +72,10 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th><h2>VIP晋级奖励</h2></th>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <th width="15%">一级币种</th>
-                                    <td>
-                                        <select name="s_currency_id_1"   class="common-text w200">
-                                            <volist name="cur_list" id="vo">
-                                                <option value="{$vo.currency_id}" <if condition="$info['s_currency_id_1'] eq $vo['currency_id'] ">selected</if>>{$vo.currency_name}</option>
-                                            </volist>
-                                        </select>&nbsp;&nbsp;
-                                        一级币种数量
-                                        <input type="text" name="s_currency_num_1" class="common-text" value="{$info.s_currency_num_1|default=1}">
-                                        <i class="require-red">（默认：1）</i>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th width="15%">二级币种</th>
-                                    <td>
-                                        <select name="s_currency_id_2"   class="common-text w200">
-                                            <volist name="cur_list" id="vo">
-                                                <option value="{$vo.currency_id}" <if condition="$info['s_currency_id_2'] eq $vo['currency_id'] ">selected</if>>{$vo.currency_name}</option>
-                                            </volist>
-                                        </select>&nbsp;&nbsp;
-                                        二级币种数量
-                                        <input type="text" name="s_currency_num_2" class="common-text" value="{$info.s_currency_num_2|default=1}">
-                                        <i class="require-red">（默认：1）</i>
-                                    </td>
-                                </tr>
-
-                                <tr>
                                     <th></th>
                                     <td>
                                         <input type="submit" value="提交" class="btn btn-primary btn6 mr10">
-                                        <a href="{:U('Exchange/config')}"><input type="button" value="返回"  class="btn btn6"></a>
+                                        <a href="{:U('Invite/config')}"><input type="button" value="返回"  class="btn btn6"></a>
                                     </td>
                                 </tr>
                             </tbody>

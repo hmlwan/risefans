@@ -1,0 +1,93 @@
+<include file="Public:header"/>
+<link type="text/css" rel="stylesheet" href="__CSS__/project/task.css" />
+	<body>
+	<header>
+		<div class="header_bt">
+			<div class="header_f"><a href="javascript:history.back()" class="header_fh"></a></div>
+			<div class="header_c">我的奖品</div>
+		</div>
+		<div style="height: .74rem;clear: both;"></div>
+	</header>
+	<div class="wd_line"></div>
+	<div class="wdjp">
+		<ul>
+			<li>
+				<p>6金币</p>
+				<p>2019年11/11日 02:28:59</p>
+			</li>
+			<li>
+				<p>26金币</p>
+				<p>2019年11/11日 02:28:59</p>
+			</li>
+			<li>
+				<p>30金币</p>
+				<p>2019年11/11日 02:28:59</p>
+			</li>
+		</ul>
+	</div>
+
+
+	<div style="height: .9rem;"></div>
+	<div class="footer_main">
+		<ul>
+			<a href="{:U('Redpack/index')}">
+				<li class="footer_fl">红包</li>
+			</a>
+			<a href="{:U('Bonus/index')}">
+				<li class="footer_f2">分红</li>
+			</a>
+			<a href="{:U('Invite/index')}">
+				<li class="footer_f3">
+					邀请
+				</li>
+			</a>
+			<a href="{:U('Task/index')}">
+				<li class="footer_f4 footer_active_f4">
+					任务
+				</li>
+			</a>
+			<a href="{:U('Member/index')}">
+				<li class="footer_f5">
+					我的
+				</li>
+			</a>
+		</ul>
+	</div>
+	<script type="text/javascript">
+
+		$("#mask_close .mask_close img").click(function(){
+			$("#mask_close").hide();
+			location.reload();
+		});
+		function sign(obj){
+			var daily_num = obj.data('daily_num');
+			$.post("{:U('sign')}",{daily_num:daily_num},function(data){
+				if(data<0){
+					layer.msg(data.info);
+					return;
+				}else{
+					location.reload();
+					layer.msg(data.info,{icon:1});
+					setTimeout("location.reload()",2000);
+				}
+			});
+		}
+		function luckdraw(obj){
+			var type = obj.data('type');
+			$.post("{:U('luckdraw')}",{type:type},function(data){
+				console.log(data);
+				if(data.status == 1){
+					var arr = data.data;
+					$(".maskbox").find('.cur_num').text(arr.cur_num);
+					$(".maskbox").find('.cur_name').text(arr.cur_name);
+					$(".maskbox").find('button').attr("data-type",arr.type);
+					$("#mask_close").show();
+				}else{
+					layer.msg(data.info);
+					return;
+				}
+			});
+		}
+	</script>
+
+	<include file="Public:footer"/>

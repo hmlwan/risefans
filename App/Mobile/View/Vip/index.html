@@ -1,0 +1,96 @@
+<include file="Public:header"/>
+<link type="text/css" rel="stylesheet" href="__CSS__/project/task.css" />
+	<body class="vip_level">
+	<header>
+		<div class="header_bt">
+			<div class="header_f"><a href="javascript:history.back()" class="header_fh"></a></div>
+			<div class="header_c">VIP等级</div>
+			<div class="header_r"><a href="{:U('Vip/vip_record')}" class="">VIP记录</a></div>
+		</div>
+		<div style="height: .74rem;clear: both;"></div>
+	</header>
+	<div class="vip_h">
+		<img src="__IMG__/rise/vtx1.png" class="vtx" alt="">
+		<p class="cur_vip">VIP1</p>
+		<p>
+			<i><img  style="margin-top: .45rem;" src="__IMG__/rise/vip1.png" alt=""></i><em></em><span><img style="margin-top: .15rem;" src="__IMG__/rise/vip2.png" alt=""></span>
+		</p>
+		<p class="vip_sm">Vip说明</p>
+	</div>
+	<div class="vip_m">
+		<p><i></i><span>等级成长体系</span></p>
+		<p class="btn">
+			<span>关闭VIP</span>
+			<a href="{:U('Vip/buy_vip')}"><span>购买VIP</span></a>
+		</p>
+		<em></em>
+	</div>
+	<div class="czd_img">
+		<img src="__IMG__/rise/grew_img.png" alt="">
+	</div>
+	<div class="wd_line"></div>
+	<div class="vip_m vip_tq">
+		<p><i></i><span>等级成长特权</span></p>
+	</div>
+	<div class="wd_line"></div>
+	<div class="czd_img tq_img">
+		<img src="__IMG__/rise/mm.png" alt="">
+	</div>
+	<div class="vip_m vip_gz">
+		<p><i></i><span>等级成长规则</span></p>
+	</div>
+	<div class="vip_gz_con">
+		<p>1 . 风车等级成长值随所获积分值同步成长，即每获得-积分的同时获得一点成长值(2017-01-01起计)；</p>
+		<p>2 . 不同等级用户享受不同程度的特权，如上表所示; </p>
+		<p>3 . 积分使用将不会导致成长值减少; </p>
+		<p>4 . 通过非正当手段获取的积分和成长值经查证后将被回收; </p>
+		<p>5 . 更多疑问请<i>咨询风车客服</i>;</p>
+		<p>6 . 本等级体系最终解释权归风车官方所有。</p>
+	</div>
+	<div class="zhezhao_h"></div>
+	<div class="close_vip1_item flexbox spacebetween">
+		<div><img src="__IMG__/rise/alarm.png" alt=""></div>
+		<div class="flexbox">
+			<p class="title">你确认关闭<em>VIP2</em>吗？</p>
+			<p>这<em>是不可逆</em>的行为,关闭后你将变成最初VIP1并且获得1莱特币补偿</p>
+			<p class="btn">
+				<span class="confirm">确定</span>
+				<span class="cancel">取消</span>
+			</p>
+		</div>
+	</div>
+
+	<div style="height: .9rem;"></div>
+	<div class="footer_main">
+		<ul>
+			<a href="{:U('Redpack/index')}">
+				<li class="footer_fl">红包</li>
+			</a>
+			<a href="{:U('Bonus/index')}">
+				<li class="footer_f2">分红</li>
+			</a>
+			<a href="{:U('Invite/index')}">
+				<li class="footer_f3">
+					邀请
+				</li>
+			</a>
+			<a href="{:U('Task/index')}">
+				<li class="footer_f4 footer_active_f4">
+					任务
+				</li>
+			</a>
+			<a href="{:U('Member/index')}">
+				<li class="footer_f5">
+					我的
+				</li>
+			</a>
+		</ul>
+	</div>
+	<script type="text/javascript">
+		$(".close_vip1_item .cancel").click(function () {
+			$(".close_vip1_item").hide();
+			$(".zhezhao_h").atrr('class','zhezhao_h zhezhao');
+        })
+	</script>
+
+	<include file="Public:footer"/>

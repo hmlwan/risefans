@@ -11,37 +11,39 @@
 		<img class="db" src="__IMG__/rise/db1.png"/>
 		<a href=""><img src="__IMG__/rise/gz.png" class="rule"/></a>
 	</div>
-	<div class="yq_section">
-		<ul>
-			<li><i></i></li>
-			<li><i></i></li>
-			<li><i></i></li>
-			<li><i></i></li>
-			<li><i></i></li>
+	<div class="yq_section icon">
+		<ul class="icon_ul">
+			<li><i class="yqicon1"></i></li>
+			<li><i class="yqicon2"></i></li>
+			<li><i class="yqicon3"></i></li>
+			<li><i class="yqicon2"></i></li>
+			<li><i class="yqicon4"></i></li>
 		</ul>
-		<ul>
+		<ul class="icon_text icon_ul">
 			<li>发送邀请给好友</li>
 			<li>好友完成实名并进行抽奖</li>
 			<li>获得相应比例返佣</li>
 		</ul>
 	</div>
-	<div class="yq_section top_blue_side">
-		<p>
-			<span></span>
-			<span><em></em><i></i></span>
+	<div class="yq_section zylj">
+		<i class="yaoqing_top_side"></i>
+		<p class="t">
+			<span>我的直邀链接</span>
+			<span class="input_txt zy_text"><em>https://wwww.baidu.com/so2w.baidu.com/so2</em><i></i></span>
 		</p>
 		<p>
-			<span></span>
-			<span><em></em><i></i></span>
+			<span>我的邀请码</span>
+			<span class="input_txt yqm_text"><em>18741808793</em><i></i></span>
 		</p>
 		<p>
-			<span class="schb"></span>
-			<span class="mdmyq"></span>
+			<a href="javascript:;" class="schb"><img src="__IMG__/rise/sc.png" alt=""></a>
+			<a href="javascript:;" class="mdmyq"><img src="__IMG__/rise/yq.png" alt=""></a>
 		</p>
 	</div>
-	<div class="yq_section top_blue_side wdsy">
-		<p><span>我的收益</span><i></i></p>
-		<ul>
+	<div class="yq_section  wdsy">
+		<i class="yaoqing_top_side"></i>
+		<a href=""><p class="title"><span>我的收益</span><i></i></p></a>
+		<ul class="ztrs">
 			<li>
 				<p>71</p>
 				<a href="">直推人数</a>
@@ -51,7 +53,7 @@
 				<a href="">二级下线</a>
 			</li>
 		</ul>
-		<ul>
+		<ul class="ztrs">
 			<li>
 				<p>571</p>
 				<a href="">今日佣金</a>
@@ -62,13 +64,33 @@
 			</li>
 		</ul>
 	</div>
-	<div class="yq_section top_blue_side phb">
-		<p><span><var>我的收益</var></span><span><i></i></span></p>
-		<p><span><var></var><em></em></span> <span><b></b></span></p>
+	<div class="yq_section phb">
+		<i class="yaoqing_top_side"></i>
+		<a href="{:U('Invite/rank_record')}"><p class="title"><span>累计收益排行榜</span><i></i></p></a>
+		<ul>
+			<li>
+				<span><i class="top1"></i>18078148789</span>
+				<span>126797<em>金币</em></span>
+			</li>
+			<li>
+				<span><i class="top2"></i>18078148789</span>
+				<span>126797<em>金币</em></span>
+			</li>
+			<li>
+				<span><i class="top3"></i>18078148789</span>
+				<span>126797<em>金币</em></span>
+			</li>
+		</ul>
 	</div>
 
-
-
+	<div class="sc_hb">
+		<i class="close_hb"></i>
+		<!--<img src="__IMG__/rise/hb.png" alt="">-->
+		<div class="item">
+			<p>18078148789</p>
+			<img src="__IMG__/rise/qrcode.png" alt="">
+		</div>
+	</div>
 
 	<div style="height: .9rem;"></div>
 	<div class="footer_main">
@@ -104,5 +126,13 @@
 				layer.msg('复制成功',{icon:1});
 			});
 		});
+
+		$(".close_hb").click(function () {
+			$(".sc_hb").hide();
+        })
+        $(".schb").click(function () {
+            $(".sc_hb").show();
+        })
+
 	</script>
 <include file="Public:footer"/>

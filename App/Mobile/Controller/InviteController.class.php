@@ -28,7 +28,7 @@ class InviteController extends HomeController
 
     }
 
-    /*分享赚钱*/
+    /**/
     public function index1()
     {
         $member_id = session('USER_KEY_ID');
@@ -125,4 +125,10 @@ class InviteController extends HomeController
         );
         return $arr;
     }
+    /*累积排行榜*/
+    public function rank_record(){
+        $this->display();
+
+    }
+
 }

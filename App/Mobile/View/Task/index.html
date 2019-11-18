@@ -1,209 +1,188 @@
 <include file="Public:header"/>
 <link type="text/css" rel="stylesheet" href="__CSS__/project/task.css" />
-	<body class="graybody">
-		<header class="taskheader">
-			<div>我的金币</div>
-			<div class="strategy flexbox spacebetween">
-				<p><strong>{$mem_cur_num|default=0}</strong>={$rmb_num|default=0.00}币</p>
-				<a href=""><img src="__IMG__/rise/task.png"/></a>
+	<body>
+	<header>
+		<div class="header_bt">
+			<div class="header_f"><a href="javascript:history.back()" class="header_fh"></a></div>
+			<div class="header_c">任务</div>
+		</div>
+		<div style="height: .74rem;clear: both;"></div>
+	</header>
+	<div class="taskheader">
+		<div class="strategy">
+			<div class="flexbox spacebetween">
+				<p>
+					<span><i class="ltb"></i><em>{$mem_cur_num|default=0}</em></span>
+					<span><i class="jb"></i><em>{$mem_cur_num|default=0}</em></span>
+				</p>
+				<p>连续签到，额外奖励</p>
 			</div>
-			<div class="task_top_box">
-				<div class="top_box_head flexbox spacebetween">
-					<p><strong>已连续签到<span><i>{$daily_record.daily_num}</i>天</span></strong></p>
-					<if condition="$is_today_sign eq 1">
-						<p>明日签到可得<text>{$tomorrow_sign_num}</text>金币</p>
-					<else />
-						<p>今日签到可得<text>{$tomorrow_sign_num}</text>金币</p>
-					</if>
-				</div>
+		</div>
+		<div class="task_top_box">
+			<div class="task_top_con">
 				<ul class="flexbox spacebetween" id="taskTopList">
 					<li <if condition="$daily_record['daily_num'] egt 1">class="active"</if>>
-						<div>{$sign_conf.num_1}</div>
-						<p>1天</p>
+					<div>{$sign_conf.num_1}</div>
+					<p>1天</p>
 					</li>
 					<li <if condition="$daily_record['daily_num'] egt 2">class="active"</if>>
-						<div>{$sign_conf.num_2}</div>
-						<p>2天</p>
+					<div>{$sign_conf.num_2}</div>
+					<p>2天</p>
 					</li>
 					<li <if condition="$daily_record['daily_num'] egt 3">class="active"</if>>
-						<div>{$sign_conf.num_3}</div>
-						<p>3天</p>
+					<div>{$sign_conf.num_3}</div>
+					<p>3天</p>
 					</li>
 					<li <if condition="$daily_record['daily_num'] egt 4">class="active"</if>>
-						<div>{$sign_conf.num_4}</div>
-						<p>4天</p>
+					<div>{$sign_conf.num_4}</div>
+					<p>4天</p>
 					</li>
 					<li <if condition="$daily_record['daily_num'] egt 5">class="active"</if>>
-						<div>{$sign_conf.num_5}</div>
-						<p>5天</p>
+					<div>{$sign_conf.num_5}</div>
+					<p>5天</p>
 					</li>
 					<li <if condition="$daily_record['daily_num'] egt 6">class="active"</if>>
-						<div>{$sign_conf.num_6}</div>
-						<p>6天</p>
+					<div>{$sign_conf.num_6}</div>
+					<p>6天</p>
 					</li>
 					<li <if condition="$daily_record['daily_num'] egt 7">class="active"</if>>
-						<div>{$sign_conf.num_7}</div>
-						<p>7天</p>
+					<div>{$sign_conf.num_7}</div>
+					<p>7天</p>
 					</li>
 				</ul>
-				<if condition="$is_today_sign eq 0">
-					<p id="taskbutton" onclick="sign($(this))" data-daily_num="{$daily_record['daily_num']}"  class="taskbutton"><button>签到领金币</button></p>
-				</if>
-			</div>
-		</header>
-		<section class="task_section">
-			<ul class="task_loop">
-				<li><img src="__IMG__/rise/laba.png"/>181****6589抽中666金币</li>
-			</ul>
-			<ul class="task_list">
-				<li class="flexbox spacebetween">
-					<img src="__IMG__/rise/AD.png"/>
-					<div class="mid_list">
-						<strong>领取{$redpack_conf.achieve_num}次红包({$member_ld_num.redpack_ld_num|default=0}/<span>{$redpack_conf.achieve_num}</span>)</strong>
-						<div>每次抽奖消耗{$redpack_conf.use_luckdraw_num}次抽奖数，最高中100金币</div>
-					</div>
-					<div>
-						<p>+{$redpack_conf.add_contribution_num}<img src="__IMG__/rise/love.png"/></p>
-						<a href="javascript:;" data-type="1" onclick="luckdraw($(this))">去抽奖</a>
+				<p id="taskbutton" onclick="sign($(this))" data-daily_num="{$daily_record['daily_num']}"  class="taskbutton"><button>签到领金币</button></p>
 
-						<!--<if condition="$member_ld_num['redpack_ld_num'] egt $redpack_conf['achieve_num']">-->
-							<!--<a href="javascript:;" data-type="1" onclick="luckdraw($(this))">去抽奖</a>-->
-						<!--<else />-->
-							<!--<a href="">去完成</a>-->
-						<!--</if>-->
-					</div>
-				</li>
-				
-				<li class="flexbox spacebetween">
-					<img src="__IMG__/rise/yq2.png"/>
-					<div class="mid_list">
-						<strong>邀请好友({$member_ld_num.invite_ld_num|default=0}/<span>{$invite_conf.achieve_num}</span>)</strong>
-						<div>每次抽奖消耗{$invite_conf.achieve_num}次抽奖数，最高中1000金币</div>
-					</div>
-					<div>
-						<p>+{$invite_conf.add_contribution_num}<img src="__IMG__/rise/love.png"/></p>
-						<if condition="$member_ld_num['invite_ld_num'] egt $invite_conf['achieve_num']">
-							<a href="javascript:;" data-type="2"  onclick="luckdraw($(this))" >去抽奖</a>
-							<else />
-							<a href="">去完成</a>
-						</if>
-					</div>
-				</li>
-				<li class="flexbox spacebetween">
-					<img src="__IMG__/rise/gx.png"/>
-					<div class="mid_list">
-						<strong>购买贡献值({$member_ld_num.buy_ld_num|default=0}/<span>{$contribution_conf.achieve_num|default=10}</span>)</strong>
-						<div>每次抽奖消耗{$contribution_conf.use_luckdraw_num}次抽奖数，最高中100金币</div>
-					</div>
-					<div>
-						<p>+{$contribution_conf.add_contribution_num}<img src="__IMG__/rise/love.png"/></p>
-						<if condition="$member_ld_num['buy_ld_num'] egt $contribution_conf['achieve_num']">
-							<a href="javascript:" data-type="3" onclick="luckdraw($(this))">去抽奖</a>
-							<else />
-							<a href="">去完成</a>
-						</if>
-					</div>
-				</li>
-				<li class="flexbox spacebetween">
-					<img src="__IMG__/rise/lc.png"/>
-					<div class="mid_list">
-						<strong>领取分红(23/<span>2</span>)</strong>
-						<div>每次抽奖消耗2次抽奖数，最高中 100金币</div>
-					</div>
-					<div>
-						<p>+5<img src="__IMG__/rise/love.png"/></p>
-						<a href="">去完成</a>
-					</div>
-				</li>
-				<li class="flexbox spacebetween">
-					<img src="__IMG__/rise/VIP.png"/>
-					<div class="mid_list">
-						<strong>看广告赚金币(2/<span>1</span>)</strong>
-						<div>每次抽奖消耗1次抽奖数，最高中 100金币</div>
-					</div>
-					<div>
-						<p>+10<img src="__IMG__/rise/love.png"/></p>
-						<a href="">去完成</a>
-					</div>
-				</li>
-			</ul>
-		</section>
-		<div class="mask"  id="mask_close">
-			<div class="maskbox">
-				<p class="mask_close" >
-					<img src="__IMG__/rise/close.png"/>
-				</p>
-				<div>
-					<img src="__IMG__/rise/coin2.png"/>
-				</div>
-				<div>恭喜抽中</div>
-				<div><span class="cur_num">88</span><span class="cur_name">金币</span></div>
-				<p>可在“金币明细”查看</p>
-				<button onclick="luckdraw($(this))">再抽一次</button>
+				<!--<if condition="$is_today_sign eq 0">-->
+					<!--<p id="taskbutton" onclick="sign($(this))" data-daily_num="{$daily_record['daily_num']}"  class="taskbutton"><button>签到领金币</button></p>-->
+				<!--</if>-->
 			</div>
 		</div>
-		<div style="height: .9rem;"></div>
-		<div class="footer_main">
-			<ul>
-				<a href="{:U('Redpack/index')}">
-					<li class="footer_fl">红包</li>
-				</a>
-				<a href="">
-					<li class="footer_f2">分红</li>
-				</a>
-				<a href="{:U('Invite/index')}">
-					<li class="footer_f3">
-						邀请
-					</li>
-				</a>
-
-				<a href="{:U('Task/index')}">
-					<li class="footer_f4 footer_active_f4">
-						任务
-					</li>
-				</a>
-				<a href="{:U('Member/index')}">
-					<li class="footer_f5">
-						我的
-					</li>
-				</a>
-			</ul>
+	</div>
+	<div class="flexbox spacebetween task_m">
+		<p class="title">每日抽取好礼</p>
+		<a href="{:U('Task/task_record')}"><p><span>查看我的奖品</span><i></i></p></a>
+	</div>
+	<div class="task_item">
+		<ul class="flexbox spacebetween ">
+			<li>
+				<img src="__IMG__/rise/3x.png" alt="">
+				<p>30~99金币</p>
+			</li>
+			<li>
+				<img src="__IMG__/rise/500.png" alt="">
+				<p>500元现金红包</p>
+			</li>
+			<li>
+				<img src="__IMG__/rise/1x.png" alt="">
+				<p>1~9金币</p>
+			</li>
+			<li>
+				<img src="__IMG__/rise/huawei.png" alt="">
+				<p>华为30pro</p>
+			</li>
+			<li class="start_luck">
+				 <span>开 始 抽 奖</span>
+				 <p>0.01莱特币/次</p>
+			</li>
+			<li>
+				<img src="__IMG__/rise/applem.png" alt="">
+				<p>iPhone11</p>
+			</li>
+			<li>
+				<img src="__IMG__/rise/4x.png" alt="">
+				<p>100~999金币</p>
+			</li>
+			<li>
+				<img src="__IMG__/rise/wxr.png" alt="">
+				<p>外星人笔记本</p>
+			</li>
+			<li>
+				<img src="__IMG__/rise/2x.png" alt="">
+				<p>10~29金币</p>
+			</li>
+		</ul>
+	</div>
+	<div class="tongzhi">
+		<i></i><span>180****4687抽中66金币</span>
+	</div>
+	<div class="task_b">
+		<img src="__IMG__/rise/gb.png" alt="">
+	</div>
+	<div class="mask"  id="mask_close">
+		<div class="maskbox">
+			<p class="mask_close" >
+				<img src="__IMG__/rise/close.png"/>
+			</p>
+			<div>
+				<img src="__IMG__/rise/coin2.png"/>
+			</div>
+			<div>恭喜抽中</div>
+			<div><span class="cur_num">88</span><span class="cur_name">金币</span></div>
+			<p>可在“金币明细”查看</p>
+			<button onclick="luckdraw($(this))">再抽一次</button>
 		</div>
-		<script type="text/javascript">
+	</div>
+	<div style="height: .9rem;"></div>
+	<div class="footer_main">
+		<ul>
+			<a href="{:U('Redpack/index')}">
+				<li class="footer_fl">红包</li>
+			</a>
+			<a href="{:U('Bonus/index')}">
+				<li class="footer_f2">分红</li>
+			</a>
+			<a href="{:U('Invite/index')}">
+				<li class="footer_f3">
+					邀请
+				</li>
+			</a>
+			<a href="{:U('Task/index')}">
+				<li class="footer_f4 footer_active_f4">
+					任务
+				</li>
+			</a>
+			<a href="{:U('Member/index')}">
+				<li class="footer_f5">
+					我的
+				</li>
+			</a>
+		</ul>
+	</div>
+	<script type="text/javascript">
 
-			$("#mask_close .mask_close img").click(function(){
-				$("#mask_close").hide();
-                location.reload();
+		$("#mask_close .mask_close img").click(function(){
+			$("#mask_close").hide();
+			location.reload();
+		});
+		function sign(obj){
+			var daily_num = obj.data('daily_num');
+			$.post("{:U('sign')}",{daily_num:daily_num},function(data){
+				if(data<0){
+					layer.msg(data.info);
+					return;
+				}else{
+					location.reload();
+					layer.msg(data.info,{icon:1});
+					setTimeout("location.reload()",2000);
+				}
 			});
-            function sign(obj){
-				var daily_num = obj.data('daily_num');
-                $.post("{:U('sign')}",{daily_num:daily_num},function(data){
-                    if(data<0){
-                        layer.msg(data.info);
-                        return;
-                    }else{
-                        location.reload();
-                        layer.msg(data.info,{icon:1});
-                        setTimeout("location.reload()",2000);
-                    }
-                });
-            }
-            function luckdraw(obj){
-                var type = obj.data('type');
-                $.post("{:U('luckdraw')}",{type:type},function(data){
-                    console.log(data);
-                    if(data.status == 1){
-                        var arr = data.data;
-						$(".maskbox").find('.cur_num').text(arr.cur_num);
-						$(".maskbox").find('.cur_name').text(arr.cur_name);
-						$(".maskbox").find('button').attr("data-type",arr.type);
-                        $("#mask_close").show();
-                    }else{
-                        layer.msg(data.info);
-                        return;
-                    }
-                });
-            }
-		</script>
+		}
+		function luckdraw(obj){
+			var type = obj.data('type');
+			$.post("{:U('luckdraw')}",{type:type},function(data){
+				console.log(data);
+				if(data.status == 1){
+					var arr = data.data;
+					$(".maskbox").find('.cur_num').text(arr.cur_num);
+					$(".maskbox").find('.cur_name').text(arr.cur_name);
+					$(".maskbox").find('button').attr("data-type",arr.type);
+					$("#mask_close").show();
+				}else{
+					layer.msg(data.info);
+					return;
+				}
+			});
+		}
+	</script>
 
-		<include file="Public:footer"/>
+	<include file="Public:footer"/>

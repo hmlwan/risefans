@@ -1,48 +1,60 @@
 body{	
 	font-size: .26rem;
 }
-.graybody{
-	background-color: #f4f7ff;
-}
 
 .taskheader{
     color: #fff;
     width: 100%;
     height: 4rem;
-    padding: .4rem;
     line-height: 1.4;
     box-sizing: border-box;
-    background: url(../../images/rise/db.png) no-repeat;
-    background-size: 100% 100%;
-    margin-bottom: 1.4rem;
 }
-
 .strategy {
-	margin-bottom: .2rem;
 	position: relative;
+	color:#949494;
+	font-size: .24rem;
+	border-bottom: 1px solid #f2f2f2;
 }
-.strategy strong{
+.strategy em{
 	font-size: .4rem;
+	font-weight: bold;
+	color: #17161c;
+}
+.strategy div{
+	width: 92%;
+	margin:  0 auto .25rem;
+	height: .6rem;
+	line-height: .6rem;
+}
+.strategy i{
+	width: .6rem;
+	height: .6rem;
+	display: inline-block;
+	vertical-align: middle;
+	margin-bottom: .15rem;
 }
 
-.strategy a{
-	position: absolute;
-	right: -.4rem;
+.strategy .ltb{
+	background: url("../../images/rise/ltc.png") no-repeat center;
+	background-size: 55%;
 }
-.strategy img{
-	width: 1.6rem;
-	height: .5rem;
+.strategy .jb{
+	background: url("../../images/rise/b.png") no-repeat center;
+	background-size: 85%;
 }
 
 .task_top_box{
 	width: 100%;
-	padding:.25rem .3rem;
-	box-sizing: border-box;
-	background: url(../../images/rise/hf.png) no-repeat;
-	background-size: 100% 100%;
+
 	color: #272727;
 }
-
+.task_top_box .task_top_con{
+	width: 88%;
+	margin: 0 auto .3rem;
+	box-shadow: 1px 1px 1px 2.4px  #f6f7f9;
+	box-sizing: border-box;
+	border-radius: 10px;
+}
 .top_box_head{
 	line-height: .6rem;
 }
@@ -51,7 +63,7 @@ body{
 	font-size: .26rem;
 }
 .top_box_head span{
-	color: #f77200;
+	color: #407aff;
 }
 .top_box_head p:last-child{
 	color: #949494;
@@ -61,12 +73,13 @@ body{
 	color: #bb7272;
 }
 .task_top_box ul{
-	padding: .5rem 0 .3rem;
-	margin-bottom:.5rem;
+	padding: .5rem 0 .8rem;
+	width: 90%;
+	margin: 0 auto;
 }
 
 .task_top_box li{
-    width: .54rem;
+    width: .5rem;
     height: .6rem;
     line-height: .6rem;
 	text-align: center;
@@ -85,8 +98,8 @@ body{
 }
 
 .task_top_box .active{
-	background:#ec840b url(../../images/rise/gou.png) no-repeat center center;
-	background-size: 70%;
+	background:#407aff url(../../images/rise/gou.png) no-repeat center center;
+	background-size: 75%;
 }
 
 .task_top_box .active div{
@@ -98,94 +111,121 @@ body{
 }
 .taskbutton button{
 	display: inline-block;
-	width: 90%;
-	height: .65rem;
-	line-height: .65rem;
-	background-color: #ec840b;
+	width: 88%;
+	height: .7rem;
+	line-height: .7rem;
+	background-color: #407aff;
 	color: #fff;
 	border-radius: 5px;
 	text-align: center;
-	font-size: .24rem;
+	font-size: .25rem;
 	border: 0;
 }
 .taskbutton {
 	text-align: center;
+	padding-bottom: .45rem;
 }
 
-.task_section{
-	background-color: #fff;
-	border-radius: .1rem;
+.task_m{
+	width: 90%;
+	margin: .35rem auto;
+	height: .4rem;
+	line-height: .4rem;
+}
+.task_m .title{
+	font-weight: bold;
+	font-size: .32rem;
+	color: #17161c;
+}
+.task_m span{
+	font-size: .26rem;
+	color: #949494;
+}
+.task_m i{
+	width: .35rem;
+	height: .35rem;
+	background: url("../../images/rise/right.png") no-repeat center;
+	background-size: 100%;
+	display: inline-block;
+	vertical-align: middle;
+}
+.task_item{
 	width: 90%;
 	margin: 0 auto;
-	padding: .3rem .3rem 0;
-	box-sizing: border-box;
 }
-.task_loop {
-	text-align: center;
+.task_item ul{
+	flex-wrap:wrap
 }
-
-.task_loop img{
-	width: .4rem;
-	vertical-align: middle;
-}
-.task_list{
-	align-items: center;
-}
-.task_list li{
-	padding: .24rem 0;
-	border-bottom: 1px solid #f6f6f6;
-}
-.task_list li:last-child{
-	border-bottom: 0;
-}
-.task_list img{
-	width: .8rem;
-	height: .8rem;
-}
-
-.task_list div img{
-	width: .36rem;
-	height: .26rem;
-	margin: 0;
-	vertical-align: middle;
-}
-
-.task_list div p{
-	color: #e4433b;
-	font-weight: bold;
+.task_item ul li{
+	width: 32.5%;
+	height: 1.8rem;
+	background-color: #f2f2f2;
+	margin-bottom: .1rem;
+	color:#706e73;
 	font-size: .24rem;
 	text-align: center;
+	border-radius: 10px;
+
 }
-.task_list strong{
+.task_item ul li img{
+	height: .8rem;
+	width: 1rem;
+	margin-top: .28rem;
+	margin-bottom: .12rem;
+}
+.task_item ul li.start_luck{
+	background-color: #407aff;
+	color: #fff;
+	font-size: .24rem;
+}
+.task_item ul li.start_luck span{
+	font-size: .3rem;
+	width: 50%;
+	display: inline-table;
+	margin-top: .3rem;
+	margin-bottom: .15rem;
+}
+.tongzhi{
+	text-align: center;
+	font-size:.26rem ;
+	color:#6e6d72;
+	margin: .15rem 0;
+}
+.tongzhi i{
+	width: .4rem;
+	height: .4rem;
+	background: url("../../images/rise/laba.png") no-repeat center;
+	background-size: 100%;
+	display: inline-block;
+	vertical-align: middle;
+}
+.task_b{
+	width: 90%;
+	margin:  0 auto;
+}
+.task_b img{
+	width: 100%;
+	height: 2.5rem;
+}
+/*我的奖品*/
+.wdjp{
+	width: 100%;
+}
+.wdjp ul{
+	width: 90%;
+	margin: 0 auto;
+}
+.wdjp ul li{
+	padding: .22rem 0;
+	color: #737b8e;
+	font-size: .24rem;
+	border-bottom: 1px solid #f6f7f9;
+	line-height: .4rem;
+}
+.wdjp ul li p:first-child{
+	color: #24324c;
 	font-size: .26rem;
-	color: #171719;
+	font-weight: bold;
 }
 
-.task_list .mid_list {
-	width: 58%;
-}
-.task_list .mid_list strong span {
-	color:#da5a35
-}
-
-.task_list div div{
-	font-size: .2rem;
-	color: #abadab;
-	margin-top: .03rem;
-}
-
-
-.task_list div a{
-	    display: inline-block;
-    background-color: #fe9528;
-    text-align: center;
-    width: 1.2rem;
-    height: .46rem;
-    line-height: .46rem;
-    color: #fff;
-    font-size: .2rem;
-    font-weight: bold;
-    border-radius: .3rem;
-    margin-top: .1rem;
-}
 

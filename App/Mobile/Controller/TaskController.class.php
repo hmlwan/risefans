@@ -256,5 +256,8 @@ class TaskController extends HomeController
         $cur_num = $cur_num_info['num'];
         return $cur_num ? $cur_num : 0;
     }
-
+    /*查看我的奖品*/
+    public function task_record(){
+        $this->display();
+    }
 }

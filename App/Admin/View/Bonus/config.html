@@ -52,17 +52,24 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th>底部横幅广告</th>
-                                    <td><input type="file" name="bottom_img" class="common-text" value="{$info.bottom_img}">
-                                        <input type="hidden" name="oldbottom_img" class="common-text" value="{$info.bottom_img}">
-                                        <if condition="$info['bottom_img']">
-                                            <img src="{$info.bottom_img}" style="width: 80px;height: 80px" alt="">
-                                        </if>
-                                    </td>
+                                    <th>每秒领取币种数量</th>
+                                    <td><input type="text" name="reward_num" class="common-text btn50" value="{$info.reward_num}"></td>
                                 </tr>
                                 <tr>
-                                    <th>底部图片链接</th>
-                                    <td><input type="text" name="bottom_img_url" class="common-text btn50" value="{$info.bottom_img_url}"></td>
+                                    <th>小数位数</th>
+                                    <td><input type="text" name="decimal_num" class="common-text btn50" value="{$info.decimal_num}"><i class="require-red">（默认：个位，1位0.1,2位0.01）</i></td>
+                                </tr>
+                                <tr>
+                                    <th>累积小时</th>
+                                    <td><input type="text" name="accumulate_hours" class="common-text btn50" value="{$info.accumulate_hours}"><i class="require-red">（累积小数（h）)</i></td>
+                                </tr>
+                                <tr>
+                                    <th>间隔小时</th>
+                                    <td><input type="text" name="interval_hours" class="common-text btn50" value="{$info.interval_hours}"><i class="require-red">（间隔小时（h）)</i></td>
+                                </tr>
+                                <tr>
+                                    <th>最少领取数量</th>
+                                    <td><input type="text" name="min_receive_num" class="common-text btn50" value="{$info.min_receive_num}"><i class="require-red">（默认：1.00)</i></td>
                                 </tr>
                                 <tr>
                                     <th></th>
@@ -71,7 +78,7 @@
                                         <a href="{:U('Exchange/config')}"><input type="button" value="返回"  class="btn btn6"></a>
                                     </td>
                                 </tr>
-                            </tbody>
+                        </tbody>
                         </table>
                     </div>
                 </div>

@@ -12,7 +12,7 @@ class BonusController extends AdminController
 {
     /*配置*/
     public function config(){
-        $model = M ('bonus_conf' );
+        $model = M ('bonus_config' );
         if(IS_POST){
             $id = I('post.id');
             if($_FILES["bottom_img"]["tmp_name"]){
@@ -43,6 +43,9 @@ class BonusController extends AdminController
             /*抽奖配置*/
             $luckdraw_conf_list = M('luckdraw_conf')->where(array('status'=>1))->field("id,title")->select();
             $this->assign ('luckdraw_conf_list', $luckdraw_conf_list );
+            /*币种*/
+            $cur_list = M('currency')->where(array('is_lock'=>0))->field("currency_id,currency_name")->select();
+            $this->assign ('cur_list', $cur_list );
             $this->display ();
         }
     }

@@ -3,7 +3,7 @@
     <div class="main-wrap">
 
         <div class="crumb-wrap">
-            <div class="crumb-list"><i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span class="crumb-name">冻结账号管理</span></div>
+            <div class="crumb-list"><i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span class="crumb-name">首页广告图</span></div>
         </div>
         <div class="search-wrap">
             <div class="search-content">
@@ -13,7 +13,7 @@
           
                 <div class="result-title">
                     <div class="result-list">
-                        <a href="{:U('Hongbao/adconfig_edit#4#1')}"><i class="icon-font"></i>新增红包广告图</a>
+                        <a href="{:U('Conifg/adconfig_edit#0#3')}"><i class="icon-font"></i>新增首页广告图</a>
                     </div>
                 </div>
                 <div class="result-content">
@@ -23,7 +23,8 @@
                             <th>广告标题</th>
                             <th>广告图片</th>
                             <th>广告跳转链接</th>
-                            <th>秒数</th>
+                            <th>阅读数</th>
+                            <th>阅读率</th>
                             <th>状态</th>
                             <th>操作时间</th>
                             <th>操作</th>
@@ -38,11 +39,12 @@
                                 </if>
                             </td>
                             <td>{$vo.ad_url}</td>
-                            <td>{$vo.seconds}</td>
+                            <td>{$vo.read_num}</td>
+                            <td>{$vo.read_num_rate}</td>
                             <td><eq name='vo.status' value='1'>开启<else/>关闭</eq></td>
                             <td>{$vo.op_time|date="Y-m-d H:i:s",###}</td>
                             <td>
-                                <a class="link-update" href="{:U('Hongbao/adconfig_edit#4#1',array('id'=>$vo['id']))}">修改</a>|
+                                <a class="link-update" href="{:U('Config/adconfig_edit#0#3',array('id'=>$vo['id']))}">修改</a>|
                                 <a class="link-del" href="javascript:void(0)" onclick="cexiao('{$vo.id}')">删除</a><br>
                             </td>
                         </tr>
@@ -61,7 +63,7 @@
             btn: ['确定','取消'], //按钮
             title: '撤销删除'
         }, function(){
-            $.post("{:U('Hongbao/del')}",{id:id,model:"hongbao_ad"},function(data){
+            $.post("{:U('Config/delmyad')}",{id:id,model:"my_ad"},function(data){
                 if(data['status'] == 1){
                     layer.msg(data['info'],{icon:1});
                     setTimeout(function(){location.reload();},1000);

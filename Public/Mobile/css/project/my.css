@@ -59,7 +59,7 @@ body{
 	
 }
 .my_list{
-	padding: .1rem 0  0 .2rem;
+	padding: .2rem 0  0 .26rem;
 	box-sizing: border-box;
 }
 
@@ -120,7 +120,7 @@ body{
 .current_box{
 	width: 93%;
 	position: absolute;
-	margin: .4rem auto 0;
+	margin: .6rem auto 0;
 	padding: .2rem .5rem;
 	box-sizing: border-box;
 	background: #fff url(../../images/rise/gold.png) no-repeat right bottom;
@@ -143,7 +143,7 @@ body{
     width: 1.2rem;
     height: .45rem;
     line-height: .45rem;
-    font-size: .25rem;
+    font-size: .24rem;
     background-color: #fe9923;
     color: #fff;
     border-radius: .3rem;

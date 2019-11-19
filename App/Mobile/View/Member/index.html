@@ -11,21 +11,22 @@
 </header>
 <header class="my_head my_top">
     <div class="head_item">
-        <img src="__IMG__/tx1.png"/><strong>176****1222</strong>
+        <if condition="$member_info['head_url']"><img src="{$member_info['head_url']}"/> <else /><img src="__IMG__/vtx1.png"/></if><strong>{$member_info.phone}</strong>
     </div>
 </header>
 <ul class="my_gold flexbox spacebetween">
     <input type="hidden" name="is_cert" id="is_cert" value="{$member_info.is_cert}">
-        <li>
-            <a href="{:U('Member/my_coin')}">
-                <div><strong>{$mem_cur_num|default=0.00}</strong><img src="__IMG__/rise/tx.png"/></div>
-                <p>当前金币</p>
-            </a>
-        </li>
+    <li>
+        <a href="{:U('Member/my_coin')}">
+            <div><strong>{$mem_jb_num|default=0}</strong><img src="__IMG__/rise/tx.png"/></div>
+            <p>当前金币</p>
+        </a>
+    </li>
+
     <li>
         <a href="{:U('Member/cur_coin')}">
-            <div><strong>{$rmb_num|default=0.00}</strong><img src="__IMG__/rise/cz.png"/></div>
-            <p>金额(币)</p>
+            <div><strong>{$mem_ltb_num|default=0.00}</strong><img src="__IMG__/rise/cz.png"/></div>
+            <p>莱特币</p>
         </a>
     </li>
 </ul>
@@ -36,30 +37,31 @@
         </a>
     </li>
     <li>
-        <a href="" class="flexbox spacebetween">
-            <p><img src="__IMG__/rise/hd.png"/><span>福利活动</span></p><img src="__IMG__/rise/right.png"/>
-        </a>
-    </li>
-    <li>
         <a href="{:U('Sys/business_cooperation')}" class="flexbox spacebetween">
-            <p><img src="__IMG__/rise/hz.png"/><span>商业合作</span></p><img src="__IMG__/rise/right.png"/>
+            <p><img src="__IMG__/rise/hd.png" style="width: .36rem;height: .36rem;"/><span>商业合作</span></p><img src="__IMG__/rise/right.png"/>
         </a>
     </li>
     <li>
-        <a href="" class="flexbox spacebetween">
+        <a href="{:U('Help/index')}" class="flexbox spacebetween">
+            <p><img src="__IMG__/rise/hz.png"/><span>帮助说明</span></p><img src="__IMG__/rise/right.png"/>
+        </a>
+    </li>
+
+    <li>
+        <a href="{:U('Help/post')}" class="flexbox spacebetween">
             <p><img src="__IMG__/rise/gg.png"/><span>官方公告</span></p><img src="__IMG__/rise/right.png"/>
         </a>
     </li>
     <li>
-        <a href="" class="flexbox spacebetween">
+        <a href="{:U('Member/mem_info')}" class="flexbox spacebetween">
             <p><img src="__IMG__/rise/sz.png"/><span>个人设置</span></p><img src="__IMG__/rise/right.png"/>
         </a>
     </li>
 </ul>
 <div class="wd_line" style="height: 0.085rem;"></div>
 <div class="advance">
-    <div>猜成语赚零花钱，登录领红包，现在知道还不晚！</div>
-    <img src="__IMG__/rise/ad2.png"/>
+    <div>{$my_ad_info.ad_title}</div>
+    <a href="{$my_ad_info.ad_url}"><img src="{$my_ad_info.ad_img}"/></a>
 </div>
 
 <div class="zhezhao_c"></div>
@@ -80,7 +82,6 @@
                 邀请
             </li>
         </a>
-
         <a href="{:U('Task/index')}">
             <li class="footer_f4">
                 任务

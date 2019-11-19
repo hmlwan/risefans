@@ -23,7 +23,7 @@
                 <p><strong>{$sum_num|default=0} </strong>金币</p>
             </li>
         </ul>
-        <p>10000金币=1莱特币</p>
+        <p>{$jb_ltc_rate_num}金币=1莱特币</p>
     </div>
 </header>
 <section>
@@ -36,13 +36,26 @@
                     <div><time>{$v.add_time|date="H:i:s",###}</time><span>
                         <switch name="v['type']">
                             <case value="1">每日签到</case>
-                            <case value="2">任务抽奖</case>
-                            <case value="3">下线返利</case>
+                            <case value="2">转盘抽奖</case>
+                            <case value="3">推广下线返利</case>
                             <case value="4">领取红包</case>
+                            <case value="5">下线购买返利</case>
+                            <case value="6">下线抽奖返利</case>
+                            <case value="7">vip晋级</case>
+                            <case value="8">关闭vip</case>
+                            <case value="9">分红奖励</case>
+                            <case value="10">提现</case>
+                            <case value="11">充值</case>
+                            <case value="12">兑换莱特币</case>
                         </switch>
                     </span>
                     </div>
-                    <p><span>+{$v.num}</span>{$v.currency_name}</p>
+                    <if condition="$v['type'] eq 2">
+                        <p class="reduce"><span>-{$v.num}</span>{$v.currency_name}</p>
+                    <else />
+                        <p><span>+{$v.num}</span>{$v.currency_name}</p>
+                    </if>
+
                 </dd>
             </volist>
         </dl>
@@ -55,42 +68,6 @@
             <!--<p><span>+150</span>金币</p>-->
         <!--</dd>-->
     <!--</dl>-->
-    <!--<dl class="more_ul">-->
-        <!--<dt>今日</dt>-->
-        <!--<dd class="flexbox spacebetween">-->
-            <!--<div><time>16:16:59</time><span>观看广告</span></div>-->
-            <!--<p><span>+150</span>金币</p>-->
-        <!--</dd>-->
-    <!--</dl>-->
-    <!--<dl class="more_ul">-->
-        <!--<dt>2019-10-23</dt>-->
-        <!--<dd class="flexbox spacebetween">-->
-            <!--<div><time>16:16:59</time><span>观看广告</span></div>-->
-            <!--<p><span>+150</span>金币</p>-->
-        <!--</dd>-->
-        <!--<dd class="flexbox spacebetween">-->
-            <!--<div><time>16:16:59</time><span>观看广告</span></div>-->
-            <!--<p><span>+150</span>金币</p>-->
-        <!--</dd>-->
-        <!--<dd class="flexbox spacebetween">-->
-            <!--<div><time>16:16:59</time><span>观看广告</span></div>-->
-            <!--<p><span>+150</span>金币</p>-->
-        <!--</dd>-->
-        <!--<dd class="flexbox spacebetween">-->
-            <!--<div><time>16:16:59</time><span>观看广告</span></div>-->
-            <!--<p><span>+150</span>金币</p>-->
-        <!--</dd>-->
-        <!--<dd class="flexbox spacebetween">-->
-            <!--<div><time>16:16:59</time><span>观看广告</span></div>-->
-            <!--<p><span>+150</span>金币</p>-->
-        <!--</dd>-->
-        <!--<dd class="flexbox spacebetween">-->
-            <!--<div><time>16:16:59</time><span>观看广告</span></div>-->
-            <!--<p><span>+150</span>金币</p>-->
-        <!--</dd>-->
-    </dl>
-</section>
-
 <div style="height: .9rem;"></div>
 <div class="footer_main">
     <ul>

@@ -1,44 +1,17 @@
 <include file="Public:header"/>
 <body>
+
 <div>
     <header>
         <div class="header_bt">
             <div class="header_f"><a href="{:U('Member/index')}" class="header_fh"></a></div>
-            <div class="header_c">帮助中心</div>
+            <div class="header_c">官方公告</div>
         </div>
         <div style="height: .74rem;clear: both;"></div>
     </header>
     <div class="bzzx">
-        <div class="bzzx_h">
-            <ul>
-                <li>
-                    <a href="{:U('Help/detail',array('position_id'=>130))}">
-                        <i class="aq"></i>
-                        <p>账户安全</p>
-                    </a>
-                </li>
-                <li>
-                    <a href="{:U('Help/detail',array('position_id'=>131))}">
-                        <i class="hy"></i>
-                        <p>会员交易</p>
-                    </a>
-                </li>
-                <li>
-                    <a href="{:U('Help/detail',array('position_id'=>132))}">
-                        <i class="fk"></i>
-                        <p>问题反馈</p>
-                    </a>
-                </li>
-            </ul>
-        </div>
-        <div class="wd_line"></div>
         <div class="bzzx_c">
             <ul>
-                <li class="title">
-                    <div class="bzzx_h">
-                        <span>热门问题</span>
-                    </div>
-                </li>
                 <volist name="art_list" id="vo">
                     <li>
                         <div class="bzzx_h">

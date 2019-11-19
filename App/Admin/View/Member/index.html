@@ -34,8 +34,8 @@
                         <th>ID</th>
                         <th>手机号码</th>
 						<th>推荐人ID</th>
-						<th>推荐码</th>
-                        <th>ip</th>
+                        <th>登录ip</th>
+                        <th>用户等级</th>
                         <th>是否实名</th>
                         <th>注册时间</th>
                         <th>最近登录时间</th>
@@ -47,8 +47,22 @@
                             <td>{$vo['member_id']}</td>
                             <td>{$vo['phone']}</td>
 							<td>{$vo['pid']}</td>
-							<td>{$vo['unique_code']}</td>
-                            <td>{$vo['ip']}</td>
+                            <td>{$vo['login_ip']}</td>
+                            <td>
+                                <switch name="vo['vip_level']">
+                                    <case value="1">VIP1</case>
+                                    <case value="2">VIP2</case>
+                                    <case value="3">VIP3</case>
+                                    <case value="4">VIP4</case>
+                                    <case value="5">VIP5</case>
+                                    <case value="6">VIP6</case>
+                                    <case value="7">VIP7</case>
+                                    <case value="8">VIP8</case>
+                                    <case value="9">VIP9</case>
+                                    <case value="10">VIP10</case>
+                                </switch>
+                            </td>
+
                             <td>
                                 <if condition="$vo['is_cert'] eq 1 ">
                                     已实名

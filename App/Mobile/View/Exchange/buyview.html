@@ -6,60 +6,60 @@
 		<section class="section flexbox spacebetween change_current">
 			<div>
 				<p>当前金币</p>
-				<strong>879848</strong>
+				<strong>{$mem_jb_num}</strong>
 			</div>
 			<a href="{:U('Exchange/exrecord')}">兑换记录</a>
 		</section>
 		<section class="section change_num">
 			<h3>提现金额</h3>
 			<ul class="flexbox">
-				<li class="active">
+				<li class="active" data-num="1000" data-ltb="0.1">
 					<div><strong>0.1莱特币</strong>
 					<p>售价1千金币</p></div>
 				</li>
-				<li>
+				<li data-num="5000" data-ltb="0.5">
 					<div>
 						<strong>0.5莱特币</strong>
 						<p>售价5千金币</p>
 					</div>
 				</li>
-				<li>
+				<li data-num="10000"  data-ltb="1">
 					<div>
 						<strong>1莱特币</strong>
 						<p>售价1万金币</p>
 					</div>
 				</li>
-				<li>
+				<li data-num="50000" data-ltb="5">
 					<div>
 						<strong>5莱特币</strong>
 						<p>售价5万金币</p>
 					</div>
 				</li>
-				<li>
+				<li data-num="100000"  data-ltb="10">
 					<div>
 						<strong>10莱特币</strong>
 						<p>售价10万金币</p>
 					</div>
 				</li>
-				<li>
+				<li data-num="500000" data-ltb="50">
 					<div>
 						<strong>50莱特币</strong>
 						<p>售价50万金币</p>
 					</div>
 				</li>
-				<li>
+				<li data-num="1000000" data-ltb="100">
 					<div>
 						<strong>100莱特币</strong>
 						<p>售价100万金币</p>
 					</div>
 				</li>
-				<li>
+				<li data-num="5000000" data-ltb="500">
 					<div>
 						<strong>500莱特币</strong>
 						<p>售价500万金币</p>
 					</div>
 				</li>
-				<li>
+				<li data-num="10000000" data-ltb="1000">
 					<div>
 						<strong>1000莱特币</strong>
 						<p>售价1000万金币</p>
@@ -76,24 +76,23 @@
 			</div>
 		</section>
 		<div class="change_button flexbox spacebetween">
-			<p>所需金币：<strong>1000</strong></p><button>立即兑换</button>
+			<p>所需金币：<strong>1000</strong></p><button onclick="sub()">立即兑换</button>
 		</div>
 		<div style="height: .9rem;"></div>
 		<div class="footer_main">
 			<ul>
-				<a href="index.html">
+				<a href="{:U('Redpack/index')}">
 					<li class="footer_fl">红包</li>
 				</a>
-				<a href="{:U('Welfare/outindex')}">
+				<a href="{:U('Bonus/index')}">
 					<li class="footer_f2">分红</li>
 				</a>
-				<a href="{:U('Exchange/buyview')}">
+				<a href="{:U('Invite/index')}">
 					<li class="footer_f3">
 						邀请
 					</li>
 				</a>
-
-				<a href="b2c_fenlei_01.html">
+				<a href="{:U('Task/index')}">
 					<li class="footer_f4">
 						任务
 					</li>
@@ -105,5 +104,30 @@
 				</a>
 			</ul>
 		</div>
-
+		<script>
+            $(".change_num ul").find("li").click(function () {
+				$(this).attr('class','active');
+				$(this).siblings('li').attr('class','');
+                var xh_num = $(this).data('num');
+                $(".change_button").find("strong").html(xh_num);
+            });
+            function sub(){
+                var li_active = $(".change_num ul").find("li[class='active']");
+                var xh_num = li_active.data('num');
+                var dh_num = li_active.data('ltb');
+                $.post("{:U('Exchange/exorder')}",{
+                    xh_num:xh_num,dh_num:dh_num,
+                },function(data){
+                    if(data.status==1){
+                        layer.msg(data.info,{icon:1});
+                        window.setTimeout(function(){
+                            window.location="{:U('Exchange/exrecord')}";
+                        },1000);
+                    }else{
+                        layer.msg(data.info);
+                        return false;
+                    }
+                })
+            };
+		</script>
 		<include file="Public:footer"/>

@@ -19,40 +19,46 @@
     </style>
     <div class="main-wrap">
         <div class="crumb-wrap">
-            <div class="crumb-list"><i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span class="crumb-name">冻结账号</span></div>
+            <div class="crumb-list"><i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span class="crumb-name">手动充值</span></div>
         </div>
         <div class="result-wrap">
-            <form action="{:U('Exchange/freeze_edit')}" method="post" id="myform" name="myform" enctype="multipart/form-data">
+            <form action="{:U('Record/recharge_by_person#6#1')}" method="post" id="myform" name="myform" enctype="multipart/form-data">
                 <input type="hidden" value="{$info.id}" name="id">
+                <input type="hidden" name="member_id" class="common-text btn50"  value="{$info.member_id}">
                 <div class="config-items">
                     <div class="config-title">
-                        <h1><i class="icon-font">&#xe00a;</i>兑换设置</h1>
+                        <h1><i class="icon-font">&#xe00a;</i>手动充值</h1>
                     </div>
                     <div class="result-content">
                         <table width="100%" class="insert-tab">
                             <tbody>
                                 <tr>
-                                    <th>冻结者手机号</th>
-                                    <td><input type="text" name="phone" class="common-text" value="{$info.phone}"></td>
+                                    <th>用户手机号</th>
+                                    <td><input type="text" readonly name="phone" class="common-text btn50"  value="{$info.phone}"></td>
                                 </tr>
                                 <tr>
-                                    <th>冻结原因</th>
+                                    <th>充值码</th>
+                                    <td><input type="text" readonly name="recharge_no" class="common-text btn50"  value="{$info.recharge_no}"></td>
+                                </tr>
+                                <tr>
+                                    <th>充值币种</th>
                                     <td>
-                                        <select name="freeze_reson" id="freeze_reson" class="common-text">
-                                            <option value="1">官方封禁</option>
-                                            <option value="2">交易纠纷</option>
-                                        </select>
+                                        <select name="currency_id"   class="common-text w200">
+                                            <volist name="cur_list" id="vo">
+                                                <option value="{$vo.currency_id}" <if condition="$info['currency_id'] eq $vo['currency_id'] ">selected</if>>{$vo.currency_name}</option>
+                                            </volist>
+                                        </select>&nbsp;&nbsp;
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th>备注</th>
-                                    <td><input type="text" name="desc" class="common-text" value="{$info.desc}"></td>
+                                    <th>充值数量</th>
+                                    <td><input type="text" name="num" class="common-text btn50" value="{$info.num}"><i class="require-red"></i></td>
                                 </tr>
                                 <tr>
                                     <th></th>
                                     <td>
                                         <input type="submit" value="提交" class="btn btn-primary btn6 mr10">
-                                        <a href="{:U('Exchange/freeze_account#11#3')}"><input type="button" value="返回"  class="btn btn6"></a>
+                                        <a href="{:U('Record/recharge#6#1')}"><input type="button" value="返回"  class="btn btn6"></a>
                                     </td>
                                 </tr>
                             </tbody></table>

@@ -2,82 +2,69 @@
 <link type="text/css" rel="stylesheet" href="__CSS__/project/invite.css" />
 <body>
 		<header class="nexttop  record_head flexbox"><a href="javascript:history.back()"><img src="__IMG__/rise/bback.png"/></a><strong>兑换记录</strong></header>
-		<dl class="record_list">
-			<dt>2019-10-21</dt>
-			<dd class="flexbox spacebetween">
-				<div>
-					<p>兑换0.1莱特币</p>
-					01:15:30
-				</div>
-				<p>
-					-1000<img src="__IMG__/rise/coin2.png" />
-				</p>
-			</dd>
-			<dd class="flexbox spacebetween">
-				<div>
-					<p>兑换0.1莱特币</p>
-					01:15:30
-				</div>
-				<p>
-					-1000<img src="__IMG__/rise/coin2.png" />
-				</p>
-			</dd>
-		</dl>
-		<dl class="record_list">
-			<dt>2019-10-21</dt>
-			<dd class="flexbox spacebetween">
-				<div>
-					<p>兑换0.1莱特币</p>
-					01:15:30
-				</div>
-				<p>
-					-1000<img src="__IMG__/rise/coin2.png" />
-				</p>
-			</dd>
-			<dd class="flexbox spacebetween">
-				<div>
-					<p>兑换0.1莱特币</p>
-					01:15:30
-				</div>
-				<p>
-					-100000<img src="__IMG__/rise/coin2.png" />
-				</p>
-			</dd>
-			<dd class="flexbox spacebetween">
-				<div>
-					<p>兑换0.1莱特币</p>
-					01:15:30
-				</div>
-				<p>
-					-1000<img src="__IMG__/rise/coin2.png" />
-				</p>
-			</dd>
-			<dd class="flexbox spacebetween">
-				<div>
-					<p>兑换0.1莱特币</p>
-					01:15:30
-				</div>
-				<p>
-					-1000<img src="__IMG__/rise/coin2.png" />
-				</p>
-			</dd>
-			<dd class="flexbox spacebetween">
-				<div>
-					<p>兑换0.1莱特币</p>
-					01:15:30
-				</div>
-				<p>
-					-1000<img src="__IMG__/rise/coin2.png" />
-				</p>
-			</dd>
-			<dd class="flexbox spacebetween">
-				<div>
-					<p>兑换0.1莱特币</p>
-					01:15:30
-				</div>
-				<p>
-					-1000<img src="__IMG__/rise/coin2.png" />
-				</p>
-			</dd>
-		</dl>
+
+		<if condition="$list">
+			<volist name="list" id="vo">
+				<dl class="record_list">
+					<dt>{$key}</dt>
+					<volist name="vo" id="v">
+						<dd class="flexbox spacebetween">
+							<div>
+								<p>兑换 {$v.dh_num} 莱特币</p>
+								{$v.add_time|date="H:i:s",###}
+							</div>
+							<p>
+								-{$v.xh_num} <img src="__IMG__/rise/coin2.png" />
+							</p>
+						</dd>
+					</volist>
+				</dl>
+			</volist>
+
+		<else />
+			<div class="no_ex_pub_data">
+				<img src="__IMG__/rise/no_data.png" alt="">
+				<p class="text">暂时没有数据</p>
+			</div>
+
+		</if>
+		<!--<dl class="record_list">-->
+			<!--<dt>2019-10-21</dt>-->
+			<!--<dd class="flexbox spacebetween">-->
+				<!--<div>-->
+					<!--<p>兑换0.1莱特币</p>-->
+					<!--01:15:30-->
+				<!--</div>-->
+				<!--<p>-->
+					<!-- -1000<img src="__IMG__/rise/coin2.png" />-->
+				<!--</p>-->
+			<!--</dd>-->
+		<!--</dl>-->
+
+		<div style="height: .9rem;"></div>
+		<div class="footer_main">
+			<ul>
+				<a href="{:U('Redpack/index')}">
+					<li class="footer_fl">红包</li>
+				</a>
+				<a href="{:U('Bonus/index')}">
+					<li class="footer_f2">分红</li>
+				</a>
+				<a href="{:U('Invite/index')}">
+					<li class="footer_f3">
+						邀请
+					</li>
+				</a>
+				<a href="{:U('Task/index')}">
+					<li class="footer_f4">
+						任务
+					</li>
+				</a>
+				<a href="{:U('Member/index')}">
+					<li class="footer_f5 footer_active_f5">
+						我的
+					</li>
+				</a>
+			</ul>
+		</div>
 		<include file="Public:footer"/>

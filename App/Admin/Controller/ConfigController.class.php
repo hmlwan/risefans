@@ -158,6 +158,79 @@ class ConfigController extends AdminController {
         $id = I('post.id');
         $res = M("carousel")->where(array('id'=>$id))->delete();
         if($res){
+            $this->success('删除成功',U('carousel'));
+        }else{
+            $this->error('删除失败');
+        }
+
+    }
+
+    public function my_ad_config() {
+
+        $model = M ( 'my_ad' );
+
+        $string = I('string');
+
+        $where = array();
+        if($string){
+            $where["_string"] = "username like %$string% OR phone like %$string%" ;
+        }
+
+        // 查询满足要求的总记录数
+        $count = $model->where ( $where )->count ();
+        // 实例化分页类 传入总记录数和每页显示的记录数
+        $Page = new \Think\Page ( $count, 20 );
+        //将分页（点击下一页）需要的条件保存住，带在分页中
+        // 分页显示输出
+        $show = $Page->show ();
+        //需要的数据
+        $field = "*";
+        $list = $model->field ( $field )
+            ->where ( $where )
+            ->order ("id desc" )
+            ->limit ( $Page->firstRow . ',' . $Page->listRows )
+            ->select ();
+        $this->assign ( 'list', $list ); // 赋值数据集
+        $this->assign ( 'page', $show ); // 赋值分页输出
+        $this->display (); // 输出模板
+    }
+    public function adconfig_edit(){
+        $db =  M("my_ad");
+        if(IS_POST){
+            $status = I('post.status');
+            $id = I('post.id');
+            if($_FILES["img"]["tmp_name"]){
+                $img  = $this->upload($_FILES["img"]);
+            }else{
+                $img = I('oldimg');
+            }
+            $save_data = array(
+                'status' => $status,
+                'img' => $img,
+                'op_time' => time()
+            );
+
+            if($id){ /*编辑*/
+                $res = $db->where(array('id'=>$id))->save($save_data);
+            }else{ /*新增*/
+                $res = $db->add($save_data);
+            }
+            if($res){
+                $this->success('修改成功',U('my_ad#0#3'));
+            }else{
+                $this->error('修改失败');
+            }
+        }else{
+            $id = I('get.id');
+            $res = $db->where(array('id'=>$id))->find();
+            $this->assign('info',$res);
+            $this->display();
+        }
+    }
+    public function delmyad(){
+        $id = I('post.id');
+        $res = M("my_ad")->where(array('id'=>$id))->delete();
+        if($res){
             $this->success('删除成功',U('index'));
         }else{
             $this->error('删除失败');

@@ -252,7 +252,7 @@ class TaskController extends HomeController
         if($count / $luckdraw_count >0){
             $get_num_k = ($count % $luckdraw_count) + 1;
         }
-        $cur_num_info = $luckdraw_detail[$get_num_k];
+        $cur_num_info = $luckdraw_detail[$get_num_k-1];
         $cur_num = $cur_num_info['num'];
         return $cur_num ? $cur_num : 0;
     }

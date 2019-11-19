@@ -10,8 +10,13 @@
 		<div style="height: .74rem;clear: both;"></div>
 	</header>
 	<div class="vip_h">
-		<img src="__IMG__/rise/vtx1.png" class="vtx" alt="">
-		<p class="cur_vip">VIP1</p>
+		<input type="hidden" name="vip_level" value="{$mem_info.vip_level}">
+		<if condition="$mem_info['head_url']">
+			<img src="{$mem_info['head_url']}" class="vtx" alt="">
+		<else />
+			<img src="__IMG__/rise/vtx1.png" class="vtx" alt="">
+		</if>
+		<p class="cur_vip">VIP{$mem_info['vip_level']}</p>
 		<p>
 			<i><img  style="margin-top: .45rem;" src="__IMG__/rise/vip1.png" alt=""></i><em></em><span><img style="margin-top: .15rem;" src="__IMG__/rise/vip2.png" alt=""></span>
 		</p>
@@ -20,8 +25,12 @@
 	<div class="vip_m">
 		<p><i></i><span>等级成长体系</span></p>
 		<p class="btn">
-			<span>关闭VIP</span>
-			<a href="{:U('Vip/buy_vip')}"><span>购买VIP</span></a>
+			<span onclick="close_vip({$mem_info.vip_level})">关闭VIP</span>
+			<if condition="$mem_info['vip_level'] gt 1">
+				<span onclick="buy_vip({$mem_info.vip_level})">购买VIP</span>
+			<else />
+				<a href="{:U('Vip/buy_vip')}"><span>购买VIP</span></a>
+			</if>
 		</p>
 		<em></em>
 	</div>
@@ -51,10 +60,10 @@
 	<div class="close_vip1_item flexbox spacebetween">
 		<div><img src="__IMG__/rise/alarm.png" alt=""></div>
 		<div class="flexbox">
-			<p class="title">你确认关闭<em>VIP2</em>吗？</p>
-			<p>这<em>是不可逆</em>的行为,关闭后你将变成最初VIP1并且获得1莱特币补偿</p>
+			<p class="title">你确认关闭<em>VIP{$mem_info.vip_level}</em>吗？</p>
+			<p>这<em>是不可逆</em>的行为,关闭后你将变成最初VIP1并且获得{$vip_level.close_vip_reward_num}{$vip_level.close_vip_reward_cur_name}补偿</p>
 			<p class="btn">
-				<span class="confirm">确定</span>
+				<span class="confirm" onclick="confirm()">确定</span>
 				<span class="cancel">取消</span>
 			</p>
 		</div>
@@ -90,7 +99,35 @@
 		$(".close_vip1_item .cancel").click(function () {
 			$(".close_vip1_item").hide();
 			$(".zhezhao_h").atrr('class','zhezhao_h zhezhao');
-        })
+        });
+		function buy_vip(vip_level) {
+            layer.msg("已是VIP"+vip_level+",请关闭VIP再购买");
+            return false;
+        }
+
+        function close_vip(vip_level){
+		    if(vip_level == 1){
+                layer.msg("已是VIP1等级");
+                return false;
+			}
+			$(".zhezhao_h").attr('class','zhezhao_h zhezhao');
+			$(".close_vip1_item").show();
+        }
+
+        function confirm(){
+            $.post("{:U('Vip/close_vip')}",{
+            },function(data){
+                if(data.status==1){
+                    layer.msg(data.info,{icon:1});
+                    window.setTimeout(function(){
+                        window.location="{:U('Vip/index')}";
+                    },1000);
+                }else{
+                    layer.msg(data.info);
+                    return false;
+                }
+            })
+        };
 	</script>
 
 	<include file="Public:footer"/>

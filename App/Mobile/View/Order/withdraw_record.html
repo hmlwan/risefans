@@ -3,7 +3,7 @@
 <div>
     <header>
         <div class="header_bt">
-            <div class="header_f"><a href="javascript:history.back()" class="header_fh"></a></div>
+            <div class="header_f"><a href="{:U('Member/cur_coin')}" class="header_fh"></a></div>
             <div class="header_c">提现记录</div>
         </div>
         <div style="height: .74rem;clear: both;"></div>
@@ -11,32 +11,48 @@
     <div class="wd_line"></div>
     <div class="txjl">
         <ul class="flexbox column">
-            <li class="default-bor-bottom">
-                <p>普通提币</p>
-                <p class="flexbox spacebetween">
-                    <span>数量</span>
-                    <span>状态</span>
-                    <span>时间</span>
-                </p>
-                <p class="flexbox spacebetween">
-                    <span>2.85658525</span>
-                    <span>已完成</span>
-                    <span>12/30 22:19</span>
-                </p>
-            </li>
-            <li class="default-bor-bottom">
-                <p>普通提币</p>
-                <p class="flexbox spacebetween">
-                    <span>数量</span>
-                    <span>状态</span>
-                    <span>时间</span>
-                </p>
-                <p class="flexbox spacebetween">
-                    <span>2.85658525</span>
-                    <span>已完成</span>
-                    <span>12/30 22:19</span>
-                </p>
-            </li>
+            <if condition="$list">
+                <volist name="list" id="vo">
+                    <li class="default-bor-bottom">
+                        <p>普通提币</p>
+                        <p class="flexbox spacebetween">
+                            <span>数量</span>
+                            <span>状态</span>
+                            <span>时间</span>
+                        </p>
+                        <p class="flexbox spacebetween">
+                            <span>{$vo.num}</span>
+                            <span>
+                                <switch name="vo['status']">
+                                    <case value="0">正在处理</case>
+                                    <case value="1">已完成</case>
+                                    <case value="2">失败</case>
+                                </switch>
+                            </span>
+                            <span>{$vo.add_time|date="m/d H:i",###}</span>
+                        </p>
+                    </li>
+                </volist>
+           <else />
+                <div class="no_ex_pub_data">
+                    <img src="__IMG__/rise/no_data.png" alt="">
+                    <p class="text">暂时没有数据</p>
+                </div>
+            </if>
+
+            <!--<li class="default-bor-bottom">-->
+                <!--<p>普通提币</p>-->
+                <!--<p class="flexbox spacebetween">-->
+                    <!--<span>数量</span>-->
+                    <!--<span>状态</span>-->
+                    <!--<span>时间</span>-->
+                <!--</p>-->
+                <!--<p class="flexbox spacebetween">-->
+                    <!--<span>2.85658525</span>-->
+                    <!--<span>已完成</span>-->
+                    <!--<span>12/30 22:19</span>-->
+                <!--</p>-->
+            <!--</li>-->
         </ul>
     </div>
 </div>

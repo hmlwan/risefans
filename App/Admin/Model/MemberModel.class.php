@@ -45,6 +45,13 @@ class MemberModel extends Model{
             return false;
         }
     }
+    public function get_mem_phone($id){
+        $where['member_id'] = $id;
+        $phone = $this->where($where)->getField('phone');
+        return $phone;
+    }
+
+
     public function get_info_by_id($id){
         $where['m.member_id'] = $id;
         $data = $this->alias('m')

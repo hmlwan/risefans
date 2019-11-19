@@ -3,25 +3,43 @@
 <div>
     <header>
         <div class="header_bt">
-            <div class="header_f"><a href="javascript:history.back()" class="header_fh"></a></div>
+            <div class="header_f"><a href="{:U('Member/cur_coin')}" class="header_fh"></a></div>
             <div class="header_c">充值记录</div>
         </div>
         <div style="height: .74rem;clear: both;"></div>
     </header>
     <div class="wd_line"></div>
     <div class="czjl">
-        <ul class="flexbox column">
-            <li class="flexbox column">
-               <p><span class="cur_name">LTC</span><span class="cur_num">+2.852585</span></p>
-               <p><span>LVSDKksdskdjsn98VSDK79dsdsVSDKlkjfs</span></p>
-               <p class="times"><span>2018-11-14 22:24:23</span><span>充值确认</span></p>
-            </li>
-            <li>
-                <p><span class="cur_name">LTC</span><span class="cur_num">+2.852585</span></p>
-                <p><span>LVSDKksdskdjsn98VSDK79dsdsVSDKlkjfs</span></p>
-                <p class="times"><span>2018-11-14 22:24:23</span><span>充值确认</span></p>
-            </li>
-        </ul>
+        <if condition="$list">
+            <ul class="flexbox column">
+                <volist name="list" id="vo">
+                    <li class="flexbox column">
+                        <p><span class="cur_name">{$vo.currency_en}</span><span class="cur_num">+ {$vo.num}</span></p>
+                        <p><span>{$vo.recharge_no}</span></p>
+                        <p class="times"><span>{$vo.add_time|date="Y-m-d H:i:s",###}</span>
+                            <span>
+                                <switch name="vo['status']">
+                                    <case value="1">充值确认</case>
+                                    <case value="2">充值失败</case>
+                                    <case value="0">充值未确认</case>
+                                </switch>
+                            </span>
+                        </p>
+                    </li>
+                </volist>
+                <!--<li>-->
+                    <!--<p><span class="cur_name">LTC</span><span class="cur_num">+2.852585</span></p>-->
+                    <!--<p><span>LVSDKksdskdjsn98VSDK79dsdsVSDKlkjfs</span></p>-->
+                    <!--<p class="times"><span>2018-11-14 22:24:23</span><span>充值确认</span></p>-->
+                <!--</li>-->
+            </ul>
+            <else />
+            <div class="no_ex_pub_data">
+                <img src="__IMG__/rise/no_data.png" alt="">
+                <p class="text">暂时没有数据</p>
+            </div>
+        </if>
+
     </div>
 </div>
 

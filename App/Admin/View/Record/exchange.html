@@ -1,6 +1,5 @@
 <include file="App/Admin/View/Public/left.html"/>
 <!--/sidebar-->
-
 <div class="main-wrap">
 
     <div class="crumb-wrap">
@@ -8,7 +7,7 @@
             <i class="icon-font"></i>
             <a href="{:U('Index/index')}">首页</a>
             <span class="crumb-step">&gt;</span>
-            <span class="crumb-name">提现记录</span>
+            <span class="crumb-name">莱特币兑换记录</span>
         </div>
     </div>
     <div class="search-wrap">
@@ -18,11 +17,11 @@
 
         <div class="result-title">
 
-            <form action="{:U('tixian/tixian#6#0')}" method="get">
+            <form action="{:U('Record/exchange#6#2')}" method="get">
                 <table class="search-tab">
                     <tr>
                         <td width="50">手机号:</td>
-                        <td><input class="common-text" placeholder="名称" name="phone" type="text" value="{$_GET['phone']}"></td>
+                        <td><input class="common-text" placeholder="手机号" name="phone" type="text" value="{$_GET['phone']}"></td>
                         <td><input class="btn btn-primary btn2"  value="查询" type="submit"></td>
                     </tr>
                 </table>
@@ -33,45 +32,22 @@
                 <tr>
 
                     <th>ID</th>
-                    <th>用户名称</th>
-                    <th>提币地址</th>
-                    <th>提现币种</th>
-                    <th>提现币种数量</th>
-                    <th>手续费</th>
-                    <th>处理类型</th>
-                    <th>状态</th>
+                    <th>用户手机号</th>
+                    <th>兑换币种</th>
+                    <th>兑换数量</th>
+                    <th>消耗币种</th>
+                    <th>消耗数量</th>
                     <th>创建时间</th>
-                    <th>操作</th>
                 </tr>
                 <volist name='info' id='vo'>
                     <tr>
                         <td>{$vo['id']}</td>
                         <td>{$vo['phone']}</td>
-                        <td>{$vo['cur_address']}</td>
-                        <td>{$vo['currency_name']}</td>
-                        <td> {$vo['num']}</td>
-                        <td> {$vo['service_charge']}</td>
-                        <td>
-                            <if condition="$vo['deal_type'] eq 1">
-                                手动
-                            </if>
-                        </td>
-                        <td>
-                            <if condition="$vo['status'] eq 1">
-                                已完成
-                                <elseif condition="$vo['type'] eq 2" />
-                                正在处理
-                                <else />
-                                失败
-                            </if>
-                        </td>
+                        <td>{$vo['dh_cur_name']}</td>
+                        <td>{$vo['dh_num']}</td>
+                        <td>{$vo['xh_cur_name']}</td>
+                        <td>{$vo['xh_num']}</td>
                         <td>{$vo['add_time']|date="Y-m-d H:i:s",###}</td>
-                        <td>
-                            <if condition="$vo['status'] neq 1">
-                                <a class="link-update" href="{:U('tixian_by_person',array('id'=>$vo['id']))}" >手动充值</a>
-                            </if>
-                            <a href="javascript:void(0)" class="link-del" onclick="cexiao({$vo.id})">删除</a>
-                        </td>
                     </tr>
                 </volist>
 
@@ -91,7 +67,7 @@
             btn: ['确定','取消'], //按钮
             title: '撤销删除'
         }, function(){
-            $.post("{:U('Record/del')}",{id:id,model:'withdraw_record'},function(data){
+            $.post("{:U('Record/del')}",{id:id,model:'record'},function(data){
                 if(data['status'] == 1){
                     layer.msg(data['info'],{icon:1});
                     setTimeout(function(){location.reload();},1000);
@@ -108,7 +84,7 @@
             btn: ['确定','取消'], //按钮
             title: '撤销删除'
         }, function(){
-            $.post("{:U('Record/audit')}",{id:id,type:2,status:status},function(data){
+            $.post("{:U('Record/audit')}",{id:id,type:1,status:status},function(data){
                 if(data['status'] == 1){
                     layer.msg(data['info'],{icon:1});
                     setTimeout(function(){location.reload();},1000);

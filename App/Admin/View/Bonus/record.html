@@ -12,11 +12,11 @@
         <div class="result-wrap">
                 <div class="result-title">
                     <div class="search-content">
-                        <form action="{:U('Task/daily_luckdraw#5#2')}" method="get">
+                        <form action="{:U('Bonus/record#12#1')}" method="get">
                             <table class="search-tab">
                                 <tr>
                                     <td width="70">手机号码:</td>
-                                    <td><input class="common-text" placeholder="手机号码" name="phone" value="{$_GET['phone']}" type="text"></td>
+                                    <td><input class="common-text" placeholder="手机号" name="phone" value="{$_GET['phone']}" type="text"></td>
                                     <!--<td width="50">归属:</td>-->
                                     <!--<td>-->
                                         <!--<select name="type" id="type" class="common-text">-->
@@ -38,8 +38,9 @@
                         <tr>
                         	<th>编号</th>
                             <th>用户手机号</th>
-                            <th>币种</th>
-                            <th>获得金币数量</th>
+                            <th>分红币种</th>
+                            <th>分红币种数量</th>
+                            <th>累积时间（s）</th>
                             <th>领取时间</th>
                             <!--<th>操作</th>-->
                         </tr>
@@ -47,8 +48,9 @@
                         <tr> 
                         	<td>{$vo.id}</td>
                         	<td>{$vo.phone}</td>
-                            <td>{$vo.currency_name}</td>
+                        	<td>{$vo.currency_name}</td>
                         	<td>{$vo.num}</td>
+                        	<td>{$vo.accumulate_second}</td>
                             <td>{$vo.add_time|date="Y-m-d  H:i:s",###}</td>
                         </tr>
                         </volist>
@@ -78,14 +80,4 @@
             layer.msg('已取消');
         });
     }
-function judge(id){
-	$.post("{:U('Exchange/judge')}",{id:id},function(data){
-		 if(data<0){
-			layer.msg(data.info);
-		 }else{
-			layer.msg(data.info,{icon:1});
-			setTimeout("location.reload()",2000);
-		 }
-	});
-}
 </script>

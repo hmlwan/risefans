@@ -57,4 +57,24 @@ class HelpController extends HomeController
         $this->assign('art_list',$art_list);
         $this->display();
     }
+    /*公告*/
+    public function post(){
+        $art_cate_db = D('article_category');
+        $art_db = D('article');
+
+        /*帮助中心类型*/
+        $cate_ids =  $art_cate_db->where(array('parent_id'=>6))->getField('id',true);
+        $art_where = array(
+            'position_id' => array('in',$cate_ids),
+            'status' => 1,
+        );
+        $art_list = $art_db->where($art_where)
+            ->order('is_top desc,add_time desc')
+            ->limit(8)
+            ->select();
+        $this->assign('art_list',$art_list);
+        $this->display();
+    }
+
+
 }

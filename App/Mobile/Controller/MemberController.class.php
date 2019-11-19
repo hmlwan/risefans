@@ -18,14 +18,45 @@ class MemberController extends HomeController {
         $member_info = $db->get_info_by_id($member_id);
 
         /*用户金币数量*/
-        $mem_cur_num = M('currency_user')->where(array('member_id'=>$member_id,'currency_id'=>3))->getField('num');
-        $rmb_num = 0;
-        if($mem_cur_num > 0){
-            $rmb_num = number_format($mem_cur_num/100,2,'.','');
+        $mem_jb_num = M('currency_user')->where(array('member_id'=>$member_id,'currency_id'=>3))->getField('num');
+        $mem_jb_num = number_format($mem_jb_num,0,'','');
+
+        /*莱特币*/
+        $mem_ltb_num = M('currency_user')->where(array('member_id'=>$member_id,'currency_id'=>2))->getField('num');
+        $mem_ltb_num = number_format($mem_ltb_num,2,'.','');
+
+        $member_info['phone'] = substr_replace($member_info['phone'],"****",3,4);
+
+        $this->assign('mem_ltb_num',$mem_ltb_num);
+        $this->assign('mem_jb_num',$mem_jb_num);
+
+        /*首页广告*/
+        $my_ad_list = M('my_ad')->where(array('status'=>1))->order('id asc')->select();
+
+        $my_ad_count = M('my_ad')->where(array('status'=>1))->count();
+
+        /*用户阅读广告次数*/
+        $mem_ad_num = M("my_ad_detail")->where(array('member_id'=>$member_id))->sum('watch_num');
+        $get_num_k = $mem_ad_num + 1;
+
+        if(($mem_ad_num / $my_ad_count )> 0){
+            $get_num_k = ($mem_ad_num%$my_ad_count) + 1;
         }
-        $this->assign('rmb_num',$rmb_num);
-        $this->assign('mem_cur_num',$mem_cur_num);
+
+        $my_ad_info = $my_ad_list[$get_num_k-1];
+
+        if($my_ad_info){
+            $ad_detail_is_exist = M("my_ad_detail")
+                ->where(array('member_id'=>$member_id,'ad_id'=>$my_ad_info['id']))
+                ->find();
+            if($ad_detail_is_exist){
+                M("my_ad_detail")->where(array('member_id'=>$member_id,'ad_id'=>$my_ad_info['id']))->setInc('watch_num',1);
+            }else{
+                M("my_ad_detail")->add(array('member_id'=>$member_id,'ad_id'=>$my_ad_info['id'],'watch_num'=>1));
+            }
+        }
         $this->assign('member_info',$member_info);
+        $this->assign('my_ad_info',$my_ad_info);
 	    $this->display();
     }
     /*实名认证*/
@@ -367,28 +398,31 @@ class MemberController extends HomeController {
         $member_id = session('USER_KEY_ID');
         $mem_cur_num = M('currency_user')->where(array('member_id'=>$member_id,'currency_id'=>3))->getField('num');
         /*今日金币*/
-        $today_sum_num = M('task_luckdraw_record')
+        $today_sum_num = M('trade')
             ->where(array('member_id'=>$member_id,
                 'currency_id'=>3,
-                'stype' =>2,
+                'type' =>1,
                 'add_time'=>array('between',array(strtotime(date('Y-m-d 0:0:0',time())),strtotime(date('Y-m-d 23:59:59',time()))))
                 )
             )
             ->sum('num');
         /*累计收益*/
-        $sum_num = M('task_luckdraw_record')
+        $sum_num = M('trade')
             ->where(array('member_id'=>$member_id,
                     'currency_id'=>3,
-                    'stype' =>2,
+                    'type' =>1,
                 )
             )
             ->sum('num');
+        $today_sum_num =  number_format($today_sum_num,0,'','');
+        $sum_num =  number_format($sum_num,0,'','');
+        $mem_cur_num =  number_format($mem_cur_num,0,'','');
         $this->assign('today_sum_num',$today_sum_num);
         $this->assign('sum_num',$sum_num);
         $this->assign('mem_cur_num',$mem_cur_num);
         /*金币明细*/
         $list = M('trade')
-            ->where(array('member_id'=>$member_id,'currency_id'=>3,'type' =>1))
+            ->where(array('member_id'=>$member_id,'currency_id'=>3))
             ->order("add_time desc")->select();
         $re_data = array();
         if($list){
@@ -406,11 +440,69 @@ class MemberController extends HomeController {
             }
         }
         $this->assign('re_data',$re_data);
+        /*1莱特币等于多少金币*/
+        $jb_ltc_rate = $this->config['jb_ltc_rate'];
+
+        $jb_ltc_rate_num = (1/$jb_ltc_rate)?(1/$jb_ltc_rate):100;
+        $jb_ltc_rate_num = number_format($jb_ltc_rate_num,0,'','');
+        $this->assign('jb_ltc_rate_num',$jb_ltc_rate_num);
         $this->display();
     }
-
-    /*当前金币*/
+    /*当前莱特币*/
     public function cur_coin(){
+        $member_id = session('USER_KEY_ID');
+        $mem_cur_num = M('currency_user')->where(array('member_id'=>$member_id,'currency_id'=>2))->getField('num');
+
+        /*累计充值*/
+        $recharge_sum_num = M('rechage_record')
+            ->where(array('member_id'=>$member_id,
+                    'currency_id'=>2,
+                    'status' =>1,
+                )
+            )
+            ->sum('num');
+        /*累计提现*/
+        $tixian_sum_num = M('withdraw_record')
+            ->where(array('member_id'=>$member_id,
+                    'currency_id'=>2,
+                    'type' =>1,
+                )
+            )
+            ->sum('num');
+        $recharge_sum_num =  number_format($recharge_sum_num,0,'','');
+        $tixian_sum_num =  number_format($tixian_sum_num,0,'','');
+        $mem_cur_num =  number_format($mem_cur_num,0,'','');
+        $this->assign('recharge_sum_num',$recharge_sum_num);
+        $this->assign('tixian_sum_num',$tixian_sum_num);
+        $this->assign('mem_cur_num',$mem_cur_num);
+
+        /*莱特币明细*/
+        $list = M('trade')
+            ->where(array('member_id'=>$member_id,'currency_id'=>2))
+            ->order("add_time desc")->select();
+        $re_data = array();
+        if($list){
+            foreach ($list as $key => $value){
+                $value['currency_name'] = M('currency')->where(
+                    array('currency_id'=>$value['currency_id'])
+                )->getField('currency_name');
+
+                $date = date("Y-m-d",$value['add_time']);
+                if($date == date("Y-m-d",time())){
+                    $re_data['今日'][] = $value;
+                }else{
+                    $re_data[$date][] = $value;
+                }
+            }
+        }
+        $this->assign('re_data',$re_data);
+
+        /*1莱特币等于多少金币*/
+        $jb_ltc_rate = $this->config['jb_ltc_rate'];
+
+        $jb_ltc_rate_num = (1/$jb_ltc_rate)?(1/$jb_ltc_rate):100;
+        $jb_ltc_rate_num = number_format($jb_ltc_rate_num,0,'','');
+        $this->assign('jb_ltc_rate_num',$jb_ltc_rate_num);
         $this->display();
     }
 

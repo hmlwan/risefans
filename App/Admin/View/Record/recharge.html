@@ -1,6 +1,5 @@
 <include file="App/Admin/View/Public/left.html"/>
 <!--/sidebar-->
-
 <div class="main-wrap">
 
     <div class="crumb-wrap">
@@ -18,11 +17,11 @@
 
         <div class="result-title">
 
-            <form action="{:U('Web/game')}" method="get">
+            <form action="{:U('Record/recharge#6#1')}" method="get">
                 <table class="search-tab">
                     <tr>
-                        <td width="50">名称:</td>
-                        <td><input class="common-text" placeholder="名称" name="string" type="text" value="{$_GET['string']}"></td>
+                        <td width="50">手机号:</td>
+                        <td><input class="common-text" placeholder="手机号" name="phone" type="text" value="{$_GET['phone']}"></td>
                         <td><input class="btn btn-primary btn2"  value="查询" type="submit"></td>
                     </tr>
                 </table>
@@ -33,14 +32,11 @@
                 <tr>
 
                     <th>ID</th>
-                    <th>用户名称</th>
-                    <th>充值金额</th>
-                    <th>收款类型</th>
-                    <th>银行名称</th>
-                    <th>收款人</th>
-                    <th>银行账号</th>
-                    <th>开户网点</th>
-                    <th>跳转链接</th>
+                    <th>用户手机号</th>
+                    <th>充值码</th>
+                    <th>充值币种</th>
+                    <th>充值数量</th>
+                    <th>处理类型</th>
                     <th>状态</th>
                     <th>创建时间</th>
                     <th>操作</th>
@@ -48,39 +44,29 @@
                 <volist name='info' id='vo'>
                     <tr>
                         <td>{$vo['id']}</td>
-                        <td>{$vo['m_username']}</td>
+                        <td>{$vo['phone']}</td>
+                        <td>{$vo['recharge_no']}</td>
+                        <td>{$vo['currency_name']}</td>
                         <td>{$vo['num']}</td>
                         <td>
-                            <if condition="$vo['type'] eq 1">
-                                支付宝
-                                <elseif condition="$vo['type'] eq 2" />
-                                微信
-                                <else />
-                                银行卡
+                            <if condition="$vo['deal_type'] eq 1">
+                                手动
                             </if>
-
                         </td>
-                        <td> {$vo['bank_name']}</td>
-                        <td> {$vo['receipt_name']}</td>
-                        <td> {$vo['receipt_account']}</td>
-                        <td> {$vo['account_addr']}</td>
-                        <td>{$vo['jump_url']}</td>
                         <td>
                             <if condition="$vo['status'] eq 1">
-                                成功
+                                已完成
                                 <elseif condition="$vo['type'] eq 2" />
                                失败
                                 <else />
-                                未审核
+                                未完成
                             </if>
                         </td>
-                        <td>{$vo['create_time']|date="Y-m-d H:i:s",###}</td>
+                        <td>{$vo['add_time']|date="Y-m-d H:i:s",###}</td>
                         <td>
                             <if condition="$vo['status'] neq 1">
-                                <a class="link-update" href="javascript:void(0)" onclick="audit({$vo.id},1)">通过|</a>
-                                <a class="link-update" href="javascript:void(0)" onclick="audit({$vo.id},2)">驳回|</a>
+                                <a class="link-update" href="{:U('recharge_by_person',array('id'=>$vo['id']))}" >手动充值</a>
                             </if>
-
                             <a href="javascript:void(0)" class="link-del" onclick="cexiao({$vo.id})">删除</a>
                         </td>
                     </tr>

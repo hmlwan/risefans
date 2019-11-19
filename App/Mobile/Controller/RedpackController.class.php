@@ -78,7 +78,7 @@ class RedpackController extends HomeController
             $get_num_k = ($receive_num_count%$luckdraw_count) + 1;
         }
 
-        $cur_num_info = $luckdraw_detail[$get_num_k];
+        $cur_num_info = $luckdraw_detail[$get_num_k-1];
         $cur_num = $cur_num_info['num'];
         /*随机广告*/
         $ad_m  = M("hongbao_ad");

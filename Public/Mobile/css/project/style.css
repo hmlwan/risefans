@@ -2164,7 +2164,7 @@ div::-webkit-scrollbar {
 .vip_h{
     text-align: center;
     width: 100%;
-    height: 3.8rem;
+    height: 3.5rem;
     background-size: 100%;
     background: url("../../images/rise/vip_bg.png") no-repeat center;
     border-bottom: .2rem solid #f8f8f8;
@@ -2186,7 +2186,7 @@ div::-webkit-scrollbar {
     background-size:100% ;
     vertical-align: middle;
     display: inline-block;
-    margin-bottom: .25rem;
+    margin-bottom: .1rem;
 }
 .vip_h p  img{
     width: .45rem;
@@ -2207,7 +2207,7 @@ div::-webkit-scrollbar {
     background-color: #202020;
     display: inline-block;
     margin-top: .26rem;
-    margin-bottom: .25rem;
+    margin-bottom: .1rem;
 
 }
 .vip_h .vip_sm{
@@ -2547,14 +2547,14 @@ div::-webkit-scrollbar {
     align-items: center;
 }
 .rechage .rechage_bgk img{
-    height: 2.8rem;
-    width: 2.8rem;
-    margin: .4rem 0;
+    height: 2.6rem;
+    width: 2.6rem;
+    margin: .4rem 0 .3rem;
 }
 .rechage .rechage_bgk li:nth-child(2){
     color: #1982d3;
-    height: .6rem;
-    line-height: .6rem;
+    height: .65rem;
+    line-height: .65rem;
     width: 2rem;
     background-color: #e9f0f8;
     border: 1px solid #b8d4ec;
@@ -2653,7 +2653,7 @@ div::-webkit-scrollbar {
 }
 .txltb ul input{
     border: none;
-    font-size: .28rem;
+    font-size: .26rem;
     color:#c6cfd6
 }
 .txltb ul span{
@@ -2680,7 +2680,7 @@ div::-webkit-scrollbar {
 }
 .txltb ul p:nth-child(3){
     font-size: .23rem;
-    margin-top: .15rem;
+    margin-top: .1rem;
     color:#c6cfd6
 }
 .txltb ul .sxf{
@@ -2688,7 +2688,7 @@ div::-webkit-scrollbar {
 }
 .tbsm{
     width: 90%;
-    margin: 0 auto .7rem;
+    margin: 0 auto .6rem;
     background-color: #f7f6fb;
     color:#8c9fad;
     font-size: .24rem;
@@ -2706,7 +2706,7 @@ div::-webkit-scrollbar {
     margin: 0 auto;
 }
 .dzsl span:first-child{
-    font-size: .3rem;
+    font-size: .28rem;
     font-weight: bold;
     color:#8c9fad
 }
@@ -2717,12 +2717,12 @@ div::-webkit-scrollbar {
 }
 .tb_btn{
     width: 90%;
-    height: .8rem;
-    line-height: .8rem;
-    font-size: .28rem;
+    height: .7rem;
+    line-height: .7rem;
+    font-size: .26rem;
     font-weight: bold;
     text-align: center;
-    color:#fff;
+    color: #fff;
     border-radius: 5px;
     margin: .2rem auto 0;
     background-color: #1b86d8;
@@ -2783,17 +2783,17 @@ div::-webkit-scrollbar {
 }
 .txjl ul{
     width: 92%;
-    margin: .2rem auto;
+    margin: .1rem auto;
 }
 .txjl ul li{
 
 }
 .txjl ul li p:first-child{
-    font-size: .3rem;
+    font-size: .28rem;
     font-weight: bold;
     color: #1f3f58;
-    margin-bottom: .2rem;
-    margin-top: .2rem;
+    margin-bottom: .15rem;
+    margin-top: .15rem;
 }
 .txjl li p span{
     width: 30%;
@@ -2802,12 +2802,12 @@ div::-webkit-scrollbar {
     text-align: right;
 }
 .txjl li p:nth-child(2){
-    font-size: .28rem;
+    font-size: .26rem;
     color:#8f9fac;
     margin-bottom: .15rem;
 }
 .txjl li p:nth-child(3){
-    font-size: .28rem;
+    font-size: .26rem;
     color:#1d3f58;
     margin-bottom: .2rem;
 }
@@ -2818,7 +2818,44 @@ div::-webkit-scrollbar {
 
 
 
-    /*领取金币弹窗*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*错误提示*/
+.errmsg{
+    text-align: center;
+    font-size: .24rem;
+    height: .55rem;
+    margin: .2rem auto;
+}
+.errmsg i{
+    height: .55rem;
+    line-height: .55rem;
+    padding: 0 .45rem;
+    display: inline-block;
+}
+.errmsg .tipmsg{
+    background-color: #d9d9d9;
+    border-radius: 20px;
+}
+
+
+/*领取金币弹窗*/
 .mask{
     display: none;
     position: fixed;

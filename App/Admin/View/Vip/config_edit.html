@@ -1,0 +1,137 @@
+    <include file="App/Admin/View/Public/left.html"/>
+     <script type="text/javascript" charset="utf-8" src="__PUBLIC__/kindeditor/kindeditor.js"></script>
+	<script type="text/javascript" charset="utf-8" src="__PUBLIC__/kindeditor/lang/zh_CN.js"></script>
+    <script type="text/javascript" charset="utf-8" src="__PUBLIC__/kindeditor/plugins/prettify.js"></script>
+    <!--/sidebar-->
+    <style>
+        .glyphicon-minus:before {
+            content: "\2212";
+        }
+        .glyphicon {
+            position: relative;
+            top: 1px;
+            display: inline-block;
+            -webkit-font-smoothing: antialiased;
+            font-style: normal;
+            font-weight: normal;
+            line-height: 1;
+        }
+    </style>
+    <div class="main-wrap">
+        <div class="crumb-wrap">
+            <div class="crumb-list"><i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span class="crumb-name">VIP等级配置</span></div>
+        </div>
+        <div class="result-wrap">
+            <form action="{:U('Vip/config_edit')}" method="post" id="myform" name="myform" enctype="multipart/form-data">
+                <input type="hidden" value="{$info.id}" name="id">
+                <div class="config-items">
+                    <div class="config-title">
+                        <h1><i class="icon-font">&#xe00a;</i>兑换设置</h1>
+                    </div>
+                    <div class="result-content">
+                        <table width="100%" class="insert-tab">
+                            <tbody>
+                                <tr>
+                                    <th width="15%">VIP等级</th>
+                                    <td>
+                                        <select name="type" id="type"  class="common-text"  <if condition="$info['id']">disabled style="background-color: #EEEEEE"</if> >
+                                            <option value="1" <if condition="$info['type'] eq 1">select</if> >VIP1</option>
+                                            <option value="2" <if condition="$info['type'] eq 2">select</if>>VIP2</option>
+                                            <option value="3" <if condition="$info['type'] eq 3">select</if>>VIP3</option>
+                                            <option value="4" <if condition="$info['type'] eq 4">select</if>>VIP4</option>
+                                            <option value="5" <if condition="$info['type'] eq 5">select</if>>VIP5</option>
+                                            <option value="6" <if condition="$info['type'] eq 6">select</if>>VIP6</option>
+                                            <option value="7" <if condition="$info['type'] eq 7">select</if>>VIP7</option>
+                                            <option value="8" <if condition="$info['type'] eq 8">select</if>>VIP8</option>
+                                            <option value="9" <if condition="$info['type'] eq 9">select</if>>VIP9</option>
+                                            <option value="10" <if condition="$info['type'] eq 10">select</if>>VIP10</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>分红凭证数量</th>
+                                    <td><input type="text" name="bonus_voucher_num" class="common-text btn50"  value="{$info.bonus_voucher_num}"></td>
+                                </tr>
+                                <tr>
+                                    <th>推广下线奖励币种</th>
+                                    <td>
+                                        <select name="sub_reward_cur_id"   class="common-text w200">
+                                            <volist name="cur_list" id="vo">
+                                                <option value="{$vo.currency_id}" <if condition="$info['sub_reward_cur_id'] eq $vo['currency_id'] ">selected</if>>{$vo.currency_name}</option>
+                                            </volist>
+                                        </select>&nbsp;&nbsp;
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>推广下线奖励币种数量</th>
+                                    <td><input type="text" name="sub_reward_num" class="common-text btn50" value="{$info.sub_reward_num}"></td>
+                                </tr>
+                                <tr>
+                                    <th>下线购买vip返利</th>
+                                    <td><input type="text" name="sub_buy_vip_rebate" class="common-text btn50" value="{$info.sub_buy_vip_rebate}"><i class="require-red">(注：小数点后两位)</i></td>
+                                </tr>
+
+                                <tr>
+                                    <th>下线抽奖奖励币种</th>
+                                    <td>
+                                        <select name="sub_luckdraw_cur_id"   class="common-text w200">
+                                            <volist name="cur_list" id="vo">
+                                                <option value="{$vo.currency_id}" <if condition="$info['sub_luckdraw_cur_id'] eq $vo['currency_id'] ">selected</if>>{$vo.currency_name}</option>
+                                            </volist>
+                                        </select>&nbsp;&nbsp;
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>下线抽奖奖励数量</th>
+                                    <td><input type="text" name="sub_luckdraw_num" class="common-text btn50" value="{$info.sub_luckdraw_num}"><i class="require-red"></i></td>
+                                </tr>
+                                <tr>
+                                    <th>关闭vip返回币种</th>
+                                    <td>
+                                        <select name="close_vip_reward_cur_id"   class="common-text w200">
+                                            <volist name="cur_list" id="vo">
+                                                <option value="{$vo.currency_id}" <if condition="$info['close_vip_reward_cur_id'] eq $vo['currency_id'] ">selected</if>>{$vo.currency_name}</option>
+                                            </volist>
+                                        </select>&nbsp;&nbsp;
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>关闭vip返回币种数量</th>
+                                    <td><input type="text" name="close_vip_reward_num" class="common-text btn50" value="{$info.close_vip_reward_num}"><i class="require-red"></i></td>
+                                </tr>
+                                <tr>
+                                    <th>领取红包观看广告数量</th>
+                                    <td><input type="text" name="watch_num" class="common-text btn50" value="{$info.watch_num}"><i class="require-red"></i></td>
+                                </tr>
+                                <tr>
+                                    <th>出售折扣币种</th>
+                                    <td>
+                                        <select name="sale_cur_id"   class="common-text w200">
+                                            <volist name="cur_list" id="vo">
+                                                <option value="{$vo.currency_id}" <if condition="$info['sale_cur_id'] eq $vo['currency_id'] ">selected</if>>{$vo.currency_name}</option>
+                                            </volist>
+                                        </select>&nbsp;&nbsp;
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>出售折扣币数量</th>
+                                    <td><input type="text" name="sale_cur_num" class="common-text btn50" value="{$info.sale_cur_num}"><i class="require-red"></i></td>
+                                </tr>
+                                <tr>
+                                    <th></th>
+                                    <td>
+                                        <input type="submit" value="提交" class="btn btn-primary btn6 mr10">
+                                        <a href="{:U('Vip/config#13#1')}"><input type="button" value="返回"  class="btn btn6"></a>
+                                    </td>
+                                </tr>
+                            </tbody></table>
+                    </div>
+                </div>
+                
+            </form>
+        </div>
+    </div>
+    <!--/main-->
+</div>
+</body>
+</html>

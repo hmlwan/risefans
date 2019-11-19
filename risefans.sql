@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50553
 File Encoding         : 65001
 
-Date: 2019-11-18 22:14:40
+Date: 2019-11-19 22:17:42
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -32,7 +32,7 @@ CREATE TABLE `blue_admin` (
 -- ----------------------------
 -- Records of blue_admin
 -- ----------------------------
-INSERT INTO `blue_admin` VALUES ('1', 'admin', 'e10adc3949ba59abbe56e057f20f883e', null, '1,103,7,23,41,101,50,105,106,108,109,58,89,92,93,104,94,95,96,97,98,99,100,110,111,112,113,114,115,116,117,118,120,121,122,123,124,125', '0');
+INSERT INTO `blue_admin` VALUES ('1', 'admin', 'e10adc3949ba59abbe56e057f20f883e', null, '1,103,7,23,41,101,50,105,106,108,109,58,89,92,93,104,94,95,96,98,99,100,110,111,112,113,114,115,116,117,118,126,120,121,122,123,124,125', '0');
 
 -- ----------------------------
 -- Table structure for `blue_areas`
@@ -3557,6 +3557,7 @@ CREATE TABLE `blue_bonus_config` (
   `accumulate_hours` decimal(20,0) DEFAULT '24' COMMENT '累积小数 （h）',
   `interval_hours` decimal(20,0) DEFAULT '3' COMMENT '间隔小时（h）',
   `min_receive_num` decimal(20,0) DEFAULT NULL COMMENT '最少领取数量',
+  `op_time` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='分红配置';
 
@@ -3574,6 +3575,7 @@ CREATE TABLE `blue_bonus_record` (
   `num` decimal(20,8) DEFAULT NULL COMMENT '币种数量',
   `currency_id` int(11) DEFAULT NULL COMMENT '币种id',
   `accumulate_second` varchar(50) DEFAULT '1' COMMENT '累积秒数',
+  `total_accumulate_second` varchar(50) DEFAULT NULL COMMENT '一共累积秒数',
   `add_time` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
@@ -3633,8 +3635,9 @@ INSERT INTO `blue_config` VALUES ('cert_num', '5', '1', '认证次数');
 INSERT INTO `blue_config` VALUES ('set_cert_currency', '3', '1', '设置认证奖励币种');
 INSERT INTO `blue_config` VALUES ('cert_reward_num', '100', '1', '认证记录币种数量');
 INSERT INTO `blue_config` VALUES ('init_recomment_code', '1000000', '1', '初始推荐码');
-INSERT INTO `blue_config` VALUES ('ltc_service_charge', '0.01', '1', '莱特币提现手续费');
+INSERT INTO `blue_config` VALUES ('ltc_service_charge_rate', '0.01', '1', '莱特币提现手续费(单位：1)');
 INSERT INTO `blue_config` VALUES ('jb_ltc_rate', '0.001', '1', '金币和莱特币汇率');
+INSERT INTO `blue_config` VALUES ('ltc_min_num', '0.1', '1', '莱特币最小提现数量');
 
 -- ----------------------------
 -- Table structure for `blue_currency`
@@ -3654,7 +3657,7 @@ CREATE TABLE `blue_currency` (
 -- ----------------------------
 -- Records of blue_currency
 -- ----------------------------
-INSERT INTO `blue_currency` VALUES ('2', '虚拟币', '/Uploads/Public/Uploads/2019-11-18/5dd2a0addfcd7.png', 'LTC', '0', '12', '1574084781');
+INSERT INTO `blue_currency` VALUES ('2', '莱特币', '/Uploads/Public/Uploads/2019-11-18/5dd2a0addfcd7.png', 'LTC', '0', '2', '1574084781');
 INSERT INTO `blue_currency` VALUES ('3', '金币', '/Uploads/Public/Uploads/2019-11-08/5dc51a3152ee9.png', 'JB', '0', '1', '1573198385');
 
 -- ----------------------------
@@ -3705,8 +3708,10 @@ DROP TABLE IF EXISTS `blue_exchange_order`;
 CREATE TABLE `blue_exchange_order` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `member_id` int(11) DEFAULT NULL,
-  `jb_num` decimal(20,2) DEFAULT NULL,
-  `ltb_num` decimal(20,2) DEFAULT NULL,
+  `dh_cur_id` int(11) DEFAULT NULL COMMENT '兑换币种',
+  `dh_num` decimal(20,2) DEFAULT NULL COMMENT '兑换数量',
+  `xh_cur_id` int(11) DEFAULT NULL COMMENT '消耗币种',
+  `xh_num` decimal(20,0) DEFAULT NULL COMMENT '消耗数量',
   `add_time` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='兑换莱特币';
@@ -3726,6 +3731,7 @@ CREATE TABLE `blue_hongbao_ad` (
   `ad_url` varchar(200) DEFAULT NULL COMMENT '广告url',
   `seconds` int(10) DEFAULT '0' COMMENT '秒数',
   `status` tinyint(4) DEFAULT '1' COMMENT '状态 1：开启 0：关闭',
+  `read_num` decimal(8,0) DEFAULT NULL COMMENT '阅读数',
   `op_time` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='红包展示设置的广告';
@@ -3733,7 +3739,23 @@ CREATE TABLE `blue_hongbao_ad` (
 -- ----------------------------
 -- Records of blue_hongbao_ad
 -- ----------------------------
-INSERT INTO `blue_hongbao_ad` VALUES ('1', '还在辛苦赚钱三四千？现名师指导，给自己一个出人头地的机会', '/Uploads/Public/Uploads/2019-11-08/5dc512e8e83e4.png', 'https://juejin.im/post/5dc4d823f265da4d4c202d3b?utm_source=gold_browser_extension', '10', '1', '1573196520');
+INSERT INTO `blue_hongbao_ad` VALUES ('1', '还在辛苦赚钱三四千？现名师指导，给自己一个出人头地的机会', '/Uploads/Public/Uploads/2019-11-08/5dc512e8e83e4.png', 'https://juejin.im/post/5dc4d823f265da4d4c202d3b?utm_source=gold_browser_extension', '10', '1', null, '1573196520');
+
+-- ----------------------------
+-- Table structure for `blue_hongbao_ad_read_detail`
+-- ----------------------------
+DROP TABLE IF EXISTS `blue_hongbao_ad_read_detail`;
+CREATE TABLE `blue_hongbao_ad_read_detail` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `hb_ad_id` int(11) DEFAULT NULL,
+  `member_id` int(11) DEFAULT NULL,
+  `watch_num` varchar(100) DEFAULT NULL COMMENT '观看次数',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='红包广告阅读详情';
+
+-- ----------------------------
+-- Records of blue_hongbao_ad_read_detail
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for `blue_hongbao_ad_record`
@@ -3804,7 +3826,7 @@ CREATE TABLE `blue_invite_record` (
   `content` varchar(200) DEFAULT NULL COMMENT '内容',
   `add_time` int(11) DEFAULT NULL COMMENT '添加时间',
   `level` tinyint(4) DEFAULT NULL COMMENT '下级 1：一级 2：二级',
-  `type` tinyint(4) DEFAULT NULL COMMENT '奖励类型 1：实名奖励2：vip晋级',
+  `type` tinyint(4) DEFAULT NULL COMMENT '奖励类型 1：实名奖励2：vip晋级3抽奖返利',
   `is_cert` tinyint(2) DEFAULT '1' COMMENT '是否实名 1：否 2：是',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
@@ -3881,7 +3903,7 @@ CREATE TABLE `blue_member` (
 -- ----------------------------
 -- Records of blue_member
 -- ----------------------------
-INSERT INTO `blue_member` VALUES ('9', '123456', 'e10adc3949ba59abbe56e057f20f883e', '1000000', '测试', null, '15179811531', '127.0.0.1', '1563933002', '127.0.0.1', '1573440694', '50.00', '0.00', '0', '1', '1000001');
+INSERT INTO `blue_member` VALUES ('9', '123456', 'e10adc3949ba59abbe56e057f20f883e', '1000000', '测试', null, '15179811531', '127.0.0.1', '1563933002', '127.0.0.1', '1574154535', '50.00', '0.00', '0', '1', '1000001');
 INSERT INTO `blue_member` VALUES ('10', 'hmlwan', 'e10adc3949ba59abbe56e057f20f883e', '1000001', 'hmlwan', null, '15179811532', null, '1563933002', '127.0.0.1', '1572439511', '0.00', '0.00', '0', '1', '1000003');
 
 -- ----------------------------
@@ -3989,8 +4011,8 @@ CREATE TABLE `blue_member_info` (
 -- ----------------------------
 -- Records of blue_member_info
 -- ----------------------------
-INSERT INTO `blue_member_info` VALUES ('3', '9', '252255225522', '雪中行者', '15179822523', '刘德华', '3625225225522555', '2', '/Public/Mobile/images/tx3.png', '1570358334', '5', '1', '0');
-INSERT INTO `blue_member_info` VALUES ('4', '10', '36258223564232', '郭富城123', '15179811532', '郭富城', '3624011995396038251', '2', null, '1572269108', '5', '1', '0');
+INSERT INTO `blue_member_info` VALUES ('3', '9', '252255225522', '雪中行者', '15179822523', '刘德华', '3625225225522555', '2', '/Public/Mobile/images/tx3.png', '1570358334', '5', '1', '1');
+INSERT INTO `blue_member_info` VALUES ('4', '10', '36258223564232', '郭富城123', '15179811532', '郭富城', '3624011995396038251', '2', null, '1572269108', '5', '1', '1');
 
 -- ----------------------------
 -- Table structure for `blue_member_luckdraw_num`
@@ -4064,6 +4086,43 @@ CREATE TABLE `blue_message_all` (
 INSERT INTO `blue_message_all` VALUES ('3007', '测试', '-1', '测试测试测试测试测试测试测试测试测试', '1570249930', '1', '1', '1', null);
 
 -- ----------------------------
+-- Table structure for `blue_my_ad`
+-- ----------------------------
+DROP TABLE IF EXISTS `blue_my_ad`;
+CREATE TABLE `blue_my_ad` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `ad_title` varchar(200) DEFAULT NULL COMMENT '广告标题',
+  `ad_img` varchar(200) DEFAULT NULL COMMENT '广告图片',
+  `ad_url` varchar(200) DEFAULT NULL COMMENT '广告url',
+  `status` tinyint(4) DEFAULT '1' COMMENT '状态 1：开启 0：关闭',
+  `read_num` decimal(8,0) DEFAULT NULL COMMENT '阅读数',
+  `op_time` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='红包展示设置的广告';
+
+-- ----------------------------
+-- Records of blue_my_ad
+-- ----------------------------
+INSERT INTO `blue_my_ad` VALUES ('1', '还在辛苦赚钱三四千？现名师指导，给自己一个出人头地的机会', '/Uploads/Public/Uploads/2019-11-08/5dc512e8e83e4.png', 'https://juejin.im/post/5dc4d823f265da4d4c202d3b?utm_source=gold_browser_extension', '1', null, '1573196520');
+
+-- ----------------------------
+-- Table structure for `blue_my_ad_detail`
+-- ----------------------------
+DROP TABLE IF EXISTS `blue_my_ad_detail`;
+CREATE TABLE `blue_my_ad_detail` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `ad_id` int(11) DEFAULT NULL,
+  `member_id` int(11) DEFAULT NULL,
+  `watch_num` varchar(100) DEFAULT NULL COMMENT '观看次数',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='红包广告阅读详情';
+
+-- ----------------------------
+-- Records of blue_my_ad_detail
+-- ----------------------------
+INSERT INTO `blue_my_ad_detail` VALUES ('1', '1', '9', '24');
+
+-- ----------------------------
 -- Table structure for `blue_nav`
 -- ----------------------------
 DROP TABLE IF EXISTS `blue_nav`;
@@ -4075,7 +4134,7 @@ CREATE TABLE `blue_nav` (
   `cat_id` varchar(32) NOT NULL COMMENT '类别',
   `nav_sort` tinyint(6) DEFAULT '1' COMMENT '排序',
   PRIMARY KEY (`nav_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=126 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=127 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of blue_nav
@@ -4091,16 +4150,15 @@ INSERT INTO `blue_nav` VALUES ('105', '站外福利', '&#xe6f7;', '/Good/outside
 INSERT INTO `blue_nav` VALUES ('106', '轮播图配置', '&#xe6f7;', '/Config/carousel', 'sys', '3');
 INSERT INTO `blue_nav` VALUES ('108', '兑换设置', '&#xe642;', '/Exchange/config', 'exchange', '1');
 INSERT INTO `blue_nav` VALUES ('109', '发布管理', '&#xe6f7;', '/Exchange/pub', 'exchange', '2');
-INSERT INTO `blue_nav` VALUES ('58', '提现记录', '&#xe6f7;', '/Record/tixian', 'record', null);
-INSERT INTO `blue_nav` VALUES ('89', '充值记录', '&#xe6f7;', '/Record/recharge', 'record', null);
+INSERT INTO `blue_nav` VALUES ('58', '提现记录', '&#xe6f7;', '/Record/tixian', 'record', '1');
+INSERT INTO `blue_nav` VALUES ('89', '充值记录', '&#xe6f7;', '/Record/recharge', 'record', '2');
 INSERT INTO `blue_nav` VALUES ('92', '商品列表', '&#xe6f7;', '/Good/index', 'good', '2');
 INSERT INTO `blue_nav` VALUES ('93', '币种列表', '&#xe6f7;', '/Currency/index', 'currency', '1');
 INSERT INTO `blue_nav` VALUES ('104', '财务列表', '&#xe6f7;', '/Finance/index', 'finance', '1');
 INSERT INTO `blue_nav` VALUES ('94', '银行列表', '&#xe637;', '/Bank/index', 'bank', '1');
 INSERT INTO `blue_nav` VALUES ('95', '用户商品卡', '&#xe6f7;', '/Good/usergoods', 'good', '4');
 INSERT INTO `blue_nav` VALUES ('96', '订单记录', '&#xe6f7;', '/Order/index', 'order', '1');
-INSERT INTO `blue_nav` VALUES ('97', '签到配置', '&#xe642;', '/Sign/conf', 'sign', '1');
-INSERT INTO `blue_nav` VALUES ('98', '签到记录', '&#xe6f7;', '/Sign/record', 'sign', '2');
+INSERT INTO `blue_nav` VALUES ('98', '兑换记录', '&#xe6f7;', '/Record/exchange', 'record', '3');
 INSERT INTO `blue_nav` VALUES ('99', '系统发布消息', '&#xe6f7;', '/Message/index', 'message', '1');
 INSERT INTO `blue_nav` VALUES ('100', '消息记录', '&#xe6f7;', '/Message/record', 'message', '2');
 INSERT INTO `blue_nav` VALUES ('110', '订单交易', '&#xe6f7;', '/Exchange/order', 'exchange', '3');
@@ -4112,10 +4170,11 @@ INSERT INTO `blue_nav` VALUES ('115', '每日签到配置', '&#xe637;', '/Task/s
 INSERT INTO `blue_nav` VALUES ('116', '领取抽奖数记录', '&#xe6f7;', '/Task/task_luckdraw_record', 'task', '4');
 INSERT INTO `blue_nav` VALUES ('117', '邀请配置', '&#xe637;', '/Invite/config', 'invite', '1');
 INSERT INTO `blue_nav` VALUES ('118', '邀请记录', '&#xe6f7;', '/Invite/record', 'invite', '2');
+INSERT INTO `blue_nav` VALUES ('126', '首页广告图配置', '&#xe6f7;', '/Config/my_ad_config', 'sys', '3');
 INSERT INTO `blue_nav` VALUES ('120', '每日签到奖励记录', '&#xe6f7;', '/Task/daily_luckdraw', 'task', '3');
-INSERT INTO `blue_nav` VALUES ('121', '任务配置', '&#xe637;', '/Task/config', 'task', '1');
+INSERT INTO `blue_nav` VALUES ('121', '转盘抽奖配置', '&#xe637;', '/Task/config', 'task', '1');
 INSERT INTO `blue_nav` VALUES ('122', '分红配置', '&#xe6f7;', '/Bonus/config', 'bonus', '1');
-INSERT INTO `blue_nav` VALUES ('123', '分红管理', '&#xe6f7;', '/Bonus/record', 'bonus', '2');
+INSERT INTO `blue_nav` VALUES ('123', '分红记录', '&#xe6f7;', '/Bonus/record', 'bonus', '2');
 INSERT INTO `blue_nav` VALUES ('124', 'VIP等级配置', '&#xe6f7;', '/Vip/config', 'vip', '1');
 INSERT INTO `blue_nav` VALUES ('125', 'VIP购买/返回记录', '&#xe6f7;', '/Vip/record', 'vip', '2');
 
@@ -4190,12 +4249,14 @@ CREATE TABLE `blue_rechage_record` (
   `num` decimal(20,8) DEFAULT NULL COMMENT '充值数量',
   `currency_id` int(11) DEFAULT NULL COMMENT '充值币种id',
   `status` tinyint(4) DEFAULT NULL COMMENT '0未完成 1：已完成2：失败',
+  `deal_type` tinyint(4) DEFAULT '1' COMMENT '处理类型 1：手动',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='充值记录';
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='充值记录';
 
 -- ----------------------------
 -- Records of blue_rechage_record
 -- ----------------------------
+INSERT INTO `blue_rechage_record` VALUES ('1', '9', 'LVSDKksdskdjsn98VSDK79dsdsVSDKlkjfs', '1574163301', '2.85255826', '2', '0', '1');
 
 -- ----------------------------
 -- Table structure for `blue_record`
@@ -4261,6 +4322,9 @@ CREATE TABLE `blue_task_conf` (
   `luckdraw_conf_id` int(11) DEFAULT NULL COMMENT '抽奖规则id',
   `bottom_ad_img` varchar(200) DEFAULT NULL COMMENT '底部广告图',
   `bottom_ad_url` varchar(200) DEFAULT NULL COMMENT '底部广告url',
+  `op_time` int(11) DEFAULT NULL,
+  `task_luckdraw_use_num` decimal(20,2) DEFAULT NULL COMMENT '任务抽奖消耗币数量',
+  `task_luckdraw_use_cur_id` int(11) DEFAULT NULL COMMENT '任务抽奖消耗币id',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
@@ -4278,6 +4342,8 @@ CREATE TABLE `blue_task_luckdraw_record` (
   `num` decimal(20,0) DEFAULT NULL COMMENT '币种数量',
   `currency_id` int(11) DEFAULT NULL COMMENT '币种id',
   `add_time` int(11) DEFAULT NULL,
+  `use_num` decimal(20,2) DEFAULT NULL COMMENT '使用莱特币',
+  `use_cur_id` int(11) DEFAULT NULL COMMENT '使用币种',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
@@ -4296,7 +4362,7 @@ CREATE TABLE `blue_trade` (
   `num` decimal(20,2) DEFAULT NULL COMMENT '数量',
   `content` varchar(200) DEFAULT NULL COMMENT '内容',
   `type` tinyint(4) DEFAULT NULL COMMENT '类型 1：加2：减',
-  `trade_type` tinyint(4) DEFAULT NULL COMMENT '1:每日签到2：任务抽奖3：推广下线返利4.领取红包5：购买下线返利6：抽奖下线返利7:购买vip8：关闭vip9:分红奖励10提现11充值12兑换',
+  `trade_type` tinyint(4) DEFAULT NULL COMMENT '1:每日签到2：转盘抽奖3：下线推广返利4.领取红包5：下线购买vip返利6：下线抽奖返利7:购买vip8：关闭vip9:分红奖励10提现11充值12兑换莱特币',
   `add_time` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
@@ -4322,12 +4388,18 @@ CREATE TABLE `blue_vip_level_config` (
   `sub_luckdraw_cur_id` int(11) DEFAULT NULL COMMENT '下线抽奖奖励币种id',
   `close_vip_reward_num` decimal(20,2) DEFAULT NULL COMMENT '''关闭vip返回币种数量',
   `close_vip_reward_cur_id` int(11) DEFAULT NULL COMMENT '关闭vip返回币种id',
+  `op_time` int(11) DEFAULT NULL,
+  `watch_num` int(11) DEFAULT '1' COMMENT '观看广告数',
+  `sale_cur_id` int(11) DEFAULT NULL COMMENT '出售币种',
+  `sale_cur_num` decimal(20,0) DEFAULT NULL COMMENT '出售币数量',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of blue_vip_level_config
 -- ----------------------------
+INSERT INTO `blue_vip_level_config` VALUES ('1', '1', '3', '100', '3', '0.01', '0.10', '3', '1.00', '2', '1574133802', null, null, null);
+INSERT INTO `blue_vip_level_config` VALUES ('2', '2', '5', '105', '3', '0.02', '0.20', '3', '0.20', '2', '1574133842', null, null, null);
 
 -- ----------------------------
 -- Table structure for `blue_vip_record`
@@ -4357,9 +4429,12 @@ CREATE TABLE `blue_withdraw_record` (
   `id` int(11) NOT NULL DEFAULT '0',
   `member_id` int(11) DEFAULT NULL,
   `cur_address` varchar(200) DEFAULT NULL COMMENT '提币地址',
+  `currency_id` int(11) DEFAULT NULL COMMENT '提现币种',
   `num` decimal(20,8) DEFAULT NULL,
   `status` tinyint(4) DEFAULT NULL COMMENT '状态 0：正在处理 1：已完成2：失败',
+  `deal_type` tinyint(2) DEFAULT '1' COMMENT '处理类型 1：手动',
   `service_charge` decimal(20,8) DEFAULT NULL COMMENT '手续费',
+  `total_num` decimal(20,8) DEFAULT NULL COMMENT '总共',
   `add_time` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
@@ -4367,3 +4442,4 @@ CREATE TABLE `blue_withdraw_record` (
 -- ----------------------------
 -- Records of blue_withdraw_record
 -- ----------------------------
+INSERT INTO `blue_withdraw_record` VALUES ('0', '9', 'LVSDKksdskdjsn98VSDK79dsdsVSDKlkjfs', '2', '99.00000000', '0', '1', '1.00000000', '100.00000000', '1574170233');

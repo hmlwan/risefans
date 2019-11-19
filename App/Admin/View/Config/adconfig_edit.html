@@ -19,14 +19,14 @@
     </style>
     <div class="main-wrap">
         <div class="crumb-wrap">
-            <div class="crumb-list"><i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span class="crumb-name">红包广告图</span></div>
+            <div class="crumb-list"><i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span class="crumb-name">首页广告图</span></div>
         </div>
         <div class="result-wrap">
-            <form action="{:U('Hongbao/adconfig_edit')}" method="post" id="myform" name="myform" enctype="multipart/form-data">
+            <form action="{:U('Config/adconfig_edit#0#3')}" method="post" id="myform" name="myform" enctype="multipart/form-data">
                 <input type="hidden" value="{$info.id}" name="id">
                 <div class="config-items">
                     <div class="config-title">
-                        <h1><i class="icon-font">&#xe00a;</i>兑换设置</h1>
+                        <h1><i class="icon-font">&#xe00a;</i>首页广告图</h1>
                     </div>
                     <div class="result-content">
                         <table width="100%" class="insert-tab">
@@ -49,10 +49,6 @@
                                     <td><input type="text" name="ad_url" class="common-text btn50" value="{$info.ad_url}"></td>
                                 </tr>
                                 <tr>
-                                    <th>秒数</th>
-                                    <td><input type="text" name="seconds" class="common-text btn50" value="{$info.seconds|default=10}"><i class="require-red">（默认：10s）</i></td>
-                                </tr>
-                                <tr>
                                     <th><i class="require-red">*</i>状态</th>
                                     <td>开启：<input type="radio" name="status" value="1"  <eq name="info.status"  value="1">checked="checked"</eq> />
                                         关闭：<input type="radio" name="status" value="0"  <eq name="info.status"  value="0">checked="checked"</eq> />
@@ -63,7 +59,7 @@
                                     <th></th>
                                     <td>
                                         <input type="submit" value="提交" class="btn btn-primary btn6 mr10">
-                                        <a href="{:U('Hongbao/adconfig#4#1')}"><input type="button" value="返回"  class="btn btn6"></a>
+                                        <a href="{:U('Config/my_ad_config#0#3')}"><input type="button" value="返回"  class="btn btn6"></a>
                                     </td>
                                 </tr>
                             </tbody></table>

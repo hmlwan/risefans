@@ -10,48 +10,52 @@
 		<div style="height: .74rem;clear: both;"></div>
 	</header>
 	<div class="txltb">
+		<input type="hidden" name="ltc_service_charge_rate" value="{$ltc_service_charge_rate}" >
+		<input type="hidden" name="mem_cur_num" value="{$mem_cur_num}" >
+		<input type="hidden" name="ltc_service_charge_min" value="{$ltc_service_charge_min}" >
+		<input type="hidden" name="ltc_min_num" value="{$ltc_min_num}" >
 		<ul class="flexbox column">
 			<li>
 				<p class="title">提币地址</p>
 				<p class="flexbox spacebetween tbdz">
-					<span><input type="text" placeholder="输入或长按粘贴地址"></span>
+					<span><input type="text" name="cur_address" placeholder="输入或长按粘贴地址"></span>
 				</p>
 			</li>
 			<li>
 				<p class="title">数量</p>
 				<p class="flexbox spacebetween">
-					<span><input type="text" placeholder="最小提币数量0.1"></span><span>LTC&nbsp;&nbsp;|<em class="qb">全部</em></span>
+					<span><input type="text"  class="tb_val" name="total_num"  placeholder="最小提币数量{$ltc_min_num}"></span><span>LTC&nbsp;&nbsp;|<em class="qb">全部</em></span>
 				</p>
-				<p>可用 0.00002558 LTC</p>
+				<p>可用 {$mem_cur_num} LTC</p>
 			</li>
 			<li>
 				<p class="title">手续费</p>
 				<p  class="flexbox spacebetween">
-					<span><input type="text" class="sxf" value="0.00100100"></span><span class="ltc">LTC</span>
+					<span><input type="text" name="service_charge" class="sxf sxf_val" readonly value="{$ltc_service_charge_min}"></span><span class="ltc">LTC</span>
 				</p>
-				<p>范围 0.00002558 LTC</p>
+				<p>范围 {$ltc_service_charge_min}-{$ltc_service_charge_max} LTC</p>
 			</li>
 		</ul>
 		<div class="tbsm">
 			<div>
-				<p>最小提币数量为: 0.1LTC。</p>
+				<p>最小提币数量为: {$ltc_min_num}LTC。</p>
 				<p>为保障资金安全，当您账户安全策略变更、密码修改、我们会对提币进行人工审核，请耐心等待工作人员电话或邮件联系。</p>
 				<p>请务必确认电脑及浏览器安全，防止信息被篡改或泄露。</p>
 			</div>
 		</div>
 		<div class="dzsl flexbox spacebetween">
 			<span>到账数量</span>
-			<span>0.00002558 LTC</span>
+			<span><em class="real_val">0.00000000</em> LTC</span>
 		</div>
-		<div class="tb_btn">
+		<div class="tb_btn" onclick="sub()">
 			提币
 		</div>
 	</div>
 </div>
-<div class="zhezhao zhezhao_h"></div>
-<div class="yztb">
+<div class="zhezhao_h"></div>
+<div class="yztb" style="display: none">
 	<ul class="flexbox column">
-		<li class="cur_no">SHnsdkSKDSlsds87Pkwelzds</li>
+		<li class="cur_no"></li>
 		<li>
 			<p class="flexbox spacebetween">
 				<span>提币币种</span>
@@ -61,22 +65,22 @@
 		<li>
 			<p class="flexbox spacebetween">
 				<span>提币数量</span>
-				<span>2.58586958 LTC</span>
+				<span><i class="tb_sval">2.58586958</i> LTC</span>
 			</p>
 		</li>
 		<li>
 			<p class="flexbox spacebetween">
 				<span>网络手续费</span>
-				<span>0.001 LTC</span>
+				<span><i class="sxf_sval">0.001</i> LTC</span>
 			</p>
 		</li>
 	</ul>
 	<p class="flexbox spacebetween yzm">
 		<span>短信验证</span>
-		<span><input type="text" placeholder="短信验证码"></span>
+		<span><input type="text" name="yzm" placeholder="短信验证码"></span>
 		<span class="fsyzm">发送验证码</span>
 	</p>
-	<div class="tb_btn default">
+	<div class="tb_btn default" onclick="tb_btn()">
 		提币
 	</div>
 </div>
@@ -107,5 +111,92 @@
 		</a>
 	</ul>
 </div>
+<script>
+    function sub(){
+        var cur_address = $("input[name='cur_address']").val();
+        var total_num = parseFloat($("input[name='total_num']").val());
+       	if(!cur_address){
+            layer.msg("请输入提币地址");
+            return false;
+		}
+        if(!total_num){
+            layer.msg("请输入提币数量");
+            return false;
+        }
+        $(".zhezhao_h").attr("class",'zhezhao_h zhezhao');
+        $(".yztb").show();
+		$(".cur_no").text(cur_address);
+    }
+    $(".zhezhao_h").click(function () {
+        $(".zhezhao_h").attr("class",'zhezhao_h');
+        $(".yztb").hide();
+    });
+    var ltc_service_charge_rate = parseFloat($("input[name='ltc_service_charge_rate']").val());
+    var ltc_service_charge_min = parseFloat($("input[name='ltc_service_charge_min']").val());
+    var ltc_min_num = parseFloat($("input[name='ltc_min_num']").val());
+    $("input[name='total_num']").on('input propertychange',function () {
+		 var total_num = parseFloat($(this).val()).toFixed(8);
+        show_data(total_num);
+    });
+    function show_data(total_num) {
+        var ltc_service_charge = (parseFloat((total_num / 1) * ltc_service_charge_rate)).toFixed(8);
+        $(".sxf_val").val(ltc_min_num);
+        $(".sxf_sval").text(ltc_min_num);
+        $(".tb_sval").text(total_num);
+        $(".tb_sval").val(total_num);
+        console.log(total_num);
+        console.log(ltc_service_charge);
+        console.log(ltc_service_charge_rate);
+        console.log(ltc_service_charge_min);
+        console.log(ltc_min_num);
 
+        if(ltc_service_charge > ltc_service_charge_min){
+            $(".sxf_val").val(ltc_service_charge);
+            $(".sxf_sval").text(ltc_service_charge);
+        }
+        var real_val = (total_num - ltc_service_charge).toFixed(8);
+        $(".real_val").text(real_val);
+    }
+    /*全部*/
+    $(".qb").click(function () {
+        var mem_cur_num = parseFloat($("input[name='mem_cur_num']").val());
+        $("input[name='total_num']").val(mem_cur_num);
+        show_data(mem_cur_num);
+    });
+    $("input[name='yzm']").on('input propertychange',function () {
+		var yzm = $(this).val();
+		if(yzm){
+			$(".tb_btn").attr('class',"tb_btn");
+		}else{
+            $(".tb_btn").attr('class',"tb_btn default");
+        }
+    });
+
+    function tb_btn(){
+        var cur_address = $("input[name='cur_address']").val();
+        var total_num = parseFloat($("input[name='total_num']").val());
+        var service_charge = parseFloat($("input[name='service_charge']").val());
+        var yzm = ($("input[name='yzm']").val());
+		if(!yzm){
+            layer.msg("请输入验证码");
+            return false;
+		}
+        $.post("{:U('Order/withdraw_order')}",{
+            yzm:yzm,cur_address:cur_address,total_num:total_num,service_charge:service_charge
+        },function(data){
+            if(data.status==1){
+                layer.msg(data.info,{icon:1});
+                window.setTimeout(function(){
+                    window.location="{:U('Exchange/withdraw_record')}";
+                },1000);
+            }else{
+                layer.msg(data.info);
+                return false;
+            }
+        })
+    };
+
+
+
+</script>
 <include file="Public:footer"/>

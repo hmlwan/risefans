@@ -18,7 +18,7 @@ class HelpController extends HomeController
     //空操作
     public function _empty(){
         header("HTTP/1.0 404 Not Found");
-        $this->display('Public:404');
+        $this->display('Public:face_to_face');
     }
     /*帮助中心*/
     public function index(){
@@ -27,15 +27,18 @@ class HelpController extends HomeController
         $art_db = D('article');
 
         /*帮助中心类型*/
+        $art_list = array();
         $cate_ids =  $art_cate_db->where(array('parent_id'=>6))->getField('id',true);
-        $art_where = array(
-            'position_id' => array('in',$cate_ids),
-            'status' => 1,
-        );
-        $art_list = $art_db->where($art_where)
-            ->order('is_top desc,add_time desc')
-            ->limit(8)
-            ->select();
+        if($cate_ids){
+            $art_where = array(
+                'position_id' => array('in',$cate_ids),
+                'status' => 1,
+            );
+            $art_list = $art_db->where($art_where)
+                ->order('is_top desc,add_time desc')
+                ->limit(8)
+                ->select();
+        }
         $this->assign('art_list',$art_list);
         $this->display();
     }
@@ -63,18 +66,22 @@ class HelpController extends HomeController
         $art_db = D('article');
 
         /*帮助中心类型*/
-        $cate_ids =  $art_cate_db->where(array('parent_id'=>6))->getField('id',true);
-        $art_where = array(
-            'position_id' => array('in',$cate_ids),
-            'status' => 1,
-        );
-        $art_list = $art_db->where($art_where)
-            ->order('is_top desc,add_time desc')
-            ->limit(8)
-            ->select();
+        $art_list = array();
+        $cate_ids =  $art_cate_db->where(array('parent_id'=>127))->getField('id',true);
+        if($cate_ids){
+            $art_where = array(
+                'position_id' => array('in',$cate_ids),
+                'status' => 1,
+            );
+            $art_list = $art_db->where($art_where)
+                ->order('is_top desc,add_time desc')
+                ->select();
+        }
         $this->assign('art_list',$art_list);
         $this->display();
     }
-
+    public function voucher(){
+        $this->display();
+    }
 
 }

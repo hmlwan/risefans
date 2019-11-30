@@ -3,7 +3,7 @@
 <link type="text/css" rel="stylesheet" href="__CSS__/project/hongbao.css" />
 <body >
 <header class="my_head current_gold_head">
-	<div class=" flexbox spacebetween "><a href="{:U('Member/index')}"><img src="__IMG__/rise/back.png"/></a><strong>我的莱特币</strong><a href="javascript:;"></a></div>
+	<div class=" flexbox spacebetween "><a href="{:U('Member/index')}"><img src="__IMG__/rise/back.png"/></a><strong>我的莱特币</strong><a href="{:U('/Mobile/Order/recharge_record')}">充值记录</a></div>
 	<div class="current_box">
 		<div class="flexbox spacebetween">
 			<p>
@@ -37,12 +37,12 @@
 			<volist name="vo" id="v">
 				<dd class="flexbox spacebetween">
 					<div><time>{$v.add_time|date="H:i:s",###}</time><span>
-                        <switch name="v['type']">
+                        <switch name="v['trade_type']">
                             <case value="1">每日签到</case>
                             <case value="2">转盘抽奖</case>
                             <case value="3">推广下线返利</case>
                             <case value="4">领取红包</case>
-                            <case value="5">下线购买返利</case>
+                            <case value="5">下线领取分红返利</case>
                             <case value="6">下线抽奖返利</case>
                             <case value="7">vip晋级</case>
                             <case value="8">关闭vip</case>

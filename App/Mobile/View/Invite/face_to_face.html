@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>APP下载</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="__PUBLIC__/Mobile/assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="__PUBLIC__/Mobile/assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+			<header id="header">
+				<div class="content">
+					<h1><a href="#">果云联盟</a></h1>
+					<p>推荐码：<span class="copy">{$tjm}</span></p>
+					<ul class="actions">
+						<!--<li><a href="./app.apk" class="button primary icon copy_btn fa-download">APP下载</a></li>-->
+						<li><a href="javascript:;" data-clipboard-target=".copy" class="button primary icon copy_btn fa-download">APP下载</a></li>
+						<li><a href="javascript:;" class="button copy_btn1" data-clipboard-target=".copy">复制推荐码</a></li>
+					</ul>
+				</div>
+				<div class="image phone"><div class="inner"><img src="__IMG__/rise/dg1.jpg" alt="" /></div></div>
+			</header>
+	
+		
+			
+			<script src="__PUBLIC__/Mobile/assets/js/jquery.min.js"></script>
+			<script src="__PUBLIC__/Mobile/assets/js/jquery.scrolly.min.js"></script>
+			<script src="__PUBLIC__/Mobile/assets/js/browser.min.js"></script>
+			<script src="__PUBLIC__/Mobile/assets/js/breakpoints.min.js"></script>
+			<script src="__PUBLIC__/Mobile/assets/js/util.js"></script>
+			<script src="__PUBLIC__/Mobile/assets/js/main.js"></script>
+			<script src="__JS__/common/clipboard.min.js"></script>
+			<script src="__JS__/layer/layer.js"></script>
+
+			<script>
+                $(".copy_btn1").click(function () {
+                    var clipboard = new Clipboard(".copy_btn");
+                    clipboard.on('success', function(e) {
+                        console.log(e);
+                        layer.msg('复制成功');
+
+                    });
+                });
+                $(".copy_btn").click(function () {
+                    var clipboard = new Clipboard(".copy_btn");
+                    clipboard.on('success', function(e) {
+                        console.log(e);
+                        layer.msg('复制成功');
+                        window.location.href = "http://www.baidu.com";
+                    });
+                });
+
+
+			</script>
+	</body>
+</html>

@@ -10,20 +10,34 @@
 	</header>
 	<div class="wd_line"></div>
 	<div class="wdjp vip_record">
-		<ul>
-			<li>
-				<p><span>关闭VIP2</span><span class="red">+1LTC</span></p>
-				<p>2019/08/09</p>
-			</li>
-			<li>
-				<p><span>关闭VIP2</span><span class="red">+1LTC</span></p>
-				<p>2019/08/09</p>
-			</li>
-			<li>
-				<p><span>开通VIP2</span><span class="">+1LTC</span></p>
-				<p>2019/08/09</p>
-			</li>
-		</ul>
+		<if condition="$list">
+			<ul>
+				<volist name="list" id="vo">
+					<if condition="$vo['stype'] eq 1">
+						<li>
+							<p><span>购买VIP{$vo.level}</span><span>-{$vo.num} {$vo.currency_en}</span></p>
+							<p>{$vo.add_time|date="Y/m/d",###}</p>
+						</li>
+					<else />
+						<li>
+							<p><span>关闭VIP{$vo.level}</span><span class="red">+{$vo.num} {$vo.currency_en}</span></p>
+							<p>{$vo.add_time|date="Y/m/d",###}</p>
+						</li>
+					</if>
+				</volist>
+			</ul>
+		<else />
+			<div class="no_ex_pub_data">
+				<img src="__IMG__/rise/no_data.png" alt="">
+				<p class="text">暂时没有数据</p>
+			</div>
+		</if>
+		<!--<ul>-->
+			<!--<li>-->
+				<!--<p><span>关闭VIP2</span><span class="red">+1LTC</span></p>-->
+				<!--<p>2019/08/09</p>-->
+			<!--</li>-->
+		<!--</ul>-->
 	</div>
 
 	<div style="height: .9rem;"></div>
@@ -41,12 +55,12 @@
 				</li>
 			</a>
 			<a href="{:U('Task/index')}">
-				<li class="footer_f4 footer_active_f4">
+				<li class="footer_f4">
 					任务
 				</li>
 			</a>
 			<a href="{:U('Member/index')}">
-				<li class="footer_f5">
+				<li class="footer_f5 footer_active_f5">
 					我的
 				</li>
 			</a>

@@ -11,7 +11,7 @@ body{
     width: 100%;
     line-height: .4rem;
     margin-bottom: .3rem;
-	margin-top: .28rem;
+	margin-top: .35rem;
 }
 
 .header img{
@@ -156,7 +156,7 @@ body{
 	
 }
 .history .flexbox a{
-	font-size: .28rem;
+	font-size: .23rem;
 	color: #bdbdbf;
 }
 
@@ -191,12 +191,12 @@ body{
 }
 .hot .flexbox img{
 	width: .4rem;
-	height: 100%;;
+	height: .4rem;
 	margin: 0 .1rem .1rem 0;
 }
 .hot a img{
 	width: 100%;
-	height: 2.5rem;
+	height: 3rem;
 	margin: .1rem 0 0;
 }
 
@@ -204,7 +204,6 @@ body{
 /*观看广告*/
 .black{
 	background-color: #000;
-	color: #fff;
 	padding: 0 .2rem;
 }
 
@@ -213,6 +212,7 @@ body{
     font-size: .3rem;
     text-align: center;
     line-height: 1.6;
+	/*position: relative;*/
 }
 .ad_top{
 	width: 92%;
@@ -221,12 +221,13 @@ body{
 	border-radius: .2rem;
 	background-color: #323347;
 	position: relative;
+	color:#fff;
 }
 
 .ad_top>img{
-	    position: absolute;
+	position: absolute;
     top: -26%;
-    left: 30%;
+    left: 32%;
     width: 2rem;
 }
 
@@ -244,6 +245,7 @@ body{
 .ad_top .title{
 	font-size: .26rem;
 	font-weight: bold;
+
 }
 .ad_gold{
 	font-size: .23rem;
@@ -253,30 +255,32 @@ body{
 	width: .26rem;
 	height: .26rem;
 	display: inline-block;
-	vertical-align: middle;
+	vertical-align: sub;
 	background-size: 100%;
 }
 .ad_text {
-	padding: .2rem 0;
+	padding: .2rem 0 0;
+	color:#fff;
 }
 .ad_text span{
 	display: inline-block;
-    font-size: .23rem;
-    width: 100%;
-    height: .6rem;
-    line-height: .6rem;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+	font-size: .23rem;
+	width: 75%;
+	height: .5rem;
+	line-height: .5rem;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .ad_text a{
 	display: inline-block;
-	width: 2rem;
-	font-size: .28rem;
+	width: 18%;
+	font-size: .23rem;
 	border: 1px solid #f7eb33;
 	color: #f7eb33;
 	border-radius: .5rem;
+	vertical-align: super;
 }
 
 .more_score {

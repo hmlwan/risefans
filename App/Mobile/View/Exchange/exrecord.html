@@ -4,23 +4,19 @@
 		<header class="nexttop  record_head flexbox"><a href="javascript:history.back()"><img src="__IMG__/rise/bback.png"/></a><strong>兑换记录</strong></header>
 
 		<if condition="$list">
-			<volist name="list" id="vo">
-				<dl class="record_list">
-					<dt>{$key}</dt>
-					<volist name="vo" id="v">
-						<dd class="flexbox spacebetween">
-							<div>
-								<p>兑换 {$v.dh_num} 莱特币</p>
-								{$v.add_time|date="H:i:s",###}
-							</div>
-							<p>
-								-{$v.xh_num} <img src="__IMG__/rise/coin2.png" />
-							</p>
-						</dd>
-					</volist>
-				</dl>
-			</volist>
-
+			<dl class="record_list">
+				<volist name="list" id="v">
+					<dd class="flexbox spacebetween">
+						<div>
+							<p>兑换 {$v.dh_num} {$v.dh_cur_name}</p>
+							{$v.add_time|date="Y年m月d日 H时s分 ",###}
+						</div>
+						<p>
+							<span style="font-size: .26rem;">-{$v.xh_num}</span><img src="__IMG__/rise/coin2.png" />
+						</p>
+					</dd>
+				</volist>
+			</dl>
 		<else />
 			<div class="no_ex_pub_data">
 				<img src="__IMG__/rise/no_data.png" alt="">

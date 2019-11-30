@@ -25,8 +25,6 @@ class MemberController extends AdminController {
         if (!empty($member_id)){
             $where['member_id']=$member_id;
         }
-
-        
         $count      =  M('Member')->where($where)->count();// 查询满足要求的总记录数
 
         $Page       = new Page($count,20);// 实例化分页类 传入总记录数和每页显示的记录数(25)
@@ -46,6 +44,15 @@ class MemberController extends AdminController {
             }else{
                 $value['is_cert'] = 0;
             }
+            $value['vip_level'] = $mem_info['vip_level'];
+            $sub_mem_id = M("invite_record")
+                ->where(array('member_id'=>$value['member_id'],'level'=>1,'type'=>1))
+                ->getField('member_id');
+            $ssub_mem_id = M("invite_record")
+                ->where(array('member_id'=>$value['member_id'],'level'=>2,'type'=>1))
+                ->getField('member_id');
+            $value['sub_mem_phone'] = M('member')->where(array('member_id'=>$sub_mem_id))->getField('phone');
+            $value['ssub_mem_phone'] = M('member')->where(array('member_id'=>$ssub_mem_id))->getField('phone');
         }
 
         $this->assign('list',$list);// 赋值数据集

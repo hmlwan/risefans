@@ -892,16 +892,86 @@ class CommonController extends Controller {
             }
         }
 
+//     	$r = sandPhone($phone,$this->config['CODE_NAME'],$this->config['CODE_USER_NAME'],$this->config['CODE_USER_PASS']);
+     	$r = $this->singleSend($phone);
+        $rsp = json_decode($r,true);
 
-     	$r = sandPhone($phone,$this->config['CODE_NAME'],$this->config['CODE_USER_NAME'],$this->config['CODE_USER_PASS']);
-     	if($r!="短信发送成功"){
-     		$data['status']=0;
-     		$data['info'] = $r;
-     		$this->ajaxReturn($data);
+     	if($r && $rsp['code']!=0){
+            $data['status']=1;
+            $data['info'] = $rsp['msg'];
+            $this->ajaxReturn($data);
      	}else{
-     		$data['status']=1;
-     		$data['info'] = $r;
-     		$this->ajaxReturn($data);
+            $data['status']=0;
+            $data['info'] = $r['msg']? $r['msg'] :"发送失败";
+            $this->ajaxReturn($data);
      	}
      }
+
+    public function singleSend($mobile) {
+
+//        $apikey = "bac32b51a7a9e7d8b2acb0d2c8ed00e8";
+        $apikey = $this->config['phone_apikey'];
+        $phone_yzm_text = $this->config['phone_yzm_text'];
+        $statusStr = array(
+            "0" => "短信发送成功",
+            "-1" => "参数不全",
+            "-2" => "服务器空间不支持,请确认支持curl或者fsocket，联系您的空间商解决或者更换空间！",
+            "30" => "密码错误",
+            "40" => "账号不存在",
+            "41" => "余额不足",
+            "42" => "帐户已过期",
+            "43" => "IP地址限制",
+            "50" => "内容含有敏感词",
+            "100"=>'您操作太频繁，请稍后再试'
+        );
+        $time = session('time');
+        if (time()-$time<60&&!empty($time)){
+            return $statusStr['100'];
+        }
+        $code= rand(100000, 999999);
+
+        session(array('name'=>'code','expire'=>600));
+        session('code',$code);  //设置session
+        session('time',time());
+
+//        $text ="【摩根平台】尊敬的用户：您的校验码：{$code}，工作人员不会索要，请勿泄露。";//要发送的短信内容
+        $text = str_replace("{code}",$code,$phone_yzm_text);
+
+        $param = [
+            'apikey' => $apikey,
+            'mobile' => $mobile,
+            'text' => $text,
+        ];
+        return curlPost("https://sms.yunpian.com/v2/sms/single_send.json", $param);
+    }
+
+    /*实名验证*/
+    public function cert_api($bankcard,$idcard,$mobile,$name){
+        $host = "http://bankcard4c.shumaidata.com";
+        $path = "/bankcard4c";
+        $method = "GET";
+        $appcode = "863c4246a9bf435bae3f65a87e8dc457";
+        $headers = array();
+        array_push($headers, "Authorization:APPCODE " . $appcode);
+        $querys = "bankcard={$bankcard}&idcard={$idcard}&mobile={$mobile}&name={$name}";
+        $bodys = "";
+        $url = $host . $path . "?" . $querys;
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $method);
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($curl, CURLOPT_FAILONERROR, false);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_HEADER, true);
+        if (1 == strpos("$".$host, "https://"))
+        {
+            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+        }
+        $ret =  curl_exec($curl);
+        curl_close ( $curl );
+
+        return $ret;
+    }
+
    }

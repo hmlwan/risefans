@@ -1,17 +1,17 @@
 <include file="Public:header"/>
 <link type="text/css" rel="stylesheet" href="__CSS__/project/invite.css" />
 <body>
-	<header class="nexttop flexbox incometop"><a href="javascript:history.back()"><img src="__IMG__/rise/grayback.png"/></a><strong>邀请收益记录</strong></header>
+	<header class="nexttop flexbox incometop"><a href="javascript:history.back()"><img src="__IMG__/rise/grayback.png"/></a><strong>累积收益</strong></header>
 	<div class="whitebox yq_score incomebox">
 		<ul>
 			<if condition="$list">
 				<volist name="list" id="vo">
 					<li  class="flexbox spacebetween">
-						<if condition="$vo['type'] eq 1">
-							<img src="__IMG__/rise/smrz.png"/>
-							<else />
-							<img src="__IMG__/rise/vvip.png"/>
-						</if>
+						<switch name="vo['type']">
+							<case value="1"><img src="__IMG__/rise/smrz.png"/></case>
+							<case value="2"><img src="__IMG__/rise/vvip.png"/></case>
+							<case value="3"><img src="__IMG__/rise/cj.png"/></case>
+						</switch>
 						<div>
 							<p>{$vo.sub_phone}
 								<if condition="$vo['level'] eq 1">
@@ -20,11 +20,22 @@
 									(二级下线)
 								</if>
 							</p>
-							<span>{$vo.add_time|date="Y/m/d H:i:s",###}</span> <span><if condition="$vo['type'] eq 1">实名认证<else />vip晋级</if></span>
+							<span>{$vo.add_time|date="Y/m/d H:i:s",###}</span> <span>
+								<switch name="vo['type']">
+									<case value="1">实名认证</case>
+									<case value="2">vip晋级</case>
+									<case value="3">抽奖一次</case>
+								</switch>
+							</span>
 						</div>
 						<span class="lh2">+{$vo.num}</span>
 					</li>
 				</volist>
+			<else />
+				<div class="no_ex_pub_data">
+					<img src="__IMG__/rise/no_data.png" alt="">
+					<p class="text">暂时没有数据</p>
+				</div>
 			</if>
 		</ul>
 	</div>
@@ -34,7 +45,7 @@
 			<a href="{:U('Redpack/index')}">
 				<li class="footer_fl">红包</li>
 			</a>
-			<a href="">
+			<a href="{:U('Bonus/index')}">
 				<li class="footer_f2">分红</li>
 			</a>
 			<a href="{:U('Invite/index')}">

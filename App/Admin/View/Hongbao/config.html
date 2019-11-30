@@ -32,18 +32,19 @@
                         <table width="100%" class="insert-tab">
                             <tbody>
                                 <tr>
-                                    <th width="15%">vip1观看次数</th>
-                                    <td><input type="text" name="watch_num1" class="common-text" value="{$info.watch_num1|default=1}"><i class="require-red">（默认：1）</i></td>
-                                </tr>
-                                <tr>
                                     <th>抽奖规则id</th>
                                     <td>
                                         <select name="luckdraw_conf_id" class="common-text" id="luckdraw_conf_id">
                                             <volist name="luckdraw_conf_list" id="vo">
-                                                <option value="{$vo['id']}" <if condition="$info['luckdraw_conf_id'] eq $vo['id']"></if>>{$vo['title']} </option>
+                                                <option value="{$vo['id']}" <if condition="$info['luckdraw_conf_id'] eq $vo['id']">selected</if>>{$vo['title']} </option>
                                             </volist>
                                         </select>
                                     </td>
+                                </tr>
+                                <tr>
+                                    <th>红包数量</th>
+                                    <td><input type="text" name="hongbao_num" class="common-text btn50" value="{$info.hongbao_num}"></td>
+
                                 </tr>
                                 <tr>
                                     <th>底部横幅广告</th>

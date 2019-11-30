@@ -50,29 +50,31 @@ class InviteController extends AdminController
 
     public function record(){
         $model = M ('invite_record' );
-        $ad_title = I('ad_title');
+        $phone = I('phone');
 
         $where = array();
-        if($ad_title){
-            $where["ad_title"] = $ad_title ;
+        if($phone) {
+            $where["m.phone"] = array('like', '%' . $phone . "%");
         }
 
         // 查询满足要求的总记录数
-        $count = $model->where ( $where )->count ();
+        $count = $model->alias('d')
+            ->join(' left join  blue_member as m ON m.member_id=d.member_id')->where ( $where )->count ();
         // 实例化分页类 传入总记录数和每页显示的记录数
         $Page = new \Think\Page ( $count, 20 );
         //将分页（点击下一页）需要的条件保存住，带在分页中
         // 分页显示输出
         $show = $Page->show ();
         //需要的数据
-        $field = "*";
-        $list = $model->field ( $field )
+        $field = "d.*,m.phone";
+        $list = $model->alias('d')
+            ->join(' left join  blue_member as m ON m.member_id=d.member_id')
+            ->field ( $field )
             ->where ( $where )
-            ->order ("id desc" )
+            ->order ("d.id desc" )
             ->limit ( $Page->firstRow . ',' . $Page->listRows )
             ->select ();
         foreach ($list as &$v){
-            $v["phone"] = M('member')->where(array('member_id'=>$v['member_id']))->getField('phone');
             $v["subphone"] = M('member')->where(array('member_id'=>$v['sub_member_id']))->getField('phone');
             $v["currency_name"] = M('currency')->where(array('currency_id'=>$v['currency_id']))->getField('currency_name');
         }

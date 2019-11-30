@@ -190,6 +190,14 @@ class ConfigController extends AdminController {
             ->order ("id desc" )
             ->limit ( $Page->firstRow . ',' . $Page->listRows )
             ->select ();
+        $pcount = M("member")->count();
+
+        foreach ($list as &$value){
+            $read_num = M("my_ad_detail")->where(array('ad_id'=>$value['id']))->count();
+            $value["read_num"] = $read_num;
+            $read_num_rate = $read_num /$pcount;
+            $value["read_num_rate"] = round($read_num_rate,2)*100;
+        }
         $this->assign ( 'list', $list ); // 赋值数据集
         $this->assign ( 'page', $show ); // 赋值分页输出
         $this->display (); // 输出模板
@@ -206,6 +214,7 @@ class ConfigController extends AdminController {
             }
             $save_data = array(
                 'status' => $status,
+                'ad_title' => I('ad_title'),
                 'img' => $img,
                 'op_time' => time()
             );
@@ -216,7 +225,7 @@ class ConfigController extends AdminController {
                 $res = $db->add($save_data);
             }
             if($res){
-                $this->success('修改成功',U('my_ad#0#3'));
+                $this->success('修改成功',U('my_ad_config#0#3'));
             }else{
                 $this->error('修改失败');
             }

@@ -1,0 +1,97 @@
+<include file="Public:header"/>
+<style>
+    .box{
+        width: 18rem;
+        height: 1rem;
+        margin: auto;
+        background-color: cadetblue;
+    }
+    .record_title{
+        text-align: center;
+        width: 100%;
+        height: 2rem;
+        margin-top: 0.2rem;
+        z-index: 2;
+        background-color: cadetblue;
+        vertical-align: middle;
+    }
+    .record_list{
+        height: 11rem;
+        height: .5rem;
+
+        overflow: hidden;
+        background-color: cadetblue;
+        text-align: left;
+        margin-left: 1rem;
+    }
+</style>
+
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title>ECharts</title>
+    <!-- 引入 echarts.js -->
+    <script>
+        var d = document.documentElement;
+        var cw = d.clientWidth || 750;
+        document.documentElement.style.fontSize = (cw/750 * 100) + 'px';
+    </script>
+</head>
+<body>
+<div class="box">
+    <div class="record_title">
+        <h1>中奖记录</h1>
+    </div>
+    <div class="record_list">
+        <p>恭喜Ivy抽中10元话费</p>
+        <p>恭喜LinDL抽中100元京东E卡</p>
+        <p>恭喜Mary抽中40元电影票优惠券</p>
+        <p>恭喜Ivy抽中30元话费</p>
+        <p>恭喜金坎抽中50元话费</p>
+        <p>恭喜Ivy抽中80元话费</p>
+        <p>恭喜Ivy抽中200元话费</p>
+        <p>恭喜慧林抽中5000元话费</p>
+        <p>恭喜张敏抽中iPhone7</p>
+        <p>恭喜Ivy抽中10元话费</p>
+    </div>
+</div>
+
+<script>
+    $(document.body).ready(function(){
+        $(".record_list").RollTitle({line:1,speed:1200,timespan:1});
+    });
+    (function($){
+        $.fn.extend({
+            RollTitle: function(opt){
+                if(!opt) var opt={};
+                var _this = this;
+                _this.timer = null;
+                _this.lineH = _this.find("p:first").height();
+                _this.line=opt.line?parseInt(opt.line,15):parseInt(_this.height()/_this.lineH,10);
+                _this.speed=opt.speed,
+                    _this.timespan=opt.timespan;
+                if(_this.line==0) this.line=1;
+
+                _this.scrollUp=function(){
+                    _this.animate({
+                        marginTop:0
+                    },_this.speed,function(){
+                        for(i=1;i<=_this.line;i++){
+                            _this.find("p:first").appendTo(_this);
+                        }
+                        _this.css({marginTop:0});
+                    });
+                }
+                _this.hover(function(){
+                    clearInterval(_this.timer);
+                },function(){
+                    _this.timer=setInterval(function(){_this.scrollUp();},_this.timespan);
+                }).mouseout();
+            }
+        })
+    })(jQuery);
+
+</script>
+</body>

@@ -46,7 +46,7 @@
                                     <td>
                                         <select name="luckdraw_conf_id" class="common-text" id="luckdraw_conf_id">
                                             <volist name="luckdraw_conf_list" id="vo">
-                                                <option value="{$vo['id']}" <if condition="$info['luckdraw_conf_id'] eq $vo['id']"></if>>{$vo['title']} </option>
+                                                <option value="{$vo['id']}" <if condition="$info['luckdraw_conf_id'] eq $vo['id']">selected</if>>{$vo['title']} </option>
                                             </volist>
                                         </select>
                                     </td>
@@ -57,7 +57,11 @@
                                 </tr>
                                 <tr>
                                     <th>小数位数</th>
-                                    <td><input type="text" name="decimal_num" class="common-text btn50" value="{$info.decimal_num}"><i class="require-red">（默认：个位，1位0.1,2位0.01）</i></td>
+                                    <td><input type="text" name="decimal_num" class="common-text btn50" value="{$info.decimal_num}"><i class="require-red">（默认：个位0，小数1位1,小数2位2..）</i></td>
+                                </tr>
+                                <tr>
+                                    <th>领取结尾位数</th>
+                                    <td><input type="text" name="receive_decimal_num" class="common-text btn50" value="{$info.receive_decimal_num}"><i class="require-red">（默认：个位0，小数1位1,小数2位2...）</i></td>
                                 </tr>
                                 <tr>
                                     <th>累积小时</th>
@@ -82,7 +86,6 @@
                         </table>
                     </div>
                 </div>
-                
             </form>
         </div>
     </div>

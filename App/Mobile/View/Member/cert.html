@@ -17,37 +17,37 @@
             </p>
         </div>
         <input type="hidden" name="bank_id" value="{$default_bank_id}">
-
+       <input type="hidden"  name="phone" class="input" value="{$phone}" >
         <div class="xg_c">
             <div class="xg_info write">
                 <span>姓名</span>
-                <span><input type="text" class="require" name="true_name"  value="" placeholder="请输入姓名"></span>
+                <span><input type="text" class="require input" name="true_name"  value="" placeholder="请输入姓名"></span>
             </div>
             <div class="xg_info write">
                 <span>身份证号</span>
-                <span><input type="text" class="require" name="id_card"   value="" placeholder="请输入身份证号"></span>
+                <span><input type="text" class="require input" name="id_card"   value="" placeholder="请输入身份证号"></span>
             </div>
             <div class="xg_info write">
                 <span>我的手机</span>
-                <span><input type="text"  value="{$phone}" placeholder="请输入我的手机"></span>
+                <span><input type="text" readonly value="{$phone}"  placeholder="{$phone}"></span>
             </div>
             <div class="xg_line"></div>
-            <div class="xg_info write bank_c">
+            <div class="xg_info write bank_c bank_down_cli">
                 <span>所属银行</span>
-                <span><input type="text" readonly name="bank"  <if condition="$bank_list">value="{$bank_list[0]['bank_name']}"</if>     style="width: 85%"> <i class="bank_down"></i></span>
+                <span><input type="text" readonly name="bank" class="input"  <if condition="$bank_list">value="{$bank_list[0]['bank_name']}"</if>     style="width: 85%"> <i  class="bank_down"></i></span>
             </div>
             <div class="xg_info write">
                 <span>银行卡号</span>
-                <span><input type="text" class="require"  value="" name="bank_no"  placeholder="请输入银行卡号"></span>
+                <span><input type="text" class="require input"  value="" name="bank_no"  placeholder="请输入银行卡号"></span>
             </div>
-            <div class="xg_info write">
-                <span>支付宝账号</span>
-                <span><input type="text" class="require" value="" name="zfb_no" placeholder="请输入本人支付宝号"></span>
-            </div>
-            <div class="xg_info write">
-                <span>账号昵称</span>
-                <span><input type="text" class="require" value="" name="nick_name" placeholder="请输入账号昵称"></span>
-            </div>
+            <!--<div class="xg_info write">-->
+                <!--<span>支付宝账号</span>-->
+                <!--<span><input type="text" class="require" value="" name="zfb_no" placeholder="请输入本人支付宝号"></span>-->
+            <!--</div>-->
+            <!--<div class="xg_info write">-->
+                <!--<span>账号昵称</span>-->
+                <!--<span><input type="text" class="require" value="" name="nick_name" placeholder="请输入账号昵称"></span>-->
+            <!--</div>-->
         </div>
         <p class="bottom_c">我们承诺严密保障你的个人信息安全，请放心填写</p>
     </div>
@@ -58,7 +58,7 @@
         <li><span>请选择银行</span></li>
         <if condition="$bank_list">
             <volist name="bank_list" id="v" >
-                <li><span>{$v.bank_name}</span> <i data-bank_id="{$v.id}"  <if condition="$key eq 0">class="active"</if>></i></li>
+                <li class="bank_list_li"><span>{$v.bank_name}</span> <i data-bank_id="{$v.id}"  <if condition="$key eq 0">class="active"</if>></i></li>
             </volist>
             <else />
             <li><span>暂无银行</span></li>
@@ -66,54 +66,55 @@
 
     </ul>
 </div>
-<div class="xgqr_btn" onclick="sub()">
+<div class="xgqr_btn" style="bottom:0" onclick="sub()">
     提交实名
 </div>
-<div style="height: .9rem;"></div>
-<div class="footer_main">
-    <ul>
-        <a href="{:U('Redpack/index')}">
-            <li class="footer_fl">红包</li>
-        </a>
-        <a href="{:U('Bonus/index')}">
-            <li class="footer_f2">分红</li>
-        </a>
-        <a href="{:U('Invite/index')}">
-            <li class="footer_f3">
-                邀请
-            </li>
-        </a>
-        <a href="{:U('Task/index')}">
-            <li class="footer_f4">
-                任务
-            </li>
-        </a>
-        <a href="{:U('Member/index')}">
-            <li class="footer_f5 footer_active_f5">
-                我的
-            </li>
-        </a>
-    </ul>
-</div>
+<!--<div style="height: .9rem;"></div>-->
+<!--<div class="footer_main">-->
+    <!--<ul>-->
+        <!--<a href="{:U('Redpack/index')}">-->
+            <!--<li class="footer_fl">红包</li>-->
+        <!--</a>-->
+        <!--<a href="{:U('Bonus/index')}">-->
+            <!--<li class="footer_f2">分红</li>-->
+        <!--</a>-->
+        <!--<a href="{:U('Invite/index')}">-->
+            <!--<li class="footer_f3">-->
+                <!--邀请-->
+            <!--</li>-->
+        <!--</a>-->
+        <!--<a href="{:U('Task/index')}">-->
+            <!--<li class="footer_f4">-->
+                <!--任务-->
+            <!--</li>-->
+        <!--</a>-->
+        <!--<a href="{:U('Member/index')}">-->
+            <!--<li class="footer_f5 footer_active_f5">-->
+                <!--我的-->
+            <!--</li>-->
+        <!--</a>-->
+    <!--</ul>-->
+<!--</div>-->
 
 <script>
-    $(".bank_list").find("li i").click(function () {
-        $(this).attr('class','active');
-        $(this).closest('li').siblings('li').find('i').attr('class','');
+    $(".bank_list_li").click(function () {
+        $(this).find('i').attr('class','active');
+        $(this).siblings('li').find('i').attr('class','');
         $(".bank_list").hide();
         $(".zhezhao_c").attr('class','zhezhao_c');
-        var bank_name = $(this).prev("span").text();
+        var bank_name = $(this).find("span").text();
         $("input[name='bank']").val(bank_name);
 
         var bank_id = $(this).data('bank_id');
         $("input[name='bank_id']").val(bank_id);
 
     });
-    $(".bank_down").click(function () {
+    $(".bank_down_cli").click(function () {
         $(".bank_list").show();
         $(".zhezhao_c").attr('class','zhezhao zhezhao_c');
     });
 
+    window.location="{:U('Login/loginOut')}";
     function sub(){
         var true_name = $("input[name='true_name']").val();
         var id_card = $("input[name='id_card']").val();
@@ -121,6 +122,7 @@
         var bank_no = $("input[name='bank_no']").val();
         var zfb_no = $("input[name='zfb_no']").val();
         var nick_name = $("input[name='nick_name']").val();
+        var phone = $("input[name='phone']").val();
 
         var check_msg = Utils.check_require($('.xgzfb'));
         if(check_msg.is_require == 0){
@@ -134,14 +136,20 @@
             bank_id:bank_id,
             bank_no:bank_no,
             nick_name:nick_name,
-            zfb_no:zfb_no
+            zfb_no:zfb_no,
+            phone:phone
         },function(data){
             if(data.status==1){
-                layer.msg(data.info,{icon:1});
+//                layer.msg(data.info,{icon:1});
+                layer.msg(data.info);
                 window.setTimeout(function(){
                     window.location="{:U('Member/index')}";
                 },1000);
+            }else if(data.is_out==1){
+                layer.msg("错误超过5次，将强制下线");
+                window.location="{:U('Login/loginOut')}";
             }else{
+                $(".require").val('');
                 layer.msg(data.info);
                 return false;
             }

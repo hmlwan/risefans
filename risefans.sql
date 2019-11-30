@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50553
 File Encoding         : 65001
 
-Date: 2019-11-19 22:17:42
+Date: 2019-11-30 22:00:45
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -32,7 +32,7 @@ CREATE TABLE `blue_admin` (
 -- ----------------------------
 -- Records of blue_admin
 -- ----------------------------
-INSERT INTO `blue_admin` VALUES ('1', 'admin', 'e10adc3949ba59abbe56e057f20f883e', null, '1,103,7,23,41,101,50,105,106,108,109,58,89,92,93,104,94,95,96,98,99,100,110,111,112,113,114,115,116,117,118,126,120,121,122,123,124,125', '0');
+INSERT INTO `blue_admin` VALUES ('1', 'admin', 'e10adc3949ba59abbe56e057f20f883e', null, '1,103,7,23,41,101,50,105,106,108,58,89,92,93,104,94,95,96,98,99,100,110,112,113,114,115,116,128,118,126,120,121,122,123,124,125,127,129,130,131,132,133', '0');
 
 -- ----------------------------
 -- Table structure for `blue_areas`
@@ -3476,12 +3476,13 @@ CREATE TABLE `blue_article` (
   `sort` tinyint(6) DEFAULT NULL COMMENT '排序',
   `is_top` tinyint(5) DEFAULT '0' COMMENT '是否置顶 1：是 0：否',
   PRIMARY KEY (`article_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of blue_article
 -- ----------------------------
 INSERT INTO `blue_article` VALUES ('1', '131', '解绑手机号', '解绑手机号', '1570271376', '1', '0', '1', '1');
+INSERT INTO `blue_article` VALUES ('2', '130', 'text', '23232323', '1574532033', '1', '0', '0', '0');
 
 -- ----------------------------
 -- Table structure for `blue_article_category`
@@ -3537,13 +3538,14 @@ CREATE TABLE `blue_bank` (
   `status` tinyint(5) DEFAULT '1' COMMENT '状态 1：上线 0：下线',
   `op_time` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='银行卡列表表';
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='银行卡列表表';
 
 -- ----------------------------
 -- Records of blue_bank
 -- ----------------------------
 INSERT INTO `blue_bank` VALUES ('1', '工商银行', 'ICBC', '1', '1', '1570178045');
 INSERT INTO `blue_bank` VALUES ('2', '中国银行', 'BOC', '2', '1', '1570178038');
+INSERT INTO `blue_bank` VALUES ('4', '农业银行', 'nyyh', '3', '1', '1574771026');
 
 -- ----------------------------
 -- Table structure for `blue_bonus_config`
@@ -3553,17 +3555,19 @@ CREATE TABLE `blue_bonus_config` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `currency_id` int(11) DEFAULT NULL,
   `reward_num` varchar(50) DEFAULT NULL,
-  `decimal_num` varchar(50) DEFAULT '1' COMMENT '小数位数',
+  `decimal_num` varchar(50) DEFAULT '0' COMMENT '小数位数',
+  `receive_decimal_num` varchar(50) DEFAULT NULL COMMENT '领取结尾位数',
   `accumulate_hours` decimal(20,0) DEFAULT '24' COMMENT '累积小数 （h）',
   `interval_hours` decimal(20,0) DEFAULT '3' COMMENT '间隔小时（h）',
-  `min_receive_num` decimal(20,0) DEFAULT NULL COMMENT '最少领取数量',
+  `min_receive_num` varchar(20) DEFAULT NULL COMMENT '最少领取数量',
   `op_time` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='分红配置';
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='分红配置';
 
 -- ----------------------------
 -- Records of blue_bonus_config
 -- ----------------------------
+INSERT INTO `blue_bonus_config` VALUES ('1', '3', '0.00001157', '8', '2', '24', '3', '0.5', '1575020542');
 
 -- ----------------------------
 -- Table structure for `blue_bonus_record`
@@ -3577,12 +3581,24 @@ CREATE TABLE `blue_bonus_record` (
   `accumulate_second` varchar(50) DEFAULT '1' COMMENT '累积秒数',
   `total_accumulate_second` varchar(50) DEFAULT NULL COMMENT '一共累积秒数',
   `add_time` int(11) DEFAULT NULL,
+  `next_receive_time` int(11) DEFAULT NULL COMMENT '下一次领取的时间',
+  `level` tinyint(4) DEFAULT '1' COMMENT 'vip等级',
+  `bonus_voucher_num` decimal(20,0) DEFAULT '0' COMMENT '凭证数量',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of blue_bonus_record
 -- ----------------------------
+INSERT INTO `blue_bonus_record` VALUES ('1', '9', '25920.00000000', '3', '86400', '80400', '1574252223', '1574263023', '1', '3');
+INSERT INTO `blue_bonus_record` VALUES ('2', '9', '514.50000000', '3', '1715', '82115', '1574253938', null, '1', '3');
+INSERT INTO `blue_bonus_record` VALUES ('3', '10', '25920.00000000', '3', '86400', '86400', '1574319998', '1574330798', '1', '3');
+INSERT INTO `blue_bonus_record` VALUES ('4', '15', '25920.00000000', '3', '86400', '86400', '1574347713', '1574358513', '1', '3');
+INSERT INTO `blue_bonus_record` VALUES ('5', '15', '25920.00000000', '3', '86400', '86400', '1574530847', '1574541647', '1', '3');
+INSERT INTO `blue_bonus_record` VALUES ('6', '15', '43200.00000000', '3', '86400', '86400', '1574757836', '1574768636', '2', '5');
+INSERT INTO `blue_bonus_record` VALUES ('7', '16', '16668.60000000', '3', '55562', '55562', '1574837417', '1574768636', '1', '3');
+INSERT INTO `blue_bonus_record` VALUES ('8', '16', '67.20000000', '3', '224', '55786', '1574837641', '1574768636', '1', '3');
+INSERT INTO `blue_bonus_record` VALUES ('9', '16', '2.70000000', '3', '9', '55795', '1575063901', '1575074701', '1', '3');
 
 -- ----------------------------
 -- Table structure for `blue_carousel`
@@ -3635,9 +3651,32 @@ INSERT INTO `blue_config` VALUES ('cert_num', '5', '1', '认证次数');
 INSERT INTO `blue_config` VALUES ('set_cert_currency', '3', '1', '设置认证奖励币种');
 INSERT INTO `blue_config` VALUES ('cert_reward_num', '100', '1', '认证记录币种数量');
 INSERT INTO `blue_config` VALUES ('init_recomment_code', '1000000', '1', '初始推荐码');
-INSERT INTO `blue_config` VALUES ('ltc_service_charge_rate', '0.01', '1', '莱特币提现手续费(单位：1)');
+INSERT INTO `blue_config` VALUES ('default_phone', '18888888888', '1', '默认注册码');
 INSERT INTO `blue_config` VALUES ('jb_ltc_rate', '0.001', '1', '金币和莱特币汇率');
 INSERT INTO `blue_config` VALUES ('ltc_min_num', '0.1', '1', '莱特币最小提现数量');
+INSERT INTO `blue_config` VALUES ('biaoge_url', '', '1', 'biaoge_url');
+INSERT INTO `blue_config` VALUES ('phone_apikey', 'bac32b51a7a9e7d8b2acb0d2c8ed00e8', '1', '验证码apikey');
+INSERT INTO `blue_config` VALUES ('phone_yzm_text', '【摩根平台】尊敬的用户：您的校验码：{code}，工作人员不会索要，请勿泄露。', '1', '验证码模板');
+
+-- ----------------------------
+-- Table structure for `blue_contribution_conf`
+-- ----------------------------
+DROP TABLE IF EXISTS `blue_contribution_conf`;
+CREATE TABLE `blue_contribution_conf` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `add_luckdraw_num` int(11) DEFAULT '1' COMMENT '单次每购买增加抽奖数(每100增加1)',
+  `use_luckdraw_num` int(11) DEFAULT '10' COMMENT '每次抽奖消耗抽奖数',
+  `achieve_num` int(11) DEFAULT '10' COMMENT '任务剩余次数满足将显示去抽奖',
+  `luckdraw_conf_id` int(11) DEFAULT '1' COMMENT '抽奖规则id',
+  `add_contribution_num` int(11) DEFAULT '1' COMMENT '抽奖一次增加多少贡献值',
+  `op_time` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of blue_contribution_conf
+-- ----------------------------
+INSERT INTO `blue_contribution_conf` VALUES ('1', '1', '10', '10', '1', '1', '1573532244');
 
 -- ----------------------------
 -- Table structure for `blue_currency`
@@ -3651,14 +3690,22 @@ CREATE TABLE `blue_currency` (
   `is_lock` tinyint(4) DEFAULT '0' COMMENT '是否上线 0 是 1否',
   `sort` tinyint(4) DEFAULT '1' COMMENT '排序',
   `create_time` int(11) DEFAULT NULL COMMENT '创建时间',
+  `currency_url` varchar(200) DEFAULT NULL COMMENT '该币种的链接地址',
+  `rpc_url` varchar(255) DEFAULT NULL COMMENT 'rpc路径',
+  `rpc_pwd` varchar(255) DEFAULT NULL COMMENT 'rpc密码',
+  `rpc_user` varchar(255) DEFAULT NULL COMMENT 'rpc账号（用户名）',
+  `qianbao_url` varchar(255) DEFAULT NULL COMMENT '钱包储存路径',
+  `port_number` varchar(200) DEFAULT NULL COMMENT '端口',
+  `qianbao_key` varchar(200) DEFAULT NULL COMMENT '钱包密钥',
+  `currency_all_tibi` decimal(20,8) DEFAULT '0.00000000' COMMENT '提币最大限制',
   PRIMARY KEY (`currency_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='币种表';
 
 -- ----------------------------
 -- Records of blue_currency
 -- ----------------------------
-INSERT INTO `blue_currency` VALUES ('2', '莱特币', '/Uploads/Public/Uploads/2019-11-18/5dd2a0addfcd7.png', 'LTC', '0', '2', '1574084781');
-INSERT INTO `blue_currency` VALUES ('3', '金币', '/Uploads/Public/Uploads/2019-11-08/5dc51a3152ee9.png', 'JB', '0', '1', '1573198385');
+INSERT INTO `blue_currency` VALUES ('2', '莱特币', '/Uploads/Public/Uploads/2019-11-18/5dd2a0addfcd7.png', 'LTC', '0', '2', '1574084781', null, null, null, null, null, null, null, null);
+INSERT INTO `blue_currency` VALUES ('3', '金币', '/Uploads/Public/Uploads/2019-11-08/5dc51a3152ee9.png', 'JB', '0', '1', '1573198385', null, null, null, null, null, null, null, null);
 
 -- ----------------------------
 -- Table structure for `blue_currency_user`
@@ -3671,15 +3718,31 @@ CREATE TABLE `blue_currency_user` (
   `num` decimal(20,8) NOT NULL DEFAULT '0.00000000' COMMENT '数量',
   `forzen_num` decimal(20,2) NOT NULL COMMENT '冻结数量',
   `status` tinyint(4) NOT NULL DEFAULT '1',
+  `chongzhi_url` varchar(200) DEFAULT NULL COMMENT '充值币种链接',
   PRIMARY KEY (`cu_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of blue_currency_user
 -- ----------------------------
-INSERT INTO `blue_currency_user` VALUES ('2', '9', '2', '4201.00000000', '0.00', '1');
-INSERT INTO `blue_currency_user` VALUES ('3', '10', '2', '5300.00000000', '0.00', '1');
-INSERT INTO `blue_currency_user` VALUES ('4', '9', '3', '3.00000000', '0.00', '1');
+INSERT INTO `blue_currency_user` VALUES ('2', '9', '2', '4198.82000000', '0.00', '1', null);
+INSERT INTO `blue_currency_user` VALUES ('3', '10', '2', '5289.44000000', '0.00', '1', null);
+INSERT INTO `blue_currency_user` VALUES ('4', '9', '3', '26735.50000000', '0.00', '1', null);
+INSERT INTO `blue_currency_user` VALUES ('5', '10', '3', '32357.00000000', '0.00', '1', null);
+INSERT INTO `blue_currency_user` VALUES ('6', '11', '2', '0.00000000', '0.00', '1', null);
+INSERT INTO `blue_currency_user` VALUES ('7', '11', '3', '0.00000000', '0.00', '1', null);
+INSERT INTO `blue_currency_user` VALUES ('8', '12', '2', '0.00000000', '0.00', '1', null);
+INSERT INTO `blue_currency_user` VALUES ('9', '12', '3', '0.00000000', '0.00', '1', null);
+INSERT INTO `blue_currency_user` VALUES ('10', '13', '2', '0.06000000', '0.00', '1', null);
+INSERT INTO `blue_currency_user` VALUES ('11', '13', '3', '117.00000000', '0.00', '1', null);
+INSERT INTO `blue_currency_user` VALUES ('12', '14', '2', '0.00000000', '0.00', '1', null);
+INSERT INTO `blue_currency_user` VALUES ('13', '14', '3', '0.00000000', '0.00', '1', null);
+INSERT INTO `blue_currency_user` VALUES ('14', '15', '2', '96.26000000', '0.00', '1', null);
+INSERT INTO `blue_currency_user` VALUES ('15', '15', '3', '16046.00000000', '0.00', '1', null);
+INSERT INTO `blue_currency_user` VALUES ('16', '16', '2', '4984.00000000', '0.00', '1', '');
+INSERT INTO `blue_currency_user` VALUES ('17', '16', '3', '22583.50000000', '0.00', '1', null);
+INSERT INTO `blue_currency_user` VALUES ('18', '17', '2', '0.00000000', '0.00', '1', null);
+INSERT INTO `blue_currency_user` VALUES ('19', '17', '3', '0.00000000', '0.00', '1', null);
 
 -- ----------------------------
 -- Table structure for `blue_daily_luckdraw`
@@ -3693,13 +3756,62 @@ CREATE TABLE `blue_daily_luckdraw` (
   `add_time` int(11) DEFAULT NULL,
   `daily_num` tinyint(4) DEFAULT '1' COMMENT '第几天',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='每日签到奖励';
+) ENGINE=MyISAM AUTO_INCREMENT=38 DEFAULT CHARSET=utf8 COMMENT='每日签到奖励';
 
 -- ----------------------------
 -- Records of blue_daily_luckdraw
 -- ----------------------------
 INSERT INTO `blue_daily_luckdraw` VALUES ('1', '9', '3', '1', '1573565901', '1');
 INSERT INTO `blue_daily_luckdraw` VALUES ('2', '9', '3', '1', '1573989528', '1');
+INSERT INTO `blue_daily_luckdraw` VALUES ('3', '9', '3', '1', '1574220982', '1');
+INSERT INTO `blue_daily_luckdraw` VALUES ('4', '10', '3', '1', '1574319927', '1');
+INSERT INTO `blue_daily_luckdraw` VALUES ('33', '15', '3', '1', '1574587421', '1');
+INSERT INTO `blue_daily_luckdraw` VALUES ('34', '15', '3', '1', '1574703281', '1');
+INSERT INTO `blue_daily_luckdraw` VALUES ('35', '16', '3', '1', '1574785429', '1');
+INSERT INTO `blue_daily_luckdraw` VALUES ('36', '13', '3', '1', '1574785470', '1');
+INSERT INTO `blue_daily_luckdraw` VALUES ('37', '10', '3', '1', '1574787497', '1');
+
+-- ----------------------------
+-- Table structure for `blue_exchange_conf`
+-- ----------------------------
+DROP TABLE IF EXISTS `blue_exchange_conf`;
+CREATE TABLE `blue_exchange_conf` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `dh_cur_id` int(11) DEFAULT NULL,
+  `dh_num` decimal(20,2) DEFAULT NULL,
+  `xh_cur_id` int(11) DEFAULT NULL,
+  `xh_num` decimal(20,0) DEFAULT NULL,
+  `status` tinyint(4) DEFAULT '1' COMMENT '状态1：开启0：关闭',
+  `op_time` int(11) DEFAULT NULL,
+  `sort` tinyint(24) DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of blue_exchange_conf
+-- ----------------------------
+INSERT INTO `blue_exchange_conf` VALUES ('1', '2', '3.00', '3', '2940', '1', '1574786945', '1');
+INSERT INTO `blue_exchange_conf` VALUES ('2', '2', '0.50', '3', '5000', '1', '1574581315', '1');
+INSERT INTO `blue_exchange_conf` VALUES ('4', '2', '10.00', '2', '100000', '1', '1574787052', '3');
+
+-- ----------------------------
+-- Table structure for `blue_exchange_freeze`
+-- ----------------------------
+DROP TABLE IF EXISTS `blue_exchange_freeze`;
+CREATE TABLE `blue_exchange_freeze` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `member_id` int(11) DEFAULT NULL,
+  `phone` int(11) DEFAULT NULL,
+  `freeze_reson` tinyint(4) DEFAULT NULL COMMENT '冻结原因 1官方封禁 2交易纠纷',
+  `freeze_time` int(11) DEFAULT NULL COMMENT '冻结时间',
+  `desc` varchar(1024) DEFAULT NULL COMMENT '备注',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of blue_exchange_freeze
+-- ----------------------------
+INSERT INTO `blue_exchange_freeze` VALUES ('1', '10', '2147483647', '1', '1572163905', '官方封禁');
 
 -- ----------------------------
 -- Table structure for `blue_exchange_order`
@@ -3714,11 +3826,118 @@ CREATE TABLE `blue_exchange_order` (
   `xh_num` decimal(20,0) DEFAULT NULL COMMENT '消耗数量',
   `add_time` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='兑换莱特币';
+) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COMMENT='兑换莱特币';
 
 -- ----------------------------
 -- Records of blue_exchange_order
 -- ----------------------------
+INSERT INTO `blue_exchange_order` VALUES ('1', '10', '2', '0.10', '3', '1000', '1574583254');
+INSERT INTO `blue_exchange_order` VALUES ('2', '15', '2', '0.10', '3', '1000', '1574583254');
+INSERT INTO `blue_exchange_order` VALUES ('3', '15', '2', '0.50', '3', '5000', '1574583254');
+INSERT INTO `blue_exchange_order` VALUES ('4', '15', '2', '0.50', '3', '5000', '1574583254');
+INSERT INTO `blue_exchange_order` VALUES ('5', '15', '2', '0.50', '3', '5000', '1574583254');
+INSERT INTO `blue_exchange_order` VALUES ('6', '15', '2', '0.50', '3', '5000', '1574583254');
+INSERT INTO `blue_exchange_order` VALUES ('7', '15', '2', '0.50', '3', '5000', '1574776484');
+INSERT INTO `blue_exchange_order` VALUES ('8', '15', '2', '0.10', '3', '51000', '1574778023');
+INSERT INTO `blue_exchange_order` VALUES ('9', '16', '2', '0.50', '3', '5000', '1574786537');
+INSERT INTO `blue_exchange_order` VALUES ('10', '16', '2', '0.50', '3', '5000', '1574786540');
+
+-- ----------------------------
+-- Table structure for `blue_exchange_orde_dispute_result`
+-- ----------------------------
+DROP TABLE IF EXISTS `blue_exchange_orde_dispute_result`;
+CREATE TABLE `blue_exchange_orde_dispute_result` (
+  `id` int(11) NOT NULL DEFAULT '0',
+  `exchange_order_id` int(11) DEFAULT NULL,
+  `type` tinyint(4) DEFAULT NULL COMMENT '类型 1：直接买 2：直接卖',
+  `buy_result` tinyint(4) DEFAULT NULL COMMENT '1：已付款/已领取 2：未付款/未领取',
+  `sale_result` tinyint(3) DEFAULT NULL COMMENT '1：已收款/已出售 2：未收款/未出售',
+  `buy_reason` varchar(500) DEFAULT NULL COMMENT '买家投诉理由',
+  `sale_reason` varchar(500) DEFAULT NULL COMMENT '卖家申诉理由',
+  `buy_add_time` int(11) DEFAULT NULL COMMENT '买家投诉时间',
+  `sale_add_time` int(11) DEFAULT NULL COMMENT '卖家申诉时间',
+  `status` tinyint(4) DEFAULT NULL COMMENT '1:买家投诉中2：卖家申诉中3：系统评判中 5：买方胜6：卖方胜',
+  `sys_reson` varchar(500) DEFAULT NULL COMMENT '系统判定理由',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of blue_exchange_orde_dispute_result
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `blue_exchange_pub`
+-- ----------------------------
+DROP TABLE IF EXISTS `blue_exchange_pub`;
+CREATE TABLE `blue_exchange_pub` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `order_no` varchar(100) DEFAULT NULL COMMENT '订单号',
+  `type` tinyint(4) DEFAULT NULL COMMENT '1:挂买单 2：挂卖单',
+  `member_id` int(11) DEFAULT NULL COMMENT '用户id',
+  `phone` varchar(11) DEFAULT NULL COMMENT '发布者手机号',
+  `currency_id` int(11) DEFAULT NULL COMMENT '币种id',
+  `zfb_no` varchar(100) DEFAULT NULL COMMENT '卖单支付宝账号',
+  `zfb_username` varchar(50) DEFAULT NULL COMMENT '姓名',
+  `price` decimal(20,2) DEFAULT NULL COMMENT '价格',
+  `num` int(11) DEFAULT '0' COMMENT '数量',
+  `sum_price` decimal(20,2) DEFAULT NULL,
+  `status` tinyint(4) DEFAULT NULL COMMENT '1:发布中（刚发布未产生交易）2:进行中（正在交易） 3:取消挂单（主动买卖家取消挂单）4:交易成功5:交易失败6:冻结中7：已下架',
+  `add_time` int(11) DEFAULT NULL COMMENT '发布时间',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='兑换挂单发布管理';
+
+-- ----------------------------
+-- Records of blue_exchange_pub
+-- ----------------------------
+INSERT INTO `blue_exchange_pub` VALUES ('1', '1111572267341001', '2', '9', '15179811531', '2', '15179822523', '刘德华', '1.00', '300', '300.00', '4', '1572267341');
+INSERT INTO `blue_exchange_pub` VALUES ('2', '1111572268319001', '1', '9', '15179811531', '2', null, null, '1.00', '500', '500.00', '4', '1572268319');
+
+-- ----------------------------
+-- Table structure for `blue_goods`
+-- ----------------------------
+DROP TABLE IF EXISTS `blue_goods`;
+CREATE TABLE `blue_goods` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `type_id` int(10) DEFAULT NULL COMMENT '类别',
+  `good_name` varchar(200) DEFAULT NULL,
+  `good_title` varchar(200) DEFAULT NULL COMMENT '商品标题',
+  `currency_id` int(11) DEFAULT NULL COMMENT '币种id',
+  `price` decimal(20,2) DEFAULT NULL COMMENT '价格',
+  `logo` varchar(200) DEFAULT NULL COMMENT 'logo',
+  `spec` varchar(2048) DEFAULT NULL COMMENT '商品规格',
+  `status` tinyint(5) DEFAULT '0' COMMENT '状态 1：发布 0：未发布',
+  `sort` tinyint(4) DEFAULT '1' COMMENT '排序',
+  `luckdraw_num` varchar(50) DEFAULT NULL COMMENT '抽奖数值（唯一）',
+  `is_exchange` tinyint(6) DEFAULT '1' COMMENT '是否兑换 0 否 1是',
+  `introduce` text COMMENT '商品详情',
+  `create_time` int(11) DEFAULT NULL COMMENT '创建时间',
+  `op_time` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='商品卡卷表';
+
+-- ----------------------------
+-- Records of blue_goods
+-- ----------------------------
+INSERT INTO `blue_goods` VALUES ('1', '2', 'honor荣耀 荣耀10青春版', '景斗云2.0会员预售优享价', '2', '1200.00', '/Uploads/Public/Uploads/2019-10-04/5d973c2c52e87.jpg', '{\"spec_name\":\"颜色\",\"spec_val\":[\"绿色\",\"蓝色\",\"红色\"]}', '1', '1', null, '1', '<img src=\"/Public/kindeditor/attached/image/20191004/20191004122753_35257.jpg\" alt=\"\" />', null, '1570525729');
+
+-- ----------------------------
+-- Table structure for `blue_goods_type`
+-- ----------------------------
+DROP TABLE IF EXISTS `blue_goods_type`;
+CREATE TABLE `blue_goods_type` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `type_name` varchar(200) DEFAULT NULL COMMENT '商品类别名称',
+  `sort` tinyint(6) DEFAULT '1' COMMENT '排序',
+  `status` tinyint(6) DEFAULT '1' COMMENT '状态 1：正常 0：下线',
+  `op_time` int(10) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='商品类别表';
+
+-- ----------------------------
+-- Records of blue_goods_type
+-- ----------------------------
+INSERT INTO `blue_goods_type` VALUES ('1', '精美商品', '1', '1', '1570179922');
+INSERT INTO `blue_goods_type` VALUES ('2', '充值服务', '2', '1', '1570179962');
 
 -- ----------------------------
 -- Table structure for `blue_hongbao_ad`
@@ -3751,11 +3970,14 @@ CREATE TABLE `blue_hongbao_ad_read_detail` (
   `member_id` int(11) DEFAULT NULL,
   `watch_num` varchar(100) DEFAULT NULL COMMENT '观看次数',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='红包广告阅读详情';
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='红包广告阅读详情';
 
 -- ----------------------------
 -- Records of blue_hongbao_ad_read_detail
 -- ----------------------------
+INSERT INTO `blue_hongbao_ad_read_detail` VALUES ('1', '1', '9', '48');
+INSERT INTO `blue_hongbao_ad_read_detail` VALUES ('2', '1', '10', '1');
+INSERT INTO `blue_hongbao_ad_read_detail` VALUES ('3', '1', '15', '22');
 
 -- ----------------------------
 -- Table structure for `blue_hongbao_ad_record`
@@ -3768,12 +3990,27 @@ CREATE TABLE `blue_hongbao_ad_record` (
   `num` decimal(20,0) DEFAULT NULL COMMENT '数量',
   `add_time` int(11) DEFAULT NULL,
   `hongbao_ad_id` int(11) DEFAULT NULL,
+  `ld_detail_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='红包领取金币记录';
+) ENGINE=MyISAM AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 COMMENT='红包领取金币记录';
 
 -- ----------------------------
 -- Records of blue_hongbao_ad_record
 -- ----------------------------
+INSERT INTO `blue_hongbao_ad_record` VALUES ('1', '9', '3', '0', '1574259687', '1', null);
+INSERT INTO `blue_hongbao_ad_record` VALUES ('2', '9', '3', '1', '1574259782', '1', null);
+INSERT INTO `blue_hongbao_ad_record` VALUES ('3', '9', '3', '2', '1574259833', '1', null);
+INSERT INTO `blue_hongbao_ad_record` VALUES ('4', '9', '3', '1', '1574303753', '1', null);
+INSERT INTO `blue_hongbao_ad_record` VALUES ('5', '10', '3', '55', '1574320038', '1', null);
+INSERT INTO `blue_hongbao_ad_record` VALUES ('6', '15', '3', '55', '1574526675', '1', null);
+INSERT INTO `blue_hongbao_ad_record` VALUES ('9', '15', '3', '43', '1574703355', '1', '8');
+INSERT INTO `blue_hongbao_ad_record` VALUES ('10', '15', '3', '22', '1574761710', '1', '7');
+INSERT INTO `blue_hongbao_ad_record` VALUES ('11', '15', '3', '2', '1574771065', '1', '3');
+INSERT INTO `blue_hongbao_ad_record` VALUES ('12', '15', '3', '1', '1574796961', '1', '2');
+INSERT INTO `blue_hongbao_ad_record` VALUES ('13', '15', '3', '55', '1574797028', '1', '9');
+INSERT INTO `blue_hongbao_ad_record` VALUES ('14', '15', '3', '43', '1574797054', '1', '8');
+INSERT INTO `blue_hongbao_ad_record` VALUES ('15', '15', '3', '22', '1574797079', '1', '7');
+INSERT INTO `blue_hongbao_ad_record` VALUES ('16', '15', '3', '2', '1574797102', '1', '3');
 
 -- ----------------------------
 -- Table structure for `blue_hongbao_conf`
@@ -3781,10 +4018,10 @@ CREATE TABLE `blue_hongbao_ad_record` (
 DROP TABLE IF EXISTS `blue_hongbao_conf`;
 CREATE TABLE `blue_hongbao_conf` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `watch_num1` tinyint(5) DEFAULT '1' COMMENT '每个vip观看次数',
   `bottom_img` varchar(200) DEFAULT NULL COMMENT '底部横幅广告',
   `bottom_img_url` varchar(200) DEFAULT NULL COMMENT '底部图片链接',
   `luckdraw_conf_id` int(11) DEFAULT NULL COMMENT '抽奖规则id',
+  `hongbao_num` int(11) DEFAULT NULL COMMENT '红包数量',
   `op_time` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
@@ -3792,7 +4029,7 @@ CREATE TABLE `blue_hongbao_conf` (
 -- ----------------------------
 -- Records of blue_hongbao_conf
 -- ----------------------------
-INSERT INTO `blue_hongbao_conf` VALUES ('1', '1', '/Uploads/Public/Uploads/2019-11-08/5dc4ed35925cf.jpg', 'http://www.risefans.com/admin/Hongbao/config#4#0', '2', '1573468649');
+INSERT INTO `blue_hongbao_conf` VALUES ('1', '/Uploads/Public/Uploads/2019-11-08/5dc4ed35925cf.jpg', 'http://www.risefans.com/admin/Hongbao/config#4#0', '2', '10', '1574946769');
 
 -- ----------------------------
 -- Table structure for `blue_invite_conf`
@@ -3821,19 +4058,82 @@ CREATE TABLE `blue_invite_record` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `member_id` int(11) DEFAULT NULL,
   `currency_id` int(11) DEFAULT NULL COMMENT '币种id',
-  `num` decimal(20,0) DEFAULT '0',
+  `num` decimal(20,2) DEFAULT '0.00',
   `sub_member_id` int(11) DEFAULT NULL,
   `content` varchar(200) DEFAULT NULL COMMENT '内容',
   `add_time` int(11) DEFAULT NULL COMMENT '添加时间',
   `level` tinyint(4) DEFAULT NULL COMMENT '下级 1：一级 2：二级',
-  `type` tinyint(4) DEFAULT NULL COMMENT '奖励类型 1：实名奖励2：vip晋级3抽奖返利',
+  `type` tinyint(4) DEFAULT NULL COMMENT '奖励类型 1：实名奖励2：分红返利3抽奖返利',
   `is_cert` tinyint(2) DEFAULT '1' COMMENT '是否实名 1：否 2：是',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=64 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of blue_invite_record
 -- ----------------------------
+INSERT INTO `blue_invite_record` VALUES ('1', '10', null, '0.00', '11', null, '1574342814', '1', '1', '1');
+INSERT INTO `blue_invite_record` VALUES ('2', '10', '3', '1.00', '12', '一级(12)实名认证奖励1币', '1574576724', '1', '1', '2');
+INSERT INTO `blue_invite_record` VALUES ('3', '14', '2', '0.00', '15', '一级(15)vip晋级奖励0币', '1574531128', '1', '2', '2');
+INSERT INTO `blue_invite_record` VALUES ('4', '13', '2', '0.00', '15', '二级(15)vip晋级奖励0.02币', '1574531128', '2', '2', '2');
+INSERT INTO `blue_invite_record` VALUES ('5', '14', '3', '0.00', '15', '一级(15)vip晋级奖励0币', '1574531159', '1', '2', '2');
+INSERT INTO `blue_invite_record` VALUES ('6', '13', '3', '8.00', '15', '二级(15)vip晋级奖励8币', '1574531159', '2', '2', '2');
+INSERT INTO `blue_invite_record` VALUES ('7', '14', '2', '0.00', '15', '一级(15)vip晋级奖励0币', '1574531169', '1', '2', '2');
+INSERT INTO `blue_invite_record` VALUES ('8', '13', '2', '0.00', '15', '二级(15)vip晋级奖励0.02币', '1574531169', '2', '2', '2');
+INSERT INTO `blue_invite_record` VALUES ('9', '14', '3', '0.00', '15', '一级(15)vip晋级奖励0币', '1574533148', '1', '2', '2');
+INSERT INTO `blue_invite_record` VALUES ('10', '13', '3', '8.00', '15', '二级(15)vip晋级奖励8币', '1574533148', '2', '2', '2');
+INSERT INTO `blue_invite_record` VALUES ('11', '14', '2', '0.00', '15', '一级(15)vip晋级奖励0币', '1574586250', '1', '2', '2');
+INSERT INTO `blue_invite_record` VALUES ('12', '13', '2', '0.00', '15', '二级(15)vip晋级奖励0.02币', '1574586250', '2', '2', '2');
+INSERT INTO `blue_invite_record` VALUES ('13', '13', '3', '0.00', '15', '二级下线抽奖返利0.10币', '1574591025', '2', '3', '2');
+INSERT INTO `blue_invite_record` VALUES ('14', '13', '3', '0.00', '15', '二级下线抽奖返利0.10币', '1574591098', '2', '3', '2');
+INSERT INTO `blue_invite_record` VALUES ('15', '13', '3', '0.00', '15', '二级下线抽奖返利0.10币', '1574591106', '2', '3', '2');
+INSERT INTO `blue_invite_record` VALUES ('16', '13', '3', '0.00', '15', '二级下线抽奖返利0.10币', '1574591112', '2', '3', '2');
+INSERT INTO `blue_invite_record` VALUES ('17', '13', '3', '0.00', '15', '二级下线抽奖返利0.10币', '1574591118', '2', '3', '2');
+INSERT INTO `blue_invite_record` VALUES ('18', '13', '3', '0.00', '15', '二级下线抽奖返利0.10币', '1574591140', '2', '3', '2');
+INSERT INTO `blue_invite_record` VALUES ('19', '13', '3', '0.00', '15', '二级下线抽奖返利0.10币', '1574591156', '2', '3', '2');
+INSERT INTO `blue_invite_record` VALUES ('20', '13', '3', '0.00', '15', '二级下线抽奖返利0.10币', '1574591337', '2', '3', '2');
+INSERT INTO `blue_invite_record` VALUES ('21', '13', '3', '0.00', '15', '二级下线抽奖返利0.10币', '1574591634', '2', '3', '2');
+INSERT INTO `blue_invite_record` VALUES ('22', '13', '3', '0.00', '15', '二级下线抽奖返利0.10币', '1574591641', '2', '3', '2');
+INSERT INTO `blue_invite_record` VALUES ('23', '13', '3', '0.00', '15', '二级下线抽奖返利0.10币', '1574591718', '2', '3', '2');
+INSERT INTO `blue_invite_record` VALUES ('24', '13', '3', '0.00', '15', '二级下线抽奖返利0.10币', '1574591723', '2', '3', '2');
+INSERT INTO `blue_invite_record` VALUES ('25', '13', '3', '0.00', '15', '二级下线抽奖返利0.10币', '1574591727', '2', '3', '2');
+INSERT INTO `blue_invite_record` VALUES ('26', '13', '3', '0.00', '15', '二级下线抽奖返利0.10币', '1574591736', '2', '3', '2');
+INSERT INTO `blue_invite_record` VALUES ('27', '13', '3', '0.00', '15', '二级下线抽奖返利0.10币', '1574591980', '2', '3', '2');
+INSERT INTO `blue_invite_record` VALUES ('28', '13', '3', '0.00', '15', '二级下线抽奖返利0.10币', '1574592031', '2', '3', '2');
+INSERT INTO `blue_invite_record` VALUES ('29', '13', '3', '0.00', '15', '二级下线抽奖返利0.10币', '1574592209', '2', '3', '2');
+INSERT INTO `blue_invite_record` VALUES ('30', '13', '3', '0.00', '15', '二级下线抽奖返利0.10币', '1574592215', '2', '3', '2');
+INSERT INTO `blue_invite_record` VALUES ('31', '13', '3', '0.00', '15', '二级下线抽奖返利0.10币', '1574592516', '2', '3', '2');
+INSERT INTO `blue_invite_record` VALUES ('32', '13', '3', '0.00', '15', '二级下线抽奖返利0.10币', '1574592636', '2', '3', '2');
+INSERT INTO `blue_invite_record` VALUES ('33', '13', '3', '0.00', '15', '二级下线抽奖返利0.10币', '1574592669', '2', '3', '2');
+INSERT INTO `blue_invite_record` VALUES ('34', '13', '3', '0.00', '15', '二级下线抽奖返利0.10币', '1574592727', '2', '3', '2');
+INSERT INTO `blue_invite_record` VALUES ('35', '13', '3', '0.00', '15', '二级下线抽奖返利0.10币', '1574592733', '2', '3', '2');
+INSERT INTO `blue_invite_record` VALUES ('36', '13', '3', '0.00', '15', '二级下线抽奖返利0.10币', '1574603832', '2', '3', '2');
+INSERT INTO `blue_invite_record` VALUES ('37', '13', '3', '0.00', '15', '二级下线抽奖返利0.10币', '1574603864', '2', '3', '2');
+INSERT INTO `blue_invite_record` VALUES ('38', '13', '3', '0.10', '15', '二级下线抽奖返利0.10币', '1574703233', '2', '3', '2');
+INSERT INTO `blue_invite_record` VALUES ('39', '13', '3', '0.10', '15', '二级下线抽奖返利0.10币', '1574703238', '2', '3', '2');
+INSERT INTO `blue_invite_record` VALUES ('40', '13', '3', '0.10', '15', '二级下线抽奖返利0.10币', '1574703693', '2', '3', '2');
+INSERT INTO `blue_invite_record` VALUES ('41', '13', '3', '8.00', '15', '二级(15)vip晋级奖励8币', '1574770831', '2', '2', '2');
+INSERT INTO `blue_invite_record` VALUES ('42', '13', '3', '8.00', '15', '二级(15)vip晋级奖励8币', '1574770856', '2', '2', '2');
+INSERT INTO `blue_invite_record` VALUES ('43', '15', '3', '3.00', '16', '一级(16)实名认证奖励3.00币', '1574785408', '1', '1', '2');
+INSERT INTO `blue_invite_record` VALUES ('44', '15', '3', '1.00', '16', '下线抽奖返利1.00币', '1574796651', '1', '3', '2');
+INSERT INTO `blue_invite_record` VALUES ('45', '15', '3', '1.00', '16', '下线抽奖返利1.00币', '1574796673', '1', '3', '2');
+INSERT INTO `blue_invite_record` VALUES ('46', '15', '3', '1.00', '16', '下线抽奖返利1.00币', '1574796685', '1', '3', '2');
+INSERT INTO `blue_invite_record` VALUES ('47', '15', '3', '1.00', '16', '下线抽奖返利1.00币', '1574800419', '1', '3', '2');
+INSERT INTO `blue_invite_record` VALUES ('48', '15', '3', '1.00', '16', '下线抽奖返利1.00币', '1574800421', '1', '3', '2');
+INSERT INTO `blue_invite_record` VALUES ('49', '15', '3', '1.00', '16', '下线抽奖返利1.00币', '1574800424', '1', '3', '2');
+INSERT INTO `blue_invite_record` VALUES ('50', '15', '3', '1.00', '16', '下线抽奖返利1.00币', '1574800425', '1', '3', '2');
+INSERT INTO `blue_invite_record` VALUES ('51', '15', '3', '1.00', '16', '下线抽奖返利1.00币', '1574800432', '1', '3', '2');
+INSERT INTO `blue_invite_record` VALUES ('52', '15', '3', '1.00', '16', '下线抽奖返利1.00币', '1574800433', '1', '3', '2');
+INSERT INTO `blue_invite_record` VALUES ('53', '15', '3', '1.00', '16', '下线抽奖返利1.00币', '1574800441', '1', '3', '2');
+INSERT INTO `blue_invite_record` VALUES ('54', '15', '3', '1.00', '16', '下线抽奖返利1.00币', '1574800446', '1', '3', '2');
+INSERT INTO `blue_invite_record` VALUES ('55', '15', '3', '1.00', '16', '下线抽奖返利1.00币', '1574800454', '1', '3', '2');
+INSERT INTO `blue_invite_record` VALUES ('56', '15', '3', '96.00', '16', '一级(16)vip晋级奖励96币', '1574838136', '1', '2', '2');
+INSERT INTO `blue_invite_record` VALUES ('57', '16', null, '0.00', '17', null, '1574941848', '1', '1', '1');
+INSERT INTO `blue_invite_record` VALUES ('58', '15', null, '0.00', '17', null, '1574941848', '2', '1', '1');
+INSERT INTO `blue_invite_record` VALUES ('59', '15', '3', '1.00', '16', '下线抽奖返利1.00币', '1574944470', '1', '3', '2');
+INSERT INTO `blue_invite_record` VALUES ('60', '15', '3', '1.00', '16', '下线抽奖返利1.00币', '1574944485', '1', '3', '2');
+INSERT INTO `blue_invite_record` VALUES ('61', '15', '3', '1.00', '16', '下线抽奖返利1.00币', '1574944799', '1', '3', '2');
+INSERT INTO `blue_invite_record` VALUES ('62', '15', '3', '1.00', '16', '下线抽奖返利1.00币', '1574944875', '1', '3', '2');
+INSERT INTO `blue_invite_record` VALUES ('63', '15', '3', '1.00', '16', '下线抽奖返利1.00币', '1574944881', '1', '3', '2');
 
 -- ----------------------------
 -- Table structure for `blue_luckdraw_conf`
@@ -3846,13 +4146,15 @@ CREATE TABLE `blue_luckdraw_conf` (
   `status` tinyint(4) DEFAULT '1' COMMENT '状态 1：开启 0：关闭',
   `add_time` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of blue_luckdraw_conf
 -- ----------------------------
 INSERT INTO `blue_luckdraw_conf` VALUES ('1', '每日签到', '3', '1', '1573468380');
 INSERT INTO `blue_luckdraw_conf` VALUES ('2', '红包抽奖', '3', '1', '1573468519');
+INSERT INTO `blue_luckdraw_conf` VALUES ('3', '抽奖', '3', '1', '1574527228');
+INSERT INTO `blue_luckdraw_conf` VALUES ('4', '测试规则', '3', '1', '1574791984');
 
 -- ----------------------------
 -- Table structure for `blue_luckdraw_conf_detail`
@@ -3863,7 +4165,7 @@ CREATE TABLE `blue_luckdraw_conf_detail` (
   `num` varchar(50) DEFAULT NULL,
   `luckdraw_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=404 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of blue_luckdraw_conf_detail
@@ -3874,6 +4176,403 @@ INSERT INTO `blue_luckdraw_conf_detail` VALUES ('3', '2', '1');
 INSERT INTO `blue_luckdraw_conf_detail` VALUES ('4', '1', '2');
 INSERT INTO `blue_luckdraw_conf_detail` VALUES ('5', '2', '2');
 INSERT INTO `blue_luckdraw_conf_detail` VALUES ('6', '5', '2');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('7', '22', '1');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('8', '43', '1');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('9', '55', '1');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('10', '1', '3');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('11', '2', '3');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('12', '4', '3');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('13', '5', '3');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('14', '6', '3');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('15', '8', '3');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('16', '9', '3');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('17', '29', '3');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('18', '45', '3');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('19', '1', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('20', '2', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('21', '3', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('22', '4', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('23', '5', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('24', '6', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('25', '7', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('26', '8', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('27', '9', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('28', '10', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('29', '11', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('30', '12', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('31', '13', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('32', '14', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('33', '15', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('34', '16', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('35', '17', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('36', '18', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('37', '19', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('38', '20', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('39', '21', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('40', '22', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('41', '23', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('42', '24', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('43', '25', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('44', '26', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('45', '27', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('46', '28', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('47', '29', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('48', '30', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('49', '31', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('50', '32', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('51', '33', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('52', '34', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('53', '35', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('54', '36', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('55', '37', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('56', '38', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('57', '39', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('58', '40', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('59', '41', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('60', '42', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('61', '43', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('62', '44', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('63', '45', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('64', '46', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('65', '47', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('66', '48', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('67', '49', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('68', '50', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('69', '51', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('70', '52', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('71', '53', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('72', '54', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('73', '55', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('74', '56', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('75', '57', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('76', '58', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('77', '59', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('78', '60', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('79', '61', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('80', '62', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('81', '63', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('82', '64', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('83', '65', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('84', '66', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('85', '67', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('86', '68', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('87', '69', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('88', '70', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('89', '71', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('90', '72', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('91', '73', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('92', '74', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('93', '75', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('94', '76', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('95', '77', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('96', '78', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('97', '79', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('98', '80', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('99', '81', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('100', '82', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('101', '83', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('102', '84', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('103', '85', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('104', '86', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('105', '87', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('106', '88', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('107', '89', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('108', '90', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('109', '91', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('110', '92', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('111', '93', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('112', '94', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('113', '95', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('114', '96', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('115', '97', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('116', '98', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('117', '99', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('118', '100', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('119', '101', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('120', '102', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('121', '103', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('122', '104', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('123', '105', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('124', '106', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('125', '107', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('126', '108', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('127', '109', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('128', '110', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('129', '111', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('130', '112', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('131', '113', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('132', '114', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('133', '115', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('134', '116', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('135', '117', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('136', '118', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('137', '119', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('138', '120', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('139', '121', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('140', '122', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('141', '123', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('142', '124', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('143', '125', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('144', '126', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('145', '127', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('146', '128', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('147', '129', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('148', '130', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('149', '131', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('150', '132', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('151', '133', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('152', '134', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('153', '135', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('154', '136', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('155', '137', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('156', '138', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('157', '139', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('158', '140', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('159', '141', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('160', '142', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('161', '143', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('162', '144', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('163', '145', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('164', '146', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('165', '147', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('166', '148', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('167', '149', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('168', '150', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('169', '151', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('170', '152', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('171', '153', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('172', '154', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('173', '155', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('174', '156', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('175', '157', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('176', '158', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('177', '159', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('178', '160', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('179', '161', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('180', '162', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('181', '163', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('182', '164', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('183', '165', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('184', '166', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('185', '167', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('186', '168', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('187', '169', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('188', '170', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('189', '171', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('190', '172', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('191', '173', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('192', '174', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('193', '175', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('194', '176', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('195', '177', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('196', '178', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('197', '179', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('198', '180', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('199', '181', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('200', '182', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('201', '183', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('202', '184', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('203', '185', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('204', '186', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('205', '187', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('206', '188', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('207', '189', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('208', '190', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('209', '191', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('210', '192', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('211', '193', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('212', '194', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('213', '195', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('214', '196', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('215', '197', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('216', '198', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('217', '199', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('218', '200', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('219', '201', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('220', '202', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('221', '203', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('222', '204', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('223', '205', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('224', '206', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('225', '207', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('226', '208', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('227', '209', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('228', '210', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('229', '211', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('230', '212', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('231', '213', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('232', '214', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('233', '215', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('234', '216', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('235', '217', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('236', '218', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('237', '219', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('238', '220', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('239', '221', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('240', '222', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('241', '223', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('242', '224', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('243', '225', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('244', '226', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('245', '227', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('246', '228', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('247', '229', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('248', '230', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('249', '231', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('250', '232', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('251', '233', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('252', '234', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('253', '235', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('254', '236', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('255', '237', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('256', '238', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('257', '239', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('258', '240', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('259', '241', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('260', '242', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('261', '243', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('262', '244', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('263', '245', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('264', '246', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('265', '247', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('266', '248', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('267', '249', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('268', '250', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('269', '251', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('270', '252', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('271', '253', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('272', '254', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('273', '255', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('274', '256', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('275', '257', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('276', '258', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('277', '259', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('278', '260', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('279', '261', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('280', '262', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('281', '263', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('282', '264', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('283', '265', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('284', '266', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('285', '267', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('286', '268', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('287', '269', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('288', '270', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('289', '271', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('290', '272', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('291', '273', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('292', '274', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('293', '275', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('294', '276', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('295', '277', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('296', '278', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('297', '279', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('298', '280', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('299', '281', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('300', '282', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('301', '283', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('302', '284', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('303', '285', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('304', '286', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('305', '287', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('306', '288', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('307', '289', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('308', '290', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('309', '291', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('310', '292', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('311', '293', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('312', '294', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('313', '295', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('314', '296', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('315', '297', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('316', '298', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('317', '299', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('318', '300', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('319', '301', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('320', '302', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('321', '303', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('322', '304', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('323', '305', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('324', '306', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('325', '307', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('326', '308', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('327', '309', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('328', '310', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('329', '311', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('330', '312', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('331', '313', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('332', '314', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('333', '315', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('334', '316', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('335', '317', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('336', '318', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('337', '319', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('338', '320', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('339', '321', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('340', '322', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('341', '323', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('342', '324', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('343', '325', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('344', '326', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('345', '327', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('346', '328', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('347', '329', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('348', '330', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('349', '331', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('350', '332', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('351', '333', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('352', '334', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('353', '335', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('354', '336', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('355', '337', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('356', '338', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('357', '339', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('358', '340', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('359', '341', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('360', '342', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('361', '343', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('362', '344', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('363', '345', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('364', '346', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('365', '347', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('366', '348', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('367', '349', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('368', '350', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('369', '351', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('370', '352', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('371', '353', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('372', '354', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('373', '355', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('374', '356', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('375', '357', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('376', '358', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('377', '359', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('378', '360', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('379', '361', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('380', '362', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('381', '363', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('382', '364', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('383', '365', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('384', '366', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('385', '367', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('386', '368', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('387', '369', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('388', '370', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('389', '371', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('390', '372', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('391', '373', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('392', '374', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('393', '375', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('394', '376', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('395', '377', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('396', '378', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('397', '379', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('398', '380', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('399', '381', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('400', '382', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('401', '383', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('402', '384', '4');
+INSERT INTO `blue_luckdraw_conf_detail` VALUES ('403', '21', '4');
 
 -- ----------------------------
 -- Table structure for `blue_member`
@@ -3895,16 +4594,25 @@ CREATE TABLE `blue_member` (
   `forzen_rmb` decimal(20,2) DEFAULT '0.00' COMMENT 'forzen_rmb',
   `is_lock` tinyint(2) NOT NULL DEFAULT '0' COMMENT '0是正常 1是锁定',
   `status` tinyint(4) DEFAULT '0' COMMENT '0:未注册成功 1：注册成功',
+  `cert_error_num` tinyint(5) DEFAULT '0' COMMENT '实名认证错误的次数',
   `unique_code` varchar(50) DEFAULT NULL COMMENT '唯一值',
+  `session_id` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`member_id`),
   KEY `name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of blue_member
 -- ----------------------------
-INSERT INTO `blue_member` VALUES ('9', '123456', 'e10adc3949ba59abbe56e057f20f883e', '1000000', '测试', null, '15179811531', '127.0.0.1', '1563933002', '127.0.0.1', '1574154535', '50.00', '0.00', '0', '1', '1000001');
-INSERT INTO `blue_member` VALUES ('10', 'hmlwan', 'e10adc3949ba59abbe56e057f20f883e', '1000001', 'hmlwan', null, '15179811532', null, '1563933002', '127.0.0.1', '1572439511', '0.00', '0.00', '0', '1', '1000003');
+INSERT INTO `blue_member` VALUES ('9', '123456', '96e79218965eb72c92a549dd5a330112', '1000000', '测试', null, '15179811531', '127.0.0.1', '1563933002', '127.0.0.1', '1575102570', '50.00', '0.00', '0', '1', '0', '1000001', 'kpuljbbn8cq6kas876oc6hnt07');
+INSERT INTO `blue_member` VALUES ('10', 'hmlwan', '96e79218965eb72c92a549dd5a330112', '1000001', 'hmlwan', null, '15179811532', null, '1563933002', '125.69.86.48', '1574792774', '0.00', '0.00', '0', '1', '0', '1000003', null);
+INSERT INTO `blue_member` VALUES ('11', null, '96e79218965eb72c92a549dd5a330112', '15179811532', null, null, '18180177838', '125.69.86.121', '1574342814', '125.69.86.48', '1574786669', '0.00', '0.00', '0', '1', '0', '2', null);
+INSERT INTO `blue_member` VALUES ('12', null, 'e807f1fcf82d132f9bb018ca6738a19f', '15179811532', null, null, '18180177832', '125.69.86.121', '1574342867', '127.0.0.1', '1574574559', '0.00', '0.00', '0', '1', '0', '10', null);
+INSERT INTO `blue_member` VALUES ('13', null, '96e79218965eb72c92a549dd5a330112', '18180177838', null, null, '18180177831', '125.69.86.121', '1574343389', '125.69.86.48', '1574797687', '0.00', '0.00', '0', '1', '0', '15', null);
+INSERT INTO `blue_member` VALUES ('14', null, '96e79218965eb72c92a549dd5a330112', '18180177831', null, null, '13266705164', '125.69.86.121', '1574343613', null, null, '0.00', '0.00', '0', '1', '0', '8', null);
+INSERT INTO `blue_member` VALUES ('15', '', '96e79218965eb72c92a549dd5a330112', '13266705164', null, null, '18180177840', '125.69.86.121', '1574343745', '127.0.0.1', '1574997867', '0.00', '0.00', '0', '1', '0', '18', 'kpuljbbn8cq6kas876oc6hnt07');
+INSERT INTO `blue_member` VALUES ('16', null, '1bbd886460827015e5d605ed44252251', '18180177840', null, null, '18888888888', '125.69.86.48', '1574781855', '127.0.0.1', '1575107649', '0.00', '0.00', '0', '1', '0', '16', 'cp1pdgeli46vciufshfpfer570');
+INSERT INTO `blue_member` VALUES ('17', null, '1bbd886460827015e5d605ed44252251', '18888888888', null, null, '15179811533', '127.0.0.1', '1574941848', '127.0.0.1', '1575102090', '0.00', '0.00', '0', '1', '5', '4', 'cp1pdgeli46vciufshfpfer570');
 
 -- ----------------------------
 -- Table structure for `blue_member_address`
@@ -3917,12 +4625,13 @@ CREATE TABLE `blue_member_address` (
   `receipt_phone` varchar(50) DEFAULT NULL COMMENT '收货电话',
   `receipt_address` varchar(600) DEFAULT NULL COMMENT '收货地址',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='用户收货地址';
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='用户收货地址';
 
 -- ----------------------------
 -- Records of blue_member_address
 -- ----------------------------
 INSERT INTO `blue_member_address` VALUES ('1', '9', 'hmlwan', '15179811532', '深圳市南山区腾讯大厦17');
+INSERT INTO `blue_member_address` VALUES ('2', '15', '速度', '18708464646', '23123213213');
 
 -- ----------------------------
 -- Table structure for `blue_member_exchange_volume`
@@ -4006,13 +4715,17 @@ CREATE TABLE `blue_member_info` (
   `is_cert` tinyint(4) DEFAULT '0' COMMENT '是否认证 1：是 0：否',
   `vip_level` tinyint(4) DEFAULT '1' COMMENT 'vip等级',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of blue_member_info
 -- ----------------------------
 INSERT INTO `blue_member_info` VALUES ('3', '9', '252255225522', '雪中行者', '15179822523', '刘德华', '3625225225522555', '2', '/Public/Mobile/images/tx3.png', '1570358334', '5', '1', '1');
-INSERT INTO `blue_member_info` VALUES ('4', '10', '36258223564232', '郭富城123', '15179811532', '郭富城', '3624011995396038251', '2', null, '1572269108', '5', '1', '1');
+INSERT INTO `blue_member_info` VALUES ('4', '10', '36258223564232', '郭富城123', '15179811532', '郭富城', '3624011995396038251', '2', '/Public/Mobile/images/tx3.png', '1572269108', '5', '1', '1');
+INSERT INTO `blue_member_info` VALUES ('5', '15', '64454654565', '2323', '2323', '张飞', '511321199208066464', '2', '/Public/Mobile/images/tx7.png', '1574344892', '5', '1', '3');
+INSERT INTO `blue_member_info` VALUES ('6', '13', '232', '23', '3', '23', '23', '1', null, '1574351309', '5', '1', '1');
+INSERT INTO `blue_member_info` VALUES ('7', '12', '1234567890', null, null, '测试测试', '11111111111111111111111', '2', '/Public/Mobile/images/tx2.png', '1574576724', '5', '1', '1');
+INSERT INTO `blue_member_info` VALUES ('8', '16', '2323232323232', null, null, '张飞', '511302196406034646', '1', '/Public/Mobile/images/tx11.png', '1574785408', '5', '1', '1');
 
 -- ----------------------------
 -- Table structure for `blue_member_luckdraw_num`
@@ -4103,7 +4816,7 @@ CREATE TABLE `blue_my_ad` (
 -- ----------------------------
 -- Records of blue_my_ad
 -- ----------------------------
-INSERT INTO `blue_my_ad` VALUES ('1', '还在辛苦赚钱三四千？现名师指导，给自己一个出人头地的机会', '/Uploads/Public/Uploads/2019-11-08/5dc512e8e83e4.png', 'https://juejin.im/post/5dc4d823f265da4d4c202d3b?utm_source=gold_browser_extension', '1', null, '1573196520');
+INSERT INTO `blue_my_ad` VALUES ('1', '还在辛苦赚钱三四千？现名师指导，给自己一个出人头地的机会111', '/Uploads/Public/Uploads/2019-11-08/5dc512e8e83e4.png', 'https://juejin.im/post/5dc4d823f265da4d4c202d3b?utm_source=gold_browser_extension', '1', null, '1574943943');
 
 -- ----------------------------
 -- Table structure for `blue_my_ad_detail`
@@ -4115,12 +4828,19 @@ CREATE TABLE `blue_my_ad_detail` (
   `member_id` int(11) DEFAULT NULL,
   `watch_num` varchar(100) DEFAULT NULL COMMENT '观看次数',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='红包广告阅读详情';
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COMMENT='红包广告阅读详情';
 
 -- ----------------------------
 -- Records of blue_my_ad_detail
 -- ----------------------------
-INSERT INTO `blue_my_ad_detail` VALUES ('1', '1', '9', '24');
+INSERT INTO `blue_my_ad_detail` VALUES ('1', '1', '9', '38');
+INSERT INTO `blue_my_ad_detail` VALUES ('2', '1', '10', '72');
+INSERT INTO `blue_my_ad_detail` VALUES ('3', '1', '15', '128');
+INSERT INTO `blue_my_ad_detail` VALUES ('4', '1', '13', '19');
+INSERT INTO `blue_my_ad_detail` VALUES ('5', '1', '12', '20');
+INSERT INTO `blue_my_ad_detail` VALUES ('6', '1', '11', '3');
+INSERT INTO `blue_my_ad_detail` VALUES ('7', '1', '16', '60');
+INSERT INTO `blue_my_ad_detail` VALUES ('8', '1', '17', '19');
 
 -- ----------------------------
 -- Table structure for `blue_nav`
@@ -4134,7 +4854,7 @@ CREATE TABLE `blue_nav` (
   `cat_id` varchar(32) NOT NULL COMMENT '类别',
   `nav_sort` tinyint(6) DEFAULT '1' COMMENT '排序',
   PRIMARY KEY (`nav_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=127 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=134 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of blue_nav
@@ -4148,12 +4868,11 @@ INSERT INTO `blue_nav` VALUES ('101', '商品类型', '&#xe6f7;', '/Good/type', 
 INSERT INTO `blue_nav` VALUES ('50', '帮助中心', '&#xe6f7;', '/Article/help', 'article', '1');
 INSERT INTO `blue_nav` VALUES ('105', '站外福利', '&#xe6f7;', '/Good/outside_ad', 'good', '3');
 INSERT INTO `blue_nav` VALUES ('106', '轮播图配置', '&#xe6f7;', '/Config/carousel', 'sys', '3');
-INSERT INTO `blue_nav` VALUES ('108', '兑换设置', '&#xe642;', '/Exchange/config', 'exchange', '1');
-INSERT INTO `blue_nav` VALUES ('109', '发布管理', '&#xe6f7;', '/Exchange/pub', 'exchange', '2');
-INSERT INTO `blue_nav` VALUES ('58', '提现记录', '&#xe6f7;', '/Record/tixian', 'record', '1');
-INSERT INTO `blue_nav` VALUES ('89', '充值记录', '&#xe6f7;', '/Record/recharge', 'record', '2');
+INSERT INTO `blue_nav` VALUES ('108', '兑换配置', '&#xe642;', '/Exchange/config', 'exchange', '1');
+INSERT INTO `blue_nav` VALUES ('58', '提现记录', '&#xe6f7;', '/Record/tixian', 'currency', '3');
+INSERT INTO `blue_nav` VALUES ('89', '充值记录', '&#xe6f7;', '/Record/recharge', 'currency', '2');
 INSERT INTO `blue_nav` VALUES ('92', '商品列表', '&#xe6f7;', '/Good/index', 'good', '2');
-INSERT INTO `blue_nav` VALUES ('93', '币种列表', '&#xe6f7;', '/Currency/index', 'currency', '1');
+INSERT INTO `blue_nav` VALUES ('93', '币种管理', '&#xe6f7;', '/Currency/index', 'currency', '1');
 INSERT INTO `blue_nav` VALUES ('104', '财务列表', '&#xe6f7;', '/Finance/index', 'finance', '1');
 INSERT INTO `blue_nav` VALUES ('94', '银行列表', '&#xe637;', '/Bank/index', 'bank', '1');
 INSERT INTO `blue_nav` VALUES ('95', '用户商品卡', '&#xe6f7;', '/Good/usergoods', 'good', '4');
@@ -4161,15 +4880,14 @@ INSERT INTO `blue_nav` VALUES ('96', '订单记录', '&#xe6f7;', '/Order/index',
 INSERT INTO `blue_nav` VALUES ('98', '兑换记录', '&#xe6f7;', '/Record/exchange', 'record', '3');
 INSERT INTO `blue_nav` VALUES ('99', '系统发布消息', '&#xe6f7;', '/Message/index', 'message', '1');
 INSERT INTO `blue_nav` VALUES ('100', '消息记录', '&#xe6f7;', '/Message/record', 'message', '2');
-INSERT INTO `blue_nav` VALUES ('110', '订单交易', '&#xe6f7;', '/Exchange/order', 'exchange', '3');
-INSERT INTO `blue_nav` VALUES ('111', '冻结管理', '&#xe6f7;', '/Exchange/freeze_account', 'exchange', '4');
+INSERT INTO `blue_nav` VALUES ('110', '兑换记录', '&#xe6f7;', '/Exchange/record', 'exchange', '2');
 INSERT INTO `blue_nav` VALUES ('112', '红包配置', '&#xe637;', '/Hongbao/config', 'hongbao', '1');
 INSERT INTO `blue_nav` VALUES ('113', '红包广告配置', '&#xe6f7;', '/Hongbao/adconfig', 'hongbao', '2');
 INSERT INTO `blue_nav` VALUES ('114', '领取红包记录', '&#xe6f7;', '/Hongbao/ad_record', 'hongbao', '3');
 INSERT INTO `blue_nav` VALUES ('115', '每日签到配置', '&#xe637;', '/Task/signconfig', 'task', '2');
-INSERT INTO `blue_nav` VALUES ('116', '领取抽奖数记录', '&#xe6f7;', '/Task/task_luckdraw_record', 'task', '4');
-INSERT INTO `blue_nav` VALUES ('117', '邀请配置', '&#xe637;', '/Invite/config', 'invite', '1');
-INSERT INTO `blue_nav` VALUES ('118', '邀请记录', '&#xe6f7;', '/Invite/record', 'invite', '2');
+INSERT INTO `blue_nav` VALUES ('116', '抽奖记录', '&#xe6f7;', '/Task/task_luckdraw_record', 'task', '4');
+INSERT INTO `blue_nav` VALUES ('128', '会员钱包充值列表', '&#xe6f7;', '/CurrencyUser/MemberQianbaoChongzhiUrl', 'currency', '3');
+INSERT INTO `blue_nav` VALUES ('118', '邀请记录', '&#xe6f7;', '/Invite/record', 'invite', '1');
 INSERT INTO `blue_nav` VALUES ('126', '首页广告图配置', '&#xe6f7;', '/Config/my_ad_config', 'sys', '3');
 INSERT INTO `blue_nav` VALUES ('120', '每日签到奖励记录', '&#xe6f7;', '/Task/daily_luckdraw', 'task', '3');
 INSERT INTO `blue_nav` VALUES ('121', '转盘抽奖配置', '&#xe637;', '/Task/config', 'task', '1');
@@ -4177,6 +4895,12 @@ INSERT INTO `blue_nav` VALUES ('122', '分红配置', '&#xe6f7;', '/Bonus/config
 INSERT INTO `blue_nav` VALUES ('123', '分红记录', '&#xe6f7;', '/Bonus/record', 'bonus', '2');
 INSERT INTO `blue_nav` VALUES ('124', 'VIP等级配置', '&#xe6f7;', '/Vip/config', 'vip', '1');
 INSERT INTO `blue_nav` VALUES ('125', 'VIP购买/返回记录', '&#xe6f7;', '/Vip/record', 'vip', '2');
+INSERT INTO `blue_nav` VALUES ('127', '官方公告', '&#xe6f7;', '/Article/index/article_category_id/127', 'article', '2');
+INSERT INTO `blue_nav` VALUES ('129', '会员钱包提币列表', '&#xe6f7;', '/CurrencyUser/MemberQianbaoTibiUrl', 'currency', '4');
+INSERT INTO `blue_nav` VALUES ('130', '下载管理', '&#xe6f7;', '/Download/index', 'currency', '6');
+INSERT INTO `blue_nav` VALUES ('131', '交易记录', '&#xe6f7;', '/Finance/trade', 'finance', '2');
+INSERT INTO `blue_nav` VALUES ('132', '全网金币流水', '&#xe6f7;', '/Statistics/jb_deal', 'statistics', '1');
+INSERT INTO `blue_nav` VALUES ('133', '全网莱特币流水', '&#xe6f7;', '/Statistics/ltb_deal', 'statistics', '2');
 
 -- ----------------------------
 -- Table structure for `blue_order`
@@ -4238,6 +4962,28 @@ CREATE TABLE `blue_outside_ad` (
 INSERT INTO `blue_outside_ad` VALUES ('1', '小啄赚钱', '只需要实名即可赚到8元，推广一个下线赚取20元佣金', '[\"高低分\",\"强力推荐\"]', 'http://www.baidu.com', '1', '/Uploads/Public/Uploads/2019-10-08/5d9c0157919ac.png', '/Uploads/Public/Uploads/2019-10-08/5d9c01578bfd2.png', '<blockquote>\r\n	<p>\r\n		<strong><span style=\"font-size:14px;\">活动介绍</span></strong> \r\n	</p>\r\n	<p>\r\n		<strong><span style=\"font-size:14px;\"><br />\r\n</span></strong>\r\n	</p>\r\n</blockquote>\r\n<p>\r\n	一.注册下面绑定微信进入聚象视频\r\n</p>\r\n<p>\r\n	<br />\r\n</p>\r\n<p>\r\n	二.完成绑定之后就可以观看视频和直播了\r\n</p>\r\n<p>\r\n	<br />\r\n</p>\r\n<p>\r\n	三.赚象量的方法也很简单：\r\n</p>\r\n<p>\r\n	<br />\r\n</p>\r\n<p>\r\n	四.收取象量和领取每日奖励与提现\r\n</p>\r\n<p>\r\n	<br />\r\n</p>\r\n<p>\r\n	五.邀请机制奖励＋额外奖励\r\n</p>\r\n<p>\r\n	<br />\r\n</p>\r\n<p>\r\n	六.聚象骑士团冲刺万元大奖\r\n</p>\r\n<p>\r\n	<br />\r\n</p>', '1', '6', '4', '1', '1570505047', '1570524227');
 
 -- ----------------------------
+-- Table structure for `blue_qianbao_address`
+-- ----------------------------
+DROP TABLE IF EXISTS `blue_qianbao_address`;
+CREATE TABLE `blue_qianbao_address` (
+  `id` int(32) NOT NULL AUTO_INCREMENT,
+  `user_id` int(32) NOT NULL,
+  `name` varchar(32) NOT NULL COMMENT '姓名',
+  `qianbao_url` varchar(128) NOT NULL COMMENT '钱包地址',
+  `status` tinyint(4) NOT NULL,
+  `add_time` int(10) NOT NULL,
+  `currency_id` int(10) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=21 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+
+-- ----------------------------
+-- Records of blue_qianbao_address
+-- ----------------------------
+INSERT INTO `blue_qianbao_address` VALUES ('18', '10369', '测试', '3L6QXiYbTBRJFmVXJpffAG22htt52yZsi2', '1', '1531887523', '54');
+INSERT INTO `blue_qianbao_address` VALUES ('19', '10375', 'OK', '3L6QXiYbTBRJFmVXJpffAG22htt52yZsiM', '1', '1531900483', '54');
+INSERT INTO `blue_qianbao_address` VALUES ('20', '9', 'admin', '3L6QXiYbTBRJFmVXJpffAG22htt52yZsiM', '1', '1531900483', '3');
+
+-- ----------------------------
 -- Table structure for `blue_rechage_record`
 -- ----------------------------
 DROP TABLE IF EXISTS `blue_rechage_record`;
@@ -4251,12 +4997,24 @@ CREATE TABLE `blue_rechage_record` (
   `status` tinyint(4) DEFAULT NULL COMMENT '0未完成 1：已完成2：失败',
   `deal_type` tinyint(4) DEFAULT '1' COMMENT '处理类型 1：手动',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='充值记录';
+) ENGINE=MyISAM AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COMMENT='充值记录';
 
 -- ----------------------------
 -- Records of blue_rechage_record
 -- ----------------------------
-INSERT INTO `blue_rechage_record` VALUES ('1', '9', 'LVSDKksdskdjsn98VSDK79dsdsVSDKlkjfs', '1574163301', '2.85255826', '2', '0', '1');
+INSERT INTO `blue_rechage_record` VALUES ('1', '9', 'LVSDKksdskdjsn98VSDK79dsdsVSDKlkjfs', '1574703214', '2.85255826', '2', '1', '1');
+INSERT INTO `blue_rechage_record` VALUES ('2', '10', 'LVSDKksdskdjsn98VSDK79dsdsVSDKlkjfs', '1574331697', '2.85255826', '2', '0', '1');
+INSERT INTO `blue_rechage_record` VALUES ('3', '10', 'LVSDKksdskdjsn98VSDK79dsdsVSDKlkjfs', '1574331720', '2.85255826', '2', '0', '1');
+INSERT INTO `blue_rechage_record` VALUES ('4', '10', 'LVSDKksdskdjsn98VSDK79dsdsVSDKlkjfs', '1574331907', '2.85255826', '2', '0', '1');
+INSERT INTO `blue_rechage_record` VALUES ('5', '15', 'LVSDKksdskdjsn98VSDK79dsdsVSDKlkjfs', '1574346478', '2.85255826', '2', '0', '1');
+INSERT INTO `blue_rechage_record` VALUES ('6', '15', 'LVSDKksdskdjsn98VSDK79dsdsVSDKlkjfs', '1574531000', '2.85255826', '2', '0', '1');
+INSERT INTO `blue_rechage_record` VALUES ('7', '15', 'LVSDKksdskdjsn98VSDK79dsdsVSDKlkjfs', '1574703155', '2.85255826', '2', '0', '1');
+INSERT INTO `blue_rechage_record` VALUES ('8', '10', 'LVSDKksdskdjsn98VSDK79dsdsVSDKlkjfs', '1574787593', '2.85255826', '2', '0', '1');
+INSERT INTO `blue_rechage_record` VALUES ('9', '16', 'LVSDKksdskdjsn98VSDK79dsdsVSDKlkjfs', '1574840715', '2.85255826', '2', '0', '1');
+INSERT INTO `blue_rechage_record` VALUES ('10', '16', 'LVSDKksdskdjsn98VSDK79dsdsVSDKlkjfs', '1574840877', '2.85255826', '2', '0', '1');
+INSERT INTO `blue_rechage_record` VALUES ('11', '16', 'LVSDKksdskdjsn98VSDK79dsdsVSDKlkjfs', '1574841184', '2.85255826', '2', '0', '1');
+INSERT INTO `blue_rechage_record` VALUES ('12', '16', 'LVSDKksdskdjsn98VSDK79dsdsVSDKlkjfs', '1574841340', '2.85255826', '2', '0', '1');
+INSERT INTO `blue_rechage_record` VALUES ('13', '16', 'LVSDKksdskdjsn98VSDK79dsdsVSDKlkjfs', '1575096148', '2.85255826', '2', '0', '1');
 
 -- ----------------------------
 -- Table structure for `blue_record`
@@ -4326,11 +5084,12 @@ CREATE TABLE `blue_task_conf` (
   `task_luckdraw_use_num` decimal(20,2) DEFAULT NULL COMMENT '任务抽奖消耗币数量',
   `task_luckdraw_use_cur_id` int(11) DEFAULT NULL COMMENT '任务抽奖消耗币id',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of blue_task_conf
 -- ----------------------------
+INSERT INTO `blue_task_conf` VALUES ('1', '3', '/Uploads/Public/Uploads/2019-11-28/5ddfc4e16e80f.png', 'https://www.taobao.com', '1574946741', '1.00', '2');
 
 -- ----------------------------
 -- Table structure for `blue_task_luckdraw_record`
@@ -4344,12 +5103,295 @@ CREATE TABLE `blue_task_luckdraw_record` (
   `add_time` int(11) DEFAULT NULL,
   `use_num` decimal(20,2) DEFAULT NULL COMMENT '使用莱特币',
   `use_cur_id` int(11) DEFAULT NULL COMMENT '使用币种',
+  `ld_detail_id` int(11) DEFAULT NULL COMMENT '抽奖规则id',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=251 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of blue_task_luckdraw_record
 -- ----------------------------
+INSERT INTO `blue_task_luckdraw_record` VALUES ('1', '9', '5', '3', '1574233241', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('2', '9', '2', '3', '1574233253', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('3', '9', '1', '3', '1574233388', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('4', '9', '5', '3', '1574233534', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('5', '9', '2', '3', '1574233535', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('6', '9', '1', '3', '1574233536', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('7', '9', '5', '3', '1574233537', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('8', '9', '2', '3', '1574233539', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('9', '9', '1', '3', '1574233540', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('10', '9', '5', '3', '1574233541', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('11', '9', '2', '3', '1574233542', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('12', '9', '1', '3', '1574233544', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('13', '9', '5', '3', '1574233545', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('14', '9', '2', '3', '1574233546', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('15', '9', '1', '3', '1574233547', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('16', '9', '5', '3', '1574233549', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('17', '9', '2', '3', '1574233550', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('18', '9', '1', '3', '1574233551', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('19', '9', '5', '3', '1574233552', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('20', '9', '2', '3', '1574233554', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('21', '9', '1', '3', '1574233555', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('22', '9', '5', '3', '1574233556', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('23', '9', '2', '3', '1574233557', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('24', '9', '1', '3', '1574233558', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('25', '9', '5', '3', '1574233560', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('26', '9', '2', '3', '1574233561', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('27', '9', '1', '3', '1574233562', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('28', '9', '5', '3', '1574233563', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('29', '9', '2', '3', '1574233565', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('30', '9', '1', '3', '1574233566', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('31', '9', '5', '3', '1574233567', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('32', '9', '2', '3', '1574233568', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('33', '9', '1', '3', '1574233570', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('34', '9', '5', '3', '1574233571', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('35', '9', '2', '3', '1574233572', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('36', '9', '1', '3', '1574233574', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('37', '9', '5', '3', '1574233575', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('38', '9', '2', '3', '1574233576', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('39', '9', '1', '3', '1574233577', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('40', '9', '5', '3', '1574233579', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('41', '9', '2', '3', '1574233580', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('42', '9', '1', '3', '1574233581', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('43', '9', '5', '3', '1574233583', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('44', '9', '2', '3', '1574233584', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('45', '9', '1', '3', '1574233585', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('46', '9', '5', '3', '1574233586', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('47', '9', '2', '3', '1574233587', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('48', '9', '1', '3', '1574233589', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('49', '9', '5', '3', '1574233590', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('50', '9', '2', '3', '1574233591', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('51', '9', '1', '3', '1574233593', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('52', '9', '5', '3', '1574233594', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('53', '9', '2', '3', '1574233595', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('54', '9', '1', '3', '1574233597', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('55', '9', '5', '3', '1574233598', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('56', '9', '2', '3', '1574233600', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('57', '9', '1', '3', '1574233602', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('58', '9', '5', '3', '1574233604', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('59', '9', '2', '3', '1574233605', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('60', '9', '1', '3', '1574233608', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('61', '9', '5', '3', '1574233609', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('62', '9', '2', '3', '1574233610', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('63', '9', '1', '3', '1574233612', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('64', '9', '5', '3', '1574233613', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('65', '9', '2', '3', '1574233614', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('66', '9', '1', '3', '1574233632', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('67', '9', '5', '3', '1574233633', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('68', '9', '2', '3', '1574233634', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('69', '9', '1', '3', '1574233636', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('70', '9', '5', '3', '1574233637', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('71', '9', '2', '3', '1574233638', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('72', '9', '1', '3', '1574233639', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('73', '9', '5', '3', '1574233640', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('74', '9', '2', '3', '1574233642', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('75', '9', '1', '3', '1574233643', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('76', '9', '5', '3', '1574233644', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('77', '9', '2', '3', '1574233646', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('78', '9', '1', '3', '1574233647', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('79', '9', '5', '3', '1574233648', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('80', '9', '2', '3', '1574233650', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('81', '9', '1', '3', '1574233652', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('82', '9', '5', '3', '1574233711', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('83', '9', '2', '3', '1574233713', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('84', '9', '1', '3', '1574233714', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('85', '9', '5', '3', '1574233715', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('86', '9', '2', '3', '1574233716', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('87', '9', '1', '3', '1574233718', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('88', '9', '5', '3', '1574233719', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('89', '9', '2', '3', '1574233720', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('90', '9', '1', '3', '1574233721', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('91', '9', '5', '3', '1574233723', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('92', '9', '2', '3', '1574233724', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('93', '9', '1', '3', '1574233725', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('94', '9', '5', '3', '1574233726', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('95', '9', '2', '3', '1574233728', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('96', '9', '1', '3', '1574233733', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('97', '9', '5', '3', '1574233735', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('98', '9', '2', '3', '1574233736', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('99', '9', '1', '3', '1574233737', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('100', '9', '5', '3', '1574233738', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('101', '9', '2', '3', '1574233740', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('102', '9', '1', '3', '1574233741', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('103', '9', '5', '3', '1574233742', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('104', '9', '2', '3', '1574233743', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('105', '9', '1', '3', '1574233845', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('106', '9', '5', '3', '1574233892', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('107', '9', '2', '3', '1574233958', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('108', '10', '1', '3', '1574233980', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('109', '10', '5', '3', '1574233986', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('110', '10', '1', '3', '1574319934', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('111', '10', '5', '3', '1574319938', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('112', '10', '2', '3', '1574319942', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('113', '10', '1', '3', '1574319950', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('114', '10', '5', '3', '1574319954', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('115', '10', '2', '3', '1574319959', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('116', '10', '1', '3', '1574319961', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('117', '10', '5', '3', '1574319964', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('118', '10', '2', '3', '1574319965', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('119', '10', '1', '3', '1574319967', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('120', '10', '5', '3', '1574319970', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('121', '10', '2', '3', '1574319979', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('122', '10', '1', '3', '1574321609', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('123', '10', '5', '3', '1574321612', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('124', '10', '2', '3', '1574321615', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('125', '10', '1', '3', '1574321616', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('126', '10', '5', '3', '1574321618', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('127', '10', '2', '3', '1574321620', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('128', '10', '1', '3', '1574321621', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('129', '10', '5', '3', '1574321623', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('130', '10', '2', '3', '1574321629', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('131', '10', '1', '3', '1574332195', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('132', '10', '5', '3', '1574332211', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('133', '10', '2', '3', '1574332214', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('134', '10', '1', '3', '1574332217', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('135', '10', '5', '3', '1574332220', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('136', '10', '2', '3', '1574332223', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('137', '10', '1', '3', '1574332224', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('138', '10', '5', '3', '1574332226', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('139', '10', '2', '3', '1574332232', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('140', '10', '1', '3', '1574332234', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('141', '10', '5', '3', '1574332321', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('142', '10', '2', '3', '1574332326', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('143', '10', '1', '3', '1574332328', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('144', '10', '5', '3', '1574332335', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('145', '10', '2', '3', '1574332357', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('146', '10', '1', '3', '1574332362', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('147', '10', '5', '3', '1574332367', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('148', '10', '2', '3', '1574332370', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('149', '10', '1', '3', '1574332373', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('150', '10', '5', '3', '1574332376', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('151', '10', '2', '3', '1574332381', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('152', '10', '1', '3', '1574332384', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('153', '10', '5', '3', '1574332650', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('154', '10', '2', '3', '1574332945', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('155', '10', '1', '3', '1574332950', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('156', '10', '5', '3', '1574332971', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('157', '10', '2', '3', '1574332972', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('158', '10', '1', '3', '1574332974', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('159', '10', '5', '3', '1574332975', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('160', '10', '2', '3', '1574332976', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('161', '10', '1', '3', '1574332978', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('162', '10', '5', '3', '1574332979', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('163', '10', '2', '3', '1574332982', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('164', '10', '1', '3', '1574333528', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('165', '10', '5', '3', '1574334456', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('166', '15', '5', '3', '1574527239', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('167', '15', '0', '3', '1574527328', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('168', '15', '0', '3', '1574527336', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('169', '15', '0', '3', '1574532872', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('170', '15', '0', '3', '1574586773', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('171', '15', '0', '3', '1574586776', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('172', '15', '0', '3', '1574586777', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('173', '15', '0', '3', '1574586778', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('174', '15', '0', '3', '1574589932', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('175', '15', '0', '3', '1574590116', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('176', '15', '29', '3', '1574590427', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('177', '15', '9', '3', '1574590487', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('178', '15', '8', '3', '1574590648', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('179', '15', '6', '3', '1574591025', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('180', '15', '5', '3', '1574591098', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('181', '15', '4', '3', '1574591106', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('182', '15', '2', '3', '1574591112', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('183', '15', '1', '3', '1574591118', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('184', '15', '45', '3', '1574591140', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('185', '15', '29', '3', '1574591156', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('186', '15', '9', '3', '1574591337', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('187', '15', '8', '3', '1574591633', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('188', '15', '6', '3', '1574591641', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('189', '15', '5', '3', '1574591718', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('190', '15', '4', '3', '1574591723', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('191', '15', '2', '3', '1574591727', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('192', '15', '1', '3', '1574591736', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('193', '15', '45', '3', '1574591980', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('194', '15', '29', '3', '1574592031', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('195', '15', '9', '3', '1574592208', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('196', '15', '8', '3', '1574592215', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('197', '15', '6', '3', '1574592516', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('198', '15', '5', '3', '1574592636', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('199', '15', '4', '3', '1574592668', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('200', '15', '2', '3', '1574592727', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('201', '15', '1', '3', '1574592733', '0.02', '2', null);
+INSERT INTO `blue_task_luckdraw_record` VALUES ('202', '15', '45', '3', '1574603832', '0.02', '2', '18');
+INSERT INTO `blue_task_luckdraw_record` VALUES ('203', '15', '29', '3', '1574603864', '0.02', '2', '17');
+INSERT INTO `blue_task_luckdraw_record` VALUES ('204', '15', '9', '3', '1574703233', '0.02', '2', '16');
+INSERT INTO `blue_task_luckdraw_record` VALUES ('205', '15', '8', '3', '1574703238', '0.02', '2', '15');
+INSERT INTO `blue_task_luckdraw_record` VALUES ('206', '15', '6', '3', '1574703693', '0.02', '2', '14');
+INSERT INTO `blue_task_luckdraw_record` VALUES ('207', '10', '6', '3', '1574787512', '0.02', '2', '14');
+INSERT INTO `blue_task_luckdraw_record` VALUES ('208', '10', '5', '3', '1574789581', '0.02', '2', '13');
+INSERT INTO `blue_task_luckdraw_record` VALUES ('209', '10', '325', '3', '1574792378', '0.05', '2', '343');
+INSERT INTO `blue_task_luckdraw_record` VALUES ('210', '10', '324', '3', '1574792402', '0.05', '2', '342');
+INSERT INTO `blue_task_luckdraw_record` VALUES ('211', '10', '323', '3', '1574792407', '0.05', '2', '341');
+INSERT INTO `blue_task_luckdraw_record` VALUES ('212', '10', '322', '3', '1574792408', '0.05', '2', '340');
+INSERT INTO `blue_task_luckdraw_record` VALUES ('213', '10', '321', '3', '1574792421', '0.05', '2', '339');
+INSERT INTO `blue_task_luckdraw_record` VALUES ('214', '10', '320', '3', '1574792425', '0.05', '2', '338');
+INSERT INTO `blue_task_luckdraw_record` VALUES ('215', '10', '319', '3', '1574792429', '0.05', '2', '337');
+INSERT INTO `blue_task_luckdraw_record` VALUES ('216', '10', '318', '3', '1574792432', '0.05', '2', '336');
+INSERT INTO `blue_task_luckdraw_record` VALUES ('217', '10', '317', '3', '1574792436', '0.05', '2', '335');
+INSERT INTO `blue_task_luckdraw_record` VALUES ('218', '10', '316', '3', '1574792439', '0.05', '2', '334');
+INSERT INTO `blue_task_luckdraw_record` VALUES ('219', '10', '315', '3', '1574792443', '0.05', '2', '333');
+INSERT INTO `blue_task_luckdraw_record` VALUES ('220', '10', '314', '3', '1574792447', '0.05', '2', '332');
+INSERT INTO `blue_task_luckdraw_record` VALUES ('221', '10', '313', '3', '1574792648', '0.05', '2', '331');
+INSERT INTO `blue_task_luckdraw_record` VALUES ('222', '10', '312', '3', '1574792668', '0.05', '2', '330');
+INSERT INTO `blue_task_luckdraw_record` VALUES ('223', '10', '311', '3', '1574792687', '0.05', '2', '329');
+INSERT INTO `blue_task_luckdraw_record` VALUES ('224', '10', '55', '3', '1574792724', '0.05', '2', '9');
+INSERT INTO `blue_task_luckdraw_record` VALUES ('225', '10', '43', '3', '1574792781', '0.05', '2', '8');
+INSERT INTO `blue_task_luckdraw_record` VALUES ('226', '10', '22', '3', '1574792787', '0.05', '2', '7');
+INSERT INTO `blue_task_luckdraw_record` VALUES ('227', '10', '307', '3', '1574792830', '0.05', '2', '325');
+INSERT INTO `blue_task_luckdraw_record` VALUES ('228', '10', '306', '3', '1574792842', '0.05', '2', '324');
+INSERT INTO `blue_task_luckdraw_record` VALUES ('229', '10', '305', '3', '1574792856', '0.05', '2', '323');
+INSERT INTO `blue_task_luckdraw_record` VALUES ('230', '10', '304', '3', '1574792859', '0.05', '2', '322');
+INSERT INTO `blue_task_luckdraw_record` VALUES ('231', '10', '303', '3', '1574792886', '1.00', '2', '321');
+INSERT INTO `blue_task_luckdraw_record` VALUES ('232', '10', '302', '3', '1574792894', '1.00', '2', '320');
+INSERT INTO `blue_task_luckdraw_record` VALUES ('233', '10', '301', '3', '1574795193', '1.00', '2', '319');
+INSERT INTO `blue_task_luckdraw_record` VALUES ('234', '16', '21', '3', '1574796651', '1.00', '2', '403');
+INSERT INTO `blue_task_luckdraw_record` VALUES ('235', '16', '384', '3', '1574796673', '1.00', '2', '402');
+INSERT INTO `blue_task_luckdraw_record` VALUES ('236', '16', '383', '3', '1574796685', '1.00', '2', '401');
+INSERT INTO `blue_task_luckdraw_record` VALUES ('237', '16', '382', '3', '1574800419', '1.00', '2', '400');
+INSERT INTO `blue_task_luckdraw_record` VALUES ('238', '16', '381', '3', '1574800421', '1.00', '2', '399');
+INSERT INTO `blue_task_luckdraw_record` VALUES ('239', '16', '380', '3', '1574800424', '1.00', '2', '398');
+INSERT INTO `blue_task_luckdraw_record` VALUES ('240', '16', '379', '3', '1574800425', '1.00', '2', '397');
+INSERT INTO `blue_task_luckdraw_record` VALUES ('241', '16', '378', '3', '1574800432', '1.00', '2', '396');
+INSERT INTO `blue_task_luckdraw_record` VALUES ('242', '16', '377', '3', '1574800433', '1.00', '2', '395');
+INSERT INTO `blue_task_luckdraw_record` VALUES ('243', '16', '376', '3', '1574800441', '1.00', '2', '394');
+INSERT INTO `blue_task_luckdraw_record` VALUES ('244', '16', '375', '3', '1574800446', '1.00', '2', '393');
+INSERT INTO `blue_task_luckdraw_record` VALUES ('245', '16', '374', '3', '1574800454', '1.00', '2', '392');
+INSERT INTO `blue_task_luckdraw_record` VALUES ('246', '16', '373', '3', '1574944470', '1.00', '2', '391');
+INSERT INTO `blue_task_luckdraw_record` VALUES ('247', '16', '372', '3', '1574944485', '1.00', '2', '390');
+INSERT INTO `blue_task_luckdraw_record` VALUES ('248', '16', '371', '3', '1574944799', '1.00', '2', '389');
+INSERT INTO `blue_task_luckdraw_record` VALUES ('249', '16', '370', '3', '1574944875', '1.00', '2', '388');
+INSERT INTO `blue_task_luckdraw_record` VALUES ('250', '16', '369', '3', '1574944881', '1.00', '2', '387');
+
+-- ----------------------------
+-- Table structure for `blue_tibi`
+-- ----------------------------
+DROP TABLE IF EXISTS `blue_tibi`;
+CREATE TABLE `blue_tibi` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) NOT NULL,
+  `url` varchar(128) NOT NULL,
+  `name` varchar(32) NOT NULL,
+  `add_time` int(10) NOT NULL,
+  `num` decimal(20,8) NOT NULL,
+  `status` tinyint(4) NOT NULL COMMENT '0为提币中 1为提币成功  2为充值中 3位充值成功 4:充币失败5:提币失败',
+  `ti_id` varchar(128) NOT NULL,
+  `check_time` int(10) NOT NULL,
+  `currency_id` int(10) NOT NULL,
+  `fee` decimal(10,4) NOT NULL,
+  `actual` decimal(10,4) NOT NULL DEFAULT '0.0000',
+  `is_person_deal` tinyint(4) DEFAULT '0' COMMENT '是否人工处理',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=140 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+
+-- ----------------------------
+-- Records of blue_tibi
+-- ----------------------------
+INSERT INTO `blue_tibi` VALUES ('133', '10375', 'LcEuEkxs5WpDfTSyA8MppEhmjPcvZ3Hfqq', '291543713@qq.com', '1531899723', '0.10000000', '3', '8242854a37aee74a37314b5a24f4905c28f03814e2f53960af8bc1f96b0c9c4b', '1531899723', '54', '0.0000', '0.0000', null);
+INSERT INTO `blue_tibi` VALUES ('134', '10375', '3L6QXiYbTBRJFmVXJpffAG22htt52yZsiM', 'OK', '1531900753', '0.08000000', '1', 'cc6cb15de667e80b12baa8f4703d1788b8cfa6939a0156a7552a8f5e1d10caf5', '1531900753', '54', '0.5000', '0.0796', null);
+INSERT INTO `blue_tibi` VALUES ('135', '1', 'LcEuEkxs5WpDfTSyA8MppEhmjPcvZ3Hfqq', '291543713@qq.com', '1531899723', '0.10000000', '3', '8242854a37aee74a37314b5a24f4905c28f03814e2f53960af8bc1f96b0c9c4b', '1531899723', '54', '0.0000', '0.0000', null);
+INSERT INTO `blue_tibi` VALUES ('136', '1', '3L6QXiYbTBRJFmVXJpffAG22htt52yZsiM', 'OK', '1531900753', '0.08000000', '2', 'cc6cb15de667e80b12baa8f4703d1788b8cfa6939a0156a7552a8f5e1d10caf5', '1531900753', '54', '0.5000', '0.0796', null);
+INSERT INTO `blue_tibi` VALUES ('137', '1', 'LcEuEkxs5WpDfTSyA8MppEhmjPcvZ3Hfqq', '291543713@qq.com', '1531899723', '0.10000000', '1', '8242854a37aee74a37314b5a24f4905c28f03814e2f53960af8bc1f96b0c9c4b', '1531899723', '54', '0.0000', '0.0000', null);
+INSERT INTO `blue_tibi` VALUES ('138', '1', '3L6QXiYbTBRJFmVXJpffAG22htt52yZsiM', 'OK', '1531900753', '0.08000000', '0', 'cc6cb15de667e80b12baa8f4703d1788b8cfa6939a0156a7552a8f5e1d10caf5', '1531900753', '54', '0.5000', '0.0796', null);
+INSERT INTO `blue_tibi` VALUES ('139', '1', 'LcEuEkxs5WpDfTSyA8MppEhmjPcvZ3Hfqq', '291543713@qq.com', '1531899723', '0.10000000', '1', '8242854a37aee74a37314b5a24f4905c28f03814e2f53960af8bc1f96b0c9c4b', '1531899723', '54', '0.0000', '0.0000', null);
 
 -- ----------------------------
 -- Table structure for `blue_trade`
@@ -4362,16 +5404,1140 @@ CREATE TABLE `blue_trade` (
   `num` decimal(20,2) DEFAULT NULL COMMENT '数量',
   `content` varchar(200) DEFAULT NULL COMMENT '内容',
   `type` tinyint(4) DEFAULT NULL COMMENT '类型 1：加2：减',
-  `trade_type` tinyint(4) DEFAULT NULL COMMENT '1:每日签到2：转盘抽奖3：下线推广返利4.领取红包5：下线购买vip返利6：下线抽奖返利7:购买vip8：关闭vip9:分红奖励10提现11充值12兑换莱特币',
+  `trade_type` tinyint(4) DEFAULT NULL COMMENT '1:每日签到2：转盘抽奖3：下线推广返利4.领取红包5：下线领取分红返利6：下线抽奖返利7:购买vip8：关闭vip9:分红奖励10提现11充值12兑换莱特币13下线实名奖励',
   `add_time` int(11) DEFAULT NULL,
+  `balance` decimal(20,8) DEFAULT NULL COMMENT '变动后余额',
+  `oldbalance` decimal(20,8) DEFAULT NULL COMMENT '变动前余额',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=670 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of blue_trade
 -- ----------------------------
-INSERT INTO `blue_trade` VALUES ('4', '9', '3', '1.00', '每日签到', '1', '1', '1573565901');
-INSERT INTO `blue_trade` VALUES ('5', '9', '3', '1.00', '每日签到1币', '1', '1', '1573989528');
+INSERT INTO `blue_trade` VALUES ('4', '9', '3', '1.00', '每日签到', '1', '1', '1573565901', null, null);
+INSERT INTO `blue_trade` VALUES ('5', '9', '3', '1.00', '每日签到1币', '1', '1', '1573989528', null, null);
+INSERT INTO `blue_trade` VALUES ('6', '9', '3', '1.00', '每日签到1币', '1', '1', '1574220982', null, null);
+INSERT INTO `blue_trade` VALUES ('7', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233241', null, null);
+INSERT INTO `blue_trade` VALUES ('8', '9', '3', '5.00', '转盘抽奖奖励0.02币', '1', '2', '1574233241', null, null);
+INSERT INTO `blue_trade` VALUES ('9', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233253', null, null);
+INSERT INTO `blue_trade` VALUES ('10', '9', '3', '2.00', '转盘抽奖奖励0.02币', '1', '2', '1574233253', null, null);
+INSERT INTO `blue_trade` VALUES ('11', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233388', null, null);
+INSERT INTO `blue_trade` VALUES ('12', '9', '3', '1.00', '转盘抽奖奖励0.02币', '1', '2', '1574233388', null, null);
+INSERT INTO `blue_trade` VALUES ('13', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233534', null, null);
+INSERT INTO `blue_trade` VALUES ('14', '9', '3', '5.00', '转盘抽奖奖励0.02币', '1', '2', '1574233534', null, null);
+INSERT INTO `blue_trade` VALUES ('15', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233535', null, null);
+INSERT INTO `blue_trade` VALUES ('16', '9', '3', '2.00', '转盘抽奖奖励0.02币', '1', '2', '1574233535', null, null);
+INSERT INTO `blue_trade` VALUES ('17', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233536', null, null);
+INSERT INTO `blue_trade` VALUES ('18', '9', '3', '1.00', '转盘抽奖奖励0.02币', '1', '2', '1574233536', null, null);
+INSERT INTO `blue_trade` VALUES ('19', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233537', null, null);
+INSERT INTO `blue_trade` VALUES ('20', '9', '3', '5.00', '转盘抽奖奖励0.02币', '1', '2', '1574233537', null, null);
+INSERT INTO `blue_trade` VALUES ('21', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233539', null, null);
+INSERT INTO `blue_trade` VALUES ('22', '9', '3', '2.00', '转盘抽奖奖励0.02币', '1', '2', '1574233539', null, null);
+INSERT INTO `blue_trade` VALUES ('23', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233540', null, null);
+INSERT INTO `blue_trade` VALUES ('24', '9', '3', '1.00', '转盘抽奖奖励0.02币', '1', '2', '1574233540', null, null);
+INSERT INTO `blue_trade` VALUES ('25', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233541', null, null);
+INSERT INTO `blue_trade` VALUES ('26', '9', '3', '5.00', '转盘抽奖奖励0.02币', '1', '2', '1574233541', null, null);
+INSERT INTO `blue_trade` VALUES ('27', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233542', null, null);
+INSERT INTO `blue_trade` VALUES ('28', '9', '3', '2.00', '转盘抽奖奖励0.02币', '1', '2', '1574233542', null, null);
+INSERT INTO `blue_trade` VALUES ('29', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233544', null, null);
+INSERT INTO `blue_trade` VALUES ('30', '9', '3', '1.00', '转盘抽奖奖励0.02币', '1', '2', '1574233544', null, null);
+INSERT INTO `blue_trade` VALUES ('31', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233545', null, null);
+INSERT INTO `blue_trade` VALUES ('32', '9', '3', '5.00', '转盘抽奖奖励0.02币', '1', '2', '1574233545', null, null);
+INSERT INTO `blue_trade` VALUES ('33', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233546', null, null);
+INSERT INTO `blue_trade` VALUES ('34', '9', '3', '2.00', '转盘抽奖奖励0.02币', '1', '2', '1574233546', null, null);
+INSERT INTO `blue_trade` VALUES ('35', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233547', null, null);
+INSERT INTO `blue_trade` VALUES ('36', '9', '3', '1.00', '转盘抽奖奖励0.02币', '1', '2', '1574233547', null, null);
+INSERT INTO `blue_trade` VALUES ('37', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233549', null, null);
+INSERT INTO `blue_trade` VALUES ('38', '9', '3', '5.00', '转盘抽奖奖励0.02币', '1', '2', '1574233549', null, null);
+INSERT INTO `blue_trade` VALUES ('39', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233550', null, null);
+INSERT INTO `blue_trade` VALUES ('40', '9', '3', '2.00', '转盘抽奖奖励0.02币', '1', '2', '1574233550', null, null);
+INSERT INTO `blue_trade` VALUES ('41', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233551', null, null);
+INSERT INTO `blue_trade` VALUES ('42', '9', '3', '1.00', '转盘抽奖奖励0.02币', '1', '2', '1574233551', null, null);
+INSERT INTO `blue_trade` VALUES ('43', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233552', null, null);
+INSERT INTO `blue_trade` VALUES ('44', '9', '3', '5.00', '转盘抽奖奖励0.02币', '1', '2', '1574233552', null, null);
+INSERT INTO `blue_trade` VALUES ('45', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233554', null, null);
+INSERT INTO `blue_trade` VALUES ('46', '9', '3', '2.00', '转盘抽奖奖励0.02币', '1', '2', '1574233554', null, null);
+INSERT INTO `blue_trade` VALUES ('47', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233555', null, null);
+INSERT INTO `blue_trade` VALUES ('48', '9', '3', '1.00', '转盘抽奖奖励0.02币', '1', '2', '1574233555', null, null);
+INSERT INTO `blue_trade` VALUES ('49', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233556', null, null);
+INSERT INTO `blue_trade` VALUES ('50', '9', '3', '5.00', '转盘抽奖奖励0.02币', '1', '2', '1574233556', null, null);
+INSERT INTO `blue_trade` VALUES ('51', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233557', null, null);
+INSERT INTO `blue_trade` VALUES ('52', '9', '3', '2.00', '转盘抽奖奖励0.02币', '1', '2', '1574233557', null, null);
+INSERT INTO `blue_trade` VALUES ('53', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233558', null, null);
+INSERT INTO `blue_trade` VALUES ('54', '9', '3', '1.00', '转盘抽奖奖励0.02币', '1', '2', '1574233558', null, null);
+INSERT INTO `blue_trade` VALUES ('55', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233560', null, null);
+INSERT INTO `blue_trade` VALUES ('56', '9', '3', '5.00', '转盘抽奖奖励0.02币', '1', '2', '1574233560', null, null);
+INSERT INTO `blue_trade` VALUES ('57', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233561', null, null);
+INSERT INTO `blue_trade` VALUES ('58', '9', '3', '2.00', '转盘抽奖奖励0.02币', '1', '2', '1574233561', null, null);
+INSERT INTO `blue_trade` VALUES ('59', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233562', null, null);
+INSERT INTO `blue_trade` VALUES ('60', '9', '3', '1.00', '转盘抽奖奖励0.02币', '1', '2', '1574233562', null, null);
+INSERT INTO `blue_trade` VALUES ('61', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233563', null, null);
+INSERT INTO `blue_trade` VALUES ('62', '9', '3', '5.00', '转盘抽奖奖励0.02币', '1', '2', '1574233563', null, null);
+INSERT INTO `blue_trade` VALUES ('63', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233565', null, null);
+INSERT INTO `blue_trade` VALUES ('64', '9', '3', '2.00', '转盘抽奖奖励0.02币', '1', '2', '1574233565', null, null);
+INSERT INTO `blue_trade` VALUES ('65', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233566', null, null);
+INSERT INTO `blue_trade` VALUES ('66', '9', '3', '1.00', '转盘抽奖奖励0.02币', '1', '2', '1574233566', null, null);
+INSERT INTO `blue_trade` VALUES ('67', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233567', null, null);
+INSERT INTO `blue_trade` VALUES ('68', '9', '3', '5.00', '转盘抽奖奖励0.02币', '1', '2', '1574233567', null, null);
+INSERT INTO `blue_trade` VALUES ('69', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233568', null, null);
+INSERT INTO `blue_trade` VALUES ('70', '9', '3', '2.00', '转盘抽奖奖励0.02币', '1', '2', '1574233568', null, null);
+INSERT INTO `blue_trade` VALUES ('71', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233570', null, null);
+INSERT INTO `blue_trade` VALUES ('72', '9', '3', '1.00', '转盘抽奖奖励0.02币', '1', '2', '1574233570', null, null);
+INSERT INTO `blue_trade` VALUES ('73', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233571', null, null);
+INSERT INTO `blue_trade` VALUES ('74', '9', '3', '5.00', '转盘抽奖奖励0.02币', '1', '2', '1574233571', null, null);
+INSERT INTO `blue_trade` VALUES ('75', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233572', null, null);
+INSERT INTO `blue_trade` VALUES ('76', '9', '3', '2.00', '转盘抽奖奖励0.02币', '1', '2', '1574233572', null, null);
+INSERT INTO `blue_trade` VALUES ('77', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233574', null, null);
+INSERT INTO `blue_trade` VALUES ('78', '9', '3', '1.00', '转盘抽奖奖励0.02币', '1', '2', '1574233574', null, null);
+INSERT INTO `blue_trade` VALUES ('79', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233575', null, null);
+INSERT INTO `blue_trade` VALUES ('80', '9', '3', '5.00', '转盘抽奖奖励0.02币', '1', '2', '1574233575', null, null);
+INSERT INTO `blue_trade` VALUES ('81', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233576', null, null);
+INSERT INTO `blue_trade` VALUES ('82', '9', '3', '2.00', '转盘抽奖奖励0.02币', '1', '2', '1574233576', null, null);
+INSERT INTO `blue_trade` VALUES ('83', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233577', null, null);
+INSERT INTO `blue_trade` VALUES ('84', '9', '3', '1.00', '转盘抽奖奖励0.02币', '1', '2', '1574233577', null, null);
+INSERT INTO `blue_trade` VALUES ('85', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233579', null, null);
+INSERT INTO `blue_trade` VALUES ('86', '9', '3', '5.00', '转盘抽奖奖励0.02币', '1', '2', '1574233579', null, null);
+INSERT INTO `blue_trade` VALUES ('87', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233580', null, null);
+INSERT INTO `blue_trade` VALUES ('88', '9', '3', '2.00', '转盘抽奖奖励0.02币', '1', '2', '1574233580', null, null);
+INSERT INTO `blue_trade` VALUES ('89', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233581', null, null);
+INSERT INTO `blue_trade` VALUES ('90', '9', '3', '1.00', '转盘抽奖奖励0.02币', '1', '2', '1574233581', null, null);
+INSERT INTO `blue_trade` VALUES ('91', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233583', null, null);
+INSERT INTO `blue_trade` VALUES ('92', '9', '3', '5.00', '转盘抽奖奖励0.02币', '1', '2', '1574233583', null, null);
+INSERT INTO `blue_trade` VALUES ('93', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233584', null, null);
+INSERT INTO `blue_trade` VALUES ('94', '9', '3', '2.00', '转盘抽奖奖励0.02币', '1', '2', '1574233584', null, null);
+INSERT INTO `blue_trade` VALUES ('95', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233585', null, null);
+INSERT INTO `blue_trade` VALUES ('96', '9', '3', '1.00', '转盘抽奖奖励0.02币', '1', '2', '1574233585', null, null);
+INSERT INTO `blue_trade` VALUES ('97', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233586', null, null);
+INSERT INTO `blue_trade` VALUES ('98', '9', '3', '5.00', '转盘抽奖奖励0.02币', '1', '2', '1574233586', null, null);
+INSERT INTO `blue_trade` VALUES ('99', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233588', null, null);
+INSERT INTO `blue_trade` VALUES ('100', '9', '3', '2.00', '转盘抽奖奖励0.02币', '1', '2', '1574233588', null, null);
+INSERT INTO `blue_trade` VALUES ('101', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233589', null, null);
+INSERT INTO `blue_trade` VALUES ('102', '9', '3', '1.00', '转盘抽奖奖励0.02币', '1', '2', '1574233589', null, null);
+INSERT INTO `blue_trade` VALUES ('103', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233590', null, null);
+INSERT INTO `blue_trade` VALUES ('104', '9', '3', '5.00', '转盘抽奖奖励0.02币', '1', '2', '1574233590', null, null);
+INSERT INTO `blue_trade` VALUES ('105', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233591', null, null);
+INSERT INTO `blue_trade` VALUES ('106', '9', '3', '2.00', '转盘抽奖奖励0.02币', '1', '2', '1574233591', null, null);
+INSERT INTO `blue_trade` VALUES ('107', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233593', null, null);
+INSERT INTO `blue_trade` VALUES ('108', '9', '3', '1.00', '转盘抽奖奖励0.02币', '1', '2', '1574233593', null, null);
+INSERT INTO `blue_trade` VALUES ('109', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233594', null, null);
+INSERT INTO `blue_trade` VALUES ('110', '9', '3', '5.00', '转盘抽奖奖励0.02币', '1', '2', '1574233594', null, null);
+INSERT INTO `blue_trade` VALUES ('111', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233595', null, null);
+INSERT INTO `blue_trade` VALUES ('112', '9', '3', '2.00', '转盘抽奖奖励0.02币', '1', '2', '1574233595', null, null);
+INSERT INTO `blue_trade` VALUES ('113', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233597', null, null);
+INSERT INTO `blue_trade` VALUES ('114', '9', '3', '1.00', '转盘抽奖奖励0.02币', '1', '2', '1574233597', null, null);
+INSERT INTO `blue_trade` VALUES ('115', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233598', null, null);
+INSERT INTO `blue_trade` VALUES ('116', '9', '3', '5.00', '转盘抽奖奖励0.02币', '1', '2', '1574233598', null, null);
+INSERT INTO `blue_trade` VALUES ('117', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233600', null, null);
+INSERT INTO `blue_trade` VALUES ('118', '9', '3', '2.00', '转盘抽奖奖励0.02币', '1', '2', '1574233600', null, null);
+INSERT INTO `blue_trade` VALUES ('119', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233602', null, null);
+INSERT INTO `blue_trade` VALUES ('120', '9', '3', '1.00', '转盘抽奖奖励0.02币', '1', '2', '1574233602', null, null);
+INSERT INTO `blue_trade` VALUES ('121', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233604', null, null);
+INSERT INTO `blue_trade` VALUES ('122', '9', '3', '5.00', '转盘抽奖奖励0.02币', '1', '2', '1574233604', null, null);
+INSERT INTO `blue_trade` VALUES ('123', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233605', null, null);
+INSERT INTO `blue_trade` VALUES ('124', '9', '3', '2.00', '转盘抽奖奖励0.02币', '1', '2', '1574233605', null, null);
+INSERT INTO `blue_trade` VALUES ('125', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233608', null, null);
+INSERT INTO `blue_trade` VALUES ('126', '9', '3', '1.00', '转盘抽奖奖励0.02币', '1', '2', '1574233608', null, null);
+INSERT INTO `blue_trade` VALUES ('127', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233609', null, null);
+INSERT INTO `blue_trade` VALUES ('128', '9', '3', '5.00', '转盘抽奖奖励0.02币', '1', '2', '1574233609', null, null);
+INSERT INTO `blue_trade` VALUES ('129', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233610', null, null);
+INSERT INTO `blue_trade` VALUES ('130', '9', '3', '2.00', '转盘抽奖奖励0.02币', '1', '2', '1574233610', null, null);
+INSERT INTO `blue_trade` VALUES ('131', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233612', null, null);
+INSERT INTO `blue_trade` VALUES ('132', '9', '3', '1.00', '转盘抽奖奖励0.02币', '1', '2', '1574233612', null, null);
+INSERT INTO `blue_trade` VALUES ('133', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233613', null, null);
+INSERT INTO `blue_trade` VALUES ('134', '9', '3', '5.00', '转盘抽奖奖励0.02币', '1', '2', '1574233613', null, null);
+INSERT INTO `blue_trade` VALUES ('135', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233614', null, null);
+INSERT INTO `blue_trade` VALUES ('136', '9', '3', '2.00', '转盘抽奖奖励0.02币', '1', '2', '1574233614', null, null);
+INSERT INTO `blue_trade` VALUES ('137', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233632', null, null);
+INSERT INTO `blue_trade` VALUES ('138', '9', '3', '1.00', '转盘抽奖奖励0.02币', '1', '2', '1574233632', null, null);
+INSERT INTO `blue_trade` VALUES ('139', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233633', null, null);
+INSERT INTO `blue_trade` VALUES ('140', '9', '3', '5.00', '转盘抽奖奖励0.02币', '1', '2', '1574233633', null, null);
+INSERT INTO `blue_trade` VALUES ('141', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233634', null, null);
+INSERT INTO `blue_trade` VALUES ('142', '9', '3', '2.00', '转盘抽奖奖励0.02币', '1', '2', '1574233634', null, null);
+INSERT INTO `blue_trade` VALUES ('143', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233636', null, null);
+INSERT INTO `blue_trade` VALUES ('144', '9', '3', '1.00', '转盘抽奖奖励0.02币', '1', '2', '1574233636', null, null);
+INSERT INTO `blue_trade` VALUES ('145', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233637', null, null);
+INSERT INTO `blue_trade` VALUES ('146', '9', '3', '5.00', '转盘抽奖奖励0.02币', '1', '2', '1574233637', null, null);
+INSERT INTO `blue_trade` VALUES ('147', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233638', null, null);
+INSERT INTO `blue_trade` VALUES ('148', '9', '3', '2.00', '转盘抽奖奖励0.02币', '1', '2', '1574233638', null, null);
+INSERT INTO `blue_trade` VALUES ('149', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233639', null, null);
+INSERT INTO `blue_trade` VALUES ('150', '9', '3', '1.00', '转盘抽奖奖励0.02币', '1', '2', '1574233639', null, null);
+INSERT INTO `blue_trade` VALUES ('151', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233640', null, null);
+INSERT INTO `blue_trade` VALUES ('152', '9', '3', '5.00', '转盘抽奖奖励0.02币', '1', '2', '1574233640', null, null);
+INSERT INTO `blue_trade` VALUES ('153', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233642', null, null);
+INSERT INTO `blue_trade` VALUES ('154', '9', '3', '2.00', '转盘抽奖奖励0.02币', '1', '2', '1574233642', null, null);
+INSERT INTO `blue_trade` VALUES ('155', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233643', null, null);
+INSERT INTO `blue_trade` VALUES ('156', '9', '3', '1.00', '转盘抽奖奖励0.02币', '1', '2', '1574233643', null, null);
+INSERT INTO `blue_trade` VALUES ('157', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233644', null, null);
+INSERT INTO `blue_trade` VALUES ('158', '9', '3', '5.00', '转盘抽奖奖励0.02币', '1', '2', '1574233644', null, null);
+INSERT INTO `blue_trade` VALUES ('159', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233646', null, null);
+INSERT INTO `blue_trade` VALUES ('160', '9', '3', '2.00', '转盘抽奖奖励0.02币', '1', '2', '1574233646', null, null);
+INSERT INTO `blue_trade` VALUES ('161', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233647', null, null);
+INSERT INTO `blue_trade` VALUES ('162', '9', '3', '1.00', '转盘抽奖奖励0.02币', '1', '2', '1574233647', null, null);
+INSERT INTO `blue_trade` VALUES ('163', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233648', null, null);
+INSERT INTO `blue_trade` VALUES ('164', '9', '3', '5.00', '转盘抽奖奖励0.02币', '1', '2', '1574233648', null, null);
+INSERT INTO `blue_trade` VALUES ('165', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233650', null, null);
+INSERT INTO `blue_trade` VALUES ('166', '9', '3', '2.00', '转盘抽奖奖励0.02币', '1', '2', '1574233650', null, null);
+INSERT INTO `blue_trade` VALUES ('167', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233652', null, null);
+INSERT INTO `blue_trade` VALUES ('168', '9', '3', '1.00', '转盘抽奖奖励0.02币', '1', '2', '1574233652', null, null);
+INSERT INTO `blue_trade` VALUES ('169', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233711', null, null);
+INSERT INTO `blue_trade` VALUES ('170', '9', '3', '5.00', '转盘抽奖奖励0.02币', '1', '2', '1574233711', null, null);
+INSERT INTO `blue_trade` VALUES ('171', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233713', null, null);
+INSERT INTO `blue_trade` VALUES ('172', '9', '3', '2.00', '转盘抽奖奖励0.02币', '1', '2', '1574233713', null, null);
+INSERT INTO `blue_trade` VALUES ('173', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233714', null, null);
+INSERT INTO `blue_trade` VALUES ('174', '9', '3', '1.00', '转盘抽奖奖励0.02币', '1', '2', '1574233714', null, null);
+INSERT INTO `blue_trade` VALUES ('175', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233715', null, null);
+INSERT INTO `blue_trade` VALUES ('176', '9', '3', '5.00', '转盘抽奖奖励0.02币', '1', '2', '1574233715', null, null);
+INSERT INTO `blue_trade` VALUES ('177', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233716', null, null);
+INSERT INTO `blue_trade` VALUES ('178', '9', '3', '2.00', '转盘抽奖奖励0.02币', '1', '2', '1574233716', null, null);
+INSERT INTO `blue_trade` VALUES ('179', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233718', null, null);
+INSERT INTO `blue_trade` VALUES ('180', '9', '3', '1.00', '转盘抽奖奖励0.02币', '1', '2', '1574233718', null, null);
+INSERT INTO `blue_trade` VALUES ('181', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233719', null, null);
+INSERT INTO `blue_trade` VALUES ('182', '9', '3', '5.00', '转盘抽奖奖励0.02币', '1', '2', '1574233719', null, null);
+INSERT INTO `blue_trade` VALUES ('183', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233720', null, null);
+INSERT INTO `blue_trade` VALUES ('184', '9', '3', '2.00', '转盘抽奖奖励0.02币', '1', '2', '1574233720', null, null);
+INSERT INTO `blue_trade` VALUES ('185', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233721', null, null);
+INSERT INTO `blue_trade` VALUES ('186', '9', '3', '1.00', '转盘抽奖奖励0.02币', '1', '2', '1574233721', null, null);
+INSERT INTO `blue_trade` VALUES ('187', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233723', null, null);
+INSERT INTO `blue_trade` VALUES ('188', '9', '3', '5.00', '转盘抽奖奖励0.02币', '1', '2', '1574233723', null, null);
+INSERT INTO `blue_trade` VALUES ('189', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233724', null, null);
+INSERT INTO `blue_trade` VALUES ('190', '9', '3', '2.00', '转盘抽奖奖励0.02币', '1', '2', '1574233724', null, null);
+INSERT INTO `blue_trade` VALUES ('191', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233725', null, null);
+INSERT INTO `blue_trade` VALUES ('192', '9', '3', '1.00', '转盘抽奖奖励0.02币', '1', '2', '1574233725', null, null);
+INSERT INTO `blue_trade` VALUES ('193', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233726', null, null);
+INSERT INTO `blue_trade` VALUES ('194', '9', '3', '5.00', '转盘抽奖奖励0.02币', '1', '2', '1574233726', null, null);
+INSERT INTO `blue_trade` VALUES ('195', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233728', null, null);
+INSERT INTO `blue_trade` VALUES ('196', '9', '3', '2.00', '转盘抽奖奖励0.02币', '1', '2', '1574233728', null, null);
+INSERT INTO `blue_trade` VALUES ('197', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233733', null, null);
+INSERT INTO `blue_trade` VALUES ('198', '9', '3', '1.00', '转盘抽奖奖励0.02币', '1', '2', '1574233733', null, null);
+INSERT INTO `blue_trade` VALUES ('199', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233735', null, null);
+INSERT INTO `blue_trade` VALUES ('200', '9', '3', '5.00', '转盘抽奖奖励0.02币', '1', '2', '1574233735', null, null);
+INSERT INTO `blue_trade` VALUES ('201', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233736', null, null);
+INSERT INTO `blue_trade` VALUES ('202', '9', '3', '2.00', '转盘抽奖奖励0.02币', '1', '2', '1574233736', null, null);
+INSERT INTO `blue_trade` VALUES ('203', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233737', null, null);
+INSERT INTO `blue_trade` VALUES ('204', '9', '3', '1.00', '转盘抽奖奖励0.02币', '1', '2', '1574233737', null, null);
+INSERT INTO `blue_trade` VALUES ('205', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233738', null, null);
+INSERT INTO `blue_trade` VALUES ('206', '9', '3', '5.00', '转盘抽奖奖励0.02币', '1', '2', '1574233738', null, null);
+INSERT INTO `blue_trade` VALUES ('207', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233740', null, null);
+INSERT INTO `blue_trade` VALUES ('208', '9', '3', '2.00', '转盘抽奖奖励0.02币', '1', '2', '1574233740', null, null);
+INSERT INTO `blue_trade` VALUES ('209', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233741', null, null);
+INSERT INTO `blue_trade` VALUES ('210', '9', '3', '1.00', '转盘抽奖奖励0.02币', '1', '2', '1574233741', null, null);
+INSERT INTO `blue_trade` VALUES ('211', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233742', null, null);
+INSERT INTO `blue_trade` VALUES ('212', '9', '3', '5.00', '转盘抽奖奖励0.02币', '1', '2', '1574233742', null, null);
+INSERT INTO `blue_trade` VALUES ('213', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233743', null, null);
+INSERT INTO `blue_trade` VALUES ('214', '9', '3', '2.00', '转盘抽奖奖励0.02币', '1', '2', '1574233743', null, null);
+INSERT INTO `blue_trade` VALUES ('215', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233845', null, null);
+INSERT INTO `blue_trade` VALUES ('216', '9', '3', '1.00', '转盘抽奖奖励0.02币', '1', '2', '1574233845', null, null);
+INSERT INTO `blue_trade` VALUES ('217', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233892', null, null);
+INSERT INTO `blue_trade` VALUES ('218', '9', '3', '5.00', '转盘抽奖奖励0.02币', '1', '2', '1574233892', null, null);
+INSERT INTO `blue_trade` VALUES ('219', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233958', null, null);
+INSERT INTO `blue_trade` VALUES ('220', '9', '3', '2.00', '转盘抽奖奖励0.02币', '1', '2', '1574233958', null, null);
+INSERT INTO `blue_trade` VALUES ('221', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233980', null, null);
+INSERT INTO `blue_trade` VALUES ('222', '9', '3', '1.00', '转盘抽奖奖励0.02币', '1', '2', '1574233980', null, null);
+INSERT INTO `blue_trade` VALUES ('223', '9', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574233986', null, null);
+INSERT INTO `blue_trade` VALUES ('224', '9', '3', '5.00', '转盘抽奖奖励0.02币', '1', '2', '1574233986', null, null);
+INSERT INTO `blue_trade` VALUES ('225', '9', '3', '25920.00', '分红领取25920.00币', '1', '9', null, null, null);
+INSERT INTO `blue_trade` VALUES ('226', '9', '3', '514.50', '分红领取514.50币', '1', '9', null, null, null);
+INSERT INTO `blue_trade` VALUES ('227', '9', '3', '0.00', '领取红包0币', '1', '4', '1574259687', null, null);
+INSERT INTO `blue_trade` VALUES ('228', '9', '3', '1.00', '领取红包1币', '1', '4', '1574259782', null, null);
+INSERT INTO `blue_trade` VALUES ('229', '9', '3', '2.00', '领取红包2币', '1', '4', '1574259833', null, null);
+INSERT INTO `blue_trade` VALUES ('230', '9', '3', '1.00', '领取红包1币', '1', '4', '1574303753', null, null);
+INSERT INTO `blue_trade` VALUES ('231', '10', '3', '1.00', '每日签到1币', '1', '1', '1574319927', null, null);
+INSERT INTO `blue_trade` VALUES ('232', '10', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574319934', null, null);
+INSERT INTO `blue_trade` VALUES ('233', '10', '3', '1.00', '转盘抽奖奖励0.02币', '1', '2', '1574319934', null, null);
+INSERT INTO `blue_trade` VALUES ('234', '10', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574319938', null, null);
+INSERT INTO `blue_trade` VALUES ('235', '10', '3', '5.00', '转盘抽奖奖励0.02币', '1', '2', '1574319938', null, null);
+INSERT INTO `blue_trade` VALUES ('236', '10', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574319942', null, null);
+INSERT INTO `blue_trade` VALUES ('237', '10', '3', '2.00', '转盘抽奖奖励0.02币', '1', '2', '1574319942', null, null);
+INSERT INTO `blue_trade` VALUES ('238', '10', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574319950', null, null);
+INSERT INTO `blue_trade` VALUES ('239', '10', '3', '1.00', '转盘抽奖奖励0.02币', '1', '2', '1574319950', null, null);
+INSERT INTO `blue_trade` VALUES ('240', '10', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574319954', null, null);
+INSERT INTO `blue_trade` VALUES ('241', '10', '3', '5.00', '转盘抽奖奖励0.02币', '1', '2', '1574319954', null, null);
+INSERT INTO `blue_trade` VALUES ('242', '10', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574319959', null, null);
+INSERT INTO `blue_trade` VALUES ('243', '10', '3', '2.00', '转盘抽奖奖励0.02币', '1', '2', '1574319959', null, null);
+INSERT INTO `blue_trade` VALUES ('244', '10', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574319961', null, null);
+INSERT INTO `blue_trade` VALUES ('245', '10', '3', '1.00', '转盘抽奖奖励0.02币', '1', '2', '1574319961', null, null);
+INSERT INTO `blue_trade` VALUES ('246', '10', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574319964', null, null);
+INSERT INTO `blue_trade` VALUES ('247', '10', '3', '5.00', '转盘抽奖奖励0.02币', '1', '2', '1574319964', null, null);
+INSERT INTO `blue_trade` VALUES ('248', '10', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574319965', null, null);
+INSERT INTO `blue_trade` VALUES ('249', '10', '3', '2.00', '转盘抽奖奖励0.02币', '1', '2', '1574319965', null, null);
+INSERT INTO `blue_trade` VALUES ('250', '10', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574319967', null, null);
+INSERT INTO `blue_trade` VALUES ('251', '10', '3', '1.00', '转盘抽奖奖励0.02币', '1', '2', '1574319967', null, null);
+INSERT INTO `blue_trade` VALUES ('252', '10', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574319970', null, null);
+INSERT INTO `blue_trade` VALUES ('253', '10', '3', '5.00', '转盘抽奖奖励0.02币', '1', '2', '1574319970', null, null);
+INSERT INTO `blue_trade` VALUES ('254', '10', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574319979', null, null);
+INSERT INTO `blue_trade` VALUES ('255', '10', '3', '2.00', '转盘抽奖奖励0.02币', '1', '2', '1574319979', null, null);
+INSERT INTO `blue_trade` VALUES ('256', '10', '3', '25920.00', '分红领取25920.00币', '1', '9', null, null, null);
+INSERT INTO `blue_trade` VALUES ('257', '10', '3', '55.00', '领取红包55币', '1', '4', '1574320038', null, null);
+INSERT INTO `blue_trade` VALUES ('258', '10', '2', '0.10', '金币兑换莱特币，增加莱特币0.1', '1', '12', '1574321371', null, null);
+INSERT INTO `blue_trade` VALUES ('259', '10', '3', '1000.00', '金币兑换莱特币，消耗金币1000', '2', '12', '1574321371', null, null);
+INSERT INTO `blue_trade` VALUES ('260', '10', '2', '2.00', '购买vip2', '2', '7', '1574321499', null, null);
+INSERT INTO `blue_trade` VALUES ('261', '10', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574321609', null, null);
+INSERT INTO `blue_trade` VALUES ('262', '10', '3', '1.00', '转盘抽奖奖励0.02币', '1', '2', '1574321609', null, null);
+INSERT INTO `blue_trade` VALUES ('263', '10', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574321612', null, null);
+INSERT INTO `blue_trade` VALUES ('264', '10', '3', '5.00', '转盘抽奖奖励0.02币', '1', '2', '1574321612', null, null);
+INSERT INTO `blue_trade` VALUES ('265', '10', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574321615', null, null);
+INSERT INTO `blue_trade` VALUES ('266', '10', '3', '2.00', '转盘抽奖奖励0.02币', '1', '2', '1574321615', null, null);
+INSERT INTO `blue_trade` VALUES ('267', '10', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574321616', null, null);
+INSERT INTO `blue_trade` VALUES ('268', '10', '3', '1.00', '转盘抽奖奖励0.02币', '1', '2', '1574321616', null, null);
+INSERT INTO `blue_trade` VALUES ('269', '10', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574321618', null, null);
+INSERT INTO `blue_trade` VALUES ('270', '10', '3', '5.00', '转盘抽奖奖励0.02币', '1', '2', '1574321618', null, null);
+INSERT INTO `blue_trade` VALUES ('271', '10', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574321620', null, null);
+INSERT INTO `blue_trade` VALUES ('272', '10', '3', '2.00', '转盘抽奖奖励0.02币', '1', '2', '1574321620', null, null);
+INSERT INTO `blue_trade` VALUES ('273', '10', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574321621', null, null);
+INSERT INTO `blue_trade` VALUES ('274', '10', '3', '1.00', '转盘抽奖奖励0.02币', '1', '2', '1574321621', null, null);
+INSERT INTO `blue_trade` VALUES ('275', '10', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574321623', null, null);
+INSERT INTO `blue_trade` VALUES ('276', '10', '3', '5.00', '转盘抽奖奖励0.02币', '1', '2', '1574321623', null, null);
+INSERT INTO `blue_trade` VALUES ('277', '10', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574321629', null, null);
+INSERT INTO `blue_trade` VALUES ('278', '10', '3', '2.00', '转盘抽奖奖励0.02币', '1', '2', '1574321629', null, null);
+INSERT INTO `blue_trade` VALUES ('279', '10', '2', '0.20', '关闭vip', '1', '8', '1574332054', null, null);
+INSERT INTO `blue_trade` VALUES ('280', '10', '2', '2.00', '购买vip2', '2', '7', '1574332069', null, null);
+INSERT INTO `blue_trade` VALUES ('281', '10', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574332195', null, null);
+INSERT INTO `blue_trade` VALUES ('282', '10', '3', '1.00', '转盘抽奖奖励0.02币', '1', '2', '1574332195', null, null);
+INSERT INTO `blue_trade` VALUES ('283', '10', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574332211', null, null);
+INSERT INTO `blue_trade` VALUES ('284', '10', '3', '5.00', '转盘抽奖奖励0.02币', '1', '2', '1574332211', null, null);
+INSERT INTO `blue_trade` VALUES ('285', '10', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574332214', null, null);
+INSERT INTO `blue_trade` VALUES ('286', '10', '3', '2.00', '转盘抽奖奖励0.02币', '1', '2', '1574332214', null, null);
+INSERT INTO `blue_trade` VALUES ('287', '10', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574332217', null, null);
+INSERT INTO `blue_trade` VALUES ('288', '10', '3', '1.00', '转盘抽奖奖励0.02币', '1', '2', '1574332217', null, null);
+INSERT INTO `blue_trade` VALUES ('289', '10', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574332220', null, null);
+INSERT INTO `blue_trade` VALUES ('290', '10', '3', '5.00', '转盘抽奖奖励0.02币', '1', '2', '1574332220', null, null);
+INSERT INTO `blue_trade` VALUES ('291', '10', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574332223', null, null);
+INSERT INTO `blue_trade` VALUES ('292', '10', '3', '2.00', '转盘抽奖奖励0.02币', '1', '2', '1574332223', null, null);
+INSERT INTO `blue_trade` VALUES ('293', '10', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574332224', null, null);
+INSERT INTO `blue_trade` VALUES ('294', '10', '3', '1.00', '转盘抽奖奖励0.02币', '1', '2', '1574332224', null, null);
+INSERT INTO `blue_trade` VALUES ('295', '10', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574332226', null, null);
+INSERT INTO `blue_trade` VALUES ('296', '10', '3', '5.00', '转盘抽奖奖励0.02币', '1', '2', '1574332226', null, null);
+INSERT INTO `blue_trade` VALUES ('297', '10', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574332232', null, null);
+INSERT INTO `blue_trade` VALUES ('298', '10', '3', '2.00', '转盘抽奖奖励0.02币', '1', '2', '1574332232', null, null);
+INSERT INTO `blue_trade` VALUES ('299', '10', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574332234', null, null);
+INSERT INTO `blue_trade` VALUES ('300', '10', '3', '1.00', '转盘抽奖奖励0.02币', '1', '2', '1574332234', null, null);
+INSERT INTO `blue_trade` VALUES ('301', '10', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574332321', null, null);
+INSERT INTO `blue_trade` VALUES ('302', '10', '3', '5.00', '转盘抽奖奖励0.02币', '1', '2', '1574332321', null, null);
+INSERT INTO `blue_trade` VALUES ('303', '10', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574332326', null, null);
+INSERT INTO `blue_trade` VALUES ('304', '10', '3', '2.00', '转盘抽奖奖励0.02币', '1', '2', '1574332326', null, null);
+INSERT INTO `blue_trade` VALUES ('305', '10', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574332328', null, null);
+INSERT INTO `blue_trade` VALUES ('306', '10', '3', '1.00', '转盘抽奖奖励0.02币', '1', '2', '1574332328', null, null);
+INSERT INTO `blue_trade` VALUES ('307', '10', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574332335', null, null);
+INSERT INTO `blue_trade` VALUES ('308', '10', '3', '5.00', '转盘抽奖奖励0.02币', '1', '2', '1574332335', null, null);
+INSERT INTO `blue_trade` VALUES ('309', '10', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574332357', null, null);
+INSERT INTO `blue_trade` VALUES ('310', '10', '3', '2.00', '转盘抽奖奖励0.02币', '1', '2', '1574332357', null, null);
+INSERT INTO `blue_trade` VALUES ('311', '10', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574332362', null, null);
+INSERT INTO `blue_trade` VALUES ('312', '10', '3', '1.00', '转盘抽奖奖励0.02币', '1', '2', '1574332362', null, null);
+INSERT INTO `blue_trade` VALUES ('313', '10', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574332367', null, null);
+INSERT INTO `blue_trade` VALUES ('314', '10', '3', '5.00', '转盘抽奖奖励0.02币', '1', '2', '1574332367', null, null);
+INSERT INTO `blue_trade` VALUES ('315', '10', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574332370', null, null);
+INSERT INTO `blue_trade` VALUES ('316', '10', '3', '2.00', '转盘抽奖奖励0.02币', '1', '2', '1574332370', null, null);
+INSERT INTO `blue_trade` VALUES ('317', '10', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574332373', null, null);
+INSERT INTO `blue_trade` VALUES ('318', '10', '3', '1.00', '转盘抽奖奖励0.02币', '1', '2', '1574332373', null, null);
+INSERT INTO `blue_trade` VALUES ('319', '10', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574332376', null, null);
+INSERT INTO `blue_trade` VALUES ('320', '10', '3', '5.00', '转盘抽奖奖励0.02币', '1', '2', '1574332376', null, null);
+INSERT INTO `blue_trade` VALUES ('321', '10', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574332381', null, null);
+INSERT INTO `blue_trade` VALUES ('322', '10', '3', '2.00', '转盘抽奖奖励0.02币', '1', '2', '1574332381', null, null);
+INSERT INTO `blue_trade` VALUES ('323', '10', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574332384', null, null);
+INSERT INTO `blue_trade` VALUES ('324', '10', '3', '1.00', '转盘抽奖奖励0.02币', '1', '2', '1574332384', null, null);
+INSERT INTO `blue_trade` VALUES ('325', '10', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574332650', null, null);
+INSERT INTO `blue_trade` VALUES ('326', '10', '3', '5.00', '转盘抽奖奖励0.02币', '1', '2', '1574332650', null, null);
+INSERT INTO `blue_trade` VALUES ('327', '10', '2', '0.20', '关闭vip', '1', '8', '1574332799', null, null);
+INSERT INTO `blue_trade` VALUES ('328', '10', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574332945', null, null);
+INSERT INTO `blue_trade` VALUES ('329', '10', '3', '2.00', '转盘抽奖奖励0.02币', '1', '2', '1574332945', null, null);
+INSERT INTO `blue_trade` VALUES ('330', '10', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574332950', null, null);
+INSERT INTO `blue_trade` VALUES ('331', '10', '3', '1.00', '转盘抽奖奖励0.02币', '1', '2', '1574332950', null, null);
+INSERT INTO `blue_trade` VALUES ('332', '10', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574332971', null, null);
+INSERT INTO `blue_trade` VALUES ('333', '10', '3', '5.00', '转盘抽奖奖励0.02币', '1', '2', '1574332971', null, null);
+INSERT INTO `blue_trade` VALUES ('334', '10', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574332972', null, null);
+INSERT INTO `blue_trade` VALUES ('335', '10', '3', '2.00', '转盘抽奖奖励0.02币', '1', '2', '1574332972', null, null);
+INSERT INTO `blue_trade` VALUES ('336', '10', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574332974', null, null);
+INSERT INTO `blue_trade` VALUES ('337', '10', '3', '1.00', '转盘抽奖奖励0.02币', '1', '2', '1574332974', null, null);
+INSERT INTO `blue_trade` VALUES ('338', '10', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574332975', null, null);
+INSERT INTO `blue_trade` VALUES ('339', '10', '3', '5.00', '转盘抽奖奖励0.02币', '1', '2', '1574332975', null, null);
+INSERT INTO `blue_trade` VALUES ('340', '10', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574332976', null, null);
+INSERT INTO `blue_trade` VALUES ('341', '10', '3', '2.00', '转盘抽奖奖励0.02币', '1', '2', '1574332976', null, null);
+INSERT INTO `blue_trade` VALUES ('342', '10', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574332978', null, null);
+INSERT INTO `blue_trade` VALUES ('343', '10', '3', '1.00', '转盘抽奖奖励0.02币', '1', '2', '1574332978', null, null);
+INSERT INTO `blue_trade` VALUES ('344', '10', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574332979', null, null);
+INSERT INTO `blue_trade` VALUES ('345', '10', '3', '5.00', '转盘抽奖奖励0.02币', '1', '2', '1574332979', null, null);
+INSERT INTO `blue_trade` VALUES ('346', '10', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574332982', null, null);
+INSERT INTO `blue_trade` VALUES ('347', '10', '3', '2.00', '转盘抽奖奖励0.02币', '1', '2', '1574332982', null, null);
+INSERT INTO `blue_trade` VALUES ('348', '10', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574333528', null, null);
+INSERT INTO `blue_trade` VALUES ('349', '10', '3', '1.00', '转盘抽奖奖励0.02币', '1', '2', '1574333528', null, null);
+INSERT INTO `blue_trade` VALUES ('350', '10', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574334456', null, null);
+INSERT INTO `blue_trade` VALUES ('351', '10', '3', '5.00', '转盘抽奖奖励0.02币', '1', '2', '1574334456', null, null);
+INSERT INTO `blue_trade` VALUES ('352', '10', '3', '100.00', '推广下线奖励100币', '1', '3', '1574342814', null, null);
+INSERT INTO `blue_trade` VALUES ('353', '10', '3', '100.00', '推广下线奖励100币', '1', '3', '1574342868', null, null);
+INSERT INTO `blue_trade` VALUES ('354', '15', '3', '25920.00', '分红领取25920.00币', '1', '9', null, null, null);
+INSERT INTO `blue_trade` VALUES ('355', '15', '3', '55.00', '领取红包55币', '1', '4', '1574526675', null, null);
+INSERT INTO `blue_trade` VALUES ('356', '15', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574527239', null, null);
+INSERT INTO `blue_trade` VALUES ('357', '15', '3', '5.00', '转盘抽奖奖励0.02币', '1', '2', '1574527239', null, null);
+INSERT INTO `blue_trade` VALUES ('358', '15', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574527328', null, null);
+INSERT INTO `blue_trade` VALUES ('359', '15', '3', '0.00', '转盘抽奖奖励0.02币', '1', '2', '1574527328', null, null);
+INSERT INTO `blue_trade` VALUES ('360', '15', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574527336', null, null);
+INSERT INTO `blue_trade` VALUES ('361', '15', '3', '0.00', '转盘抽奖奖励0.02币', '1', '2', '1574527336', null, null);
+INSERT INTO `blue_trade` VALUES ('362', '15', '2', '0.10', '金币兑换莱特币，增加莱特币0.1', '1', '12', '1574530474', null, null);
+INSERT INTO `blue_trade` VALUES ('363', '15', '3', '1000.00', '金币兑换莱特币，消耗金币1000', '2', '12', '1574530474', null, null);
+INSERT INTO `blue_trade` VALUES ('364', '15', '2', '0.50', '金币兑换莱特币，增加莱特币0.5', '1', '12', '1574530656', null, null);
+INSERT INTO `blue_trade` VALUES ('365', '15', '3', '5000.00', '金币兑换莱特币，消耗金币5000', '2', '12', '1574530656', null, null);
+INSERT INTO `blue_trade` VALUES ('366', '15', '2', '0.50', '金币兑换莱特币，增加莱特币0.5', '1', '12', '1574530668', null, null);
+INSERT INTO `blue_trade` VALUES ('367', '15', '3', '5000.00', '金币兑换莱特币，消耗金币5000', '2', '12', '1574530668', null, null);
+INSERT INTO `blue_trade` VALUES ('368', '15', '2', '0.50', '金币兑换莱特币，增加莱特币0.5', '1', '12', '1574530678', null, null);
+INSERT INTO `blue_trade` VALUES ('369', '15', '3', '5000.00', '金币兑换莱特币，消耗金币5000', '2', '12', '1574530678', null, null);
+INSERT INTO `blue_trade` VALUES ('370', '15', '2', '0.50', '金币兑换莱特币，增加莱特币0.5', '1', '12', '1574530681', null, null);
+INSERT INTO `blue_trade` VALUES ('371', '15', '3', '5000.00', '金币兑换莱特币，消耗金币5000', '2', '12', '1574530681', null, null);
+INSERT INTO `blue_trade` VALUES ('372', '15', '3', '25920.00', '分红领取25920.00000000币', '1', '9', null, null, null);
+INSERT INTO `blue_trade` VALUES ('373', '15', '2', '2.00', '购买vip2', '2', '7', '1574531128', null, null);
+INSERT INTO `blue_trade` VALUES ('374', '14', '2', '0.00', '一级(15)vip晋级奖励0币', '1', '5', '1574531128', null, null);
+INSERT INTO `blue_trade` VALUES ('375', '13', '2', '0.02', '二级(15)vip晋级奖励0.02币', '1', '5', '1574531128', null, null);
+INSERT INTO `blue_trade` VALUES ('376', '15', '3', '800.00', '购买vip3', '2', '7', '1574531159', null, null);
+INSERT INTO `blue_trade` VALUES ('377', '14', '3', '0.00', '一级(15)vip晋级奖励0币', '1', '5', '1574531159', null, null);
+INSERT INTO `blue_trade` VALUES ('378', '13', '3', '8.00', '二级(15)vip晋级奖励8币', '1', '5', '1574531159', null, null);
+INSERT INTO `blue_trade` VALUES ('379', '15', '2', '2.00', '购买vip2', '2', '7', '1574531169', null, null);
+INSERT INTO `blue_trade` VALUES ('380', '14', '2', '0.00', '一级(15)vip晋级奖励0币', '1', '5', '1574531169', null, null);
+INSERT INTO `blue_trade` VALUES ('381', '13', '2', '0.02', '二级(15)vip晋级奖励0.02币', '1', '5', '1574531169', null, null);
+INSERT INTO `blue_trade` VALUES ('382', '15', '2', '0.20', '关闭vip', '1', '8', '1574531882', null, null);
+INSERT INTO `blue_trade` VALUES ('383', '15', '3', '1.00', '每日签到1币', '1', '1', '1574532514', null, null);
+INSERT INTO `blue_trade` VALUES ('384', '15', '3', '1.00', '每日签到1币', '1', '1', '1574532518', null, null);
+INSERT INTO `blue_trade` VALUES ('385', '15', '3', '1.00', '每日签到1币', '1', '1', '1574532521', null, null);
+INSERT INTO `blue_trade` VALUES ('386', '15', '3', '1.00', '每日签到1币', '1', '1', '1574532524', null, null);
+INSERT INTO `blue_trade` VALUES ('387', '15', '3', '1.00', '每日签到1币', '1', '1', '1574532527', null, null);
+INSERT INTO `blue_trade` VALUES ('388', '15', '3', '1.00', '每日签到1币', '1', '1', '1574532530', null, null);
+INSERT INTO `blue_trade` VALUES ('389', '15', '3', '1.00', '每日签到1币', '1', '1', '1574532535', null, null);
+INSERT INTO `blue_trade` VALUES ('390', '15', '3', '1.00', '每日签到1币', '1', '1', '1574532539', null, null);
+INSERT INTO `blue_trade` VALUES ('391', '15', '3', '1.00', '每日签到1币', '1', '1', '1574532542', null, null);
+INSERT INTO `blue_trade` VALUES ('392', '15', '3', '1.00', '每日签到1币', '1', '1', '1574532547', null, null);
+INSERT INTO `blue_trade` VALUES ('393', '15', '3', '1.00', '每日签到1币', '1', '1', '1574532551', null, null);
+INSERT INTO `blue_trade` VALUES ('394', '15', '3', '1.00', '每日签到1币', '1', '1', '1574532555', null, null);
+INSERT INTO `blue_trade` VALUES ('395', '15', '3', '1.00', '每日签到1币', '1', '1', '1574532559', null, null);
+INSERT INTO `blue_trade` VALUES ('396', '15', '3', '1.00', '每日签到1币', '1', '1', '1574532563', null, null);
+INSERT INTO `blue_trade` VALUES ('397', '15', '3', '1.00', '每日签到1币', '1', '1', '1574532567', null, null);
+INSERT INTO `blue_trade` VALUES ('398', '15', '3', '1.00', '每日签到1币', '1', '1', '1574532573', null, null);
+INSERT INTO `blue_trade` VALUES ('399', '15', '3', '1.00', '每日签到1币', '1', '1', '1574532578', null, null);
+INSERT INTO `blue_trade` VALUES ('400', '15', '3', '1.00', '每日签到1币', '1', '1', '1574532585', null, null);
+INSERT INTO `blue_trade` VALUES ('401', '15', '3', '1.00', '每日签到1币', '1', '1', '1574532592', null, null);
+INSERT INTO `blue_trade` VALUES ('402', '15', '3', '1.00', '每日签到1币', '1', '1', '1574532597', null, null);
+INSERT INTO `blue_trade` VALUES ('403', '15', '3', '1.00', '每日签到1币', '1', '1', '1574532603', null, null);
+INSERT INTO `blue_trade` VALUES ('404', '15', '3', '1.00', '每日签到1币', '1', '1', '1574532609', null, null);
+INSERT INTO `blue_trade` VALUES ('405', '15', '3', '1.00', '每日签到1币', '1', '1', '1574532612', null, null);
+INSERT INTO `blue_trade` VALUES ('406', '15', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574532872', null, null);
+INSERT INTO `blue_trade` VALUES ('407', '15', '3', '0.00', '转盘抽奖奖励0.02币', '1', '2', '1574532872', null, null);
+INSERT INTO `blue_trade` VALUES ('408', '15', '3', '800.00', '购买vip3', '2', '7', '1574533148', null, null);
+INSERT INTO `blue_trade` VALUES ('409', '14', '3', '0.00', '一级(15)vip晋级奖励0币', '1', '5', '1574533148', null, null);
+INSERT INTO `blue_trade` VALUES ('410', '13', '3', '8.00', '二级(15)vip晋级奖励8币', '1', '5', '1574533148', null, null);
+INSERT INTO `blue_trade` VALUES ('411', '15', '3', '43.00', '领取红包43币', '1', '4', '1574533602', null, null);
+INSERT INTO `blue_trade` VALUES ('412', '10', '3', '1.00', '一级实名认证奖励1币', '1', '13', '1574576724', null, null);
+INSERT INTO `blue_trade` VALUES ('413', '15', '3', '500.00', '关闭vip', '1', '8', '1574585988', null, null);
+INSERT INTO `blue_trade` VALUES ('414', '15', '2', '2.00', '购买vip2', '2', '7', '1574586250', null, null);
+INSERT INTO `blue_trade` VALUES ('415', '14', '2', '0.00', '一级(15)vip晋级奖励0币', '1', '5', '1574586250', null, null);
+INSERT INTO `blue_trade` VALUES ('416', '13', '2', '0.02', '二级(15)vip晋级奖励0.02币', '1', '5', '1574586250', null, null);
+INSERT INTO `blue_trade` VALUES ('417', '15', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574586773', null, null);
+INSERT INTO `blue_trade` VALUES ('418', '15', '3', '0.00', '转盘抽奖奖励0.02币', '1', '2', '1574586773', null, null);
+INSERT INTO `blue_trade` VALUES ('419', '15', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574586776', null, null);
+INSERT INTO `blue_trade` VALUES ('420', '15', '3', '0.00', '转盘抽奖奖励0.02币', '1', '2', '1574586776', null, null);
+INSERT INTO `blue_trade` VALUES ('421', '15', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574586777', null, null);
+INSERT INTO `blue_trade` VALUES ('422', '15', '3', '0.00', '转盘抽奖奖励0.02币', '1', '2', '1574586777', null, null);
+INSERT INTO `blue_trade` VALUES ('423', '15', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574586778', null, null);
+INSERT INTO `blue_trade` VALUES ('424', '15', '3', '0.00', '转盘抽奖奖励0.02币', '1', '2', '1574586778', null, null);
+INSERT INTO `blue_trade` VALUES ('425', '15', '3', '1.00', '每日签到1币', '1', '1', '1574587126', null, null);
+INSERT INTO `blue_trade` VALUES ('426', '15', '3', '1.00', '每日签到1币', '1', '1', '1574587362', null, null);
+INSERT INTO `blue_trade` VALUES ('427', '15', '3', '1.00', '每日签到1币', '1', '1', '1574587363', null, null);
+INSERT INTO `blue_trade` VALUES ('428', '15', '3', '1.00', '每日签到1币', '1', '1', '1574587364', null, null);
+INSERT INTO `blue_trade` VALUES ('429', '15', '3', '1.00', '每日签到1币', '1', '1', '1574587366', null, null);
+INSERT INTO `blue_trade` VALUES ('430', '15', '3', '1.00', '每日签到1币', '1', '1', '1574587421', null, null);
+INSERT INTO `blue_trade` VALUES ('431', '15', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574589932', null, null);
+INSERT INTO `blue_trade` VALUES ('432', '15', '3', '0.00', '转盘抽奖奖励0.02币', '1', '2', '1574589932', null, null);
+INSERT INTO `blue_trade` VALUES ('433', '15', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574590116', null, null);
+INSERT INTO `blue_trade` VALUES ('434', '15', '3', '0.00', '转盘抽奖奖励0.02币', '1', '2', '1574590116', null, null);
+INSERT INTO `blue_trade` VALUES ('435', '15', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574590427', null, null);
+INSERT INTO `blue_trade` VALUES ('436', '15', '3', '29.00', '转盘抽奖奖励0.02币', '1', '2', '1574590427', null, null);
+INSERT INTO `blue_trade` VALUES ('437', '15', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574590487', null, null);
+INSERT INTO `blue_trade` VALUES ('438', '15', '3', '9.00', '转盘抽奖奖励0.02币', '1', '2', '1574590487', null, null);
+INSERT INTO `blue_trade` VALUES ('439', '15', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574590648', null, null);
+INSERT INTO `blue_trade` VALUES ('440', '15', '3', '8.00', '转盘抽奖奖励0.02币', '1', '2', '1574590648', null, null);
+INSERT INTO `blue_trade` VALUES ('441', '15', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574591025', null, null);
+INSERT INTO `blue_trade` VALUES ('442', '15', '3', '6.00', '转盘抽奖奖励0.02币', '1', '2', '1574591025', null, null);
+INSERT INTO `blue_trade` VALUES ('443', '13', '3', '0.10', '下线抽奖返利0.10币', '1', '6', '1574591025', null, null);
+INSERT INTO `blue_trade` VALUES ('444', '15', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574591098', null, null);
+INSERT INTO `blue_trade` VALUES ('445', '15', '3', '5.00', '转盘抽奖奖励0.02币', '1', '2', '1574591098', null, null);
+INSERT INTO `blue_trade` VALUES ('446', '13', '3', '0.10', '下线抽奖返利0.10币', '1', '6', '1574591098', null, null);
+INSERT INTO `blue_trade` VALUES ('447', '15', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574591106', null, null);
+INSERT INTO `blue_trade` VALUES ('448', '15', '3', '4.00', '转盘抽奖奖励0.02币', '1', '2', '1574591106', null, null);
+INSERT INTO `blue_trade` VALUES ('449', '13', '3', '0.10', '下线抽奖返利0.10币', '1', '6', '1574591106', null, null);
+INSERT INTO `blue_trade` VALUES ('450', '15', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574591112', null, null);
+INSERT INTO `blue_trade` VALUES ('451', '15', '3', '2.00', '转盘抽奖奖励0.02币', '1', '2', '1574591112', null, null);
+INSERT INTO `blue_trade` VALUES ('452', '13', '3', '0.10', '下线抽奖返利0.10币', '1', '6', '1574591112', null, null);
+INSERT INTO `blue_trade` VALUES ('453', '15', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574591118', null, null);
+INSERT INTO `blue_trade` VALUES ('454', '15', '3', '1.00', '转盘抽奖奖励0.02币', '1', '2', '1574591118', null, null);
+INSERT INTO `blue_trade` VALUES ('455', '13', '3', '0.10', '下线抽奖返利0.10币', '1', '6', '1574591118', null, null);
+INSERT INTO `blue_trade` VALUES ('456', '15', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574591140', null, null);
+INSERT INTO `blue_trade` VALUES ('457', '15', '3', '45.00', '转盘抽奖奖励0.02币', '1', '2', '1574591140', null, null);
+INSERT INTO `blue_trade` VALUES ('458', '13', '3', '0.10', '下线抽奖返利0.10币', '1', '6', '1574591140', null, null);
+INSERT INTO `blue_trade` VALUES ('459', '15', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574591156', null, null);
+INSERT INTO `blue_trade` VALUES ('460', '15', '3', '29.00', '转盘抽奖奖励0.02币', '1', '2', '1574591156', null, null);
+INSERT INTO `blue_trade` VALUES ('461', '13', '3', '0.10', '下线抽奖返利0.10币', '1', '6', '1574591156', null, null);
+INSERT INTO `blue_trade` VALUES ('462', '15', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574591337', null, null);
+INSERT INTO `blue_trade` VALUES ('463', '15', '3', '9.00', '转盘抽奖奖励0.02币', '1', '2', '1574591337', null, null);
+INSERT INTO `blue_trade` VALUES ('464', '13', '3', '0.10', '下线抽奖返利0.10币', '1', '6', '1574591337', null, null);
+INSERT INTO `blue_trade` VALUES ('465', '15', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574591633', null, null);
+INSERT INTO `blue_trade` VALUES ('466', '15', '3', '8.00', '转盘抽奖奖励0.02币', '1', '2', '1574591633', null, null);
+INSERT INTO `blue_trade` VALUES ('467', '13', '3', '0.10', '下线抽奖返利0.10币', '1', '6', '1574591634', null, null);
+INSERT INTO `blue_trade` VALUES ('468', '15', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574591641', null, null);
+INSERT INTO `blue_trade` VALUES ('469', '15', '3', '6.00', '转盘抽奖奖励0.02币', '1', '2', '1574591641', null, null);
+INSERT INTO `blue_trade` VALUES ('470', '13', '3', '0.10', '下线抽奖返利0.10币', '1', '6', '1574591641', null, null);
+INSERT INTO `blue_trade` VALUES ('471', '15', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574591718', null, null);
+INSERT INTO `blue_trade` VALUES ('472', '15', '3', '5.00', '转盘抽奖奖励0.02币', '1', '2', '1574591718', null, null);
+INSERT INTO `blue_trade` VALUES ('473', '13', '3', '0.10', '下线抽奖返利0.10币', '1', '6', '1574591718', null, null);
+INSERT INTO `blue_trade` VALUES ('474', '15', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574591723', null, null);
+INSERT INTO `blue_trade` VALUES ('475', '15', '3', '4.00', '转盘抽奖奖励0.02币', '1', '2', '1574591723', null, null);
+INSERT INTO `blue_trade` VALUES ('476', '13', '3', '0.10', '下线抽奖返利0.10币', '1', '6', '1574591723', null, null);
+INSERT INTO `blue_trade` VALUES ('477', '15', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574591727', null, null);
+INSERT INTO `blue_trade` VALUES ('478', '15', '3', '2.00', '转盘抽奖奖励0.02币', '1', '2', '1574591727', null, null);
+INSERT INTO `blue_trade` VALUES ('479', '13', '3', '0.10', '下线抽奖返利0.10币', '1', '6', '1574591727', null, null);
+INSERT INTO `blue_trade` VALUES ('480', '15', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574591736', null, null);
+INSERT INTO `blue_trade` VALUES ('481', '15', '3', '1.00', '转盘抽奖奖励0.02币', '1', '2', '1574591736', null, null);
+INSERT INTO `blue_trade` VALUES ('482', '13', '3', '0.10', '下线抽奖返利0.10币', '1', '6', '1574591736', null, null);
+INSERT INTO `blue_trade` VALUES ('483', '15', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574591980', null, null);
+INSERT INTO `blue_trade` VALUES ('484', '15', '3', '45.00', '转盘抽奖奖励0.02币', '1', '2', '1574591980', null, null);
+INSERT INTO `blue_trade` VALUES ('485', '13', '3', '0.10', '下线抽奖返利0.10币', '1', '6', '1574591980', null, null);
+INSERT INTO `blue_trade` VALUES ('486', '15', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574592031', null, null);
+INSERT INTO `blue_trade` VALUES ('487', '15', '3', '29.00', '转盘抽奖奖励0.02币', '1', '2', '1574592031', null, null);
+INSERT INTO `blue_trade` VALUES ('488', '13', '3', '0.10', '下线抽奖返利0.10币', '1', '6', '1574592031', null, null);
+INSERT INTO `blue_trade` VALUES ('489', '15', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574592208', null, null);
+INSERT INTO `blue_trade` VALUES ('490', '15', '3', '9.00', '转盘抽奖奖励0.02币', '1', '2', '1574592208', null, null);
+INSERT INTO `blue_trade` VALUES ('491', '13', '3', '0.10', '下线抽奖返利0.10币', '1', '6', '1574592209', null, null);
+INSERT INTO `blue_trade` VALUES ('492', '15', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574592215', null, null);
+INSERT INTO `blue_trade` VALUES ('493', '15', '3', '8.00', '转盘抽奖奖励0.02币', '1', '2', '1574592215', null, null);
+INSERT INTO `blue_trade` VALUES ('494', '13', '3', '0.10', '下线抽奖返利0.10币', '1', '6', '1574592215', null, null);
+INSERT INTO `blue_trade` VALUES ('495', '15', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574592516', null, null);
+INSERT INTO `blue_trade` VALUES ('496', '15', '3', '6.00', '转盘抽奖奖励6币', '1', '2', '1574592516', null, null);
+INSERT INTO `blue_trade` VALUES ('497', '13', '3', '0.10', '下线抽奖返利0.10币', '1', '6', '1574592516', null, null);
+INSERT INTO `blue_trade` VALUES ('498', '15', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574592636', null, null);
+INSERT INTO `blue_trade` VALUES ('499', '15', '3', '5.00', '转盘抽奖奖励5币', '1', '2', '1574592636', null, null);
+INSERT INTO `blue_trade` VALUES ('500', '13', '3', '0.10', '下线抽奖返利0.10币', '1', '6', '1574592636', null, null);
+INSERT INTO `blue_trade` VALUES ('501', '15', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574592668', null, null);
+INSERT INTO `blue_trade` VALUES ('502', '15', '3', '4.00', '转盘抽奖奖励4币', '1', '2', '1574592668', null, null);
+INSERT INTO `blue_trade` VALUES ('503', '13', '3', '0.10', '下线抽奖返利0.10币', '1', '6', '1574592669', null, null);
+INSERT INTO `blue_trade` VALUES ('504', '15', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574592727', null, null);
+INSERT INTO `blue_trade` VALUES ('505', '15', '3', '2.00', '转盘抽奖奖励2币', '1', '2', '1574592727', null, null);
+INSERT INTO `blue_trade` VALUES ('506', '13', '3', '0.10', '下线抽奖返利0.10币', '1', '6', '1574592727', null, null);
+INSERT INTO `blue_trade` VALUES ('507', '15', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574592733', null, null);
+INSERT INTO `blue_trade` VALUES ('508', '15', '3', '1.00', '转盘抽奖奖励1币', '1', '2', '1574592733', null, null);
+INSERT INTO `blue_trade` VALUES ('509', '13', '3', '0.10', '下线抽奖返利0.10币', '1', '6', '1574592733', null, null);
+INSERT INTO `blue_trade` VALUES ('510', '15', '3', '22.00', '领取红包22币', '1', '4', '1574602339', null, null);
+INSERT INTO `blue_trade` VALUES ('511', '15', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574603832', null, null);
+INSERT INTO `blue_trade` VALUES ('512', '15', '3', '45.00', '转盘抽奖奖励45币', '1', '2', '1574603832', null, null);
+INSERT INTO `blue_trade` VALUES ('513', '13', '3', '0.10', '下线抽奖返利0.10币', '1', '6', '1574603832', null, null);
+INSERT INTO `blue_trade` VALUES ('514', '15', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574603864', null, null);
+INSERT INTO `blue_trade` VALUES ('515', '15', '3', '29.00', '转盘抽奖奖励29币', '1', '2', '1574603864', null, null);
+INSERT INTO `blue_trade` VALUES ('516', '13', '3', '0.10', '下线抽奖返利0.10币', '1', '6', '1574603864', null, null);
+INSERT INTO `blue_trade` VALUES ('517', '15', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574703233', null, null);
+INSERT INTO `blue_trade` VALUES ('518', '15', '3', '9.00', '转盘抽奖奖励9币', '1', '2', '1574703233', null, null);
+INSERT INTO `blue_trade` VALUES ('519', '13', '3', '0.10', '下线抽奖返利0.10币', '1', '6', '1574703233', null, null);
+INSERT INTO `blue_trade` VALUES ('520', '15', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574703238', null, null);
+INSERT INTO `blue_trade` VALUES ('521', '15', '3', '8.00', '转盘抽奖奖励8币', '1', '2', '1574703238', null, null);
+INSERT INTO `blue_trade` VALUES ('522', '13', '3', '0.10', '下线抽奖返利0.10币', '1', '6', '1574703238', null, null);
+INSERT INTO `blue_trade` VALUES ('523', '15', '3', '1.00', '每日签到1币', '1', '1', '1574703282', null, null);
+INSERT INTO `blue_trade` VALUES ('524', '15', '3', '43.00', '领取红包43币', '1', '4', '1574703355', null, null);
+INSERT INTO `blue_trade` VALUES ('525', '15', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574703693', null, null);
+INSERT INTO `blue_trade` VALUES ('526', '15', '3', '6.00', '转盘抽奖奖励6币', '1', '2', '1574703693', null, null);
+INSERT INTO `blue_trade` VALUES ('527', '13', '3', '0.10', '下线抽奖返利0.10币', '1', '6', '1574703693', null, null);
+INSERT INTO `blue_trade` VALUES ('528', '15', '3', '43200.00', '分红领取43200.00000000币', '1', '9', '1574757836', null, null);
+INSERT INTO `blue_trade` VALUES ('529', '15', '3', '22.00', '领取红包22币', '1', '4', '1574761710', null, null);
+INSERT INTO `blue_trade` VALUES ('530', '15', '2', '0.20', '关闭vip', '1', '8', '1574770823', null, null);
+INSERT INTO `blue_trade` VALUES ('531', '15', '3', '800.00', '购买vip3', '2', '7', '1574770831', null, null);
+INSERT INTO `blue_trade` VALUES ('532', '13', '3', '8.00', '二级(15)vip晋级奖励8币', '1', '5', '1574770831', null, null);
+INSERT INTO `blue_trade` VALUES ('533', '15', '3', '500.00', '关闭vip', '1', '8', '1574770846', null, null);
+INSERT INTO `blue_trade` VALUES ('534', '15', '3', '800.00', '购买vip3', '2', '7', '1574770856', null, null);
+INSERT INTO `blue_trade` VALUES ('535', '13', '3', '8.00', '二级(15)vip晋级奖励8币', '1', '5', '1574770856', null, null);
+INSERT INTO `blue_trade` VALUES ('536', '15', '3', '2.00', '领取红包2币', '1', '4', '1574771065', null, null);
+INSERT INTO `blue_trade` VALUES ('537', '15', '2', '0.50', '金币兑换莱特币，增加莱特币0.50', '1', '12', '1574776484', null, null);
+INSERT INTO `blue_trade` VALUES ('538', '15', '3', '5000.00', '金币兑换莱特币，消耗金币5000', '2', '12', '1574776484', null, null);
+INSERT INTO `blue_trade` VALUES ('539', '15', '2', '0.10', '金币兑换莱特币，增加莱特币0.10', '1', '12', '1574778023', null, null);
+INSERT INTO `blue_trade` VALUES ('540', '15', '3', '51000.00', '金币兑换莱特币，消耗金币51000', '2', '12', '1574778023', null, null);
+INSERT INTO `blue_trade` VALUES ('541', '15', '3', '80.00', '推广下线奖励80币', '1', '3', '1574781855', null, null);
+INSERT INTO `blue_trade` VALUES ('542', '15', '3', '3.00', '一级实名认证奖励3.00币', '1', '13', '1574785408', null, null);
+INSERT INTO `blue_trade` VALUES ('543', '16', '3', '1.00', '每日签到1币', '1', '1', '1574785429', null, null);
+INSERT INTO `blue_trade` VALUES ('544', '13', '3', '1.00', '每日签到1币', '1', '1', '1574785470', null, null);
+INSERT INTO `blue_trade` VALUES ('545', '16', '2', '0.50', '金币兑换莱特币，增加莱特币0.50', '1', '12', '1574786537', null, null);
+INSERT INTO `blue_trade` VALUES ('546', '16', '3', '5000.00', '金币兑换莱特币，消耗金币5000', '2', '12', '1574786537', null, null);
+INSERT INTO `blue_trade` VALUES ('547', '16', '2', '0.50', '金币兑换莱特币，增加莱特币0.50', '1', '12', '1574786540', null, null);
+INSERT INTO `blue_trade` VALUES ('548', '16', '3', '5000.00', '金币兑换莱特币，消耗金币5000', '2', '12', '1574786540', null, null);
+INSERT INTO `blue_trade` VALUES ('549', '10', '3', '1.00', '每日签到1币', '1', '1', '1574787497', null, null);
+INSERT INTO `blue_trade` VALUES ('550', '10', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574787512', null, null);
+INSERT INTO `blue_trade` VALUES ('551', '10', '3', '6.00', '转盘抽奖奖励6币', '1', '2', '1574787512', null, null);
+INSERT INTO `blue_trade` VALUES ('552', '10', '2', '2.00', '购买vip2', '2', '7', '1574787876', null, null);
+INSERT INTO `blue_trade` VALUES ('553', '10', '2', '0.20', '关闭vip', '1', '8', '1574787906', null, null);
+INSERT INTO `blue_trade` VALUES ('554', '10', '2', '0.02', '转盘抽奖消耗0.02币', '2', '2', '1574789581', null, null);
+INSERT INTO `blue_trade` VALUES ('555', '10', '3', '5.00', '转盘抽奖奖励5币', '1', '2', '1574789581', null, null);
+INSERT INTO `blue_trade` VALUES ('556', '10', '2', '0.05', '转盘抽奖消耗0.05币', '2', '2', '1574792378', null, null);
+INSERT INTO `blue_trade` VALUES ('557', '10', '3', '325.00', '转盘抽奖奖励325币', '1', '2', '1574792378', null, null);
+INSERT INTO `blue_trade` VALUES ('558', '10', '2', '0.05', '转盘抽奖消耗0.05币', '2', '2', '1574792402', null, null);
+INSERT INTO `blue_trade` VALUES ('559', '10', '3', '324.00', '转盘抽奖奖励324币', '1', '2', '1574792402', null, null);
+INSERT INTO `blue_trade` VALUES ('560', '10', '2', '0.05', '转盘抽奖消耗0.05币', '2', '2', '1574792407', null, null);
+INSERT INTO `blue_trade` VALUES ('561', '10', '3', '323.00', '转盘抽奖奖励323币', '1', '2', '1574792407', null, null);
+INSERT INTO `blue_trade` VALUES ('562', '10', '2', '0.05', '转盘抽奖消耗0.05币', '2', '2', '1574792408', null, null);
+INSERT INTO `blue_trade` VALUES ('563', '10', '3', '322.00', '转盘抽奖奖励322币', '1', '2', '1574792408', null, null);
+INSERT INTO `blue_trade` VALUES ('564', '10', '2', '0.05', '转盘抽奖消耗0.05币', '2', '2', '1574792421', null, null);
+INSERT INTO `blue_trade` VALUES ('565', '10', '3', '321.00', '转盘抽奖奖励321币', '1', '2', '1574792421', null, null);
+INSERT INTO `blue_trade` VALUES ('566', '10', '2', '0.05', '转盘抽奖消耗0.05币', '2', '2', '1574792425', null, null);
+INSERT INTO `blue_trade` VALUES ('567', '10', '3', '320.00', '转盘抽奖奖励320币', '1', '2', '1574792425', null, null);
+INSERT INTO `blue_trade` VALUES ('568', '10', '2', '0.05', '转盘抽奖消耗0.05币', '2', '2', '1574792429', null, null);
+INSERT INTO `blue_trade` VALUES ('569', '10', '3', '319.00', '转盘抽奖奖励319币', '1', '2', '1574792429', null, null);
+INSERT INTO `blue_trade` VALUES ('570', '10', '2', '0.05', '转盘抽奖消耗0.05币', '2', '2', '1574792432', null, null);
+INSERT INTO `blue_trade` VALUES ('571', '10', '3', '318.00', '转盘抽奖奖励318币', '1', '2', '1574792432', null, null);
+INSERT INTO `blue_trade` VALUES ('572', '10', '2', '0.05', '转盘抽奖消耗0.05币', '2', '2', '1574792436', null, null);
+INSERT INTO `blue_trade` VALUES ('573', '10', '3', '317.00', '转盘抽奖奖励317币', '1', '2', '1574792436', null, null);
+INSERT INTO `blue_trade` VALUES ('574', '10', '2', '0.05', '转盘抽奖消耗0.05币', '2', '2', '1574792439', null, null);
+INSERT INTO `blue_trade` VALUES ('575', '10', '3', '316.00', '转盘抽奖奖励316币', '1', '2', '1574792439', null, null);
+INSERT INTO `blue_trade` VALUES ('576', '10', '2', '0.05', '转盘抽奖消耗0.05币', '2', '2', '1574792443', null, null);
+INSERT INTO `blue_trade` VALUES ('577', '10', '3', '315.00', '转盘抽奖奖励315币', '1', '2', '1574792443', null, null);
+INSERT INTO `blue_trade` VALUES ('578', '10', '2', '0.05', '转盘抽奖消耗0.05币', '2', '2', '1574792447', null, null);
+INSERT INTO `blue_trade` VALUES ('579', '10', '3', '314.00', '转盘抽奖奖励314币', '1', '2', '1574792447', null, null);
+INSERT INTO `blue_trade` VALUES ('580', '10', '2', '0.05', '转盘抽奖消耗0.05币', '2', '2', '1574792648', null, null);
+INSERT INTO `blue_trade` VALUES ('581', '10', '3', '313.00', '转盘抽奖奖励313币', '1', '2', '1574792648', null, null);
+INSERT INTO `blue_trade` VALUES ('582', '10', '2', '0.05', '转盘抽奖消耗0.05币', '2', '2', '1574792668', null, null);
+INSERT INTO `blue_trade` VALUES ('583', '10', '3', '312.00', '转盘抽奖奖励312币', '1', '2', '1574792668', null, null);
+INSERT INTO `blue_trade` VALUES ('584', '10', '2', '0.05', '转盘抽奖消耗0.05币', '2', '2', '1574792687', null, null);
+INSERT INTO `blue_trade` VALUES ('585', '10', '3', '311.00', '转盘抽奖奖励311币', '1', '2', '1574792687', null, null);
+INSERT INTO `blue_trade` VALUES ('586', '10', '2', '0.05', '转盘抽奖消耗0.05币', '2', '2', '1574792724', null, null);
+INSERT INTO `blue_trade` VALUES ('587', '10', '3', '55.00', '转盘抽奖奖励55币', '1', '2', '1574792724', null, null);
+INSERT INTO `blue_trade` VALUES ('588', '10', '2', '0.05', '转盘抽奖消耗0.05币', '2', '2', '1574792781', null, null);
+INSERT INTO `blue_trade` VALUES ('589', '10', '3', '43.00', '转盘抽奖奖励43币', '1', '2', '1574792781', null, null);
+INSERT INTO `blue_trade` VALUES ('590', '10', '2', '0.05', '转盘抽奖消耗0.05币', '2', '2', '1574792787', null, null);
+INSERT INTO `blue_trade` VALUES ('591', '10', '3', '22.00', '转盘抽奖奖励22币', '1', '2', '1574792787', null, null);
+INSERT INTO `blue_trade` VALUES ('592', '10', '2', '0.05', '转盘抽奖消耗0.05币', '2', '2', '1574792830', null, null);
+INSERT INTO `blue_trade` VALUES ('593', '10', '3', '307.00', '转盘抽奖奖励307币', '1', '2', '1574792830', null, null);
+INSERT INTO `blue_trade` VALUES ('594', '10', '2', '0.05', '转盘抽奖消耗0.05币', '2', '2', '1574792842', null, null);
+INSERT INTO `blue_trade` VALUES ('595', '10', '3', '306.00', '转盘抽奖奖励306币', '1', '2', '1574792842', null, null);
+INSERT INTO `blue_trade` VALUES ('596', '10', '2', '0.05', '转盘抽奖消耗0.05币', '2', '2', '1574792856', null, null);
+INSERT INTO `blue_trade` VALUES ('597', '10', '3', '305.00', '转盘抽奖奖励305币', '1', '2', '1574792856', null, null);
+INSERT INTO `blue_trade` VALUES ('598', '10', '2', '0.05', '转盘抽奖消耗0.05币', '2', '2', '1574792859', null, null);
+INSERT INTO `blue_trade` VALUES ('599', '10', '3', '304.00', '转盘抽奖奖励304币', '1', '2', '1574792859', null, null);
+INSERT INTO `blue_trade` VALUES ('600', '10', '2', '1.00', '转盘抽奖消耗1.00币', '2', '2', '1574792886', null, null);
+INSERT INTO `blue_trade` VALUES ('601', '10', '3', '303.00', '转盘抽奖奖励303币', '1', '2', '1574792886', null, null);
+INSERT INTO `blue_trade` VALUES ('602', '10', '2', '1.00', '转盘抽奖消耗1.00币', '2', '2', '1574792894', null, null);
+INSERT INTO `blue_trade` VALUES ('603', '10', '3', '302.00', '转盘抽奖奖励302币', '1', '2', '1574792894', null, null);
+INSERT INTO `blue_trade` VALUES ('604', '10', '2', '1.00', '转盘抽奖消耗1.00币', '2', '2', '1574795193', null, null);
+INSERT INTO `blue_trade` VALUES ('605', '10', '3', '301.00', '转盘抽奖奖励301币', '1', '2', '1574795193', null, null);
+INSERT INTO `blue_trade` VALUES ('606', '16', '2', '1.00', '转盘抽奖消耗1.00币', '2', '2', '1574796651', null, null);
+INSERT INTO `blue_trade` VALUES ('607', '16', '3', '21.00', '转盘抽奖奖励21币', '1', '2', '1574796651', null, null);
+INSERT INTO `blue_trade` VALUES ('608', '15', '3', '1.00', '一级下线抽奖返利1.00币', '1', '6', '1574796651', null, null);
+INSERT INTO `blue_trade` VALUES ('609', '16', '2', '1.00', '转盘抽奖消耗1.00币', '2', '2', '1574796673', null, null);
+INSERT INTO `blue_trade` VALUES ('610', '16', '3', '384.00', '转盘抽奖奖励384币', '1', '2', '1574796673', null, null);
+INSERT INTO `blue_trade` VALUES ('611', '15', '3', '1.00', '一级下线抽奖返利1.00币', '1', '6', '1574796673', null, null);
+INSERT INTO `blue_trade` VALUES ('612', '16', '2', '1.00', '转盘抽奖消耗1.00币', '2', '2', '1574796685', null, null);
+INSERT INTO `blue_trade` VALUES ('613', '16', '3', '383.00', '转盘抽奖奖励383币', '1', '2', '1574796685', null, null);
+INSERT INTO `blue_trade` VALUES ('614', '15', '3', '1.00', '一级下线抽奖返利1.00币', '1', '6', '1574796685', null, null);
+INSERT INTO `blue_trade` VALUES ('615', '15', '3', '1.00', '领取红包1币', '1', '4', '1574796961', null, null);
+INSERT INTO `blue_trade` VALUES ('616', '15', '3', '55.00', '领取红包55币', '1', '4', '1574797028', null, null);
+INSERT INTO `blue_trade` VALUES ('617', '15', '3', '43.00', '领取红包43币', '1', '4', '1574797054', null, null);
+INSERT INTO `blue_trade` VALUES ('618', '15', '3', '22.00', '领取红包22币', '1', '4', '1574797079', null, null);
+INSERT INTO `blue_trade` VALUES ('619', '15', '3', '2.00', '领取红包2币', '1', '4', '1574797102', null, null);
+INSERT INTO `blue_trade` VALUES ('620', '16', '2', '1.00', '转盘抽奖消耗1.00币', '2', '2', '1574800419', null, null);
+INSERT INTO `blue_trade` VALUES ('621', '16', '3', '382.00', '转盘抽奖奖励382币', '1', '2', '1574800419', null, null);
+INSERT INTO `blue_trade` VALUES ('622', '15', '3', '1.00', '一级下线抽奖返利1.00币', '1', '6', '1574800419', null, null);
+INSERT INTO `blue_trade` VALUES ('623', '16', '2', '1.00', '转盘抽奖消耗1.00币', '2', '2', '1574800421', null, null);
+INSERT INTO `blue_trade` VALUES ('624', '16', '3', '381.00', '转盘抽奖奖励381币', '1', '2', '1574800421', null, null);
+INSERT INTO `blue_trade` VALUES ('625', '15', '3', '1.00', '一级下线抽奖返利1.00币', '1', '6', '1574800421', null, null);
+INSERT INTO `blue_trade` VALUES ('626', '16', '2', '1.00', '转盘抽奖消耗1.00币', '2', '2', '1574800424', null, null);
+INSERT INTO `blue_trade` VALUES ('627', '16', '3', '380.00', '转盘抽奖奖励380币', '1', '2', '1574800424', null, null);
+INSERT INTO `blue_trade` VALUES ('628', '15', '3', '1.00', '一级下线抽奖返利1.00币', '1', '6', '1574800424', null, null);
+INSERT INTO `blue_trade` VALUES ('629', '16', '2', '1.00', '转盘抽奖消耗1.00币', '2', '2', '1574800425', null, null);
+INSERT INTO `blue_trade` VALUES ('630', '16', '3', '379.00', '转盘抽奖奖励379币', '1', '2', '1574800425', null, null);
+INSERT INTO `blue_trade` VALUES ('631', '15', '3', '1.00', '一级下线抽奖返利1.00币', '1', '6', '1574800425', null, null);
+INSERT INTO `blue_trade` VALUES ('632', '16', '2', '1.00', '转盘抽奖消耗1.00币', '2', '2', '1574800432', null, null);
+INSERT INTO `blue_trade` VALUES ('633', '16', '3', '378.00', '转盘抽奖奖励378币', '1', '2', '1574800432', null, null);
+INSERT INTO `blue_trade` VALUES ('634', '15', '3', '1.00', '一级下线抽奖返利1.00币', '1', '6', '1574800432', null, null);
+INSERT INTO `blue_trade` VALUES ('635', '16', '2', '1.00', '转盘抽奖消耗1.00币', '2', '2', '1574800433', null, null);
+INSERT INTO `blue_trade` VALUES ('636', '16', '3', '377.00', '转盘抽奖奖励377币', '1', '2', '1574800433', null, null);
+INSERT INTO `blue_trade` VALUES ('637', '15', '3', '1.00', '一级下线抽奖返利1.00币', '1', '6', '1574800433', null, null);
+INSERT INTO `blue_trade` VALUES ('638', '16', '2', '1.00', '转盘抽奖消耗1.00币', '2', '2', '1574800441', null, null);
+INSERT INTO `blue_trade` VALUES ('639', '16', '3', '376.00', '转盘抽奖奖励376币', '1', '2', '1574800441', null, null);
+INSERT INTO `blue_trade` VALUES ('640', '15', '3', '1.00', '一级下线抽奖返利1.00币', '1', '6', '1574800441', null, null);
+INSERT INTO `blue_trade` VALUES ('641', '16', '2', '1.00', '转盘抽奖消耗1.00币', '2', '2', '1574800446', null, null);
+INSERT INTO `blue_trade` VALUES ('642', '16', '3', '375.00', '转盘抽奖奖励375币', '1', '2', '1574800446', null, null);
+INSERT INTO `blue_trade` VALUES ('643', '15', '3', '1.00', '一级下线抽奖返利1.00币', '1', '6', '1574800446', null, null);
+INSERT INTO `blue_trade` VALUES ('644', '16', '2', '1.00', '转盘抽奖消耗1.00币', '2', '2', '1574800454', null, null);
+INSERT INTO `blue_trade` VALUES ('645', '16', '3', '374.00', '转盘抽奖奖励374币', '1', '2', '1574800454', null, null);
+INSERT INTO `blue_trade` VALUES ('646', '15', '3', '1.00', '一级下线抽奖返利1.00币', '1', '6', '1574800454', null, null);
+INSERT INTO `blue_trade` VALUES ('647', '16', '3', '16668.60', '分红领取16668.60000000币', '1', '9', '1574837417', null, null);
+INSERT INTO `blue_trade` VALUES ('648', '16', '3', '67.20', '分红领取67.20000000币', '1', '9', '1574837641', null, null);
+INSERT INTO `blue_trade` VALUES ('649', '16', '3', '2.70', '分红领取2.70000000币', '1', '9', '1574837650', null, null);
+INSERT INTO `blue_trade` VALUES ('650', '16', '3', '800.00', '购买vip3', '2', '7', '1574838136', null, null);
+INSERT INTO `blue_trade` VALUES ('651', '15', '3', '96.00', '一级(16)vip晋级奖励96币', '1', '5', '1574838136', null, null);
+INSERT INTO `blue_trade` VALUES ('652', '16', '3', '500.00', '关闭vip', '1', '8', '1574844510', null, null);
+INSERT INTO `blue_trade` VALUES ('653', '16', '3', '100.00', '推广下线奖励100币', '1', '3', '1574941848', null, null);
+INSERT INTO `blue_trade` VALUES ('654', '15', '3', '80.00', '推广下线奖励80币', '1', '3', '1574941848', null, null);
+INSERT INTO `blue_trade` VALUES ('655', '16', '2', '1.00', '转盘抽奖消耗1.00币', '2', '2', '1574944470', null, null);
+INSERT INTO `blue_trade` VALUES ('656', '16', '3', '373.00', '转盘抽奖奖励373币', '1', '2', '1574944470', null, null);
+INSERT INTO `blue_trade` VALUES ('657', '15', '3', '1.00', '一级下线抽奖返利1.00币', '1', '6', '1574944470', null, null);
+INSERT INTO `blue_trade` VALUES ('658', '16', '2', '1.00', '转盘抽奖消耗1.00币', '2', '2', '1574944485', null, null);
+INSERT INTO `blue_trade` VALUES ('659', '16', '3', '372.00', '转盘抽奖奖励372币', '1', '2', '1574944485', null, null);
+INSERT INTO `blue_trade` VALUES ('660', '15', '3', '1.00', '一级下线抽奖返利1.00币', '1', '6', '1574944485', null, null);
+INSERT INTO `blue_trade` VALUES ('661', '16', '2', '1.00', '转盘抽奖消耗1.00币', '2', '2', '1574944799', null, null);
+INSERT INTO `blue_trade` VALUES ('662', '16', '3', '371.00', '转盘抽奖奖励371币', '1', '2', '1574944799', null, null);
+INSERT INTO `blue_trade` VALUES ('663', '15', '3', '1.00', '一级下线抽奖返利1.00币', '1', '6', '1574944799', null, null);
+INSERT INTO `blue_trade` VALUES ('664', '16', '2', '1.00', '转盘抽奖消耗1.00币', '2', '2', '1574944875', null, null);
+INSERT INTO `blue_trade` VALUES ('665', '16', '3', '370.00', '转盘抽奖奖励370币', '1', '2', '1574944875', null, null);
+INSERT INTO `blue_trade` VALUES ('666', '15', '3', '1.00', '一级下线抽奖返利1.00币', '1', '6', '1574944875', null, null);
+INSERT INTO `blue_trade` VALUES ('667', '16', '2', '1.00', '转盘抽奖消耗1.00币', '2', '2', '1574944881', null, null);
+INSERT INTO `blue_trade` VALUES ('668', '16', '3', '369.00', '转盘抽奖奖励369币', '1', '2', '1574944881', null, null);
+INSERT INTO `blue_trade` VALUES ('669', '15', '3', '1.00', '一级下线抽奖返利1.00币', '1', '6', '1574944881', null, null);
+
+-- ----------------------------
+-- Table structure for `blue_trade_currency`
+-- ----------------------------
+DROP TABLE IF EXISTS `blue_trade_currency`;
+CREATE TABLE `blue_trade_currency` (
+  `trade_id` int(32) NOT NULL AUTO_INCREMENT COMMENT '交易表 交易表的id',
+  `trade_no` varchar(32) NOT NULL COMMENT '订单号',
+  `member_id` int(10) NOT NULL COMMENT '买家uid即member_id',
+  `currency_id` int(10) NOT NULL COMMENT '货币id',
+  `currency_trade_id` int(10) NOT NULL,
+  `price` decimal(20,4) NOT NULL COMMENT '价格',
+  `num` decimal(20,4) NOT NULL COMMENT '数量',
+  `money` decimal(20,4) NOT NULL,
+  `fee` decimal(20,4) NOT NULL COMMENT '手续费',
+  `type` char(10) NOT NULL COMMENT 'buy 或sell',
+  `add_time` int(10) NOT NULL COMMENT '成交时间 （添加表的时间）',
+  `status` tinyint(4) NOT NULL,
+  PRIMARY KEY (`trade_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=25944 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of blue_trade_currency
+-- ----------------------------
+INSERT INTO `blue_trade_currency` VALUES ('25510', 'T1526113775', '10364', '52', '0', '1.0000', '1.0000', '1.0000', '0.0100', 'buy', '1526113775', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25511', 'T1526113775', '10363', '52', '0', '1.0000', '1.0000', '1.0000', '0.0100', 'sell', '1526113775', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25512', 'T1526627195', '1', '52', '0', '5.0000', '10.0000', '50.0000', '0.5000', 'buy', '1526627195', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25513', 'T1526627195', '10363', '52', '0', '5.0000', '10.0000', '50.0000', '0.5000', 'sell', '1526627195', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25514', 'T1526627344', '1', '52', '0', '10.0000', '10.0000', '100.0000', '1.0000', 'buy', '1526627344', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25515', 'T1526627344', '10363', '52', '0', '10.0000', '10.0000', '100.0000', '1.0000', 'sell', '1526627344', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25516', 'T1526628576', '10363', '52', '0', '11.0000', '1.0000', '11.0000', '0.1100', 'buy', '1526628576', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25517', 'T1526628576', '10363', '52', '0', '11.0000', '1.0000', '11.0000', '0.1100', 'sell', '1526628576', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25518', 'T1526628576', '10363', '52', '0', '12.0000', '1.0000', '12.0000', '0.1200', 'buy', '1526628576', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25519', 'T1526628576', '10363', '52', '0', '12.0000', '1.0000', '12.0000', '0.1200', 'sell', '1526628576', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25520', 'T1526628576', '10363', '52', '0', '100.0000', '8.0000', '800.0000', '8.0000', 'buy', '1526628576', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25521', 'T1526628576', '1', '52', '0', '100.0000', '8.0000', '800.0000', '8.0000', 'sell', '1526628576', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25522', 'T1526628885', '10363', '52', '0', '100.0000', '2.0000', '200.0000', '2.0000', 'buy', '1526628885', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25523', 'T1526628885', '1', '52', '0', '100.0000', '2.0000', '200.0000', '2.0000', 'sell', '1526628885', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25524', 'T1526629214', '10363', '52', '0', '100.0000', '2.0000', '200.0000', '2.0000', 'buy', '1526629214', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25525', 'T1526629214', '1', '52', '0', '100.0000', '2.0000', '200.0000', '2.0000', 'sell', '1526629214', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25526', 'T1526629397', '10363', '52', '0', '100.0000', '2.0000', '200.0000', '2.0000', 'sell', '1526629397', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25527', 'T1526629397', '1', '52', '0', '100.0000', '2.0000', '200.0000', '2.0000', 'buy', '1526629397', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25528', 'T1526637206', '1', '52', '0', '100.0000', '2.0000', '200.0000', '2.0000', 'buy', '1526637206', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25529', 'T1526637206', '10363', '52', '0', '100.0000', '2.0000', '200.0000', '2.0000', 'sell', '1526637206', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25530', 'T1526637245', '10363', '52', '0', '100.0000', '1.0000', '100.0000', '1.0000', 'sell', '1526637245', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25531', 'T1526637245', '1', '52', '0', '100.0000', '1.0000', '100.0000', '1.0000', 'buy', '1526637245', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25532', 'T1526637596', '10363', '52', '0', '100.0000', '1.0000', '100.0000', '1.0000', 'buy', '1526637596', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25533', 'T1526637596', '1', '52', '0', '100.0000', '1.0000', '100.0000', '1.0000', 'sell', '1526637596', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25534', 'T1526638721', '10363', '52', '0', '100.0000', '1.0000', '100.0000', '1.0000', 'buy', '1526638721', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25535', 'T1526638721', '1', '52', '0', '100.0000', '1.0000', '100.0000', '1.0000', 'sell', '1526638721', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25536', 'T1526639081', '10363', '52', '0', '100.0000', '1.0000', '100.0000', '1.0000', 'buy', '1526639081', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25537', 'T1526639081', '1', '52', '0', '100.0000', '1.0000', '100.0000', '1.0000', 'sell', '1526639081', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25538', 'T1526639971', '10363', '52', '0', '100.0000', '1.0000', '100.0000', '1.0000', 'buy', '1526639971', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25539', 'T1526639971', '1', '52', '0', '100.0000', '1.0000', '100.0000', '1.0000', 'sell', '1526639971', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25540', 'T1526640302', '10363', '52', '0', '100.0000', '1.0000', '100.0000', '1.0000', 'buy', '1526640302', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25541', 'T1526640302', '1', '52', '0', '100.0000', '1.0000', '100.0000', '1.0000', 'sell', '1526640302', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25542', 'T1526640501', '10363', '52', '0', '100.0000', '1.0000', '100.0000', '1.0000', 'sell', '1526640501', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25543', 'T1526640501', '1', '52', '0', '100.0000', '1.0000', '100.0000', '1.0000', 'buy', '1526640501', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25544', 'T1526693490', '10363', '52', '0', '100.0000', '1.0000', '100.0000', '10.0000', 'sell', '1526693490', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25545', 'T1526693490', '1', '52', '0', '100.0000', '1.0000', '100.0000', '10.0000', 'buy', '1526693490', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25546', 'T1526694650', '10363', '52', '0', '100.0000', '1.0000', '100.0000', '10.0000', 'sell', '1526694650', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25547', 'T1526694650', '1', '52', '0', '100.0000', '1.0000', '100.0000', '10.0000', 'buy', '1526694650', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25548', 'T1526695066', '10363', '52', '0', '100.0000', '1.0000', '100.0000', '1.0000', 'buy', '1526695066', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25549', 'T1526695066', '10363', '52', '0', '100.0000', '1.0000', '100.0000', '1.0000', 'sell', '1526695066', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25550', 'T1526695191', '10363', '52', '0', '100.0000', '1.0000', '100.0000', '1.0000', 'buy', '1526695191', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25551', 'T1526695191', '1', '52', '0', '100.0000', '1.0000', '100.0000', '1.0000', 'sell', '1526695191', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25552', 'T1526695572', '10363', '52', '0', '100.0000', '1.0000', '100.0000', '10.0000', 'sell', '1526695572', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25553', 'T1526695572', '1', '52', '0', '100.0000', '1.0000', '100.0000', '10.0000', 'buy', '1526695572', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25554', 'T1527063688', '1', '52', '0', '11.0000', '1.0000', '11.0000', '0.0220', 'sell', '1527063688', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25555', 'T1527063688', '1', '52', '0', '11.0000', '1.0000', '11.0000', '0.0220', 'buy', '1527063688', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25556', 'T1527066858', '1', '52', '0', '18.0000', '1.0000', '18.0000', '0.0360', 'sell', '1527066858', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25557', 'T1527066858', '1', '52', '0', '18.0000', '1.0000', '18.0000', '0.0360', 'buy', '1527066858', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25558', 'T1527067985', '1', '52', '0', '19.0000', '0.0001', '0.0019', '0.0001', 'buy', '1527067985', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25559', 'T1527067985', '1', '52', '0', '19.0000', '0.0001', '0.0019', '0.0001', 'sell', '1527067985', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25560', 'T1527069521', '1', '52', '0', '18.9998', '1.0000', '18.9998', '0.0380', 'buy', '1527069521', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25561', 'T1527069521', '1', '52', '0', '18.9998', '1.0000', '18.9998', '0.0380', 'sell', '1527069521', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25562', 'T1527071287', '1', '52', '0', '18.9998', '0.0023', '0.0437', '0.0001', 'buy', '1527071287', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25563', 'T1527071287', '1', '52', '0', '18.9998', '0.0023', '0.0437', '0.0001', 'sell', '1527071287', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25564', 'T1527071287', '1', '52', '0', '18.9999', '0.0977', '1.8563', '0.0037', 'buy', '1527071287', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25565', 'T1527071287', '1', '52', '0', '18.9999', '0.0977', '1.8563', '0.0037', 'sell', '1527071287', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25566', 'T1527077370', '10363', '52', '0', '18.9999', '0.9023', '17.1436', '0.0343', 'buy', '1527077370', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25567', 'T1527077370', '1', '52', '0', '18.9999', '0.9023', '17.1436', '0.0343', 'sell', '1527077370', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25568', 'T1527077370', '10363', '52', '0', '19.0000', '0.0977', '1.8563', '0.0037', 'buy', '1527077370', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25569', 'T1527077370', '1', '52', '0', '19.0000', '0.0977', '1.8563', '0.0037', 'sell', '1527077370', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25570', 'T1527077390', '10363', '52', '0', '19.0000', '0.9022', '17.1418', '0.0343', 'buy', '1527077390', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25571', 'T1527077390', '1', '52', '0', '19.0000', '0.9022', '17.1418', '0.0343', 'sell', '1527077390', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25572', 'T1527077390', '10363', '52', '0', '20.0000', '0.0978', '1.9560', '0.0039', 'buy', '1527077390', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25573', 'T1527077390', '1', '52', '0', '20.0000', '0.0978', '1.9560', '0.0039', 'sell', '1527077390', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25574', 'T1527164807', '10360', '52', '0', '20.0000', '0.9022', '18.0440', '0.3609', 'buy', '1527164807', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25575', 'T1527164807', '1', '52', '0', '20.0000', '0.9022', '18.0440', '0.3609', 'sell', '1527164807', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25576', 'T1527164807', '10360', '52', '0', '20.0000', '999.0978', '19981.9560', '399.6391', 'buy', '1527164807', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25577', 'T1527164807', '10360', '52', '0', '20.0000', '999.0978', '19981.9560', '399.6391', 'sell', '1527164807', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25578', 'T1528110482', '10367', '52', '0', '19.1000', '1.0000', '19.1000', '0.3820', 'sell', '1528110482', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25579', 'T1528110483', '10367', '52', '0', '19.1000', '1.0000', '19.1000', '0.3820', 'buy', '1528110483', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25580', 'T1528110494', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'sell', '1528110494', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25581', 'T1528110494', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'buy', '1528110494', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25582', 'T1528110510', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'sell', '1528110510', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25583', 'T1528110510', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'buy', '1528110510', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25584', 'T1528110511', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'sell', '1528110511', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25585', 'T1528110511', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'buy', '1528110511', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25586', 'T1528110513', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'sell', '1528110513', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25587', 'T1528110513', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'buy', '1528110513', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25588', 'T1528110513', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'sell', '1528110513', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25589', 'T1528110513', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'buy', '1528110513', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25590', 'T1528110515', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'sell', '1528110515', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25591', 'T1528110515', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'buy', '1528110515', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25592', 'T1528110515', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'sell', '1528110515', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25593', 'T1528110515', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'buy', '1528110515', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25594', 'T1528110516', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'sell', '1528110516', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25595', 'T1528110517', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'buy', '1528110517', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25596', 'T1528110520', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'sell', '1528110520', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25597', 'T1528110520', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'buy', '1528110520', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25598', 'T1528110520', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'sell', '1528110520', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25599', 'T1528110520', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'buy', '1528110520', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25600', 'T1528110520', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'sell', '1528110520', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25601', 'T1528110520', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'buy', '1528110520', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25602', 'T1528110521', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'sell', '1528110521', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25603', 'T1528110521', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'buy', '1528110521', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25604', 'T1528110521', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'sell', '1528110521', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25605', 'T1528110521', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'buy', '1528110521', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25606', 'T1528110526', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'sell', '1528110526', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25607', 'T1528110526', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'buy', '1528110526', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25608', 'T1528110527', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'sell', '1528110527', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25609', 'T1528110527', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'buy', '1528110527', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25610', 'T1528110602', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'sell', '1528110602', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25611', 'T1528110602', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'buy', '1528110602', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25612', 'T1528110603', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'sell', '1528110603', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25613', 'T1528110603', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'buy', '1528110603', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25614', 'T1528110604', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'sell', '1528110604', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25615', 'T1528110604', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'buy', '1528110604', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25616', 'T1528110607', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'sell', '1528110607', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25617', 'T1528110607', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'buy', '1528110607', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25618', 'T1528110607', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'sell', '1528110607', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25619', 'T1528110607', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'buy', '1528110607', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25620', 'T1528110608', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'sell', '1528110608', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25621', 'T1528110608', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'buy', '1528110608', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25622', 'T1528110610', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'sell', '1528110610', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25623', 'T1528110610', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'buy', '1528110610', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25624', 'T1528110611', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'sell', '1528110611', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25625', 'T1528110611', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'buy', '1528110611', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25626', 'T1528110612', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'sell', '1528110612', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25627', 'T1528110612', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'buy', '1528110612', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25628', 'T1528110615', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'sell', '1528110615', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25629', 'T1528110615', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'buy', '1528110615', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25630', 'T1528110616', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'sell', '1528110616', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25631', 'T1528110616', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'buy', '1528110616', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25632', 'T1528110616', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'sell', '1528110616', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25633', 'T1528110616', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'buy', '1528110616', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25634', 'T1528110622', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'sell', '1528110622', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25635', 'T1528110622', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'buy', '1528110622', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25636', 'T1528110622', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'sell', '1528110622', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25637', 'T1528110622', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'buy', '1528110622', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25638', 'T1528110623', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'sell', '1528110623', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25639', 'T1528110623', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'buy', '1528110623', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25640', 'T1528110625', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'sell', '1528110625', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25641', 'T1528110625', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'buy', '1528110625', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25642', 'T1528110625', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'sell', '1528110625', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25643', 'T1528110625', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'buy', '1528110625', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25644', 'T1528110625', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'sell', '1528110625', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25645', 'T1528110625', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'buy', '1528110625', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25646', 'T1528110625', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'sell', '1528110625', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25647', 'T1528110625', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'buy', '1528110625', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25648', 'T1528110629', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'sell', '1528110629', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25649', 'T1528110629', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'buy', '1528110629', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25650', 'T1528110629', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'sell', '1528110629', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25651', 'T1528110629', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'buy', '1528110629', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25652', 'T1528110635', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'sell', '1528110635', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25653', 'T1528110635', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'buy', '1528110635', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25654', 'T1528110636', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'sell', '1528110636', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25655', 'T1528110636', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'buy', '1528110636', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25656', 'T1528110637', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'sell', '1528110637', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25657', 'T1528110637', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'buy', '1528110637', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25658', 'T1528110637', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'sell', '1528110637', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25659', 'T1528110637', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'buy', '1528110637', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25660', 'T1528110637', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'sell', '1528110637', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25661', 'T1528110637', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'buy', '1528110637', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25662', 'T1528110637', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'sell', '1528110637', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25663', 'T1528110637', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'buy', '1528110637', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25664', 'T1528110639', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'sell', '1528110639', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25665', 'T1528110639', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'buy', '1528110639', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25666', 'T1528110640', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'sell', '1528110640', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25667', 'T1528110640', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'buy', '1528110640', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25668', 'T1528110640', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'sell', '1528110640', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25669', 'T1528110640', '10367', '52', '0', '19.1000', '100.0000', '1910.0000', '38.2000', 'buy', '1528110640', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25670', 'T1528110640', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'sell', '1528110640', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25671', 'T1528110640', '1', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'buy', '1528110640', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25672', 'T1528110640', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'buy', '1528110640', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25673', 'T1528110640', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'sell', '1528110640', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25674', 'T1528110640', '10367', '52', '0', '19.1000', '12.0000', '229.2000', '4.5840', 'sell', '1528110640', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25675', 'T1528110640', '10367', '52', '0', '19.1000', '12.0000', '229.2000', '4.5840', 'buy', '1528110640', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25676', 'T1528110647', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'buy', '1528110647', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25677', 'T1528110647', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'sell', '1528110647', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25678', 'T1528110647', '10367', '52', '0', '19.1000', '12.0000', '229.2000', '4.5840', 'sell', '1528110647', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25679', 'T1528110647', '10367', '52', '0', '19.1000', '12.0000', '229.2000', '4.5840', 'buy', '1528110647', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25680', 'T1528110647', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'buy', '1528110647', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25681', 'T1528110647', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'sell', '1528110647', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25682', 'T1528110647', '10367', '52', '0', '19.1000', '12.0000', '229.2000', '4.5840', 'sell', '1528110647', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25683', 'T1528110647', '10367', '52', '0', '19.1000', '12.0000', '229.2000', '4.5840', 'buy', '1528110647', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25684', 'T1528110648', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'buy', '1528110648', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25685', 'T1528110648', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'sell', '1528110648', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25686', 'T1528110648', '10367', '52', '0', '19.1000', '12.0000', '229.2000', '4.5840', 'sell', '1528110648', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25687', 'T1528110648', '10367', '52', '0', '19.1000', '12.0000', '229.2000', '4.5840', 'buy', '1528110648', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25688', 'T1528110648', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'buy', '1528110648', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25689', 'T1528110648', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'sell', '1528110648', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25690', 'T1528110649', '10367', '52', '0', '19.1000', '12.0000', '229.2000', '4.5840', 'sell', '1528110649', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25691', 'T1528110649', '10367', '52', '0', '19.1000', '12.0000', '229.2000', '4.5840', 'buy', '1528110649', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25692', 'T1528110649', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'buy', '1528110649', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25693', 'T1528110649', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'sell', '1528110649', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25694', 'T1528110649', '10367', '52', '0', '19.1000', '12.0000', '229.2000', '4.5840', 'sell', '1528110649', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25695', 'T1528110649', '10367', '52', '0', '19.1000', '12.0000', '229.2000', '4.5840', 'buy', '1528110649', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25696', 'T1528110649', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'buy', '1528110649', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25697', 'T1528110649', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'sell', '1528110649', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25698', 'T1528110650', '10367', '52', '0', '19.1000', '12.0000', '229.2000', '4.5840', 'sell', '1528110650', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25699', 'T1528110650', '10367', '52', '0', '19.1000', '12.0000', '229.2000', '4.5840', 'buy', '1528110650', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25700', 'T1528110650', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'buy', '1528110650', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25701', 'T1528110650', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'sell', '1528110650', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25702', 'T1528110650', '10367', '52', '0', '19.1000', '12.0000', '229.2000', '4.5840', 'sell', '1528110650', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25703', 'T1528110650', '10367', '52', '0', '19.1000', '12.0000', '229.2000', '4.5840', 'buy', '1528110650', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25704', 'T1528110650', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'buy', '1528110650', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25705', 'T1528110650', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'sell', '1528110650', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25706', 'T1528110651', '10367', '52', '0', '19.1000', '12.0000', '229.2000', '4.5840', 'sell', '1528110651', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25707', 'T1528110651', '10367', '52', '0', '19.1000', '12.0000', '229.2000', '4.5840', 'buy', '1528110651', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25708', 'T1528110651', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'buy', '1528110651', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25709', 'T1528110651', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'sell', '1528110651', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25710', 'T1528110652', '10367', '52', '0', '19.1000', '12.0000', '229.2000', '4.5840', 'sell', '1528110652', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25711', 'T1528110652', '10367', '52', '0', '19.1000', '12.0000', '229.2000', '4.5840', 'buy', '1528110652', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25712', 'T1528110661', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'buy', '1528110661', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25713', 'T1528110661', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'sell', '1528110661', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25714', 'T1528110661', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'buy', '1528110661', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25715', 'T1528110661', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'sell', '1528110661', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25716', 'T1528110661', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'buy', '1528110661', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25717', 'T1528110661', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'sell', '1528110661', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25718', 'T1528110661', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'buy', '1528110661', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25719', 'T1528110661', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'sell', '1528110661', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25720', 'T1528110661', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'buy', '1528110661', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25721', 'T1528110661', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'sell', '1528110661', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25722', 'T1528110661', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'buy', '1528110661', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25723', 'T1528110661', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'sell', '1528110661', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25724', 'T1528110661', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'buy', '1528110661', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25725', 'T1528110661', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'sell', '1528110661', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25726', 'T1528110661', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'buy', '1528110661', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25727', 'T1528110661', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'sell', '1528110661', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25728', 'T1528110662', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'buy', '1528110662', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25729', 'T1528110662', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'sell', '1528110662', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25730', 'T1528110662', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'buy', '1528110662', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25731', 'T1528110662', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'sell', '1528110662', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25732', 'T1528110662', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'buy', '1528110662', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25733', 'T1528110662', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'sell', '1528110662', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25734', 'T1528110662', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'buy', '1528110662', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25735', 'T1528110662', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'sell', '1528110662', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25736', 'T1528110662', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'buy', '1528110662', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25737', 'T1528110662', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'sell', '1528110662', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25738', 'T1528110662', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'buy', '1528110662', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25739', 'T1528110662', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'sell', '1528110662', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25740', 'T1528110662', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'buy', '1528110662', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25741', 'T1528110662', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'sell', '1528110662', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25742', 'T1528110662', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'buy', '1528110662', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25743', 'T1528110662', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'sell', '1528110662', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25744', 'T1528110663', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'buy', '1528110663', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25745', 'T1528110663', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'sell', '1528110663', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25746', 'T1528110663', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'buy', '1528110663', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25747', 'T1528110663', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'sell', '1528110663', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25748', 'T1528110663', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'buy', '1528110663', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25749', 'T1528110663', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'sell', '1528110663', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25750', 'T1528110663', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'buy', '1528110663', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25751', 'T1528110663', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'sell', '1528110663', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25752', 'T1528110663', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'buy', '1528110663', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25753', 'T1528110663', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'sell', '1528110663', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25754', 'T1528110663', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'buy', '1528110663', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25755', 'T1528110663', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'sell', '1528110663', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25756', 'T1528110663', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'buy', '1528110663', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25757', 'T1528110663', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'sell', '1528110663', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25758', 'T1528110663', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'buy', '1528110663', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25759', 'T1528110663', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'sell', '1528110663', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25760', 'T1528110664', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'buy', '1528110664', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25761', 'T1528110664', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'sell', '1528110664', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25762', 'T1528110664', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'buy', '1528110664', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25763', 'T1528110664', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'sell', '1528110664', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25764', 'T1528110664', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'buy', '1528110664', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25765', 'T1528110664', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'sell', '1528110664', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25766', 'T1528110664', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'buy', '1528110664', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25767', 'T1528110664', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'sell', '1528110664', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25768', 'T1528110664', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'buy', '1528110664', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25769', 'T1528110664', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'sell', '1528110664', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25770', 'T1528110664', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'buy', '1528110664', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25771', 'T1528110664', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'sell', '1528110664', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25772', 'T1528110664', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'buy', '1528110664', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25773', 'T1528110664', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'sell', '1528110664', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25774', 'T1528110664', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'buy', '1528110664', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25775', 'T1528110664', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'sell', '1528110664', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25776', 'T1528110681', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'buy', '1528110681', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25777', 'T1528110681', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'sell', '1528110681', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25778', 'T1528110681', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'buy', '1528110681', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25779', 'T1528110681', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'sell', '1528110681', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25780', 'T1528110681', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'buy', '1528110681', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25781', 'T1528110681', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'sell', '1528110681', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25782', 'T1528110681', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'buy', '1528110681', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25783', 'T1528110681', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'sell', '1528110681', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25784', 'T1528110682', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'buy', '1528110682', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25785', 'T1528110682', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'sell', '1528110682', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25786', 'T1528110682', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'buy', '1528110682', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25787', 'T1528110682', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'sell', '1528110682', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25788', 'T1528110682', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'buy', '1528110682', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25789', 'T1528110682', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'sell', '1528110682', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25790', 'T1528110682', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'buy', '1528110682', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25791', 'T1528110682', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'sell', '1528110682', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25792', 'T1528110682', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'buy', '1528110682', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25793', 'T1528110682', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'sell', '1528110682', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25794', 'T1528110682', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'buy', '1528110682', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25795', 'T1528110682', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'sell', '1528110682', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25796', 'T1528110683', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'buy', '1528110683', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25797', 'T1528110683', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'sell', '1528110683', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25798', 'T1528110683', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'buy', '1528110683', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25799', 'T1528110683', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'sell', '1528110683', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25800', 'T1528110683', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'buy', '1528110683', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25801', 'T1528110683', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'sell', '1528110683', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25802', 'T1528110683', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'buy', '1528110683', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25803', 'T1528110683', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'sell', '1528110683', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25804', 'T1528110683', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'buy', '1528110683', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25805', 'T1528110683', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'sell', '1528110683', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25806', 'T1528110683', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'buy', '1528110683', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25807', 'T1528110683', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'sell', '1528110683', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25808', 'T1528110684', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'buy', '1528110684', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25809', 'T1528110684', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'sell', '1528110684', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25810', 'T1528110684', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'buy', '1528110684', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25811', 'T1528110684', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'sell', '1528110684', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25812', 'T1528110684', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'buy', '1528110684', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25813', 'T1528110684', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'sell', '1528110684', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25814', 'T1528110684', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'buy', '1528110684', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25815', 'T1528110684', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'sell', '1528110684', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25816', 'T1528110684', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'buy', '1528110684', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25817', 'T1528110684', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'sell', '1528110684', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25818', 'T1528110684', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'buy', '1528110684', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25819', 'T1528110684', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'sell', '1528110684', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25820', 'T1528110684', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'buy', '1528110684', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25821', 'T1528110684', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'sell', '1528110684', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25822', 'T1528110684', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'buy', '1528110684', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25823', 'T1528110684', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'sell', '1528110684', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25824', 'T1528110685', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'buy', '1528110685', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25825', 'T1528110685', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'sell', '1528110685', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25826', 'T1528110685', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'buy', '1528110685', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25827', 'T1528110685', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'sell', '1528110685', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25828', 'T1528110685', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'buy', '1528110685', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25829', 'T1528110685', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'sell', '1528110685', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25830', 'T1528110685', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'buy', '1528110685', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25831', 'T1528110685', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'sell', '1528110685', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25832', 'T1528110685', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'buy', '1528110685', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25833', 'T1528110685', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'sell', '1528110685', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25834', 'T1528110685', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'buy', '1528110685', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25835', 'T1528110685', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'sell', '1528110685', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25836', 'T1528110685', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'buy', '1528110685', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25837', 'T1528110685', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'sell', '1528110685', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25838', 'T1528110685', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'buy', '1528110685', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25839', 'T1528110685', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'sell', '1528110685', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25840', 'T1528110685', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'buy', '1528110685', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25841', 'T1528110685', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'sell', '1528110685', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25842', 'T1528110685', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'buy', '1528110685', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25843', 'T1528110685', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'sell', '1528110685', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25844', 'T1528110688', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'buy', '1528110688', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25845', 'T1528110688', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'sell', '1528110688', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25846', 'T1528110689', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'buy', '1528110689', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25847', 'T1528110689', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'sell', '1528110689', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25848', 'T1528110689', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'buy', '1528110689', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25849', 'T1528110689', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'sell', '1528110689', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25850', 'T1528110689', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'buy', '1528110689', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25851', 'T1528110689', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'sell', '1528110689', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25852', 'T1528110689', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'buy', '1528110689', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25853', 'T1528110689', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'sell', '1528110689', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25854', 'T1528110689', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'buy', '1528110689', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25855', 'T1528110689', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'sell', '1528110689', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25856', 'T1528110689', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'buy', '1528110689', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25857', 'T1528110689', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'sell', '1528110689', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25858', 'T1528110689', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'buy', '1528110689', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25859', 'T1528110689', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'sell', '1528110689', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25860', 'T1528110689', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'buy', '1528110689', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25861', 'T1528110689', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'sell', '1528110689', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25862', 'T1528110689', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'buy', '1528110689', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25863', 'T1528110689', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'sell', '1528110689', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25864', 'T1528110690', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'buy', '1528110690', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25865', 'T1528110690', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'sell', '1528110690', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25866', 'T1528110690', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'buy', '1528110690', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25867', 'T1528110690', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'sell', '1528110690', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25868', 'T1528110690', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'buy', '1528110690', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25869', 'T1528110690', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'sell', '1528110690', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25870', 'T1528110690', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'buy', '1528110690', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25871', 'T1528110690', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'sell', '1528110690', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25872', 'T1528110690', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'buy', '1528110690', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25873', 'T1528110690', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'sell', '1528110690', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25874', 'T1528110690', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'buy', '1528110690', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25875', 'T1528110690', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'sell', '1528110690', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25876', 'T1528110691', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'buy', '1528110691', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25877', 'T1528110691', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'sell', '1528110691', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25878', 'T1528110691', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'buy', '1528110691', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25879', 'T1528110691', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'sell', '1528110691', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25880', 'T1528110691', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'buy', '1528110691', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25881', 'T1528110691', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'sell', '1528110691', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25882', 'T1528110691', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'buy', '1528110691', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25883', 'T1528110691', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'sell', '1528110691', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25884', 'T1528110692', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'buy', '1528110692', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25885', 'T1528110692', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'sell', '1528110692', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25886', 'T1528110692', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'buy', '1528110692', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25887', 'T1528110692', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'sell', '1528110692', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25888', 'T1528110692', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'buy', '1528110692', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25889', 'T1528110692', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'sell', '1528110692', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25890', 'T1528110692', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'buy', '1528110692', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25891', 'T1528110692', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'sell', '1528110692', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25892', 'T1528110692', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'buy', '1528110692', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25893', 'T1528110692', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'sell', '1528110692', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25894', 'T1528110692', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'buy', '1528110692', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25895', 'T1528110692', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'sell', '1528110692', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25896', 'T1528110693', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'buy', '1528110693', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25897', 'T1528110693', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'sell', '1528110693', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25898', 'T1528110693', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'buy', '1528110693', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25899', 'T1528110693', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'sell', '1528110693', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25900', 'T1528110693', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'buy', '1528110693', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25901', 'T1528110693', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'sell', '1528110693', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25902', 'T1528110693', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'buy', '1528110693', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25903', 'T1528110693', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'sell', '1528110693', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25904', 'T1528110723', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'buy', '1528110723', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25905', 'T1528110723', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'sell', '1528110723', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25906', 'T1528110723', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'buy', '1528110723', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25907', 'T1528110723', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'sell', '1528110723', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25908', 'T1528110723', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'buy', '1528110723', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25909', 'T1528110723', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'sell', '1528110723', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25910', 'T1528110723', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'buy', '1528110723', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25911', 'T1528110723', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'sell', '1528110723', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25912', 'T1528110724', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'buy', '1528110724', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25913', 'T1528110724', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'sell', '1528110724', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25914', 'T1528110724', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'buy', '1528110724', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25915', 'T1528110724', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'sell', '1528110724', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25916', 'T1528110724', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'buy', '1528110724', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25917', 'T1528110724', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'sell', '1528110724', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25918', 'T1528110724', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'buy', '1528110724', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25919', 'T1528110724', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'sell', '1528110724', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25920', 'T1528110724', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'buy', '1528110724', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25921', 'T1528110724', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'sell', '1528110724', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25922', 'T1528110724', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'buy', '1528110724', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25923', 'T1528110724', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'sell', '1528110724', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25924', 'T1528110725', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'buy', '1528110725', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25925', 'T1528110725', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'sell', '1528110725', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25926', 'T1528110725', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'buy', '1528110725', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25927', 'T1528110725', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'sell', '1528110725', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25928', 'T1528110726', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'buy', '1528110726', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25929', 'T1528110726', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'sell', '1528110726', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25930', 'T1528110726', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'buy', '1528110726', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25931', 'T1528110726', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'sell', '1528110726', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25932', 'T1528110726', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'buy', '1528110726', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25933', 'T1528110726', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'sell', '1528110726', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25934', 'T1528110726', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'buy', '1528110726', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25935', 'T1528110726', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'sell', '1528110726', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25936', 'T1528110726', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'buy', '1528110726', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25937', 'T1528110726', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'sell', '1528110726', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25938', 'T1528110726', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'buy', '1528110726', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25939', 'T1528110726', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'sell', '1528110726', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25940', 'T1528110726', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'buy', '1528110726', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25941', 'T1528110726', '10367', '52', '0', '19.0000', '88.0000', '1672.0000', '33.4400', 'sell', '1528110726', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25942', 'T1528110727', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'buy', '1528110727', '0');
+INSERT INTO `blue_trade_currency` VALUES ('25943', 'T1528110727', '10367', '52', '0', '19.0000', '12.0000', '228.0000', '4.5600', 'sell', '1528110727', '0');
 
 -- ----------------------------
 -- Table structure for `blue_vip_level_config`
@@ -4383,23 +6549,27 @@ CREATE TABLE `blue_vip_level_config` (
   `bonus_voucher_num` int(11) DEFAULT '1' COMMENT '分红凭证数量',
   `sub_reward_num` decimal(20,0) DEFAULT NULL COMMENT '推广下线奖励币种数量',
   `sub_reward_cur_id` int(11) DEFAULT NULL COMMENT '推广下线奖励币种id',
-  `sub_buy_vip_rebate` decimal(20,2) DEFAULT NULL COMMENT '下线购买vip返利',
+  `sub_receive_bonus_rebate` decimal(20,2) DEFAULT NULL COMMENT '下线领取分红返利百分比',
   `sub_luckdraw_num` decimal(20,2) DEFAULT NULL COMMENT '下线抽奖奖励数量',
   `sub_luckdraw_cur_id` int(11) DEFAULT NULL COMMENT '下线抽奖奖励币种id',
   `close_vip_reward_num` decimal(20,2) DEFAULT NULL COMMENT '''关闭vip返回币种数量',
   `close_vip_reward_cur_id` int(11) DEFAULT NULL COMMENT '关闭vip返回币种id',
   `op_time` int(11) DEFAULT NULL,
-  `watch_num` int(11) DEFAULT '1' COMMENT '观看广告数',
-  `sale_cur_id` int(11) DEFAULT NULL COMMENT '出售币种',
+  `sale_cur_id` int(11) DEFAULT '0' COMMENT '出售币种',
   `sale_cur_num` decimal(20,0) DEFAULT NULL COMMENT '出售币数量',
+  `receive_hongbao_num` int(11) DEFAULT '1' COMMENT '领取红包个数',
+  `cert_cur_id` int(11) DEFAULT NULL COMMENT '实名一级奖励币种id',
+  `cert_cur_num` decimal(20,2) DEFAULT NULL COMMENT '实名奖励币种数量',
+  `ltc_service_charge_rate` decimal(20,0) DEFAULT '0' COMMENT '提币手续费',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of blue_vip_level_config
 -- ----------------------------
-INSERT INTO `blue_vip_level_config` VALUES ('1', '1', '3', '100', '3', '0.01', '0.10', '3', '1.00', '2', '1574133802', null, null, null);
-INSERT INTO `blue_vip_level_config` VALUES ('2', '2', '5', '105', '3', '0.02', '0.20', '3', '0.20', '2', '1574133842', null, null, null);
+INSERT INTO `blue_vip_level_config` VALUES ('1', '1', '3', '100', '3', '0.01', '0.10', '3', '1.00', '2', '1575116703', '2', '1', '1', '3', '1.00', '0');
+INSERT INTO `blue_vip_level_config` VALUES ('2', '2', '5', '105', '3', '0.02', '0.20', '3', '0.20', '2', '1575116713', '2', '2', '2', '3', '2.00', '0');
+INSERT INTO `blue_vip_level_config` VALUES ('3', '3', '100', '80', '3', '0.12', '1.00', '3', '500.00', '3', '1575117474', '3', '800', '5', '3', '3.00', '0');
 
 -- ----------------------------
 -- Table structure for `blue_vip_record`
@@ -4415,11 +6585,30 @@ CREATE TABLE `blue_vip_record` (
   `stype` tinyint(4) DEFAULT '1' COMMENT '1：购买 2：关闭',
   `add_time` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of blue_vip_record
 -- ----------------------------
+INSERT INTO `blue_vip_record` VALUES ('1', '10', '2.00', '2', '2', '2', '1', '1574321499');
+INSERT INTO `blue_vip_record` VALUES ('2', '10', '0.20', '1', '2', '1', '2', '1574332054');
+INSERT INTO `blue_vip_record` VALUES ('3', '10', '2.00', '2', '2', '2', '1', '1574332069');
+INSERT INTO `blue_vip_record` VALUES ('4', '10', '0.20', '1', '2', '1', '2', '1574332799');
+INSERT INTO `blue_vip_record` VALUES ('5', '15', '2.00', '2', '2', '2', '1', '1574531128');
+INSERT INTO `blue_vip_record` VALUES ('6', '15', '800.00', '2', '3', '3', '1', '1574531159');
+INSERT INTO `blue_vip_record` VALUES ('7', '15', '2.00', '2', '2', '2', '1', '1574531169');
+INSERT INTO `blue_vip_record` VALUES ('8', '15', '0.20', '1', '2', '1', '2', '1574531882');
+INSERT INTO `blue_vip_record` VALUES ('9', '15', '800.00', '2', '3', '3', '1', '1574533148');
+INSERT INTO `blue_vip_record` VALUES ('10', '15', '500.00', '1', '3', '1', '2', '1574585988');
+INSERT INTO `blue_vip_record` VALUES ('11', '15', '2.00', '2', '2', '2', '1', '1574586250');
+INSERT INTO `blue_vip_record` VALUES ('12', '15', '0.20', '1', '2', '1', '2', '1574770823');
+INSERT INTO `blue_vip_record` VALUES ('13', '15', '800.00', '2', '3', '3', '1', '1574770831');
+INSERT INTO `blue_vip_record` VALUES ('14', '15', '500.00', '1', '3', '1', '2', '1574770846');
+INSERT INTO `blue_vip_record` VALUES ('15', '15', '800.00', '2', '3', '3', '1', '1574770856');
+INSERT INTO `blue_vip_record` VALUES ('16', '10', '2.00', '2', '2', '2', '1', '1574787876');
+INSERT INTO `blue_vip_record` VALUES ('17', '10', '0.20', '1', '2', '1', '2', '1574787906');
+INSERT INTO `blue_vip_record` VALUES ('18', '16', '800.00', '2', '3', '3', '1', '1574838136');
+INSERT INTO `blue_vip_record` VALUES ('19', '16', '500.00', '1', '3', '1', '2', '1574844510');
 
 -- ----------------------------
 -- Table structure for `blue_withdraw_record`

@@ -1,23 +1,24 @@
 <include file="Public:header"/>
 <link type="text/css" rel="stylesheet" href="__CSS__/project/task.css" />
 	<body>
-	<header>
-		<div class="header_bt">
-			<div class="header_f"><a href="javascript:history.back()" class="header_fh"></a></div>
-			<div class="header_c">任务</div>
-		</div>
-		<div style="height: .74rem;clear: both;"></div>
-	</header>
+	<!--<header>-->
+		<!--<div class="header_bt">-->
+			<!--<div class="header_f"><a href="javascript:history.back()" class="header_fh"></a></div>-->
+			<!--<div class="header_c"></div>-->
+		<!--</div>-->
+		<!--<div style="height: .74rem;clear: both;"></div>-->
+	<!--</header>-->
 	<div class="taskheader">
 		<div class="strategy">
 			<div class="flexbox spacebetween">
 				<p>
-					<span><i class="ltb"></i><em>{$mem_cur_num|default=0}</em></span>
-					<span><i class="jb"></i><em>{$mem_cur_num|default=0}</em></span>
+					<span><i class="ltb"></i><em class="jtb_n">{$mem_ltb_cur_num|default=0.00}</em></span>
+					<span><i class="jb"></i><em class="jb_n">{$mem_jb_cur_num|default=0}</em></span>
 				</p>
-				<p>连续签到，额外奖励</p>
+				<!--<p>连续签到，额外奖励</p>-->
 			</div>
 		</div>
+		<input type="hidden" name="task_luckdraw_use_num" value="{$task_conf.task_luckdraw_use_num}">
 		<div class="task_top_box">
 			<div class="task_top_con">
 				<ul class="flexbox spacebetween" id="taskTopList">
@@ -50,11 +51,10 @@
 					<p>7天</p>
 					</li>
 				</ul>
-				<p id="taskbutton" onclick="sign($(this))" data-daily_num="{$daily_record['daily_num']}"  class="taskbutton"><button>签到领金币</button></p>
 
-				<!--<if condition="$is_today_sign eq 0">-->
-					<!--<p id="taskbutton" onclick="sign($(this))" data-daily_num="{$daily_record['daily_num']}"  class="taskbutton"><button>签到领金币</button></p>-->
-				<!--</if>-->
+				<if condition="$is_today_sign eq 0">
+					<p id="taskbutton" onclick="sign($(this))" data-daily_num="{$daily_record['daily_num']}"  class="taskbutton"><button>签到领金币</button></p>
+				</if>
 			</div>
 		</div>
 	</div>
@@ -80,9 +80,10 @@
 				<img src="__IMG__/rise/huawei.png" alt="">
 				<p>华为30pro</p>
 			</li>
-			<li class="start_luck">
+			<li class="start_luck" is_click="0">
 				 <span>开 始 抽 奖</span>
-				 <p>0.01莱特币/次</p>
+				 <p>{$task_conf.task_luckdraw_use_num|default=0.01}{$task_conf.task_luckdraw_use_cur_name}/次</p>
+
 			</li>
 			<li>
 				<img src="__IMG__/rise/applem.png" alt="">
@@ -103,10 +104,18 @@
 		</ul>
 	</div>
 	<div class="tongzhi">
-		<i></i><span>180****4687抽中66金币</span>
+		<ul>
+			<volist name="rand_arr" id="vv">
+				<li><i></i><span>{$vv.rand_mem_phone|default='180****4687'}抽中{$vv.rand_num}金币</span></li>
+			</volist>
+		</ul>
 	</div>
 	<div class="task_b">
-		<img src="__IMG__/rise/gb.png" alt="">
+		<if condition="$task_conf['bottom_ad_img']">
+			<a href="{$task_conf['bottom_ad_url']}"><img src="{$task_conf['bottom_ad_img']}" alt=""></a>
+		<else />
+			<img src="__IMG__/rise/gb.png" alt="">
+		</if>
 	</div>
 	<div class="mask"  id="mask_close">
 		<div class="maskbox">
@@ -119,7 +128,7 @@
 			<div>恭喜抽中</div>
 			<div><span class="cur_num">88</span><span class="cur_name">金币</span></div>
 			<p>可在“金币明细”查看</p>
-			<button onclick="luckdraw($(this))">再抽一次</button>
+			<button class="start_luck">再抽一次</button>
 		</div>
 	</div>
 	<div style="height: .9rem;"></div>
@@ -156,33 +165,135 @@
 		});
 		function sign(obj){
 			var daily_num = obj.data('daily_num');
-			$.post("{:U('sign')}",{daily_num:daily_num},function(data){
-				if(data<0){
+            obj.find('button').attr('disabled',true);
+
+			$.post("{:U('Task/sign')}",{daily_num:daily_num},function(data){
+				if(data.status == 0){
+                    obj.find('button').attr('disabled',false);
 					layer.msg(data.info);
-					return;
+					return false;
 				}else{
-					location.reload();
-					layer.msg(data.info,{icon:1});
+//					layer.msg(data.info,{icon:1});
+					layer.msg(data.info);
 					setTimeout("location.reload()",2000);
 				}
 			});
 		}
-		function luckdraw(obj){
-			var type = obj.data('type');
-			$.post("{:U('luckdraw')}",{type:type},function(data){
+        var x = parseInt($(".tongzhi p").length);
+        var y = 0;
+
+
+        var timer = setInterval(function() {
+            var rand = parseInt(Math.random() * (x + 1) + y);
+            console.log(rand);
+			$(".tongzhi p").eq(rand).show().fadeIn(100);
+			$(".tongzhi p").eq(rand).siblings("p").hide();
+
+        },1500);
+
+		$(function () {
+            // 3. 监听按钮的点击
+            var timer = null;
+            var sub_data = null;
+            var showIndex = 0,
+                currentGunIndex = 0;
+//            $('.start_luck').on('click',function() {
+
+
+                // 3.1 清除定时器
+                clearInterval(timer);
+                // 3.2 控制滚动的圈数
+//                var count = Math.floor(Math.random() * 8) + 8;
+                var count = 20;
+                var  count_num = count;
+                console.log(count);
+                // 3.3 指定滚动的路径
+                var showIndexs = [0, 1, 2, 5, 8, 7, 6, 3];
+                // 3.4 根据路径进行滚动
+                var timer = setInterval(function() {
+                    // 3.5 判断
+					if(count == count_num){
+
+					}
+//                    if (count <= 3) {
+//                        // 清除定时器
+//                        clearInterval(timer);
+//
+//                        // 判断是否中奖
+//                        $('.task_item ul li').removeClass('current');
+//                        console.log(sub_data);
+//
+//                        return;
+//                    }
+                    // 3.6 条件处理
+                    count--;
+
+                    // 滚动循环 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, ...
+                    currentGunIndex = (currentGunIndex + 1) % showIndexs.length;
+
+                    // 根据滚动的下标 找到 当前盒子的下标
+                    showIndex = showIndexs[currentGunIndex];
+                    console.log(showIndex);
+                    // 3.7 让当前的盒子被选中
+                    $('.task_item ul li').eq(showIndex).addClass('current').siblings().removeClass('current');
+
+                    // 3.8 控制启动按钮的旋转
+//                $('#begin').css({
+//                    transform: 'rotate(' + (currentGunIndex - 1) * 45 + 'deg)'
+//                })
+                }, 150);
+            });
+//        });
+        $('.start_luck').on('click',function() {
+            var obj = $(this);
+            var is_click = obj.attr('is_click');
+            console.log(is_click);
+            obj.attr('is_click',"1");
+            if(is_click == "1"){
+                return false;
+            }
+            $("#mask_close").hide();
+			$.post("{:U('Task/luckdraw')}",{},function(data){
 				console.log(data);
-				if(data.status == 1){
-					var arr = data.data;
-					$(".maskbox").find('.cur_num').text(arr.cur_num);
-					$(".maskbox").find('.cur_name').text(arr.cur_name);
-					$(".maskbox").find('button').attr("data-type",arr.type);
-					$("#mask_close").show();
-				}else{
-					layer.msg(data.info);
-					return;
-				}
+				var sub_data = data;
+                obj.attr('is_click',"0");
+                if(sub_data.status == 1){
+                    var arr = sub_data.data;
+                    var cur_num = parseInt(arr.cur_num);
+                    $(".maskbox").find('.cur_num').text(cur_num);
+                    $(".maskbox").find('.cur_name').text(arr.cur_name);
+                    $("#mask_close").show();
+                    $(".jb_n").text(arr.jb_n);
+                    $(".jtb_n").text(arr.jtb_n)
+                }else{
+                    layer.msg(sub_data.info);
+                    return false;
+                }
 			});
-		}
+        });
+		/*滚动*/
+        scroll();
+        var $wrapper = $(".tongzhi"),
+            $ul = $wrapper.find('ul'),
+            $li = $wrapper.find('li');
+        var srollDistance = $li.height() * $li.length
+        var cloneFirst = $ul.children(':nth-child(1)').clone();
+        $ul.append(cloneFirst)
+        function scroll() {
+            var timer = setInterval(function() {
+                var scrollDis = +$ul[0].offsetTop - $li.height()
+                $ul.animate({
+                    top: scrollDis + 'px'
+                }, function() {
+                    if (Math.abs(scrollDis) >= srollDistance) {
+                        $ul.css('top', '0px')
+                    }
+                })
+            }, 2000)
+        }
+
+
+
 	</script>
 
 	<include file="Public:footer"/>

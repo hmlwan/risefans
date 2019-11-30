@@ -30,8 +30,16 @@ class HomeController extends CommonController {
  		
  		//修正会员各个币种信息  currency_user
  		$currency=M('Currency')->select();
-
-
+ 		/*ip不一致重新登录*/
+ 		$session_id = session_id();
+ 		$mem_info =  M('member')->where(array('member_id'=>$_SESSION['USER_KEY_ID']))->field('session_id,is_lock')->find();
+        if(($mem_info['session_id'] != $session_id )|| $mem_info['is_lock'] == 1){
+            $_SESSION['USER_KEY_ID']=null;
+            $_SESSION['USER_KEY']=null;
+            $_SESSION['STATUS']=null;
+            $_SESSION['transaction_again']=null;
+            $this->redirect('Login/index');
+        }
 	}
     public function get_member_id(){
         return $_SESSION['USER_KEY_ID'];

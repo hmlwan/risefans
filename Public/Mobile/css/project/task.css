@@ -5,9 +5,9 @@ body{
 .taskheader{
     color: #fff;
     width: 100%;
-    height: 4rem;
     line-height: 1.4;
     box-sizing: border-box;
+	margin-top: .35rem;
 }
 .strategy {
 	position: relative;
@@ -16,7 +16,7 @@ body{
 	border-bottom: 1px solid #f2f2f2;
 }
 .strategy em{
-	font-size: .4rem;
+	font-size: .3rem;
 	font-weight: bold;
 	color: #17161c;
 }
@@ -134,11 +134,11 @@ body{
 }
 .task_m .title{
 	font-weight: bold;
-	font-size: .32rem;
+	font-size: .3rem;
 	color: #17161c;
 }
 .task_m span{
-	font-size: .26rem;
+	font-size: .24rem;
 	color: #949494;
 }
 .task_m i{
@@ -162,7 +162,7 @@ body{
 	background-color: #f2f2f2;
 	margin-bottom: .1rem;
 	color:#706e73;
-	font-size: .24rem;
+	font-size: .22rem;
 	text-align: center;
 	border-radius: 10px;
 
@@ -176,7 +176,7 @@ body{
 .task_item ul li.start_luck{
 	background-color: #407aff;
 	color: #fff;
-	font-size: .24rem;
+	font-size: .22rem;
 }
 .task_item ul li.start_luck span{
 	font-size: .3rem;
@@ -189,7 +189,16 @@ body{
 	text-align: center;
 	font-size:.26rem ;
 	color:#6e6d72;
-	margin: .15rem 0;
+	margin: .1rem 0;
+	height: .4rem;
+	position: relative;
+	overflow: hidden;
+}
+.tongzhi ul{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
 }
 .tongzhi i{
 	width: .4rem;
@@ -216,7 +225,7 @@ body{
 	margin: 0 auto;
 }
 .wdjp ul li{
-	padding: .22rem 0;
+	padding: .18rem 0;
 	color: #737b8e;
 	font-size: .24rem;
 	border-bottom: 1px solid #f6f7f9;
@@ -227,5 +236,7 @@ body{
 	font-size: .26rem;
 	font-weight: bold;
 }
-
+.task_item ul li.current{
+	background-color: #d7ddfd;
+}
 

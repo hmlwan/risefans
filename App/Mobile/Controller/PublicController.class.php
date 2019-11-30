@@ -19,6 +19,11 @@ class PublicController extends CommonController{
     public  function  _404(){
            $this->display();
     }
- 
+    public function face_to_face(){
+        $tjm =$this->config['default_phone'];
+
+        $this->assign('tjm',$tjm);
+        $this->display();
+    }
     
 }

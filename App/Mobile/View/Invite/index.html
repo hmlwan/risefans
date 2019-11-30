@@ -1,15 +1,15 @@
 <include file="Public:header"/>
 <body  class="yaoqing">
 <header>
-	<div class="header_bt">
-		<div class="header_f"><a href="javascript:history.back()" class="header_fh"></a></div>
-		<div class="header_c">邀请</div>
-	</div>
-	<div style="height: .74rem;clear: both;"></div>
+	<!--<div class="header_bt">-->
+		<!--<div class="header_f"><a href="javascript:history.back()" class="header_fh"></a></div>-->
+		<!--<div class="header_c"></div>-->
+	<!--</div>-->
+	<!--<div style="height: .74rem;clear: both;"></div>-->
 </header>
 	<div class="yaoqing_h">
 		<img class="db" src="__IMG__/rise/db1.png"/>
-		<a href=""><img src="__IMG__/rise/gz.png" class="rule"/></a>
+		<a href="{:U('Invite/rule_view')}"><img src="__IMG__/rise/gz.png" class="rule"/></a>
 	</div>
 	<div class="yq_section icon">
 		<ul class="icon_ul">
@@ -29,11 +29,11 @@
 		<i class="yaoqing_top_side"></i>
 		<p class="t">
 			<span>我的直邀链接</span>
-			<span class="input_txt zy_text"><em>https://wwww.baidu.com/so2w.baidu.com/so2</em><i></i></span>
+			<span class="input_txt zy_text"><em class="copy1">{$direct_invite_url}</em><i class="copy_btn" data-clipboard-target=".copy1"></i></span>
 		</p>
 		<p>
 			<span>我的邀请码</span>
-			<span class="input_txt yqm_text"><em>18741808793</em><i></i></span>
+			<span class="input_txt yqm_text"><em class="copy2">{$member_info.phone}</em><i class="copy_btn" data-clipboard-target=".copy2"></i></span>
 		</p>
 		<p>
 			<a href="javascript:;" class="schb"><img src="__IMG__/rise/sc.png" alt=""></a>
@@ -42,25 +42,25 @@
 	</div>
 	<div class="yq_section  wdsy">
 		<i class="yaoqing_top_side"></i>
-		<a href=""><p class="title"><span>我的收益</span><i></i></p></a>
+		<a href="{:U('Invite/income_record')}"><p class="title"><span>我的收益</span><i></i></p></a>
 		<ul class="ztrs">
 			<li>
-				<p>71</p>
-				<a href="">直推人数</a>
+				<p>{$one_level_num|default=0}</p>
+				<a href="{:U('Invite/one_level_detail')}">直推人数</a>
 			</li>
 			<li>
-				<p>596</p>
-				<a href="">二级下线</a>
+				<p>{$two_level_detail|default=0}</p>
+				<a href="{:U('Invite/two_level_detail')}">二级下线</a>
 			</li>
 		</ul>
 		<ul class="ztrs">
 			<li>
-				<p>571</p>
-				<a href="">今日佣金</a>
+				<p>{$td_sum_cur_num|default=0}</p>
+				<a href="{:U('Invite/td_income_record')}">今日佣金</a>
 			</li>
 			<li>
-				<p>16750</p>
-				<a href="">累计佣金(金币)</a>
+				<p>{$sum_cur_num|default=0}</p>
+				<a href="{:U('Invite/income_record')}">累计佣金(金币)</a>
 			</li>
 		</ul>
 	</div>
@@ -68,18 +68,15 @@
 		<i class="yaoqing_top_side"></i>
 		<a href="{:U('Invite/rank_record')}"><p class="title"><span>累计收益排行榜</span><i></i></p></a>
 		<ul>
-			<li>
-				<span><i class="top1"></i>18078148789</span>
-				<span>126797<em>金币</em></span>
-			</li>
-			<li>
-				<span><i class="top2"></i>18078148789</span>
-				<span>126797<em>金币</em></span>
-			</li>
-			<li>
-				<span><i class="top3"></i>18078148789</span>
-				<span>126797<em>金币</em></span>
-			</li>
+			<if condition="$top3_sum">
+				<volist name="top3_sum"  key="k" id="vo">
+					<li>
+						<span><i class="top{$k}"></i>{$key}</span>
+						<span>{$vo}<em>金币</em></span>
+					</li>
+				</volist>
+			</if>
+			<!---->
 		</ul>
 	</div>
 
@@ -87,18 +84,25 @@
 		<i class="close_hb"></i>
 		<!--<img src="__IMG__/rise/hb.png" alt="">-->
 		<div class="item">
-			<p>18078148789</p>
-			<img src="__IMG__/rise/qrcode.png" alt="">
+			<p>{$member_info.phone}</p>
+			<!--<img src="__IMG__/rise/qrcode.png" alt="">-->
+			<img src="{:U('Invite/qrcodeimg')}" alt="">
 		</div>
 	</div>
-
+	<div class="zhezhao_h"></div>
+	<div class="face_to_face" style="display: none">
+		<img src="{:U('Invite/face_to_face_img')}" alt="">
+		<div style="position: relative">
+			<i></i>
+		</div>
+	</div>
 	<div style="height: .9rem;"></div>
 	<div class="footer_main">
 		<ul>
 			<a href="{:U('Redpack/index')}">
 				<li class="footer_fl">红包</li>
 			</a>
-			<a href="">
+			<a href="{:U('Bonus/index')}">
 				<li class="footer_f2">分红</li>
 			</a>
 			<a href="{:U('Invite/index')}">
@@ -119,19 +123,27 @@
 		</ul>
 	</div>
 	<script>
-		$(".fixed").find(".copy").click(function () {
-			var clipboard = new Clipboard(".copy");
+		$(".copy_btn").click(function () {
+			var clipboard = new Clipboard(".copy_btn");
 			clipboard.on('success', function(e) {
 				console.log(e);
-				layer.msg('复制成功',{icon:1});
+				layer.msg('复制成功');
 			});
 		});
 
 		$(".close_hb").click(function () {
 			$(".sc_hb").hide();
-        })
+        });
         $(".schb").click(function () {
             $(".sc_hb").show();
+        });
+        $(".mdmyq").click(function () {
+			$(".face_to_face").show();
+			$(".zhezhao_h").attr('class','zhezhao_h zhezhao');
+        })
+        $(".face_to_face i").click(function () {
+            $(".face_to_face").hide();
+            $(".zhezhao_h").attr('class','zhezhao_h');
         })
 
 	</script>

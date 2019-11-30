@@ -42,7 +42,7 @@
                 </li>
                 <volist name="art_list" id="vo">
                     <li>
-                        <div class="bzzx_h">
+                        <div class="bzzx_h bzzx_hh">
                             <span>{$vo.title}</span>
                             <i></i>
                         </div>
@@ -136,16 +136,16 @@
     </ul>
 </div>
 <script>
-    $(".bzzx_c").find("li i").click(function () {
-        if($(this).attr('class') == 'active'){
-            $(this).attr('class','');
-            $(this).closest('.bzzx_h').next('.bzzx_b').hide();
-        }else{
-            $(this).attr('class','active');
-            $(this).closest('.bzzx_h').next('.bzzx_b').show();
-        }
+$(".bzzx_hh").click(function () {
+    if($(this).find('i').attr('class') == 'active'){
+        $(this).find('i').attr('class','');
+        $(this).next('.bzzx_b').hide();
+    }else{
+        $(this).find('i').attr('class','active');
+        $(this).next('.bzzx_b').show();
+    }
+});
 
-    });
 
 </script>
 <include file="Public:footer"/>

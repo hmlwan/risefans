@@ -22,17 +22,22 @@
                         	<th>编号</th>
                             <th>等级类型</th>
                             <th>分红凭证数量</th>
-                            <th>推广下线奖励币种数量</th>
-                            <th>推广下线奖励币种</th>
-                            <th>下线购买vip返利比例</th>
-                            <th>下线抽奖奖励数量</th>
-                            <th>下线抽奖奖励币种</th>
-                            <th>关闭vip返回币种数量</th>
-                            <th>关闭vip返回币种</th>
+                            <th>推广下线</th>
+                            <!--<th>推广下线奖励币种数量</th>-->
+                            <!--<th>推广下线奖励币种</th>-->
+                            <th>下线领取分红返利百分比</th>
+                            <th>下线抽奖</th>
+                            <!--<th>下线抽奖奖励数量</th>-->
+                            <!--<th>下线抽奖奖励币种</th>-->
+                            <th>关闭vip返回</th>
+                            <!--<th>关闭vip返回币种数量</th>-->
+                            <!--<th>关闭vip返回币种</th>-->
                             <th>领取红包观看广告数量</th>
-                            <th>出售折扣币种</th>
-                            <th>出售折扣币数量</th>
-                            <th>操作时间</th>
+                            <th>出售</th>
+                            <!--<th>出售折扣币种</th>-->
+                            <!--<th>出售折扣币数量</th>-->
+                            <th>实名奖励</th>
+                            <th>提币手续费</th>
                             <th>操作</th>
                         </tr>
                         <volist name="list" id="vo" empty="$empty">
@@ -54,17 +59,31 @@
                             </td>
 
                             <td>{$vo.bonus_voucher_num}</td>
-                            <td>{$vo.sub_reward_num}</td>
-                            <td>{$vo.sub_reward_cur_name}</td>
-                            <td>{$vo.sub_buy_vip_rebate}</td>
-                            <td>{$vo.sub_luckdraw_num}</td>
-                            <td>{$vo.sub_luckdraw_cur_name}</td>
-                            <td>{$vo.close_vip_reward_num}</td>
-                            <td>{$vo.close_vip_reward_cur_name}</td>
-                            <td>{$vo.watch_num}</td>
-                            <td>{$vo.sale_cur_name}</td>
-                            <td>{$vo.sale_cur_num}</td>
-                            <td>{$vo.op_time|date="Y-m-d H:i:s",###}</td>
+                            <td>
+                                <p>奖励币种：{$vo.sub_reward_cur_name}</p>
+                                <p>奖励数量：{$vo.sub_reward_num}</p>
+                            </td>
+
+                            <td>{$vo.sub_receive_bonus_rebate}</td>
+                            <td>
+                                <p>奖励币种：{$vo.sub_luckdraw_cur_name}</p>
+                                <p>奖励数量：{$vo.sub_luckdraw_num}</p>
+                            </td>
+                            <td>
+                                <p>奖励币种：{$vo.close_vip_reward_cur_name}</p>
+                                <p>奖励数量：{$vo.close_vip_reward_num}</p>
+                            </td>
+
+                            <td>{$vo.receive_hongbao_num}</td>
+                            <td>
+                                <p>折扣币种：{$vo.sale_cur_name}</p>
+                                <p>折扣数量：{$vo.sale_cur_num}</p>
+                            </td>
+                            <td>
+                                <p>奖励币种：{$vo.cert_cur_name}</p>
+                                <p>奖励数量：{$vo.cert_cur_num}</p>
+                            </td>
+                            <td>{$vo.ltc_service_charge_rate}</td>
                             <td>
                                 <a class="link-update" href="{:U('Vip/config_edit#13#0',array('id'=>$vo['id']))}">修改</a>|
                                 <a class="link-del" href="javascript:void(0)" onclick="cexiao('{$vo.id}')">删除</a><br>
@@ -72,6 +91,7 @@
                         </tr>
                         </volist>
                     </table>
+                    <div class="list-page"> <ul>{$page}</ul></div>
                 </div>
         </div>
     </div>

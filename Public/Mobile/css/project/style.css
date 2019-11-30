@@ -326,6 +326,10 @@
 }
 .xg_c .write input{
     color:#aaadb4
+
+}
+.xg_c .write .input{
+    color:#060d1d
 }
 .xgzfb .bottom_c{
     width: 100%;
@@ -454,7 +458,7 @@ div::-webkit-scrollbar {
 }
 .dl .dl_h{
     text-align: center;
-    margin-top: 1.2rem;
+    margin-top: 1.8rem;
     font-size: .5rem;
     font-weight: bold;
 
@@ -1476,7 +1480,7 @@ div::-webkit-scrollbar {
     position: fixed;
     width: 60%;
     left: 20%;
-    top: 30%;
+    top: 32%;
     z-index: 101;
     text-align: center;
 
@@ -1576,7 +1580,7 @@ div::-webkit-scrollbar {
 
 }
 .fenhong .header_c{
-    width: 50%;
+    width: 55%;
     color:#fff;
 }
 .fenhong .header_r{
@@ -1644,13 +1648,13 @@ div::-webkit-scrollbar {
     background: url(../../images/rise/zhlq_btn.png) no-repeat center;
     background-size: 100%;
     width: 1.25rem;
-    height: .4rem;
+    height: .42rem;
     display: inline-block;
     vertical-align: middle;
 }
 .lqfh_btn{
     width: 88%;
-    margin: .4rem auto 0;
+    margin: .3rem auto 0;
     height: .75rem;
     line-height: .75rem;
     background: linear-gradient(to right,#ec7473,#ed7a77,#ed7b7a,#ed7372);
@@ -1661,7 +1665,7 @@ div::-webkit-scrollbar {
 }
 .lqfh_tips{
     width: 88%;
-    margin: .15rem auto  .4rem;
+    margin: .1rem auto  .4rem;
     font-size: .24rem;
     color:#9b9b9b;
     overflow: hidden;
@@ -1731,6 +1735,42 @@ div::-webkit-scrollbar {
     margin-top: .35rem;
 
 }
+.k_line{
+    width: 96%;
+    margin: .3rem auto .2rem;
+    height: 5rem;
+    border-radius: 15px;
+    max-height:5rem;
+    background-color: #fff;
+    padding-bottom: 15px;
+
+}
+.k_line .main{
+    width: 100%;
+    height: 100%;
+    padding: 5px;
+}
+.k_line #main{
+    width: 100%;
+    height: 100%;
+    padding-top: 10px;
+}
+.k_line_b{
+    text-align: center;
+    font-size: .21rem;
+    color: #4c4c4c;
+    padding-bottom: .3rem;
+}
+/*通用背景图*/
+.general_bgk{
+    width: 100%;
+    height: auto;
+}
+.general_bgk img{
+    width: 100%;
+    height: 100%;
+}
+
 /*邀请*/
 .yaoqing{
     background-color: #f7f6fb;
@@ -1755,14 +1795,14 @@ div::-webkit-scrollbar {
 }
 .yq_section{
     width: 92%;
-    height: 2.4rem;
+    /*height: 2.3rem;*/
     border-radius: 15px;
     background-color: #fff;
     margin: 0 auto .2rem;
 }
 .yq_section.icon{
     position: absolute;
-    top: 3.5rem;
+    top: 3.6rem;
     z-index: 99;
     left: 4%;
 }
@@ -1776,7 +1816,7 @@ div::-webkit-scrollbar {
     margin-top: .6rem;
 }
 .yq_section .icon_ul li{
-    height: 1rem;
+    height: .8rem;
     width: 25%;
     font-size: .24rem;
     color:#223d54;
@@ -1827,7 +1867,7 @@ div::-webkit-scrollbar {
     width: 25%;
 }
 .yaoqing .zylj{
-    margin-top: 2.3rem;
+    margin-top: 2.2rem;
     position: relative;
     height: 2.9rem;
 }
@@ -1841,7 +1881,7 @@ div::-webkit-scrollbar {
 .yaoqing .zylj p{
     width: 90%;
     margin:0 auto ;
-    font-size: .25rem;
+    font-size: .24rem;
     color:#223e56;
     display: flex;
     justify-content:space-between;
@@ -1941,7 +1981,7 @@ div::-webkit-scrollbar {
 }
 .yaoqing .phb{
     position: relative;
-    height: 4rem;
+    /*height: 4rem;*/
 }
 
 .yaoqing .phb ul{
@@ -1986,6 +2026,32 @@ div::-webkit-scrollbar {
 }
 .yaoqing .phb ul li span:last-child{
     margin-right: 6%;
+}
+.yaoqing .face_to_face{
+    width: 84%;
+    position: fixed;
+    top: 10%;
+    height: 8rem;
+    background: url(../../images/rise/mdm.png) no-repeat top;
+    background-size: 100%;
+    left: 8%;
+    z-index: 101;
+}
+.yaoqing .face_to_face img{
+    margin-top: 3.7rem;
+    margin-left: 1.3rem;
+    border-radius: 10px;
+
+}
+.yaoqing .face_to_face i{
+    background: url(../../images/rise/ftfclose.png) no-repeat center;
+    display: inline-block;
+    width: .54rem;
+    height: .54rem;
+    background-size: 100%;
+    position: fixed;
+    top: 77%;
+    left: 45%;
 }
 /*排行榜*/
 .rank_record{
@@ -2239,9 +2305,9 @@ div::-webkit-scrollbar {
     margin-left: .65rem;
 }
 .vip_m  p.btn span{
-    color:#00cdbc;
-    font-size: .25rem;
-    padding: 3px .2rem;
+    color: #00cdbc;
+    font-size: .24rem;
+    padding: 2px .2rem;
     border-radius: 20px;
     border: 1px solid #00cdbc;
     margin-right: .1rem;
@@ -2315,8 +2381,8 @@ div::-webkit-scrollbar {
     width: 100%;
 }
 .gm_bgk .gm_item{
-    width: 90%;
-    height: 3.1rem;
+    width: 92%;
+    /*height: 3.1rem;*/
     border-radius: 10px;
     margin: .2rem auto ;
     background-color: #fff;
@@ -2417,6 +2483,7 @@ div::-webkit-scrollbar {
 }
 .gm_con .item_b{
     margin-top:.2rem;
+    padding-bottom: .15rem;
 }
 
 .gm_con .item_b span{
@@ -2466,19 +2533,21 @@ div::-webkit-scrollbar {
     display: none;
     position: fixed;
     left: 10%;
-    top:30%;
+    top: 30%;
     width: 80%;
-    height:3.5rem;
+    height: 3.5rem;
     z-index: 102;
     background-color: #fff;
-    border-radius: 10px;
+    border-radius: 3px;
+    overflow: hidden;
 }
 .close_vip1_item div:first-child{
     height: 1.5rem;
-    width: 40%;
+    width: 27%;
     margin-left: 8%;
     margin-top:.75rem;
-    margin-right: .2rem;
+
+    float: left;
 }
 .close_vip1_item div:first-child img{
     height: 1.2rem;
@@ -2487,13 +2556,14 @@ div::-webkit-scrollbar {
 .close_vip1_item div:last-child{
     flex-direction:column;
     margin-top: .75rem;
-    margin-right: 12%;
+    margin-right: 10%;
 }
 .close_vip1_item div:last-child p{
-
-    font-size: .24rem;
+    font-size: .21rem;
     color: #33373a;
-    margin-bottom: .15rem;
+    margin-bottom: .2rem;
+    line-height: .32rem;
+    line-height: .35rem;
 }
 .close_vip1_item div:last-child .title{
     font-size: .28rem;
@@ -2654,7 +2724,7 @@ div::-webkit-scrollbar {
 .txltb ul input{
     border: none;
     font-size: .26rem;
-    color:#c6cfd6
+    color:#1f3e5a
 }
 .txltb ul span{
     font-size: .28rem;
@@ -2888,7 +2958,7 @@ div::-webkit-scrollbar {
 
 .maskbox p {
     color: #858891;
-    margin: .2rem 0 .3rem;
+    margin: .1rem 0 .3rem;
     font-size: .26rem;
 }
 
@@ -2903,7 +2973,7 @@ div::-webkit-scrollbar {
 }
 .maskbox div{
     font-size: .26rem;
-    padding-bottom: .1rem;
+    padding-bottom: .18rem;
 }
 
 .maskbox button{

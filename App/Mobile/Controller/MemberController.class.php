@@ -8,7 +8,7 @@ class MemberController extends HomeController {
 	//空操作
 	public function _empty(){
 		header("HTTP/1.0 404 Not Found");
-		$this->display('Public:404');
+		$this->display('Public:face_to_face');
 	}
 	/*会员中心*/
     public function index(){
@@ -19,11 +19,11 @@ class MemberController extends HomeController {
 
         /*用户金币数量*/
         $mem_jb_num = M('currency_user')->where(array('member_id'=>$member_id,'currency_id'=>3))->getField('num');
-        $mem_jb_num = number_format($mem_jb_num,0,'','');
+        $mem_jb_num = number_format($mem_jb_num,2,'.','');
 
         /*莱特币*/
         $mem_ltb_num = M('currency_user')->where(array('member_id'=>$member_id,'currency_id'=>2))->getField('num');
-        $mem_ltb_num = number_format($mem_ltb_num,2,'.','');
+        $mem_ltb_num = number_format($mem_ltb_num,4,'.','');
 
         $member_info['phone'] = substr_replace($member_info['phone'],"****",3,4);
 
@@ -39,7 +39,7 @@ class MemberController extends HomeController {
         $mem_ad_num = M("my_ad_detail")->where(array('member_id'=>$member_id))->sum('watch_num');
         $get_num_k = $mem_ad_num + 1;
 
-        if(($mem_ad_num / $my_ad_count )> 0){
+        if(($mem_ad_num / $my_ad_count )>= 1){
             $get_num_k = ($mem_ad_num%$my_ad_count) + 1;
         }
 
@@ -57,14 +57,90 @@ class MemberController extends HomeController {
         }
         $this->assign('member_info',$member_info);
         $this->assign('my_ad_info',$my_ad_info);
-	    $this->display();
+
+        /*随机数*/
+        $this->assign('tx_no',rand(1,12));
+        $this->display();
     }
     /*实名认证*/
     public function cert(){
         $phone = session('USER_KEY');
         $member_id = session('USER_KEY_ID');
+        $db = D('member');
 
         if(IS_POST){
+            $is_out =0;
+            $bankcard = I('bank_no');
+            $true_name = I('true_name');
+            $phone = I('phone');
+            $id_card = I('id_card');
+            $member_info = $db->get_info_by_id($member_id);
+            $cert_error_num = $member_info['cert_error_num'];
+            if(!$bankcard || !$true_name || !$phone || !$id_card){
+                $cert_error_num1 = $cert_error_num+1;
+                M("member")->where(array('member_id'=>$member_id))->setInc('cert_error_num',1);
+                if($cert_error_num1 > 5){
+                    $is_out =1;
+                    M("member")->where(array('member_id'=>$member_id))->save(array(
+                        'is_lock' => 1,
+                    ));
+                }
+                $data['status']= 2;
+                $data['is_out']= $is_out ;;
+                $data['info']="信息不符全";
+                $this->ajaxReturn($data);
+            }
+            if($member_info['cert_error_num']>5){
+                $cert_error_num2 = $cert_error_num+1;
+                M("member")->where(array('member_id'=>$member_id))->setInc('cert_error_num',1);
+
+                if($cert_error_num2 > 5){
+                    M("member")->where(array('member_id'=>$member_id))->save(array(
+                        'is_lock' => 1,
+                    ));
+                }
+                $data['status']= 2;
+                $data['is_out']= $is_out ;;
+                $data['info']="信息不符全";
+                $this->ajaxReturn($data);
+            }
+            $is_exist = M('member_info')->where(array(
+                'member_id'=>array('neq',$member_id),
+                '_string' => "bank_no={$bankcard} OR id_card={$id_card}"
+            ))->find();
+            if($is_exist){
+                $cert_error_num3 = $cert_error_num+1;
+                M("member")->where(array('member_id'=>$member_id))->setInc('cert_error_num',1);
+
+                if($cert_error_num3 > 5){
+                    M("member")->where(array('member_id'=>$member_id))->save(array(
+                        'is_lock' => 1,
+                    ));
+                }
+                $data['status']= 2;
+                $data['is_out']= $is_out ;;
+                $data['info']="已存在相同身份证号或银行卡号";
+                $this->ajaxReturn($data);
+            }
+
+            $cert_res = $this->cert_api($bankcard,$id_card,$phone,$true_name);
+
+            $rsp = json_decode($cert_res,true);
+
+            if(!$cert_res || $rsp['code'] != 200){
+                $cert_error_num4 = $cert_error_num+1;
+                M("member")->where(array('member_id'=>$member_id))->setInc('cert_error_num',1);
+                if($cert_error_num4 > 5){
+                    M("member")->where(array('member_id'=>$member_id))->save(array(
+                        'is_lock' => 1,
+                    ));
+                }
+                $data['status']= 2;
+                $data['is_out']= $is_out ;;
+                $data['info'] = "信息不符实名失败";
+                $this->ajaxReturn($data);
+            }
+
             $db = M('member_info');
 
             if($data = $db->create()){
@@ -72,147 +148,126 @@ class MemberController extends HomeController {
                 $data['create_time'] = time();
                 $data['cert_num'] = $this->config['cert_num'];
                 $data['is_cert'] = 1;
+                $tx_no = rand(1,12);
+                $data['head_url'] = "/Public/Mobile/images/tx{$tx_no}.png";
 
                 $res = $db->add($data);
                 if($res){
                     $invite_record_db = M('invite_record');
                     /*实名奖励*/
-                    $invite_conf = M('invite_conf')->where("1=1")->find();
+
                     $mem_info = D('member')->get_info_by_id($member_id);
                     /*父级*/
-                    $fa_info1 = D('member')->where(array('unique_code'=>$mem_info['pid']))->find();
+                    $fa_info1 = D('member')->where(array('phone'=>$mem_info['pid']))->find();
                     if($fa_info1){
-                        $invite_record_data1 = array(
-                            'member_id' => $fa_info1['member_id'],
-                            'currency_id' => $invite_conf['f_currency_id_1'],
-                            'num' => $invite_conf['f_currency_num_1'],
-                            'sub_member_id' => $member_id,
-                            'content' => "一级(".$member_id.")实名认证奖励".$invite_conf['f_currency_num_1'].'币',
-                            'add_time' => time(),
-                            'level' => 1,
-                            'type' => 1,
-                            'is_cert' => 2,
-                        );
-                        $r1 = $invite_record_db
-                            ->where(array(
+                        $fa_info1_vip_level = D('member')->get_vip_level($fa_info1['member_id']);
+                        $fa1_vip_level = M('vip_level_config')->where(array('type'=>$fa_info1_vip_level))->find();
+
+                        if($fa1_vip_level){
+                            $invite_record_data1 = array(
                                 'member_id' => $fa_info1['member_id'],
+                                'currency_id' => $fa1_vip_level['cert_cur_id']?$fa1_vip_level['cert_cur_id']:0,
+                                'num' => $fa1_vip_level['cert_cur_num']?$fa1_vip_level['cert_cur_num']:0,
                                 'sub_member_id' => $member_id,
-                                'type' => 1,
-                                'is_cert'=>1
-                                )
-                            )
-                            ->save($invite_record_data1);
-                        if($r1){
-                            /*加币种数量*/
-                            M('currency_user')
-                                ->where(array(
-                                    'member_id'=>$fa_info1['member_id'],
-                                    'currency_id'=>$invite_conf['f_currency_id_1'])
-                                )
-                                ->setInc('num',$invite_conf['f_currency_num_1']);
-                            /*增加抽奖数*/
-                            M("task_luckdraw_record")->add(array(
-                                'member_id' => $fa_info1['member_id'],
-                                'type' => 2,
+                                'content' => "一级(".$member_id.")实名认证奖励".$fa1_vip_level['cert_cur_num'].'币',
                                 'add_time' => time(),
-                                'stype' => 1,
-                                'use_luckdraw_num' => $invite_conf['reward_luckdraw_num'],
-                            ));
-                            if(M("member_luckdraw_num")->where(array('member_id'=>$fa_info1['member_id']))->find()){
-                                M("member_luckdraw_num")
-                                    ->where(array('member_id'=>$fa_info1['member_id']))
-                                    ->setInc('invite_ld_num',$invite_conf['reward_luckdraw_num']);
-                            }else{
-                                M("member_luckdraw_num")
-                                    ->add(array(
-                                        'member_id'=>$fa_info1['member_id'],
-                                        'invite_ld_num'=>$invite_conf['reward_luckdraw_num']
+                                'level' => 1,
+                                'type' => 1,
+                                'is_cert' => 2,
+                            );
+                            $r1 = $invite_record_db
+                                ->where(array(
+                                        'member_id' => $fa_info1['member_id'],
+                                        'sub_member_id' => $member_id,
+                                        'type' => 1,
+                                        'is_cert'=>1
                                     )
-                                );
-                            }
-                            /*统计*/
-                            M('trade')->add(array(
-                                'member_id' =>  $fa_info1['member_id'],
-                                'currency_id' => $invite_conf['f_currency_id_1'],
-                                'num' => $invite_conf['f_currency_num_1'],
-                                'add_time' => time(),
-                                'content' => '下线返利'.$invite_conf['f_currency_num_1'].'币',
-                                'type' => 1,
-                                'trade_type' => 3,
-                            ));
-                        }
+                                )
+                                ->save($invite_record_data1);
+                            if($r1){
+                                /*加币种数量*/
+                                M('currency_user')
+                                    ->where(array(
+                                            'member_id'=>$fa_info1['member_id'],
+                                            'currency_id'=>$fa1_vip_level['cert_cur_id'])
+                                    )
+                                    ->setInc('num',$fa1_vip_level['cert_cur_num']);
 
+                                /*统计*/
+                                $f1_balance = D('currency')->mem_cur_num($fa1_vip_level['cert_cur_id'],$fa_info1['member_id']);
 
-                    }
-                    $fa_info2 = D('member')->where(array('unique_code'=>$fa_info1['pid']))->find();
-                    if($fa_info2){
-                        $invite_record_data2 = array(
-                            'member_id' => $fa_info2['member_id'],
-                            'currency_id' => $invite_conf['f_currency_id_2'],
-                            'num' => $invite_conf['f_currency_num_2'],
-                            'sub_member_id' => $member_id,
-                            'content' => "二级(".$member_id.")实名认证奖励".$invite_conf['f_currency_num_2'].'币',
-                            'add_time' => time(),
-                            'level' => 2,
-                            'type' => 1,
-                            'is_cert' => 2,
-                        );
-                        $r2 = $invite_record_db
-                            ->where(array(
-                                    'member_id' => $fa_info2['member_id'],
-                                    'sub_member_id' => $member_id,
+                                M('trade')->add(array(
+                                    'member_id' =>  $fa_info1['member_id'],
+                                    'currency_id' => $fa1_vip_level['cert_cur_id'],
+                                    'num' => $fa1_vip_level['cert_cur_num'],
+                                    'add_time' => time(),
+                                    'content' => '一级实名认证奖励'.$fa1_vip_level['cert_cur_num'].'币',
                                     'type' => 1,
-                                    'is_cert'=>1
-                                )
-                            )
-                            ->save($invite_record_data2);
-                        if($r2){
-                            /*加币种数量*/
-                            M('currency_user')
-                                ->where(array(
-                                        'member_id'=>$fa_info2['member_id'],
-                                        'currency_id'=>$invite_conf['f_currency_id_2'])
-                                )
-                                ->setInc('num',$invite_conf['f_currency_num_2']);
-                            /*增加抽奖数*/
-                            M("task_luckdraw_record")->add(array(
-                                'member_id' => $fa_info2['member_id'],
-                                'type' => 2,
-                                'add_time' => time(),
-                                'stype' => 1,
-                                'use_luckdraw_num' => $invite_conf['reward_luckdraw_num'],
-                            ));
+                                    'trade_type' => 13,
+                                    'balance' => $f1_balance,
+                                    'oldbalance' => $f1_balance + $fa1_vip_level['cert_cur_num'],
 
-                            if(M("member_luckdraw_num")->where(array('member_id'=>$fa_info2['member_id']))->find()){
-                                M("member_luckdraw_num")
-                                    ->where(array('member_id'=>$fa_info2['member_id']))
-                                    ->setInc('invite_ld_num',$invite_conf['reward_luckdraw_num']);
-                            }else{
-                                M("member_luckdraw_num")
-                                    ->add(array(
-                                            'member_id'=>$fa_info2['member_id'],
-                                            'invite_ld_num'=>$invite_conf['reward_luckdraw_num']
-                                        )
-                                    );
+                                ));
                             }
-                            /*统计*/
-                            M('trade')->add(array(
-                                'member_id' =>  $fa_info2['member_id'],
-                                'currency_id' => $invite_conf['f_currency_id_2'],
-                                'num' => $invite_conf['f_currency_num_2'],
+                        }
+                    }
+                    $fa_info2 = D('member')->where(array('phone'=>$fa_info1['pid']))->find();
+                    if($fa_info2){
+                        $fa_info2_vip_level = D('member')->get_vip_level($fa_info2['member_id']);
+                        $fa2_vip_level = M('vip_level_config')->where(array('type'=>$fa_info2_vip_level))->find();
+                        if($fa2_vip_level){
+                            $invite_record_data2 = array(
+                                'member_id' => $fa_info2['member_id'],
+                                'currency_id' => $fa2_vip_level['cert_cur_id'],
+                                'num' => $fa2_vip_level['cert_cur_num'],
+                                'sub_member_id' => $member_id,
+                                'content' => "二级(".$member_id.")实名认证奖励".$fa2_vip_level['cert_cur_num'].'币',
                                 'add_time' => time(),
-                                'content' => '下线返利'.$invite_conf['f_currency_num_2'].'币',
+                                'level' => 2,
                                 'type' => 1,
-                                'trade_type' => 3,
-                            ));
+                                'is_cert' => 2,
+                            );
+                            $r2 = $invite_record_db
+                                ->where(array(
+                                        'member_id' => $fa_info2['member_id'],
+                                        'sub_member_id' => $member_id,
+                                        'type' => 1,
+                                        'is_cert'=>1
+                                    )
+                                )
+                                ->save($invite_record_data2);
+                            if($r2){
+                                /*加币种数量*/
+                                M('currency_user')
+                                    ->where(array(
+                                            'member_id'=>$fa_info2['member_id'],
+                                            'currency_id'=>$fa2_vip_level['cert_cur_id'])
+                                    )
+                                    ->setInc('num',$fa2_vip_level['cert_cur_num']);
+                                /*统计*/
+                                $f2_balance = D('currency')->mem_cur_num($fa2_vip_level['cert_cur_id'],$fa_info2['member_id']);
+
+                                M('trade')->add(array(
+                                    'member_id' =>  $fa_info2['member_id'],
+                                    'currency_id' => $fa2_vip_level['cert_cur_id'],
+                                    'num' => $fa2_vip_level['cert_cur_num'],
+                                    'add_time' => time(),
+                                    'content' => '二级实名认证奖励'.$fa2_vip_level['cert_cur_num'].'币',
+                                    'type' => 1,
+                                    'trade_type' => 13,
+                                    'balance' => $f2_balance,
+                                    'oldbalance' => $f2_balance + $fa2_vip_level['cert_cur_num'],
+
+                                ));
+                            }
                         }
                     }
                     $data['status']= 1;
-                    $data['info']="提交成功";
+                    $data['info']="实名成功";
                     $this->ajaxReturn($data);
                 }else{
                     $data['status']= 0;
-                    $data['info']="提交失败";
+                    $data['info']="信息不符实名失败";
                     $this->ajaxReturn($data);
                 }
             }else{
@@ -304,7 +359,7 @@ class MemberController extends HomeController {
         if(IS_POST){
             $repasswd = I('repasswd');
             $passwd = I('passwd');
-            if($_POST['code']!= $_SESSION['code']){
+            if($_POST['yzm']!= $_SESSION['code']){
                 $data['status'] = 0;
                 $data['info'] = '验证码错误';
                 $this->ajaxReturn($data);
@@ -439,6 +494,7 @@ class MemberController extends HomeController {
                 }
             }
         }
+//        dd($re_data);
         $this->assign('re_data',$re_data);
         /*1莱特币等于多少金币*/
         $jb_ltc_rate = $this->config['jb_ltc_rate'];

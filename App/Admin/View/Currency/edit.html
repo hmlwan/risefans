@@ -37,7 +37,37 @@
                                     <th><i class="require-red">*</i>显示排序</th>
                                     <td><input type="text" id="" value="{$info.sort}" size="85" name="sort" class="common-text"><i class="require-red">（在前端显示的排序，数值越小，排序越靠前）</i></td>
                                 </tr>
+                                <tr>
+                                    <th><i class="require-red">*</i>提币最大限制</th>
+                                    <td><input type="text" id="" value="{$info.currency_all_tibi}" size="85" name="currency_all_tibi" class="common-text"><i class="require-red"></i></td>
+                                </tr>
                                <tr>
+                                <tr>
+                                    <th><i class="require-red">*</i>链接地址</th>
+                                    <td><input type="text" id="" value="{$info.currency_url}" size="85" name="currency_url" class="common-text"></td>
+                                </tr>
+                                <tr>
+                                    <th><i class="require-red">*</i>用户名</th>
+                                    <td><input type="text" id="" value="{$info.rpc_user}" size="85" name="rpc_user" class="common-text"></td>
+                                </tr>
+                                <tr>
+                                    <th><i class="require-red">*</i>密码</th>
+                                    <td><input type="text" id="" value="{$info.rpc_pwd}" size="85" name="rpc_pwd" class="common-text"></td>
+                                </tr>
+                                <tr>
+                                    <th><i class="require-red">*</i>地址</th>
+                                    <td><input type="text" id="" value="{$info.rpc_url}" size="85" name="rpc_url" class="common-text"></td>
+                                </tr>
+                                <tr>
+                                    <th><i class="require-red">*</i>端口号</th>
+                                    <td><input type="text" id="" value="{$info.port_number}" size="85" name="port_number" class="common-text"></td>
+                                </tr>
+
+                                <tr>
+                                        <th><i class="require-red">*</i>钱包密钥</th>
+                                    <td><input type="text" id="" value="{$info.qianbao_key}" size="85" name="qianbao_key" class="common-text"><i class="require-red">*密钥妥善保存，一旦丢失，后果严重且找不回</i></td>
+
+                                </tr>
                              	<tr>
                                     <th><i class="require-red">*</i>上线开关</th>
                                     <td>开启：<input type="radio" name="is_lock" value="0"  <eq name="info.is_lock"  value="0">checked="checked"</eq> />

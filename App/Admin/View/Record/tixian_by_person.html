@@ -27,10 +27,11 @@
                 <input type="hidden" name="member_id" class="common-text btn50"  value="{$info.member_id}">
                 <div class="config-items">
                     <div class="config-title">
-                        <h1><i class="icon-font">&#xe00a;</i>手动提现</h1>
+                        <h1><i class="icon-font">&#xe00a;</i>人工提现</h1>
                     </div>
                     <div class="result-content">
                         <table width="100%" class="insert-tab">
+                            <input type="hidden" name="id" value="{}">
                             <tbody>
                                 <tr>
                                     <th>用户手机号</th>
@@ -38,7 +39,7 @@
                                 </tr>
                                 <tr>
                                     <th>提币地址</th>
-                                    <td><input type="text" readonly  class="common-text btn50"  value="{$info.cur_address}"></td>
+                                    <td><input type="text" readonly  class="common-text btn50"  value="{$info.url}"></td>
                                 </tr>
                                 <tr>
                                     <th>提现币种</th>
@@ -50,22 +51,22 @@
                                 </tr>
                                 <tr>
                                     <th>手续费</th>
-                                    <td><input type="text" readonly   class="common-text btn50" value="{$info.service_charge}"><i class="require-red"></i></td>
+                                    <td><input type="text" readonly   class="common-text btn50" value="{$info.fee}"><i class="require-red"></i></td>
                                 </tr>
                                 <tr>
                                     <th>是否同意</th>
                                     <td>
-                                        <select name="status" id="" class="common-text btn50" >
+                                        <select name=is_agree"" id="is_agree">
                                             <option value="1">同意</option>
-                                            <option value="0">不同意</option>
+                                            <option value="2">不同意</option>
                                         </select>
-
+                                        
                                     </td>
                                 </tr>
                                 <tr>
                                     <th></th>
                                     <td>
-                                        <input type="submit" value="提交" class="btn btn-primary btn6 mr10">
+                                        <input type="submit" value="确认提币" class="btn btn-primary btn6 mr10">
                                         <a href="{:U('Record/tixian#6#0')}"><input type="button" value="返回"  class="btn btn6"></a>
                                     </td>
                                 </tr>

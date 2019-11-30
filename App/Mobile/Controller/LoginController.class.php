@@ -9,6 +9,7 @@
 namespace Mobile\Controller;
 use Common\Controller\CommonController;
 use Think\Verify;
+use Think\Log;
 
 class LoginController extends CommonController{
     /**
@@ -21,9 +22,46 @@ class LoginController extends CommonController{
         }
         $this->display();
     }
+    /**
+     * 忘记密码
+     */
+    public function forgetpwd_op(){
 
+        $phone = I('phone','');
+        $pwd = I('pwd','');
+        $yzm = I('yzm','');
+        if(!$phone){
+            $data['status'] = 0;
+            $data['info'] = '请输入手机号码';
+            $this->ajaxReturn($data);
+        }
+        if(!$pwd){
+            $data['status'] = 0;
+            $data['info'] = '请输入新的密码';
+            $this->ajaxReturn($data);
+        }
+//        $yzm = 1234;
+//        $_SESSION['code'] = 1234;
+        if($yzm != $_SESSION['code']){
+            $data['status'] = 0;
+            $data['info'] = '验证码错误';
+            $this->ajaxReturn($data);
+        }
+
+        $res = M('Member')->where(array('phone'=>$phone))->save(array('pwd'=>md5($pwd)));
+        if($res){
+            $data['status'] = 1;
+            $data['info'] = '修改成功';
+            $this->ajaxReturn($data);
+        }else{
+            $data['status'] = 0;
+            $data['info'] = '修改失败';
+            $this->ajaxReturn($data);
+        }
+
+    }
     /* step1 找回密码*/
-    public function setphone(){
+    public function forgetpwd(){
 
         $this->display();
     }
@@ -156,6 +194,7 @@ class LoginController extends CommonController{
         //如果当前操作Ip和上次不同更新登录IP以及登录时间
         $data['login_ip'] = get_client_ip();
         $data['login_time']= time();
+        $data['session_id']= session_id();
         $where['member_id'] = $info['member_id'];
         $r = $M_member->where($where)->save($data);
         if($r === false){

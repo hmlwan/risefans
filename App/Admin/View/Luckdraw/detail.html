@@ -14,6 +14,7 @@
                 <div class="result-title">
                     <div class="result-list">
                         <a href="{:U('Luckdraw/detailedit#10#0',array('luckdraw_id'=>$luckdraw_id))}"><i class="icon-font"></i>新增奖励数值</a>
+                        <a href="{:U('Luckdraw/mulitadd#10#0',array('luckdraw_id'=>$luckdraw_id))}"><i class="icon-font"></i>批量添加奖励数值</a>
                     </div>
                 </div>
                 <div class="result-content">
@@ -34,6 +35,7 @@
                         </tr>
                         </volist>
                     </table>
+                    <div class="list-page"> <ul>{$page}</ul></div>
                 </div>
         </div>
     </div>

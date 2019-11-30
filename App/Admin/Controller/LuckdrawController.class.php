@@ -150,6 +150,29 @@ class LuckdrawController extends AdminController
             $this->display();
         }
     }
+    public function mulitadd(){
+        $db = M("luckdraw_conf_detail");
+        if(IS_POST){
+            $luckdraw_id = I('post.luckdraw_id','','');
+            $mulit_num = trim(I('post.mulit_num'));
+            if(!$mulit_num){
+                $this->error('请输入奖励数值');
+            }
+            $mulit_num = array_filter(explode("+",$mulit_num));
+            foreach ($mulit_num as $v){
+                $db->add(array(
+                    'num' => $v,
+                    'luckdraw_id' =>$luckdraw_id,
+                ));
+            }
+            $this->success('操作成功',U('detail',array('luckdraw_id'=>$luckdraw_id)));
+        }else{
+            $luckdraw_id = I('get.luckdraw_id');
+
+            $this->assign('luckdraw_id',$luckdraw_id);
+            $this->display();
+        }
+    }
     public function detaildel(){
         if(empty($_POST['id'])){
             $info['status'] = -1;

@@ -10,12 +10,15 @@
 		<div style="height: .74rem;clear: both;"></div>
 	</header>
 	<div class="rechage_bgk">
+		<input type="hidden" id="currency_id" value="{$list.currency_id}">
+
 		<ul class="flexbox">
-			<li><img src="__IMG__/rise/qrcode.png" alt=""></li>
+			<!--<li><img src="__IMG__/rise/qrcode.png" alt=""></li>-->
+			<li><img src="{:U('Order/qrcodeimg',array('type'=>'222'))}" alt=""></li>
 			<li>截图二维码保存</li>
 			<li>充值地址</li>
-			<li>LVSDKksdskdjsn98VSDK79dsdsVSDKlkjfs</li>
-			<li>复制</li>
+			<li class="copy2">{$list.chongzhi_url}</li>
+			<li class="copy_btn" data-clipboard-target=".copy2">复制</li>
 		</ul>
 	</div>
 	<div class="rechage_b">
@@ -53,5 +56,23 @@
 		</a>
 	</ul>
 </div>
-
+<script>
+    $(".copy_btn").click(function () {
+        var clipboard = new Clipboard(".copy_btn");
+        clipboard.on('success', function(e) {
+            console.log(e);
+            layer.msg('复制成功');
+        });
+    });
+    setInterval("myInterval()",1000);//1000为1秒钟
+    function myInterval()
+    {
+        var id=$("#currency_id").val();
+        $.post('{:U('Order/chongzhi_function')}',{currency_id:id},function(data){
+        if(data.status==1){
+            location.reload();
+        }
+    })
+    }
+</script>
 <include file="Public:footer"/>

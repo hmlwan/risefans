@@ -50,7 +50,7 @@
                                     <td>
                                         <select name="luckdraw_conf_id" class="common-text" id="luckdraw_conf_id">
                                             <volist name="luckdraw_conf_list" id="vo">
-                                                <option value="{$vo['id']}" <if condition="$info['luckdraw_conf_id'] eq $vo['id']"></if>>{$vo['title']} </option>
+                                                <option value="{$vo['id']}" <if condition="$info['luckdraw_conf_id'] eq $vo['id']">selected</if>>{$vo['title']} </option>
                                             </volist>
                                         </select>
                                     </td>

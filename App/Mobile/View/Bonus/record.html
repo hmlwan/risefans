@@ -9,6 +9,28 @@
 		</div>
 		<div style="height: .74rem;clear: both;"></div>
 	</header>
+
+	<if condition="$list">
+		<div class="whitebox yq_score incomebox">
+			<ul>
+				<volist name="list" id="vo">
+					<li  class="flexbox spacebetween"><img src="__IMG__/rise/lcb.png"/>
+						<div>
+							<p>凭证:{$vo.bonus_voucher_num}份(VIP{$vo.level})</p>
+							<span>{$vo.add_time|date="m/d H:i:s",###}(累积{$vo.accumulate_second}秒)</span>
+						</div>
+						<span class="lh2">+{$vo.num}</span>
+					</li>
+				</volist>
+
+			</ul>
+		</div>
+	<else />
+		<div class="no_ex_pub_data">
+			<img src="__IMG__/rise/no_data.png" alt="">
+			<p class="text">暂时没有数据</p>
+		</div>
+	</if>
 	<!--<div class="whitebox yq_score incomebox">-->
 		<!--<ul>-->
 			<!--<li  class="flexbox spacebetween"><img src="__IMG__/rise/lcb.png"/>-->
@@ -34,10 +56,7 @@
 			<!--</li>-->
 		<!--</ul>-->
 	<!--</div>-->
-	<div class="no_ex_pub_data">
-		<img src="__IMG__/rise/no_data.png" alt="">
-		<p class="text">暂时没有数据</p>
-	</div>
+
 </div>
 <div style="height: .9rem;"></div>
 <div class="footer_main">
@@ -46,7 +65,7 @@
 			<li class="footer_fl">红包</li>
 		</a>
 		<a href="{:U('Bonus/index')}">
-			<li class="footer_f2">分红</li>
+			<li class="footer_f2 footer_active_f2" >分红</li>
 		</a>
 		<a href="{:U('Invite/index')}">
 			<li class="footer_f3">
@@ -60,7 +79,7 @@
 			</li>
 		</a>
 		<a href="{:U('Member/index')}">
-			<li class="footer_f5 footer_active_f5">
+			<li class="footer_f5">
 				我的
 			</li>
 		</a>

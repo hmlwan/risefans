@@ -105,4 +105,8 @@ class MemberModel extends Model{
         }
         return $str;
     }
+    public function get_vip_level($member_id){
+        return M("member_info")->where(array('member_id'=>$member_id))->getField('vip_level');
+
+    }
 }

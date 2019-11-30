@@ -13,58 +13,25 @@
 		<section class="section change_num">
 			<h3>提现金额</h3>
 			<ul class="flexbox">
-				<li class="active" data-num="1000" data-ltb="0.1">
-					<div><strong>0.1莱特币</strong>
-					<p>售价1千金币</p></div>
-				</li>
-				<li data-num="5000" data-ltb="0.5">
-					<div>
-						<strong>0.5莱特币</strong>
-						<p>售价5千金币</p>
-					</div>
-				</li>
-				<li data-num="10000"  data-ltb="1">
-					<div>
-						<strong>1莱特币</strong>
-						<p>售价1万金币</p>
-					</div>
-				</li>
-				<li data-num="50000" data-ltb="5">
-					<div>
-						<strong>5莱特币</strong>
-						<p>售价5万金币</p>
-					</div>
-				</li>
-				<li data-num="100000"  data-ltb="10">
-					<div>
-						<strong>10莱特币</strong>
-						<p>售价10万金币</p>
-					</div>
-				</li>
-				<li data-num="500000" data-ltb="50">
-					<div>
-						<strong>50莱特币</strong>
-						<p>售价50万金币</p>
-					</div>
-				</li>
-				<li data-num="1000000" data-ltb="100">
-					<div>
-						<strong>100莱特币</strong>
-						<p>售价100万金币</p>
-					</div>
-				</li>
-				<li data-num="5000000" data-ltb="500">
-					<div>
-						<strong>500莱特币</strong>
-						<p>售价500万金币</p>
-					</div>
-				</li>
-				<li data-num="10000000" data-ltb="1000">
-					<div>
-						<strong>1000莱特币</strong>
-						<p>售价1000万金币</p>
-					</div>
-				</li>
+				<volist name="ex_conf_list" id="v">
+					<li <if condition="$key eq 0">class="active"</if>  data-dh_cur_id="{$v.dh_cur_id}" data-xh_cur_id="{$v.xh_cur_id}" data-num="{$v.xh_num}" data-ltb="{$v.dh_num}">
+						<div><strong>{$v.dh_num}{$v.dh_cur_name}</strong>
+							<p>售价{$v.xh_num_str}金币</p></div>
+					</li>
+				</volist>
+
+				<!--<li data-num="5000" data-ltb="0.5">-->
+					<!--<div>-->
+						<!--<strong>0.5莱特币</strong>-->
+						<!--<p>售价5千金币</p>-->
+					<!--</div>-->
+				<!--</li>-->
+				<!--<li data-num="10000"  data-ltb="1">-->
+					<!--<div>-->
+						<!--<strong>1莱特币</strong>-->
+						<!--<p>售价1万金币</p>-->
+					<!--</div>-->
+				<!--</li>-->
 			</ul>
 		</section>
 		<section class="section change_num">
@@ -105,6 +72,7 @@
 			</ul>
 		</div>
 		<script>
+
             $(".change_num ul").find("li").click(function () {
 				$(this).attr('class','active');
 				$(this).siblings('li').attr('class','');
@@ -115,15 +83,23 @@
                 var li_active = $(".change_num ul").find("li[class='active']");
                 var xh_num = li_active.data('num');
                 var dh_num = li_active.data('ltb');
+
+                var dh_cur_id = li_active.data('dh_cur_id');
+                var xh_cur_id = li_active.data('xh_cur_id');
                 $.post("{:U('Exchange/exorder')}",{
-                    xh_num:xh_num,dh_num:dh_num,
+                    xh_num:xh_num,
+					dh_num:dh_num,
+                    dh_cur_id:dh_cur_id,
+                    xh_cur_id:xh_cur_id,
                 },function(data){
                     if(data.status==1){
-                        layer.msg(data.info,{icon:1});
+//                        layer.msg(data.info,{icon:1});
+                        layer.msg(data.info);
                         window.setTimeout(function(){
                             window.location="{:U('Exchange/exrecord')}";
                         },1000);
                     }else{
+
                         layer.msg(data.info);
                         return false;
                     }

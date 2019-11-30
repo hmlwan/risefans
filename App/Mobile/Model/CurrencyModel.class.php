@@ -12,6 +12,16 @@ use Think\Model;
 class CurrencyModel extends Model{
 
 
+
+    public function get_cur_info($currency_id){
+
+        $cur_info = "";
+        if($currency_id){
+            $cur_info = $this->where(array('currency_id'=>$currency_id))->find();
+        }
+        return $cur_info;
+    }
+
     public function get_cur_name($currency_id){
 
         $cur_name = "";
@@ -20,9 +30,20 @@ class CurrencyModel extends Model{
         }
         return $cur_name;
     }
+    public function get_cur_en($currency_id){
+
+        $currency_en = "";
+        if($currency_id){
+            $currency_en = $this->where(array('currency_id'=>$currency_id))->getField('currency_en');
+        }
+        return $currency_en;
+    }
     /*用户币种*/
-    public function mem_cur($currency_id){
-        $member_id = session('USER_KEY_ID');
+    public function mem_cur($currency_id,$member_id){
+        if(!$member_id){
+            $member_id = session('USER_KEY_ID');
+
+        }
         $where = array(
             'currency_id' =>$currency_id,
             'member_id' =>$member_id,
@@ -31,10 +52,27 @@ class CurrencyModel extends Model{
 
         return $info;
     }
+    /*用户币种余额*/
+    public function mem_cur_num($currency_id,$member_id){
+        if(!$member_id){
+            $member_id = session('USER_KEY_ID');
+
+        }
+        $where = array(
+            'currency_id' =>$currency_id,
+            'member_id' =>$member_id,
+        );
+        $num = M('currency_user')->where($where)->getField('num');
+
+        return $num ? $num:0;
+    }
+
 
     /*用户加币*/
-    public function mem_inc_cur($currency_id,$num){
-        $member_id = session('USER_KEY_ID');
+    public function mem_inc_cur($currency_id,$num,$member_id){
+        if(!$member_id){
+            $member_id = session('USER_KEY_ID');
+        }
         $where = array(
             'currency_id' =>$currency_id,
             'member_id' =>$member_id,
@@ -58,9 +96,10 @@ class CurrencyModel extends Model{
         return true;
     }
     /*用户减币*/
-    public function mem_dec_cur($currency_id,$num){
-        $member_id = session('USER_KEY_ID');
-
+    public function mem_dec_cur($currency_id,$num,$member_id){
+        if(!$member_id){
+            $member_id = session('USER_KEY_ID');
+        }
         $where = array(
             'currency_id' =>$currency_id,
             'member_id' =>$member_id,

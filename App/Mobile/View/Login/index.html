@@ -21,7 +21,7 @@
             </li>
         </ul>
         <div class="dl_tips">
-            <a class="sjdl" href="{:U('Login/setphone')}">忘记密码?</a>
+            <a class="sjdl" href="{:U('Login/forgetpwd')}">忘记密码?</a>
         </div>
         <div class="btn">
             <a class="dl_btn" href="javascript:void(0);" onclick="login()">登录</a>
@@ -68,7 +68,7 @@
         }
 
         if(!Utils.isTel(phone)){
-            layer.msg('手机号格式错误');
+            layer.msg('手机号码格式错误');
             return false;
         }
         if(password == ""||password == null){
@@ -77,7 +77,8 @@
         }
         $.post("{:U('Login/checkLog')}",{phone:phone,pwd:password},function(data){
             if(data.status == 1){
-                layer.msg(data.info,{icon:1});
+//                layer.msg(data.info,{icon:1});
+                layer.msg(data.info);
                 window.setTimeout(function(){
                     window.location="{:U('Member/index')}";
                 },1000);
@@ -87,7 +88,6 @@
             }
         },"json");
     }
-
 </script>
 <include file="Public:footer"/>
 

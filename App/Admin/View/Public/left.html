@@ -72,7 +72,7 @@
                 </notempty>
                 <notempty name='currency_nav'>
                     <li>
-                        <a href="#"><i class="iconfont">&#xe756;</i><span class="fsize">币种管理</span></a>
+                        <a href="#"><i class="iconfont">&#xe756;</i><span class="fsize">钱包币种管理</span></a>
                         <ul class="sub-menu">
                             <volist name='currency_nav' id='vo'>
                                 <li><a href="{$vo.nav_url}#2#{$key}"><i class="iconfont">{$vo.nav_e}</i>&nbsp;{$vo.nav_name}</a></li>
@@ -133,7 +133,7 @@
                 <!--</notempty>-->
                 <notempty name='record_nav'>
                     <li>
-                        <a href="#"><i class="iconfont">&#xe631;</i><span class="fsize">记录管理</span></a>
+                        <a href="#"><i class="iconfont">&#xe631;</i><span class="fsize">交易管理</span></a>
                         <ul class="sub-menu">
                             <volist name='record_nav' id='vo'>
                                 <li><a href="{$vo.nav_url}#6#{$key}"><i class="iconfont">{$vo.nav_e}</i>&nbsp;{$vo.nav_name}</a></li>
@@ -211,12 +211,32 @@
                         </ul>
                     </li>
                 </notempty>
+                <notempty name='exchange_nav'>
+                    <li>
+                        <a href="#"><i class="iconfont">&#xe635;</i><span class="fsize">兑换管理</span></a>
+                        <ul class="sub-menu">
+                            <volist name='exchange_nav' id='vo'>
+                                <li><a href="{$vo.nav_url}#14#{$key}"><i class="iconfont">{$vo.nav_e}</i>&nbsp;{$vo.nav_name}</a></li>
+                            </volist>
+                        </ul>
+                    </li>
+                </notempty>
+                <notempty name='statistics_nav'>
+                    <li>
+                        <a href="#"><i class="iconfont">&#xe635;</i><span class="fsize">统计数据</span></a>
+                        <ul class="sub-menu">
+                            <volist name='statistics_nav' id='vo'>
+                                <li><a href="{$vo.nav_url}#15#{$key}"><i class="iconfont">{$vo.nav_e}</i>&nbsp;{$vo.nav_name}</a></li>
+                            </volist>
+                        </ul>
+                    </li>
+                </notempty>
                 <notempty name='admin_nav'>
                     <li>
                         <a href="#"><i class="iconfont">&#xe64d;</i><span class="fsize">管理员管理</span></a>
                         <ul class="sub-menu">
                             <volist name='admin_nav' id='vo'>
-                                <li><a href="{$vo.nav_url}#13#{$key}"><i class="iconfont">{$vo.nav_e}</i>&nbsp;{$vo.nav_name}</a></li>
+                                <li><a href="{$vo.nav_url}#16#{$key}"><i class="iconfont">{$vo.nav_e}</i>&nbsp;{$vo.nav_name}</a></li>
                             </volist>
                         </ul>
                     </li>

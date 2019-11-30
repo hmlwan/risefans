@@ -31,9 +31,9 @@
 			<li>
 				<p class="title">手续费</p>
 				<p  class="flexbox spacebetween">
-					<span><input type="text" name="service_charge" class="sxf sxf_val" readonly value="{$ltc_service_charge_min}"></span><span class="ltc">LTC</span>
+					<span><input type="text" name="service_charge" class="sxf sxf_val" readonly value="{$ltc_service_charge_rate}"></span><span class="ltc">LTC</span>
 				</p>
-				<p>范围 {$ltc_service_charge_min}-{$ltc_service_charge_max} LTC</p>
+				<!--<p>范围 {$ltc_service_charge_min}-{$ltc_service_charge_max} LTC</p>-->
 			</li>
 		</ul>
 		<div class="tbsm">
@@ -53,7 +53,8 @@
 	</div>
 </div>
 <div class="zhezhao_h"></div>
-<div class="yztb" style="display: none">
+<div class="yztb" style="display:none ">
+
 	<ul class="flexbox column">
 		<li class="cur_no"></li>
 		<li>
@@ -75,10 +76,11 @@
 			</p>
 		</li>
 	</ul>
+	<input type="hidden" name="phone" value="{$phone}">
 	<p class="flexbox spacebetween yzm">
 		<span>短信验证</span>
 		<span><input type="text" name="yzm" placeholder="短信验证码"></span>
-		<span class="fsyzm">发送验证码</span>
+		<span class="fsyzm" id="msgt" onclick="get_code()">发送验证码</span>
 	</p>
 	<div class="tb_btn default" onclick="tb_btn()">
 		提币
@@ -139,8 +141,8 @@
         show_data(total_num);
     });
     function show_data(total_num) {
-        var ltc_service_charge = (parseFloat((total_num / 1) * ltc_service_charge_rate)).toFixed(8);
-        $(".sxf_val").val(ltc_min_num);
+//        var ltc_service_charge = (parseFloat((total_num / 1) * ltc_service_charge_rate)).toFixed(8);
+        var ltc_service_charge = ltc_service_charge_rate;
         $(".sxf_sval").text(ltc_min_num);
         $(".tb_sval").text(total_num);
         $(".tb_sval").val(total_num);
@@ -150,10 +152,10 @@
         console.log(ltc_service_charge_min);
         console.log(ltc_min_num);
 
-        if(ltc_service_charge > ltc_service_charge_min){
-            $(".sxf_val").val(ltc_service_charge);
-            $(".sxf_sval").text(ltc_service_charge);
-        }
+//        if(ltc_service_charge > ltc_service_charge_min){
+////            $(".sxf_val").val(ltc_service_charge);
+//            $(".sxf_sval").text(ltc_service_charge);
+//        }
         var real_val = (total_num - ltc_service_charge).toFixed(8);
         $(".real_val").text(real_val);
     }
@@ -177,12 +179,14 @@
         var total_num = parseFloat($("input[name='total_num']").val());
         var service_charge = parseFloat($("input[name='service_charge']").val());
         var yzm = ($("input[name='yzm']").val());
-		if(!yzm){
+        var phone = $("input[name='phone']").val();
+
+        if(!yzm){
             layer.msg("请输入验证码");
             return false;
 		}
         $.post("{:U('Order/withdraw_order')}",{
-            yzm:yzm,cur_address:cur_address,total_num:total_num,service_charge:service_charge
+            yzm:yzm,cur_address:cur_address,total_num:total_num,service_charge:service_charge,phone:phone
         },function(data){
             if(data.status==1){
                 layer.msg(data.info,{icon:1});
@@ -195,7 +199,40 @@
             }
         })
     };
-
+    function get_code(){
+        var phone = $("input[name='phone']").val();
+        if(phone == ""||phone == null){
+            layer.msg('请输入手机号码');
+            return false;
+        }
+        if(!Utils.isTel(phone)){
+            layer.msg('手机号码格式错误');
+            return false;
+        }
+        $("#msgt").attr("data-key","off");
+        var i= 60;
+        var timer =setInterval(function(){
+            if($("#msgt").attr("data-key")=='off'){
+                $("#msgt").attr("disabled",true).css("pointer-events","none");
+                i--;
+                $("#msgt").text("重新获取 "+i);
+                if(i<=0){
+                    $("#msgt").removeAttr("disabled").text("发送验证码");
+                    $("#msgt").attr("data-key","on");
+                    $("#msgt").css("pointer-events","auto");
+                    clearInterval(timer);
+                }
+            }
+        },1000);
+        $.post("{:U('Common/ajaxSandPhone')}",
+            {'phone':phone,type:2},function(d){
+                if(d.status == 1){
+                    layer.msg(d.info,{icon:1});
+                }else{
+                    layer.msg(d.info);
+                }
+            });
+    }
 
 
 </script>

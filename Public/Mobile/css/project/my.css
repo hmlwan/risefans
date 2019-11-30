@@ -6,6 +6,9 @@ body{
 	box-sizing: border-box;
 	/*background: url('../../images/rise/my_bgk.png') no-repeat center;*/
 	/*width: 100%;*/
+	background: url('../../images/rise/my_bgk.png') no-repeat center;
+	display: inline-block;
+
 }
 
 .my_head strong{
@@ -19,18 +22,18 @@ body{
 	margin-left: .1rem;
 }
 .my_top{
-	padding:0 .16rem .2rem;
+	padding: .35rem .16rem .3rem;
 
 }
 .my_gold{
-	margin: 0 auto;
-	width:90%;
+	margin: 2px auto;
+	width: 90%;
 	padding: 0 .3rem;
 	box-sizing: border-box;
-	/*border: 3px solid #f6f6f6;*/
+	border: 1px solid #f6f6f6;
 	border-radius: 3px;
 	text-align: center;
-	box-shadow: 0px 0px 2px 3px #f6f6f6;
+	box-shadow: 0px 0px 2px 2px #f6f6f6;
 }
 .my_gold li{
 	width: 50%;
@@ -50,7 +53,7 @@ body{
 }
 
 .my_gold strong{
-	font-size: .4rem;
+	font-size: .32rem;
 }
 .my_gold p {
 	color: #9a9a9a;
@@ -111,7 +114,8 @@ body{
 }
 
 .current_gold_head img{
-	width: .36rem;
+	width: .35rem;
+	height: .3rem;
 }
 
 .current_gold_head a{

@@ -70,6 +70,16 @@ class HongbaoController extends AdminController
             ->order ("id desc" )
             ->limit ( $Page->firstRow . ',' . $Page->listRows )
             ->select ();
+        $pcount = M("member")->count();
+
+        foreach ($info as &$value){
+            $read_num = M("hongbao_ad_read_detail")->where(array('hb_ad_id'=>$value['id']))->count();
+            $value["read_num"] = $read_num;
+
+            $read_num_rate = $read_num /$pcount;
+            $value["read_num_rate"] = round($read_num_rate,2)*100;
+        }
+
         $this->assign ('list', $info ); // 赋值数据集
         $this->assign ('page', $show ); // 赋值分页输出
         $this->display ();
@@ -107,29 +117,31 @@ class HongbaoController extends AdminController
     }
     public function ad_record(){
         $model = M ('hongbao_ad_record' );
-        $ad_title = I('ad_title');
+        $phone = I('phone');
 
         $where = array();
-        if($ad_title){
-            $where["ad_title"] = $ad_title ;
+        if($phone){
+            $where["m.phone"] = array('like', '%' . $phone . "%");
         }
 
         // 查询满足要求的总记录数
-        $count = $model->where ( $where )->count ();
+        $count = $model->alias('d')
+            ->join('left join blue_member as m on m.member_id=d.member_id')->where ( $where )->count ();
         // 实例化分页类 传入总记录数和每页显示的记录数
         $Page = new \Think\Page ( $count, 20 );
         //将分页（点击下一页）需要的条件保存住，带在分页中
         // 分页显示输出
         $show = $Page->show ();
         //需要的数据
-        $field = "*";
-        $list = $model->field ( $field )
+        $field = "d.*,m.phone";
+        $list = $model->alias('d')
+            ->join('left join blue_member as m on m.member_id=d.member_id')
+            ->field ( $field )
             ->where ( $where )
-            ->order ("id desc" )
+            ->order ("d.id desc" )
             ->limit ( $Page->firstRow . ',' . $Page->listRows )
             ->select ();
         foreach ($list as &$v){
-            $v["phone"] = M('member')->where(array('member_id'=>$v['member_id']))->getField('phone');
             $v["ad_title"] = M('hongbao_ad')->where(array('id'=>$v['hongbao_ad_id']))->getField('ad_title');
             $v["currency_name"] = M('currency')->where(array('currency_id'=>$v['currency_id']))->getField('currency_name');
         }

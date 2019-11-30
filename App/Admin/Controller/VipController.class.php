@@ -39,6 +39,7 @@ class VipController extends AdminController
             $value['sub_luckdraw_cur_name'] = D("currency")->get_cur_name($value['sub_luckdraw_cur_id']);
             $value['close_vip_reward_cur_name'] = D("currency")->get_cur_name($value['close_vip_reward_cur_id']);
             $value['sale_cur_name'] = D("currency")->get_cur_name($value['sale_cur_id']);
+            $value['cert_cur_name'] = D("currency")->get_cur_name($value['cert_cur_id']);
         }
         $this->assign ('list', $info ); // 赋值数据集
         $this->assign ('page', $show ); // 赋值分页输出
@@ -85,7 +86,8 @@ class VipController extends AdminController
         }
 
         // 查询满足要求的总记录数
-        $count = $model->where ( $where )->count ();
+        $count = $model->alias('v')
+            ->join('left join blue_member as m on m.member_id=v.member_id')->where ( $where )->count ();
         // 实例化分页类 传入总记录数和每页显示的记录数
         $Page = new \Think\Page ( $count, 20 );
         //将分页（点击下一页）需要的条件保存住，带在分页中

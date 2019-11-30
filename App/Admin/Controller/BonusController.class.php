@@ -45,16 +45,17 @@ class BonusController extends AdminController
     }
     /*记录*/
     public function record(){
-        $model = M ('bonus_record' );
-        $phone = I('phone');
 
+        $phone = I('phone');
+        $cinfo = M ('bonus_config' )->where("1=1")->find();
         $where = array();
         if($phone){
             $where["m.phone"] = array('like','%'.$phone."%") ;
         }
-
+        $model = M ('bonus_record' );
         // 查询满足要求的总记录数
-        $count = $model->where ( $where )->count ();
+        $count = $model->alias('r')
+            ->join('left join blue_member as m on m.member_id=r.member_id')->where ( $where )->count();
         // 实例化分页类 传入总记录数和每页显示的记录数
         $Page = new \Think\Page ( $count, 20 );
         //将分页（点击下一页）需要的条件保存住，带在分页中
@@ -71,6 +72,7 @@ class BonusController extends AdminController
             ->select ();
         foreach ($info as &$value){
             $value['currency_name'] = D("currency")->get_cur_name($value['currency_id']);
+            $value['num'] = number_format($value['num'],$cinfo['receive_decimal_num'],'.','');
         }
         $this->assign ('list', $info ); // 赋值数据集
         $this->assign ('page', $show ); // 赋值分页输出

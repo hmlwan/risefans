@@ -11,71 +11,26 @@
     </header>
     <div class="bzzx">
         <div class="bzzx_c">
-            <ul>
-                <volist name="art_list" id="vo">
-                    <li>
-                        <div class="bzzx_h">
-                            <span>{$vo.title}</span>
-                            <i></i>
-                        </div>
-                        <div class="bzzx_b"><?php echo htmlspecialchars_decode($vo['content']); ?></div>
-                    </li>
-                </volist>
-                <!--<li>-->
-                    <!--<div class="bzzx_h">-->
-                        <!--<span>身份证/手机号码已存在，要如何处理？</span>-->
-                        <!--<i></i>-->
-                    <!--</div>-->
-                    <!--<div class="bzzx_b"></div>-->
-                <!--</li>-->
-                <!--<li>-->
-                    <!--<div class="bzzx_h">-->
-                        <!--<span>下单突然提示账号被冻结</span>-->
-                        <!--<i></i>-->
-                    <!--</div>-->
-                    <!--<div  class="bzzx_b">答：亲，不好意思哦，为了您的账户安全，系统会不定期对账户进行安全监测，监测到您账户安全系数较低时，系统会暂时冻结您的账户，请您见谅。-->
-                        <!--若您现在需要解，点击申请解冻，可进入账户解冻流程，具体是要以系统解冻提示结果为准。</div>-->
-                <!--</li>-->
-                <!--<li>-->
-                    <!--<div class="bzzx_h">-->
-                        <!--<span>账号找回和恢复</span>-->
-                        <!--<i></i>-->
-                    <!--</div>-->
-                   <!--<div  class="bzzx_b"></div>-->
-                <!--</li>-->
-                <!--<li>-->
-                    <!--<div class="bzzx_h">-->
-                        <!--<span>实名认证规范</span>-->
-                        <!--<i></i>-->
-                    <!--</div>-->
-                    <!--<div  class="bzzx_b"></div>-->
-                <!--</li>-->
-                <!--<li>-->
-                    <!--<div class="bzzx_h">-->
-                        <!--<span>人工申请解冻需要什么资料</span>-->
-                        <!--<i></i>-->
-                    <!--</div>-->
+            <if condition="$art_list">
+                <ul>
+                    <volist name="art_list" id="vo">
+                        <li>
+                            <div class="bzzx_h bzzx_hh">
+                                <span>{$vo.title}</span>
+                                <i></i>
+                            </div>
+                            <div class="bzzx_b"><?php echo htmlspecialchars_decode($vo['content']); ?></div>
+                        </li>
+                    </volist>
 
-                    <!--<div  class="bzzx_b"></div>-->
-                <!--</li>-->
-                <!--<li>-->
-                    <!--<div  class="bzzx_h">-->
-                        <!--<span>账号安全认证</span>-->
-                        <!--<i></i>-->
-                    <!--</div>-->
-                    <!--<div  class="bzzx_b"></div>-->
-                <!--</li>-->
-                <!--<li>-->
-                   <!--<div  class="bzzx_h">-->
-                       <!--<span>解绑手机号</span>-->
-                       <!--<i></i>-->
-                   <!--</div>-->
-                    <!--<div class="bzzx_b">-->
-                        <!--答：亲，不好意思哦，为了您的账户安全，系统会不定期对账户进行安全监测，监测到您账户安全系数较低时，系统会暂时冻结您的账户，请您见谅。-->
-                        <!--若您现在需要解，点击申请解冻，可进入账户解冻流程，具体是要以系统解冻提示结果为准。-->
-                    <!--</div>-->
-                <!--</li>-->
-            </ul>
+                </ul>
+                <else />
+                <div class="no_ex_pub_data">
+                    <img src="__IMG__/rise/no_data.png" alt="">
+                    <p class="text">暂时没有数据</p>
+                </div>
+            </if>
+
         </div>
     </div>
 </div>
@@ -108,15 +63,14 @@
     </ul>
 </div>
 <script>
-    $(".bzzx_c").find("li i").click(function () {
-        if($(this).attr('class') == 'active'){
-            $(this).attr('class','');
-            $(this).closest('.bzzx_h').next('.bzzx_b').hide();
+    $(".bzzx_hh").click(function () {
+        if($(this).find('i').attr('class') == 'active'){
+            $(this).find('i').attr('class','');
+            $(this).next('.bzzx_b').hide();
         }else{
-            $(this).attr('class','active');
-            $(this).closest('.bzzx_h').next('.bzzx_b').show();
+            $(this).find('i').attr('class','active');
+            $(this).next('.bzzx_b').show();
         }
-
     });
 
 </script>

@@ -18,7 +18,7 @@
 
         <div class="result-title">
 
-            <form action="{:U('tixian/tixian#6#0')}" method="get">
+            <form action="{:U('Record/tixian#2#2')}" method="get">
                 <table class="search-tab">
                     <tr>
                         <td width="50">手机号:</td>
@@ -34,43 +34,51 @@
 
                     <th>ID</th>
                     <th>用户名称</th>
-                    <th>提币地址</th>
+                    <th>转入钱包地址</th>
                     <th>提现币种</th>
-                    <th>提现币种数量</th>
+                    <th>转出数量</th>
                     <th>手续费</th>
-                    <th>处理类型</th>
+                    <th>实际数量</th>
+                    <th>是否人工处理</th>
                     <th>状态</th>
                     <th>创建时间</th>
                     <th>操作</th>
+
                 </tr>
-                <volist name='info' id='vo'>
+                <volist name='list' id='vo'>
                     <tr>
                         <td>{$vo['id']}</td>
                         <td>{$vo['phone']}</td>
-                        <td>{$vo['cur_address']}</td>
+                        <td>{$vo['url']}</td>
                         <td>{$vo['currency_name']}</td>
                         <td> {$vo['num']}</td>
-                        <td> {$vo['service_charge']}</td>
+                        <td> {$vo['fee']}</td>
+                        <td> {$vo['actual']}</td>
                         <td>
-                            <if condition="$vo['deal_type'] eq 1">
-                                手动
+                            <if condition="$vo['is_person_deal'] eq 1">
+                               是
+                            </if>
+                            <if condition="$vo['is_person_deal'] eq 0">
+                               否
                             </if>
                         </td>
                         <td>
+                            <if condition="$vo['status'] eq 0">
+                                等待转出...
+                            </if>
                             <if condition="$vo['status'] eq 1">
                                 已完成
-                                <elseif condition="$vo['type'] eq 2" />
-                                正在处理
-                                <else />
+                            </if>
+                            <if condition="$vo['status'] eq 4">
                                 失败
                             </if>
                         </td>
                         <td>{$vo['add_time']|date="Y-m-d H:i:s",###}</td>
                         <td>
-                            <if condition="$vo['status'] neq 1">
+                            <if condition="$vo['is_person_deal'] eq '1' AND $vo['status'] eq '0'">
                                 <a class="link-update" href="{:U('tixian_by_person',array('id'=>$vo['id']))}" >手动充值</a>
                             </if>
-                            <a href="javascript:void(0)" class="link-del" onclick="cexiao({$vo.id})">删除</a>
+                            <!--<a href="javascript:void(0)" class="link-del" onclick="cexiao({$vo.id})">删除</a>-->
                         </td>
                     </tr>
                 </volist>

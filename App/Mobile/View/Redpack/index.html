@@ -2,7 +2,7 @@
 <link type="text/css" rel="stylesheet" href="__CSS__/project/hongbao.css" />
 <body>
 		<header class="header">
-			<img src="__IMG__/rise/q.png"/><span>如何赚钱</span>
+			<img src="__IMG__/rise/q.png"/><a href="{:U('Redpack/make_money')}"><span>如何赚钱</span></a>
 		</header>
 		<div class="padbody">
 			<div class="clock flexbox">
@@ -12,25 +12,29 @@
 				</div>
 				<div class="midclock">
 					<div class="wrap"  id="clock"></div>
-
+					<input type="hidden" name="rate_num" value="{$rate_num}">
+					<input type="hidden" name="left_hongbao_num" value="{$left_hongbao_num}">
 					<div class="inner">
 						<div class="top_num">
-							<p>3000</p>
+							<p>{$num2}</p>
 							<img src="__IMG__/rise/bg.png"/>
 						</div>
 						<div class="sec_num flexbox spacebetween">
-							<p>1500</p>
-							<p>4500</p>
+							<p>{$num1}</p>
+							<p>{$num3}</p>
 						</div>
 						<div class="mid_num">
-							<strong><b>5700</b><i>剩</i></strong>
-							<p>VIP{$mem_info.vip_level}可领{$vip_receive_num}个红包</p>
+							<!--<strong><b>{$left_hongbao_num|default=0}</b><i>剩</i></strong>-->
+							<strong><b>{$td_sum_receive_num|default=0}</b></strong>
+							<!--<p>VIP{$mem_info.vip_level}可领{$vip_receive_num}个红包</p>-->
+							<p>今日全网领取数量</p>
 						</div>
 						<div class="bottom_num flexbox spacebetween">
 							<p>0</p>
-							<p>6000</p></div>
+							<p>{$num4}</p>
+						</div>
 					</div>
-					<a data-url="{:U('Redpack/watch_ad')}" data-left_re="{$left_re}"  onclick="is_receive($(this),{$mem_info.vip_level})"><button>领取红包</button></a>
+					<a data-url="{:U('Redpack/watch_ad')}" data-left_re="{$left_re}"  onclick="is_receive($(this))"><button>领取红包</button></a>
 				</div>
 				<div class="imgclock rightclock">
 					<img src="__IMG__/rise/b.png"/>
@@ -44,16 +48,17 @@
 				</div>
 				<div class="historyul flexbox spacebetween">
 					<div>
-						<strong><b>{$total_re}</b>次</strong>
-						<p>累计领取</p>
+						<strong><b>VIP{$mem_info.vip_level|default=0}</b></strong>
+						<p>VIP等级</p>
+					</div>
+
+					<div>
+						<strong><b>{$receive_hongbao_num|default=0}</b>次</strong>
+						<p>每日领取次数</p>
 					</div>
 					<div>
-						<strong><b>{$total_re_num}</b>次</strong>
-						<p>累计奖励</p>
-					</div>
-					<div>
-						<strong><b>{$today_re}</b>次</strong>
-						<p>今日领取</p>
+						<strong><b>{$sum_num|default=0}</b>币</strong>
+						<p>累积奖励</p>
 					</div>
 				</div>
 
@@ -71,7 +76,7 @@
 				<a href="{:U('Redpack/index')}">
 					<li class="footer_fl footer_active_f1">红包</li>
 				</a>
-				<a href="">
+				<a href="{:U('Bonus/index')}">
 					<li class="footer_f2">分红</li>
 				</a>
 				<a href="{:U('Invite/index')}">
@@ -94,27 +99,31 @@
 		</div>
 		<script type="text/javascript">
 
-			function is_receive(obj,vip_level) {
-
-//			    if(vip_level == 0){
-//                    layer.msg("你的vip等级为0,暂时不能领取红包");
-//                    return false;
-//				}
+			function is_receive(obj) {
 				var url = obj.data('url');
-//				var left_re = $(this).data('left_re');
-//				if(left_re == 0){
-//                    layer.msg("今日已领取完红包");
+				var left_re = obj.data('left_re');
+				console.log(left_re);
+
+//				var left_hongbao_num = $("input[name='left_hongbao_num']").val();
+//				if(left_hongbao_num<=0){
+//                    layer.msg("红包数量不足");
 //                    return false;
 //				}
+				if(left_re <= 0){
+                    layer.msg("今日已领取完红包");
+                    return false;
+				}
                 window.location.href = url;
             }
+            var rate_num = $("input[name='rate_num']").val();
+			console.log(rate_num);
 			creatClock();
 			//生成指针
 			function creatClock(){
 
-				let tempclock='';
-				for(let i=0;i<61;i++){
-					tempclock+='<div style="transform: rotate('+i*4+'deg)" class="time1"></div>';					
+				var tempclock='';
+				for(var i=0;i<61;i++){
+					tempclock+='<div style="transform: rotate('+i*4+'deg)" class="time1"></div>';
 				}
 //				console.log(tempclock,111)
 				$("#clock").prepend(tempclock);
@@ -142,7 +151,7 @@
 						}
 					}
 					//修改背景色
-					if(i<4){
+					if(i<rate_num){
 						$(item).addClass('borderC')
 					}
 					

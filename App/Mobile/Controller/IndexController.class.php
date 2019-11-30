@@ -18,6 +18,12 @@ class IndexController extends CommonController {
 
         $this->display();
      }
+    public function face_to_face(){
+        $tjm = I('pid');
+
+        $this->assign('tjm',$tjm);
+        $this->display();
+    }
 
 
 }

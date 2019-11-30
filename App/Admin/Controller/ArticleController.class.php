@@ -8,6 +8,42 @@ class ArticleController extends AdminController{
         header("HTTP/1.0 404 Not Found");
         $this->display('Public:404');
     }
+    public function index(){
+        //$article_category_id为权限配置中的一个参数
+        $article_category_id = I("article_category_id");
+        $news_id = I("news_id");
+        $news_title = I("title");
+        if(!empty($news_title)){
+            $where[C('DB_PREFIX')."article.title"] = array('like','%'.$news_title.'%');
+            $inquire['news_title'] = $news_title;
+        }
+        //当进入的分类id为公告，资信，团队信息
+        $where[C('DB_PREFIX')."article_category.id"] = $article_category_id;
+        $count = $this->getCountArticleByWhere($where);
+        //查找对应$article_category_id的文章类型名称，反馈到页面
+        $condition = C("DB_PREFIX")."article_category.id = {$article_category_id}";
+        $article_category = $this->getArticleCategoryNameByArticleCategoryId($condition);
+
+        // 实例化分页类 传入总记录数和每页显示的记录数
+        $Page  = new \Think\Page($count,20);
+        //给分页传参数 ，因为公告，资信，团队信息，没有id查询，所以只有title
+        setPageParameter($Page, array("title"=>$news_title));
+        //分页显示输出性
+        $show = $Page->show();
+        //根据条件查询文章信息等所以资料
+        $info = $this->getContentArticleByWhere($where, $Page);
+        //限制页面显示的文字数量
+        foreach ($info as $k=>$v){
+            $info[$k]['title']=mb_substr((strip_tags(html_entity_decode($v['title']))),0,14,'utf-8');
+            $info[$k]['content']=mb_substr((strip_tags(html_entity_decode($v['content']))),0,30,'utf-8');
+        }
+
+        $this->assign('inquire',$inquire);
+        $this->assign('category',$article_category);
+        $this->assign('page',$show);
+        $this->assign('info',$info);
+        $this->display();
+    }
 
     /**
      * 显示帮助中心的文章列表

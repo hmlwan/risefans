@@ -2,90 +2,91 @@
 <link type="text/css" rel="stylesheet" href="__CSS__/project/hongbao.css" />
 
 <body class="black">
-		<div class="ad">
-			<div class="ad_top">
-				<img src="__IMG__/rise//jl.png"/>
-				<p class="title">恭喜获得{$cur_num['num']|default=0}{$luckdraw_conf_cur_name|default=金币}</p>
-				<button id="button" data-hongbao_ad_id="{$ad_list[0]['id']}" onclick="receive($(this))"  data-seconds="{$ad_list[0]['seconds']|default=1}" data-currency_num="{$cur_num['num']|default=0}" data-currency_id="{$luckdraw_conf_cur}">等待{$ad_list[0]['seconds']|default=1}秒</button>
-				<p class="ad_gold">我的金币: <i></i>{$mem_cur_num|default=0}={$rmb_num|default=0}元</p>
-			</div>
-			<div class='ad_text'>
-				<span>{$ad_list[0]['ad_title']}</span> <a target="_blank" href="{$ad_list[0]['ad_url']}">查看</a>
-			</div>			
-			<div class="hot">
-				<a href="{$ad_list[0]['ad_url']}" target="_blank">
-					<if condition="$ad_list[0]['ad_img']">
-						<img src="{$ad_list[0]['ad_img']}"/>
-						<else />
-						<img src="__IMG__/rise/1.png"/>
-					</if>
-
-				</a>
-			</div>
+	<div class="ad">
+		<div class="ad_top">
+			<img src="__IMG__/rise/jl.png"/>
+			<p class="title">恭喜获得{$cur_num|default=0}{$luckdraw_conf_cur_name|default=金币}</p>
+			<button id="button" data-hongbao_ad_id="{$ad_list[0]['id']}" onclick="receive($(this))"  data-seconds="{$ad_list[0]['seconds']|default=1}" data-currency_num="{$cur_num|default=0}" data-ld_detail_id="{$ld_detail_id}" data-currency_id="{$luckdraw_conf_cur}">等待{$ad_list[0]['seconds']|default=1}秒</button>
+			<p class="ad_gold">我的金币: <i></i>{$mem_cur_num|default=0}={$rmb_num|default=0}元</p>
 		</div>
-		<script type="text/javascript">
-			let num = $("#button").data('seconds');
-			let timer=setInterval(function(){
-				num--;
-				if(num==0){
-					$("#button").text('立即领取');
-					clearInterval(timer);
-                    $("#button").attr('disabled',false)
+		<div class='ad_text'>
+			<span>{$ad_list[0]['ad_title']}</span> <a target="_blank" href="{$ad_list[0]['ad_url']}">查看</a>
+		</div>
+		<div class="hot">
+			<a href="{$ad_list[0]['ad_url']}" target="_blank">
+				<if condition="$ad_list[0]['ad_img']">
+					<img src="{$ad_list[0]['ad_img']}"/>
+					<else />
+					<img src="__IMG__/rise/1.png"/>
+				</if>
 
-                }else{
-					let text='等待'+num+'秒';
-					$("#button").text(text);
-                    $("#button").attr('disabled',true)
-				}
-			},1000);
-			function receive(obj) {
-				var currency_num = obj.data('currency_num');
-				var currency_id = obj.data('currency_id');
-				var hongbao_ad_id = obj.data('hongbao_ad_id');
+			</a>
+		</div>
+	</div>
+	<!--<div style="height: .9rem;"></div>-->
+	<!--<div class="footer_main">-->
+		<!--<ul>-->
+			<!--<a href="{:U('Redpack/index')}">-->
+				<!--<li class="footer_fl footer_active_f1">红包</li>-->
+			<!--</a>-->
+			<!--<a href="{:U('Bonus/index')}">-->
+				<!--<li class="footer_f2">分红</li>-->
+			<!--</a>-->
+			<!--<a href="{:U('Invite/index')}">-->
+				<!--<li class="footer_f3">-->
+					<!--邀请-->
+				<!--</li>-->
+			<!--</a>-->
 
-                $.post("op_receive",{
-                    currency_num:currency_num,currency_id:currency_id,hongbao_ad_id:hongbao_ad_id
-                },function(data){
-                    if(data.status==1){
-                        layer.msg(data.info,{icon:1});
+			<!--<a href="{:U('Task/index')}">-->
+				<!--<li class="footer_f4">-->
+					<!--任务-->
+				<!--</li>-->
+			<!--</a>-->
+			<!--<a href="{:U('Member/index')}">-->
+				<!--<li class="footer_f5">-->
+					<!--我的-->
+				<!--</li>-->
+			<!--</a>-->
+		<!--</ul>-->
+	<!--</div>-->
+	<script type="text/javascript">
 
-                        window.setTimeout(function(){
-                            window.location="{:U('index')}";
-                        },1000);
-                    }else{
-                        layer.msg(data.info);
-                        return false;
-                    }
-                });
+        let num = $("#button").data('seconds');
+        let timer=setInterval(function(){
+            num--;
+            if(num==0){
+                $("#button").text('立即领取');
+                clearInterval(timer);
+                $("#button").attr('disabled',false)
+
+            }else{
+                let text='等待'+num+'秒';
+                $("#button").text(text);
+                $("#button").attr('disabled',true)
             }
-		</script>
+        },1000);
+        function receive(obj) {
+            var currency_num = obj.data('currency_num');
+            var currency_id = obj.data('currency_id');
+            var hongbao_ad_id = obj.data('hongbao_ad_id');
+            var ld_detail_id = obj.data('ld_detail_id');
 
-		<div style="height: .9rem;"></div>
-		<div class="footer_main">
-			<ul>
-				<a href="{:U('Redpack/index')}">
-					<li class="footer_fl footer_active_f1">红包</li>
-				</a>
-				<a href="">
-					<li class="footer_f2">分红</li>
-				</a>
-				<a href="{:U('Invite/index')}">
-					<li class="footer_f3">
-						邀请
-					</li>
-				</a>
-
-				<a href="{:U('Task/index')}">
-					<li class="footer_f4">
-						任务
-					</li>
-				</a>
-				<a href="{:U('Member/index')}">
-					<li class="footer_f5">
-						我的
-					</li>
-				</a>
-			</ul>
-		</div>
-
+            $.post("op_receive",{
+                currency_num:currency_num,currency_id:currency_id,hongbao_ad_id:hongbao_ad_id,ld_detail_id:ld_detail_id
+            },function(data){
+                if(data.status==1){
+                    console.log(data);
+//                    layer.msg(data.info,{icon:1});
+                    layer.msg(data.info);
+					window.setTimeout(function(){
+						window.location="{:U('index')}";
+					},1000);
+                }else{
+                    layer.msg(data.info);
+                    return false;
+                }
+            });
+        }
+	</script>
 		<include file="Public:footer"/>

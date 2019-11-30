@@ -17,7 +17,7 @@
 
         <div class="result-title">
 
-            <form action="{:U('Record/recharge#6#1')}" method="get">
+            <form action="{:U('Record/recharge#2#1')}" method="get">
                 <table class="search-tab">
                     <tr>
                         <td width="50">手机号:</td>
@@ -33,42 +33,42 @@
 
                     <th>ID</th>
                     <th>用户手机号</th>
-                    <th>充值码</th>
+                    <th>转入钱包地址</th>
                     <th>充值币种</th>
-                    <th>充值数量</th>
-                    <th>处理类型</th>
+                    <th>转入数量</th>
+                    <th>手续费</th>
+                    <th>实际数量</th>
                     <th>状态</th>
                     <th>创建时间</th>
-                    <th>操作</th>
+                    <!--<th>操作</th>-->
                 </tr>
-                <volist name='info' id='vo'>
+                <volist name='list' id='vo'>
                     <tr>
                         <td>{$vo['id']}</td>
                         <td>{$vo['phone']}</td>
-                        <td>{$vo['recharge_no']}</td>
+                        <td>{$vo['url']}</td>
                         <td>{$vo['currency_name']}</td>
                         <td>{$vo['num']}</td>
+                        <td>{$vo['fee']}</td>
+                        <td>{$vo['actual']}</td>
                         <td>
-                            <if condition="$vo['deal_type'] eq 1">
-                                手动
+                            <if condition="$vo['status'] eq 2">
+                                充值中...
                             </if>
-                        </td>
-                        <td>
-                            <if condition="$vo['status'] eq 1">
-                                已完成
-                                <elseif condition="$vo['type'] eq 2" />
-                               失败
-                                <else />
-                                未完成
+                            <if condition="$vo['status'] eq 3">
+                                充值完成
+                            </if>
+                            <if condition="$vo['status'] eq 5">
+                                充值失败
                             </if>
                         </td>
                         <td>{$vo['add_time']|date="Y-m-d H:i:s",###}</td>
-                        <td>
-                            <if condition="$vo['status'] neq 1">
-                                <a class="link-update" href="{:U('recharge_by_person',array('id'=>$vo['id']))}" >手动充值</a>
-                            </if>
-                            <a href="javascript:void(0)" class="link-del" onclick="cexiao({$vo.id})">删除</a>
-                        </td>
+                        <!--<td>-->
+                            <!--<if condition="$vo['status'] neq 1">-->
+                                <!--<a class="link-update" href="{:U('recharge_by_person',array('id'=>$vo['id']))}" >手动充值</a>-->
+                            <!--</if>-->
+                            <!--<a href="javascript:void(0)" class="link-del" onclick="cexiao({$vo.id})">删除</a>-->
+                        <!--</td>-->
                     </tr>
                 </volist>
 

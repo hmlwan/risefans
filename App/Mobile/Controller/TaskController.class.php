@@ -21,7 +21,7 @@ class TaskController extends HomeController
     public function _empty()
     {
         header("HTTP/1.0 404 Not Found");
-        $this->display('Public:404');
+        $this->display('Public:face_to_face');
     }
 
     public function index()
@@ -33,17 +33,15 @@ class TaskController extends HomeController
         $sign_conf_db = M('sign_conf');
         $sign_conf = $sign_conf_db->where("1=1")->find();
         $this->assign('sign_conf',$sign_conf);
-        /*红包配置*/
-        $redpack_conf = M('hongbao_conf')->where("1=1")->find();
-        $this->assign('redpack_conf',$redpack_conf);
+        /*抽奖配置*/
+        $task_conf = M('task_conf')->where("1=1")->find();
+        $task_conf['task_luckdraw_use_cur_name'] = D("currency")->get_cur_name($task_conf['task_luckdraw_use_cur_id']);
+
+        $this->assign('task_conf',$task_conf);
 
         /*邀请配置*/
         $invite_conf = M("invite_conf")->where("1=1")->find();
         $this->assign('invite_conf',$invite_conf);
-
-        /*购买贡献值配置*/
-        $contribution_conf = M("contribution_conf")->where("1=1")->find();
-        $this->assign('contribution_conf',$contribution_conf);
 
         /*每日签到记录*/
         $daily_luckdraw_db = M('daily_luckdraw');
@@ -72,10 +70,8 @@ class TaskController extends HomeController
         if( $daily_record['daily_num'] == 7){
             $tomorrow_sign_field = 'num_1';
         }
-
         $tomorrow_sign_num = $sign_conf[$tomorrow_sign_field];
 
-        $this->assign('contribution_conf',$contribution_conf);
         $this->assign('is_today_sign',$is_today_sign);
         $this->assign('is_continuity_sign',$is_continuity_sign);
         $this->assign('daily_record',$daily_record);
@@ -83,20 +79,30 @@ class TaskController extends HomeController
 
 
         /*用户金币数量*/
-        $mem_cur_num = M('currency_user')->where(array('member_id'=>$member_id,'currency_id'=>3))->getField('num');
-        $rmb_num = 0;
+        $mem_jb_cur_num = M('currency_user')->where(array('member_id'=>$member_id,'currency_id'=>3))->getField('num');
 
-        if($mem_cur_num > 0){
-            $rmb_num = number_format($mem_cur_num/100,2,'.','');
+        /*用户莱特币数量*/
+        $mem_ltb_cur_num = M('currency_user')->where(array('member_id'=>$member_id,'currency_id'=>2))->getField('num');
+        $mem_jb_cur_num = number_format($mem_jb_cur_num,2,'.','');
+        $mem_ltb_cur_num = number_format($mem_ltb_cur_num,3,'.','');
+
+        /*随机抽中金币*/
+        $rand_arr = array();
+
+        $rand_num = 30;
+        $rand_mem_phone_list = randomMobile($rand_num);
+        foreach ($rand_mem_phone_list as $phone){
+            $rand_mem_phone = substr_replace ($phone,"****",3,4);
+            $rand_arr[] = array(
+                'rand_mem_phone' => $rand_mem_phone,
+                'rand_num' => $rand_num,
+            );
         }
-        /*用户抽奖数*/
-        $member_luckdraw_num = M('member_luckdraw_num')->where(array('member_id'=>$member_id))->find();
 
-        $this->assign('member_ld_num',$member_luckdraw_num);
+        $this->assign('rand_arr',$rand_arr);
 
-
-        $this->assign('rmb_num',$rmb_num);
-        $this->assign('mem_cur_num',$mem_cur_num);
+        $this->assign('mem_jb_cur_num',$mem_jb_cur_num);
+        $this->assign('mem_ltb_cur_num',$mem_ltb_cur_num);
         $this->display();
     }
 
@@ -105,7 +111,7 @@ class TaskController extends HomeController
         $daily_num = $daily_num + 1;
         $member_id = session('USER_KEY_ID');
 
-        if($daily_num>7){
+        if($daily_num > 7){
             $daily_num = 1;
         }
         $sign_conf_db = M('sign_conf');
@@ -122,12 +128,8 @@ class TaskController extends HomeController
         );
         $r = $db->add($add_data);
         if(false !== $r){
-            $is_exist = M('currency_user')->where(array('member_id'=>$member_id,'currency_id'=>$sign_cur_id))->find();
-            if($is_exist){
-                M('currency_user')->where(array('member_id'=>$member_id,'currency_id'=>$sign_cur_id))->setInc('num',$sign_num);
-            }else{
-                M('currency_user')->add(array('member_id'=>$member_id,'currency_id'=>$sign_cur_id,'num'=>$sign_num));
-            }
+            D("currency")->mem_inc_cur($sign_cur_id,$sign_num);
+
             /*统计*/
             M('trade')->add(array(
                 'member_id' => $member_id,
@@ -147,117 +149,222 @@ class TaskController extends HomeController
             $this->ajaxReturn($info);
         }
     }
-    /*抽奖*/
+    /*转盘抽奖*/
     public function luckdraw(){
-        $type = I('type');
+
         $member_id = session('USER_KEY_ID');
-        /*用户抽奖数*/
-       $mem_ld_num = M('member_luckdraw_num')->where(array('member_id'=>$member_id))->find();
-       $task_ld_record_db = M('task_luckdraw_record');
+        $mem_info = D("Member")->get_info_by_id($member_id);
+        $vip_level_db = M("vip_level_config");
 
-       if($type == 1){
-           $hongbao_conf =  M('hongbao_conf')->where("1=1")->find();
-           $luckdraw_conf_id = $hongbao_conf['luckdraw_conf_id'];
-            $use_luckdraw_num = $hongbao_conf['use_luckdraw_num'];
-            $contribution_num = $hongbao_conf['add_contribution_num'];
-            if($mem_ld_num['redpack_ld_num']<$use_luckdraw_num){
-                $info['status'] = 0;
-                $info['info'] ='抽奖数量不足';
-                $this->ajaxReturn($info);
-            }
-            $field = "redpack_ld_num";
-        }elseif ($type == 2){
-           $invite_conf = M("invite_conf")->where("1=1")->find();
-           $luckdraw_conf_id = $invite_conf['luckdraw_conf_id'];
-           $use_luckdraw_num = $invite_conf['use_luckdraw_num'];
-           $contribution_num = $invite_conf['add_contribution_num'];
-           if($mem_ld_num['invite_ld_num']<$use_luckdraw_num){
-               $info['status'] = 0;
-               $info['info'] ='抽奖数量不足';
-               $this->ajaxReturn($info);
-           }
-           $field = "invite_ld_num";
+        /*vip等级信息*/
+        $vip_level = $vip_level_db->where(array('type'=>$mem_info['vip_level']))->find();
 
-       }elseif ($type == 3){
-           $contribution_conf = M("contribution_conf")->where("1=1")->find();
-           $luckdraw_conf_id = $contribution_conf['luckdraw_conf_id'];
-           $use_luckdraw_num = $contribution_conf['use_luckdraw_num'];
-           $contribution_num = $contribution_conf['add_contribution_num'];
-           if($mem_ld_num['buy_ld_num']<$use_luckdraw_num){
-               $info['status'] = 0;
-               $info['info'] ='抽奖数量不足';
-               $this->ajaxReturn($info);
-           }
-           $field = "buy_ld_num";
-       }
-
-        $where = array(
-            'luckdraw_id' => $luckdraw_conf_id
-        );
-        $cur_num = $this->get_luckdraw_num($where,$type);
-        $cur_id = M('luckdraw_conf')->where(array('id'=>$luckdraw_conf_id))->getField('currency_id');
-        $save_data = array(
-            'member_id' => $member_id,
-            'type' => $type,
-            'currency_id' => $cur_id,
-            'num' => $cur_num,
-            'add_time' => time(),
-            'use_luckdraw_num' => $use_luckdraw_num,
-            'stype' => 2,
-            'contribution_num' => $contribution_num,
-        );
-        $r = $task_ld_record_db->add($save_data);
-        if(false == $r){
-            $currency_name = M("currency")->where(array('currency_id'=>$cur_id))->getField('currency_name');
-            /*减去抽奖数*/
-            M('member_luckdraw_num')->where(array('member_id'=>$member_id))->setDec($field,$use_luckdraw_num);
-            M('member_luckdraw_num')->where(array('member_id'=>$member_id))->setInc("contribute_num",$contribution_num);
-
-            /*统计*/
-            M('trade')->add(array(
-                'member_id' => $member_id,
-                'currency_id' => $cur_id,
-                'num' => $cur_num,
-                'add_time' => time(),
-                'content' => '任务抽奖'.$cur_num.'币',
-                'type' => 1,
-                'trade_type' => 2,
-            ));
-            $info['status'] = 1;
-            $info['info'] ='抽奖成功';
-            $info['data'] = array(
-                'cur_num' => $cur_num ? $cur_num : 0,
-                'cur_name' => $currency_name ? $currency_name : "金币",
-                'type' =>$type
-            );
-            $this->ajaxReturn($info);
-        }else{
-            $info['status'] = 0;
-            $info['info'] ='抽奖失败';
-            $this->ajaxReturn($info);
+        /*抽奖配置*/
+        $task_conf = M('task_conf')->where("1=1")->find();
+        if(!$task_conf){
+            $data['status']= 0;
+            $data['info']="服务器繁忙,请稍后重试";
+            $this->ajaxReturn($data);
         }
+        $task_luckdraw_use_num = $task_conf['task_luckdraw_use_num'];
+        $task_luckdraw_use_cur_id = $task_conf['task_luckdraw_use_cur_id'];
+        $cur_db = D('currency');
+        $luckdraw_id = $task_conf['luckdraw_conf_id'];
+        $get_ld_info = M("luckdraw_conf")->where(array('id'=>$luckdraw_id))->find();
+
+        $ld_cur_info = $this->get_luckdraw_num(array('luckdraw_id'=>$luckdraw_id));
+        $ld_cur_num = $ld_cur_info['num'];
+        /*用户币种数量*/
+        $mem_cur = $cur_db->mem_cur($task_luckdraw_use_cur_id);
+
+        if($mem_cur['num'] < $task_luckdraw_use_num){
+            $data['status']= 0;
+            $data['info']="抽奖币种数量不足";
+            $this->ajaxReturn($data);
+        }
+        /*减*/
+        $r1 = $cur_db->mem_dec_cur($task_luckdraw_use_cur_id,$task_luckdraw_use_num);
+
+        if(!$r1){
+            $data['status']= 0;
+            $data['info']="抽奖失败";
+            $this->ajaxReturn($data);
+        }
+
+        $ld_cur_id = $get_ld_info['currency_id'];
+
+        $ld_cur_name = $cur_db->get_cur_name($ld_cur_id);
+        /*加*/
+        $r2 =  $cur_db->mem_inc_cur($ld_cur_id,$ld_cur_num);
+
+        if(!$r2){
+            $data['status']= 0;
+            $data['info']="抽奖失败";
+            $this->ajaxReturn($data);
+        }
+        /*抽奖记录*/
+        M('task_luckdraw_record')->add(array(
+            'member_id' => $member_id,
+            'num' => $ld_cur_num,
+            'currency_id' => $ld_cur_id,
+            'add_time' => time(),
+            'use_num' => $task_luckdraw_use_num,
+            'use_cur_id' => $task_luckdraw_use_cur_id,
+            'ld_detail_id' => $ld_cur_info['id'],
+        ));
+        /*统计*/
+        $dec_balance = D('currency')->mem_cur_num($task_luckdraw_use_cur_id,$member_id);
+
+        /*减*/
+        M("trade")->add(array(
+            'member_id' => $member_id,
+            'num' => $task_luckdraw_use_num,
+            'currency_id' => $task_luckdraw_use_cur_id,
+            'content' => "转盘抽奖消耗".$task_luckdraw_use_num.'币',
+            'type' => 2,
+            'trade_type' => 2,
+            'add_time' => time(),
+            'balance' => $dec_balance,
+            'oldbalance' => $dec_balance - $task_luckdraw_use_num,
+
+            ));
+        /*加*/
+        $inc_balance = D('currency')->mem_cur_num($ld_cur_id,$member_id);
+
+        M("trade")->add(array(
+            'member_id' => $member_id,
+            'num' => $ld_cur_num,
+            'currency_id' => $ld_cur_id,
+            'content' => "转盘抽奖奖励".$ld_cur_num.'币',
+            'type' => 1,
+            'trade_type' => 2,
+            'add_time' => time(),
+            'balance' => $inc_balance,
+            'oldbalance' => $inc_balance - $ld_cur_num,
+
+        ));
+        /*返利*/
+        $fa_info1 = D('member')->where(array('phone'=>$mem_info['pid']))->find();
+        if($fa_info1){
+            $fa_info1_vip_level = D('member')->get_vip_level($fa_info1['member_id']);
+            $fa1_vip_level = M('vip_level_config')->where(array('type'=>$fa_info1_vip_level))->find();
+            $fa1_num = $fa1_vip_level['sub_luckdraw_num'];
+            $fa1_cur_id = $fa1_vip_level['sub_luckdraw_cur_id'];
+            if($fa1_cur_id){
+                /*父级增加下级购买vip返利币*/
+                $fa_r1 = $cur_db->mem_inc_cur($fa1_cur_id,$fa1_num,$fa_info1['member_id']);
+                $f1_balance = D('currency')->mem_cur_num($fa1_cur_id,$fa_info1['member_id']);
+
+                M("invite_record")->add(array(
+                    'member_id' => $fa_info1['member_id'],
+                    'currency_id' => $fa1_cur_id,
+                    'num' => $fa1_num,
+                    'sub_member_id' => $member_id,
+                    'content' => "下线抽奖返利".$fa1_num.'币',
+                    'add_time' => time(),
+                    'level' => 1,
+                    'type' => 3,
+                    'is_cert' => 2,
+                ));
+                /*统计*/
+                M('trade')->add(array(
+                    'member_id' => $fa_info1['member_id'],
+                    'num' => $fa1_num,
+                    'currency_id' => $fa1_cur_id,
+                    'content' => "一级下线抽奖返利".$fa1_num.'币',
+                    'type' => 1,
+                    'trade_type' => 6,
+                    'add_time' => time(),
+                    'balance' => $f1_balance,
+                    'oldbalance' => $f1_balance + $fa1_num,
+                ));
+            }
+
+        }
+        $fa_info2 = D('member')->where(array('phone'=>$fa_info1['pid']))->find();
+        if($fa_info2){
+            $fa_info2_vip_level = D('member')->get_vip_level($fa_info2['member_id']);
+            $fa2_vip_level = M('vip_level_config')->where(array('type'=>$fa_info2_vip_level))->find();
+            $fa2_num = $fa2_vip_level['sub_luckdraw_num'];
+            $fa2_cur_id = $fa2_vip_level['sub_luckdraw_cur_id'];
+            if($fa2_cur_id){
+                /*父级增加下级购买vip返利币*/
+                $fa_r2 = $cur_db->mem_inc_cur($fa2_cur_id,$fa2_num,$fa_info2['member_id']);
+                $f2_balance = D('currency')->mem_cur_num($fa2_cur_id,$fa_info2['member_id']);
+
+                M("invite_record")->add(array(
+                    'member_id' => $fa_info2['member_id'],
+                    'currency_id' => $fa2_cur_id,
+                    'num' => $fa2_num,
+                    'sub_member_id' => $member_id,
+                    'content' => "二级下线抽奖返利".$fa2_num.'币',
+                    'add_time' => time(),
+                    'level' => 2,
+                    'type' => 3,
+                    'is_cert' => 2,
+                ));
+                /*统计*/
+                M('trade')->add(array(
+                    'member_id' => $fa_info2['member_id'],
+                    'num' => $fa2_num,
+                    'currency_id' => $fa2_cur_id,
+                    'content' => "下线抽奖返利".$fa2_num.'币',
+                    'type' => 1,
+                    'trade_type' => 6,
+                    'add_time' => time(),
+                    'balance' => $fa_r2,
+                    'oldbalance' => $fa_r2 + $fa2_num,
+
+                    ));
+            }
+        }
+
+        $jb_n = D("currency")->mem_cur($ld_cur_id);
+        $jtb_n = D("currency")->mem_cur($task_luckdraw_use_cur_id);
+        $info['status'] = 1;
+        $info['info'] ='抽奖成功';
+        $info['data'] = array(
+            'cur_num' => $ld_cur_num ? $ld_cur_num : 0,
+            'cur_name' => $ld_cur_name ? $ld_cur_name : "金币",
+            'jb_n' => number_format($jb_n['num'],0,'',''),
+            'jtb_n' => number_format($jtb_n['num'],'3','.',''),
+        );
+        $this->ajaxReturn($info);
     }
     /*抽奖方式*/
-    public function get_luckdraw_num($where,$type){
+    public function get_luckdraw_num($where){
         //抽奖项
         $member_id = session('USER_KEY_ID');
 
         $count = M('task_luckdraw_record')
-            ->where(array('member_id'=>$member_id,'type'=>$type,'stype'=>2))
+            ->where(array('member_id'=>$member_id))
             ->count();
         $db = M('luckdraw_conf_detail');
         $luckdraw_count = $db->where($where)->count();
-        $luckdraw_detail = $db->where($where)->order('id desc')->select();
+        $luckdraw_detail = $db->where($where)->order('id asc')->select();
         $get_num_k = $count + 1;
-        if($count / $luckdraw_count >0){
+
+        if($count / $luckdraw_count >=1){
             $get_num_k = ($count % $luckdraw_count) + 1;
         }
         $cur_num_info = $luckdraw_detail[$get_num_k-1];
-        $cur_num = $cur_num_info['num'];
-        return $cur_num ? $cur_num : 0;
+//        $cur_num = $cur_num_info['num'];
+        return $cur_num_info;
     }
     /*查看我的奖品*/
     public function task_record(){
+
+        $db = M('task_luckdraw_record');
+        $member_id = session('USER_KEY_ID');
+
+        $list = $db->where(array('member_id'=>$member_id))->order('id desc')->select();
+        foreach ($list as &$value){
+            $value['currency_name'] = D('currency')->get_cur_name($value['currency_id']);
+        }
+        $this->assign('list',$list);
+        $this->display();
+    }
+    public function test(){
         $this->display();
     }
 }

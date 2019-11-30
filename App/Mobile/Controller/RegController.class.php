@@ -38,14 +38,15 @@ class RegController extends CommonController {
             $_POST['ip'] = get_client_ip();
             $_POST['status'] = 1;
             $_POST['is_lock'] = 0;
-            $_POST['code'] = 1234;
-            $_SESSION['code'] = 1234;
-            if($_POST['code']!= $_SESSION['code']){
+//            $_POST['yzm'] = 1234;
+//            $_SESSION['code'] = 1234;
+            if($_POST['yzm']!= $_SESSION['code']){
                 $data['status'] = 0;
                 $data['info'] = '验证码错误';
                 $this->ajaxReturn($data);
             }
-            $pid =   $_POST['pid'];
+            $pid = $_POST['pid'];
+			$_POST['pwd'] = md5($_POST['pwd']);
             $M_member = D('Member');
             $info = M('Member')->where(array('phone'=>$_POST['phone']))->find();
             if($info){
@@ -53,13 +54,16 @@ class RegController extends CommonController {
                 $data['info'] = "手机号码已经存在";
                 $this->ajaxReturn($data);
             }
-            if($pid){
-               $p_info =  M('Member')->where(array('phone'=>$pid))->find();
-               if(!$p_info){
-                   $data['status'] = 2;
-                   $data['info'] = "邀请码不存在";
-                   $this->ajaxReturn($data);
-               }
+            if(!$pid){
+                $data['status'] = 2;
+                $data['info'] = "请输入邀请码";
+                $this->ajaxReturn($data);
+            }
+            $p_info =  M('Member')->where(array('phone'=>$pid))->find();
+            if(!$p_info){
+                $data['status'] = 2;
+                $data['info'] = "邀请人不存在";
+                $this->ajaxReturn($data);
             }
             if (!$M_member->create()){
                 // 如果创建失败 表示验证没有通过 输出错误提示信息
@@ -92,6 +96,25 @@ class RegController extends CommonController {
                     }
                     /*添加邀请信息*/
                     if($pid){
+                        $p_vip_level = D("member")->get_vip_level($p_info['member_id']);
+                        $p_vip_level_info = M('vip_level_config')->where(array('type'=>$p_vip_level))->find();
+                        $p_num = $p_vip_level_info['sub_reward_num'];
+                        $p_cur_id = $p_vip_level_info['sub_reward_cur_id'];
+                        D("currency")->mem_inc_cur($p_cur_id,$p_num,$p_info['member_id']);
+                        $f1_balance = D('currency')->mem_cur_num($p_cur_id,$p_info['member_id']);
+
+                        M("trade")->add(array(
+                           'member_id' => $p_info['member_id'],
+                           'currency_id' => $p_cur_id,
+                           'num' => $p_num,
+                           'content' => "推广一级下线奖励".$p_num.'币',
+                            'type' => 1,
+                            'trade_type' => 3,
+                            'add_time' =>time(),
+                            'balance' => $f1_balance,
+                            'oldbalance' => $f1_balance + $p_num,
+                        ));
+
                         M('invite_record')->add(array(
                                 'member_id' => $p_info['member_id'],
                                 'sub_member_id' => $r,
@@ -103,6 +126,25 @@ class RegController extends CommonController {
                         );
                         $pp_info =  M('Member')->where(array('phone'=>$p_info['pid']))->find();
                         if($pp_info){
+
+                            $pp_vip_level = D("member")->get_vip_level($pp_info['member_id']);
+                            $pp_vip_level_info = M('vip_level_config')->where(array('type'=>$pp_vip_level))->find();
+                            $pp_num = $pp_vip_level_info['sub_reward_num'];
+                            $pp_cur_id = $pp_vip_level_info['sub_reward_cur_id'];
+                            D("currency")->mem_inc_cur($pp_cur_id,$pp_num,$pp_info['member_id']);
+                            $f2_balance = D('currency')->mem_cur_num($pp_cur_id,$pp_info['member_id']);
+
+                            M("trade")->add(array(
+                                'member_id' => $pp_info['member_id'],
+                                'currency_id' => $pp_cur_id,
+                                'num' => $pp_num,
+                                'content' => "推广二级下线奖励".$pp_num.'币',
+                                'type' => 1,
+                                'trade_type' => 3,
+                                'add_time' =>time(),
+                                'balance' => $f2_balance,
+                                'oldbalance' => $f2_balance + $pp_num,
+                            ));
                             M('invite_record')->add(array(
                                     'member_id' => $pp_info['member_id'],
                                     'sub_member_id' => $r,
@@ -115,7 +157,7 @@ class RegController extends CommonController {
                         }
                     }
                     $data['status'] = 1;
-                    $data['info'] = '注册成功，请去登录';
+                    $data['info'] = '注册成功';
                     $this->ajaxReturn($data);
                 }else{
                     $data['status'] = 0;

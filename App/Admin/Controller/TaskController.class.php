@@ -12,8 +12,9 @@ class TaskController extends AdminController
 {
     /*任务配置*/
     public function config(){
-        $model = M ('bonus_config' );
+        $model = M ('task_conf' );
         if(IS_POST){
+
             $id = I('post.id');
             if($_FILES["bottom_ad_img"]["tmp_name"]){
                 $bottom_img  = $this->upload($_FILES["bottom_ad_img"]);
@@ -91,7 +92,8 @@ class TaskController extends AdminController
         }
 
         // 查询满足要求的总记录数
-        $count = $model->where ( $where )->count ();
+        $count = $model->alias('d')
+            ->join('left join blue_member as m on m.member_id=d.member_id')->where ( $where )->count ();
         // 实例化分页类 传入总记录数和每页显示的记录数
         $Page = new \Think\Page ( $count, 20 );
         //将分页（点击下一页）需要的条件保存住，带在分页中

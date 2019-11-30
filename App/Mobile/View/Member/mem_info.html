@@ -36,24 +36,24 @@
                 <span>银行卡</span>
                 <span>{$member_info.bank_no}({$member_info.bank_name})</span>
             </div>
-            <div class="wdzl_line">
-                <a href="{:U('Member/update_nickname')}">
-                    <span>昵称</span>
-                    <span>
-                    <i>{$member_info.nick_name}</i>
-                    <em></em>
-                </span>
-                </a>
-            </div>
-            <div>
-                <a href="{:U('Member/update_zfb')}">
-                    <span>支付宝账号</span>
-                    <span>
-                    <i>{$member_info.zfb_no}</i>
-                    <em></em>
-                </span>
-                </a>
-            </div>
+            <!--<div class="wdzl_line">-->
+                <!--<a href="{:U('Member/update_nickname')}">-->
+                    <!--<span>昵称</span>-->
+                    <!--<span>-->
+                    <!--<i>{$member_info.nick_name}</i>-->
+                    <!--<em></em>-->
+                <!--</span>-->
+                <!--</a>-->
+            <!--</div>-->
+            <!--<div>-->
+                <!--<a href="{:U('Member/update_zfb')}">-->
+                    <!--<span>支付宝账号</span>-->
+                    <!--<span>-->
+                    <!--<i>{$member_info.zfb_no}</i>-->
+                    <!--<em></em>-->
+                <!--</span>-->
+                <!--</a>-->
+            <!--</div>-->
             <div>
                 <a href="{:U('Member/update_passwd')}">
                     <span>登录密码</span>
@@ -150,7 +150,8 @@
             head_url:head_url,
         },function(data){
             if(data.status==1){
-                layer.msg(data.info,{icon:1});
+//                layer.msg(data.info,{icon:1});
+                layer.msg(data.info);
                 window.setTimeout(function(){
                     window.location="{:U('Member/mem_info')}";
                 },1000);

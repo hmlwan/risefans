@@ -3,7 +3,7 @@
 	<body class="vip_level">
 	<header>
 		<div class="header_bt">
-			<div class="header_f"><a href="javascript:history.back()" class="header_fh"></a></div>
+			<div class="header_f"><a href="{:U('Member/index')}" class="header_fh"></a></div>
 			<div class="header_c">VIP等级</div>
 			<div class="header_r"><a href="{:U('Vip/vip_record')}" class="">VIP记录</a></div>
 		</div>
@@ -84,12 +84,12 @@
 				</li>
 			</a>
 			<a href="{:U('Task/index')}">
-				<li class="footer_f4 footer_active_f4">
+				<li class="footer_f4">
 					任务
 				</li>
 			</a>
 			<a href="{:U('Member/index')}">
-				<li class="footer_f5">
+				<li class="footer_f5 footer_active_f5">
 					我的
 				</li>
 			</a>
@@ -98,7 +98,7 @@
 	<script type="text/javascript">
 		$(".close_vip1_item .cancel").click(function () {
 			$(".close_vip1_item").hide();
-			$(".zhezhao_h").atrr('class','zhezhao_h zhezhao');
+			$(".zhezhao_h").attr('class','zhezhao_h');
         });
 		function buy_vip(vip_level) {
             layer.msg("已是VIP"+vip_level+",请关闭VIP再购买");
@@ -118,7 +118,8 @@
             $.post("{:U('Vip/close_vip')}",{
             },function(data){
                 if(data.status==1){
-                    layer.msg(data.info,{icon:1});
+//                    layer.msg(data.info,{icon:1});
+                    layer.msg(data.info);
                     window.setTimeout(function(){
                         window.location="{:U('Vip/index')}";
                     },1000);

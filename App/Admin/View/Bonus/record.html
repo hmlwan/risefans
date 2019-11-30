@@ -40,6 +40,7 @@
                             <th>用户手机号</th>
                             <th>分红币种</th>
                             <th>分红币种数量</th>
+                            <th>凭证数量</th>
                             <th>累积时间（s）</th>
                             <th>领取时间</th>
                             <!--<th>操作</th>-->
@@ -50,11 +51,13 @@
                         	<td>{$vo.phone}</td>
                         	<td>{$vo.currency_name}</td>
                         	<td>{$vo.num}</td>
+                        	<td>{$vo.bonus_voucher_num}</td>
                         	<td>{$vo.accumulate_second}</td>
                             <td>{$vo.add_time|date="Y-m-d  H:i:s",###}</td>
                         </tr>
                         </volist>
                     </table>
+                    <div class="list-page"> <ul>{$page}</ul></div>
                 </div>
         </div>
     </div>

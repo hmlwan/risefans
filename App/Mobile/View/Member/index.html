@@ -2,16 +2,16 @@
 <link type="text/css" rel="stylesheet" href="__CSS__/project/my.css" />
 
 <body >
-<header>
-    <div class="header_bt">
-        <div class="header_f"><a href="javascript:history.back()" class=""></a></div>
-        <div class="header_c">个人中心</div>
-    </div>
-    <div style="height: .74rem;clear: both;"></div>
-</header>
+<!--<header>-->
+    <!--<div class="header_bt">-->
+        <!--<div class="header_f"><a href="javascript:history.back()" class=""></a></div>-->
+        <!--<div class="header_c"></div>-->
+    <!--</div>-->
+    <!--<div style="height: .74rem;clear: both;"></div>-->
+<!--</header>-->
 <header class="my_head my_top">
     <div class="head_item">
-        <if condition="$member_info['head_url']"><img src="{$member_info['head_url']}"/> <else /><img src="__IMG__/vtx1.png"/></if><strong>{$member_info.phone}</strong>
+        <if condition="$member_info['head_url']"><img src="{$member_info['head_url']}"/> <else /><img src="__IMG__/tx{$tx_no}.png"/></if><strong>{$member_info.phone}</strong>
     </div>
 </header>
 <ul class="my_gold flexbox spacebetween">
@@ -22,7 +22,11 @@
             <p>当前金币</p>
         </a>
     </li>
-
+    <li class="line" style="border: .28px solid #f6f6f6;
+    width: 1.5px;
+    background-color: #f6f6f6;
+    height: .25rem;
+    margin-top: .45rem;"></li>
     <li>
         <a href="{:U('Member/cur_coin')}">
             <div><strong>{$mem_ltb_num|default=0.00}</strong><img src="__IMG__/rise/cz.png"/></div>

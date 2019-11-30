@@ -32,7 +32,7 @@
             <!--<div class="yzmmsg">验证码已发送，请耐心等待</div>-->
         </ul>
         <div class="dl_tips">
-            <a class="wjmm" href="{:U('Login/setphone')}">忘记密码?</a>
+            <a class="wjmm" href="{:U('Login/forgetpwd')}">忘记密码?</a>
             <a class="sjdl" href="{:U('Login/index')}">手机登录</a>
         </div>
         <div class="btn">
@@ -45,7 +45,6 @@
     </div>
 </div>
 <script>
-
     $(".eye").click(function () {
         if($(this).attr('active') == 1){
             $(this).prev('input').attr('type','password');
@@ -56,15 +55,7 @@
         }
 
     })
-    $(".eye").click(function () {
-        if($(this).attr('active') == 1){
-            $(this).prev('input').attr('type','password');
-            $(this).attr('active',2)
-        }else{
-            $(this).prev('input').attr('type','text');
-            $(this).attr('active',1)
-        }
-    });
+
     $(".dl_c").on('input propertychange',function () {
         var is_write = 1;
         $(".dl_c").find('input').each(function () {
@@ -85,7 +76,7 @@
             return false;
         }
         if(!Utils.isTel(phone)){
-            layer.msg('手机号格式错误');
+            layer.msg('手机号码格式错误');
             return false;
         }
         $("#msgt").attr("data-key","off");
@@ -133,14 +124,27 @@
             layer.msg('请输入登陆密码');
             return false;
         }
-        if(!Utils.isPasswd(pwd)){
-            layer.msg('密码为8位以上数字或字母');
-            return false;
-        }
+//        if(!Utils.isPasswd(pwd)){
+//            layer.msg('密码为8位以上数字或字母');
+//            return false;
+//        }
 
         var pLen = pwd.length;
         if(pLen < 8 || pLen > 16) {
             layer.msg('密码长度在8-16个字符之间');
+            return false;
+        }
+
+        if(!pid){
+            layer.msg('邀请码不存在');
+            return false;
+        }
+        if(!Utils.isTel(pid)){
+            layer.msg('邀请码格式错误');
+            return false;
+        }
+        if(!yzm){
+            layer.msg('请输入验证码');
             return false;
         }
 //        var repwd = $("#repwd").val();
@@ -156,7 +160,8 @@
             yzm:yzm
         },function(data){
             if(data.status==1){
-                layer.msg(data.info,{icon:1});
+//                layer.msg(data.info,{icon:1});
+                layer.msg(data.info);
                 window.setTimeout(function(){
                     window.location="{:U('Login/index')}";
                 },1000);

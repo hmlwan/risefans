@@ -26,7 +26,7 @@
                 <input type="hidden" value="{$info.id}" name="id">
                 <div class="config-items">
                     <div class="config-title">
-                        <h1><i class="icon-font">&#xe00a;</i>兑换设置</h1>
+                        <h1><i class="icon-font">&#xe00a;</i>VIP等级配置</h1>
                     </div>
                     <div class="result-content">
                         <table width="100%" class="insert-tab">
@@ -34,18 +34,23 @@
                                 <tr>
                                     <th width="15%">VIP等级</th>
                                     <td>
-                                        <select name="type" id="type"  class="common-text"  <if condition="$info['id']">disabled style="background-color: #EEEEEE"</if> >
-                                            <option value="1" <if condition="$info['type'] eq 1">select</if> >VIP1</option>
-                                            <option value="2" <if condition="$info['type'] eq 2">select</if>>VIP2</option>
-                                            <option value="3" <if condition="$info['type'] eq 3">select</if>>VIP3</option>
-                                            <option value="4" <if condition="$info['type'] eq 4">select</if>>VIP4</option>
-                                            <option value="5" <if condition="$info['type'] eq 5">select</if>>VIP5</option>
-                                            <option value="6" <if condition="$info['type'] eq 6">select</if>>VIP6</option>
-                                            <option value="7" <if condition="$info['type'] eq 7">select</if>>VIP7</option>
-                                            <option value="8" <if condition="$info['type'] eq 8">select</if>>VIP8</option>
-                                            <option value="9" <if condition="$info['type'] eq 9">select</if>>VIP9</option>
-                                            <option value="10" <if condition="$info['type'] eq 10">select</if>>VIP10</option>
-                                        </select>
+                                        <if condition="$info['id'] gt 0">
+                                             <input type="text" name="type1" disabled class="common-text"  value="VIP{$info.type}"><i class="require-red">(不可修改)</i>
+                                             <input type="hidden" name="type" class="common-text"  value="{$info.type}">
+                                        <else />
+                                            <select name="type" id="type"  class="common-text"   >
+                                                <option value="1" <if condition="$info['type'] eq 1">select</if> >VIP1</option>
+                                                <option value="2" <if condition="$info['type'] eq 2">select</if>>VIP2</option>
+                                                <option value="3" <if condition="$info['type'] eq 3">select</if>>VIP3</option>
+                                                <option value="4" <if condition="$info['type'] eq 4">select</if>>VIP4</option>
+                                                <option value="5" <if condition="$info['type'] eq 5">select</if>>VIP5</option>
+                                                <option value="6" <if condition="$info['type'] eq 6">select</if>>VIP6</option>
+                                                <option value="7" <if condition="$info['type'] eq 7">select</if>>VIP7</option>
+                                                <option value="8" <if condition="$info['type'] eq 8">select</if>>VIP8</option>
+                                                <option value="9" <if condition="$info['type'] eq 9">select</if>>VIP9</option>
+                                                <option value="10" <if condition="$info['type'] eq 10">select</if>>VIP10</option>
+                                            </select>
+                                        </if>
                                     </td>
                                 </tr>
                                 <tr>
@@ -67,8 +72,8 @@
                                     <td><input type="text" name="sub_reward_num" class="common-text btn50" value="{$info.sub_reward_num}"></td>
                                 </tr>
                                 <tr>
-                                    <th>下线购买vip返利</th>
-                                    <td><input type="text" name="sub_buy_vip_rebate" class="common-text btn50" value="{$info.sub_buy_vip_rebate}"><i class="require-red">(注：小数点后两位)</i></td>
+                                    <th>下线领取分红返利百分比</th>
+                                    <td><input type="text" name="sub_receive_bonus_rebate" class="common-text btn50" value="{$info.sub_receive_bonus_rebate}"><i class="require-red">(注：小数点后两位)</i></td>
                                 </tr>
 
                                 <tr>
@@ -99,10 +104,7 @@
                                     <th>关闭vip返回币种数量</th>
                                     <td><input type="text" name="close_vip_reward_num" class="common-text btn50" value="{$info.close_vip_reward_num}"><i class="require-red"></i></td>
                                 </tr>
-                                <tr>
-                                    <th>领取红包观看广告数量</th>
-                                    <td><input type="text" name="watch_num" class="common-text btn50" value="{$info.watch_num}"><i class="require-red"></i></td>
-                                </tr>
+
                                 <tr>
                                     <th>出售折扣币种</th>
                                     <td>
@@ -118,12 +120,35 @@
                                     <td><input type="text" name="sale_cur_num" class="common-text btn50" value="{$info.sale_cur_num}"><i class="require-red"></i></td>
                                 </tr>
                                 <tr>
+                                    <th>领取红包个数</th>
+                                    <td><input type="text" name="receive_hongbao_num" class="common-text btn50" value="{$info.receive_hongbao_num}"><i class="require-red"></i></td>
+                                </tr>
+                                <tr>
+                                    <th>实名奖励币种</th>
+                                    <td>
+                                        <select name="cert_cur_id"   class="common-text w200">
+                                            <volist name="cur_list" id="vo">
+                                                <option value="{$vo.currency_id}" <if condition="$info['cert_cur_id'] eq $vo['currency_id'] ">selected</if>>{$vo.currency_name}</option>
+                                            </volist>
+                                        </select>&nbsp;&nbsp;
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>实名奖励币种数量</th>
+                                    <td><input type="text" name="cert_cur_num" class="common-text btn50" value="{$info.cert_cur_num}"><i class="require-red"></i></td>
+                                </tr>
+                                <tr>
+                                    <th>提币手续费</th>
+                                    <td><input type="text" name="ltc_service_charge_rate" class="common-text btn50" value="{$info.ltc_service_charge_rate}"><i class="require-red"></i></td>
+                                </tr>
+                                <tr>
                                     <th></th>
                                     <td>
                                         <input type="submit" value="提交" class="btn btn-primary btn6 mr10">
                                         <a href="{:U('Vip/config#13#1')}"><input type="button" value="返回"  class="btn btn6"></a>
                                     </td>
                                 </tr>
+
                             </tbody></table>
                     </div>
                 </div>

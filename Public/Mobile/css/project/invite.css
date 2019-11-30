@@ -212,7 +212,8 @@ body{
 
 
 .nextul div img{
-	width: .25rem;
+	width: .45rem;
+	vertical-align: middle;
 }
 
 .nextul .flex1{
@@ -277,7 +278,7 @@ body{
 	border-bottom: 1px solid #f6f7fb;
 	line-height: 1.6;
 	align-items: center;
-	font-size: .26rem;
+	font-size: .23rem;
 }
 .record_list dd p{
 	font-weight: bold;
@@ -292,7 +293,7 @@ body{
 	width: .42rem;
 	height: .42rem;
 	vertical-align: middle;
-	margin-left: .1rem;
+	/*margin-left: .1rem;*/
 }
 .change_body{
 	color: #848484;
@@ -349,7 +350,7 @@ body{
 	line-height: 2;
 	padding: .15rem  0;
 	box-sizing: border-box;
-	font-size: .22rem;
+	font-size: .21rem;
 }
 .change_num li.active div {
 	background: url(../../images/rise/xz.png) no-repeat;

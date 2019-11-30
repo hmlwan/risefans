@@ -22,7 +22,7 @@
                         <th>ID</th>
                         <th>手机号</th>
                         <th>邀请人ID</th>
-                        <th>邀请码</th>
+                        <th>vip等级</th>
                         <th>状态</th>
                         <th>是否实名</th>
                         <th>注册时间</th>
@@ -32,7 +32,7 @@
                             <td>{$vo['member_id']}</td>
                             <td>{$vo['phone']}</td>
                             <td>{$vo['pid']}</td>
-                            <td>{$vo['unique_code']}</td>
+                            <td>{$vo['vip_level']}</td>
 							<td><eq name="vo.is_lock" value="1">锁定<else/>正常</eq></td>
 							<td><eq name="vo.is_cert" value="1">已实名<else/>未实名</eq></td>
                             <td>{$vo['reg_time']|date="Y-m-d H:i:s",###}</td>

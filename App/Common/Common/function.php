@@ -371,6 +371,11 @@ exit;
 
 //     dump($user);dump($pass);dump($phone);dump($content);die;
 }
+
+
+
+
+
 /**
  * 验证手机
  * @param $code
@@ -663,6 +668,7 @@ function curlGet($url, $headers = '')
  */
 function curlPost($url,$postFields){
 	$postFields = http_build_query($postFields);
+
 	$ch = curl_init ();
 	curl_setopt ( $ch, CURLOPT_POST, 1 );
 	curl_setopt ( $ch, CURLOPT_HEADER, 0 );
@@ -676,11 +682,37 @@ function curlPost($url,$postFields){
     }
 	$result = curl_exec ( $ch );
 	curl_close ( $ch );
+
 	return $result;
 }
 
-
-
+function send($ch,$data){
+    curl_setopt ($ch, CURLOPT_URL, 'https://sms.yunpian.com/v2/sms/single_send.json');
+    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+    $result = curl_exec($ch);
+    $error = curl_error($ch);
+    checkErr($result,$error);
+    return $result;
+}
+function checkErr($result,$error) {
+    if($result === false)
+    {
+        echo 'Curl error: ' . $error;
+    }
+    else
+    {
+        //echo '操作完成没有任何错误';
+    }
+}
+//获得账户
+function get_user($ch,$apikey){
+    curl_setopt ($ch, CURLOPT_URL, 'https://sms.yunpian.com/v2/user/get.json');
+    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query(array('apikey' => $apikey)));
+    $result = curl_exec($ch);
+    $error = curl_error($ch);
+    checkErr($result,$error);
+    return $result;
+}
 /**
  * 获取会员等级名称
  */
@@ -723,4 +755,39 @@ function microtime_float()
 {
     list($usec, $sec) = explode(" ", microtime());
     return number_format(((float)$usec + (float)$sec)*10000,0,'','');
+}
+
+
+function exportExcel($expTitle,$expCellName,$expTableData){
+    $xlsTitle = iconv('utf-8', 'gb2312', $expTitle);//文件名称
+    $fileName = $expTitle;//or $xlsTitle 文件名称可根据自己情况设定
+    $cellCount = count($expCellName);//统计标题总数
+    $dataCount = count($expTableData);//统计数据总条数
+    import('Org.Util.PHPExcel');
+    $objPHPExcel = new PHPExcel();
+    $cellName = array('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','AA','AB','AC','AD','AE','AF','AG','AH','AI','AJ','AK','AL','AM','AN','AO','AP','AQ','AR','AS','AT','AU','AV','AW','AX','AY','AZ');
+    for($i=0;$i<$cellCount;$i++){
+        //自动设定宽度
+        if($cellName[$i] == 'B'){
+            $objPHPExcel->getActiveSheet()->getColumnDimension($cellName[$i])->setWidth(12);
+        }else{
+            $objPHPExcel->getActiveSheet()->getColumnDimension($cellName[$i])->setAutoSize(true);
+        }
+        $objPHPExcel->getActiveSheet()->getStyle($cellName[$i])->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle($cellName[$i])->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($cellName[$i].'1', $expCellName[$i][1]);
+        $objPHPExcel->getActiveSheet()->getStyle($cellName[$i])->getFont()->setSize(10);
+    }
+    for($i=0;$i<$dataCount;$i++){
+        for($j=0;$j<$cellCount;$j++){
+            $objPHPExcel->getActiveSheet(0)->setCellValueExplicit($cellName[$j].($i+2), $expTableData[$i][$expCellName[$j][0]],PHPExcel_Cell_DataType::TYPE_STRING);
+        }
+    }
+    ob_end_clean();
+    header('pragma:public');
+    header('Content-type:application/vnd.ms-excel;charset=utf-8;name="'.$xlsTitle.'.xls"');
+    header("Content-Disposition:attachment;filename=$fileName.xls");//attachment新窗口打印inline本窗口打印
+    $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+    $objWriter->save('php://output');
+    exit;
 }

@@ -11,24 +11,26 @@
     <div class="bzzx">
         <div class="bzzx_h">
             <ul>
-                <li>
-                    <a href="{:U('Help/detail',array('position_id'=>130))}">
+                <a href="{:U('Help/voucher')}">
+                    <li>
+                        <!--<a href="{:U('Help/detail',array('position_id'=>130))}">-->
                         <i class="aq"></i>
                         <p>账户安全</p>
-                    </a>
-                </li>
-                <li>
-                    <a href="{:U('Help/detail',array('position_id'=>131))}">
+                        <!--</a>-->
+                    </li>
+                    <li>
+                        <!--<a href="{:U('Help/detail',array('position_id'=>131))}">-->
                         <i class="hy"></i>
                         <p>会员交易</p>
-                    </a>
-                </li>
-                <li>
-                    <a href="{:U('Help/detail',array('position_id'=>132))}">
+                        <!--</a>-->
+                    </li>
+                    <li>
+                        <!--<a href="{:U('Help/detail',array('position_id'=>132))}">-->
                         <i class="fk"></i>
                         <p>问题反馈</p>
-                    </a>
-                </li>
+                        <!--</a>-->
+                    </li>
+                </a>
             </ul>
         </div>
         <div class="wd_line"></div>
@@ -41,7 +43,7 @@
                 </li>
                 <volist name="art_list" id="vo">
                     <li>
-                        <div class="bzzx_h">
+                        <div class="bzzx_h bzzx_hh">
                             <span>{$vo.title}</span>
                             <i></i>
                         </div>
@@ -135,15 +137,14 @@
     </ul>
 </div>
 <script>
-    $(".bzzx_c").find("li i").click(function () {
-        if($(this).attr('class') == 'active'){
-            $(this).attr('class','');
-            $(this).closest('.bzzx_h').next('.bzzx_b').hide();
+    $(".bzzx_hh").click(function () {
+        if($(this).find('i').attr('class') == 'active'){
+            $(this).find('i').attr('class','');
+            $(this).next('.bzzx_b').hide();
         }else{
-            $(this).attr('class','active');
-            $(this).closest('.bzzx_h').next('.bzzx_b').show();
+            $(this).find('i').attr('class','active');
+            $(this).next('.bzzx_b').show();
         }
-
     });
 
 </script>
